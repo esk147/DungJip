@@ -34,15 +34,15 @@
 	<!-- <beans:bean id="basicServer" class="com.kh.spring.common.websocket.server.WebsocketBasicServer" /> -->
 	
 	<!-- 접속을 받아줄 대상을 지정, 다받아주겠다고 지정 -->
-	<websocket:handlers allowed-origins="*">
+	<!-- <websocket:handlers allowed-origins="*"> -->
 	<!-- /basic으로 요청이 오면 basicServer에 등록된 클래스로 서버를 사용하겠다. -->
-		<websocket:mapping handler="basicServer" path="/basic"/>
+		<!-- <websocket:mapping handler="basicServer" path="/basic"/> -->
 		
-		<!-- Http 통신에 있는 HttpSession 정보를 연결해보기 -->
-		<websocket:handshake-interceptors>
-			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
-		</websocket:handshake-interceptors>
-		
-	</websocket:handlers>
+	<!-- Http 통신에 있는 HttpSession 정보를 연결해보기 -->
+	<!-- <websocket:handshake-interceptors>
+		<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
+	</websocket:handshake-interceptors>
+	
+</websocket:handlers> -->
 	
 </beans:beans>
