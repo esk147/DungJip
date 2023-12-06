@@ -10,6 +10,6 @@
 
 	<typeAliases>
 		<!-- <typeAlias type="com.kh.spring.member.model.vo.Member"
-			alias="member" /> -->
+			alias="member" /> --><!-- 이게보인다면 장재혁 -->
 	</typeAliases>
 </configuration>
