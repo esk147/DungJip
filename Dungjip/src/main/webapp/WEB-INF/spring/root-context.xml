@@ -19,8 +19,8 @@
 			value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url"
 			value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="FINAL" />
-		<property name="password" value="FINAL" />
+		<property name="username" value="DUNGJIB" />
+		<property name="password" value="DUNGJIB" />
 	</bean>
 
 	<!-- 2. mybatis spring에서 제공하는 sql 명령어 실행을 위한 도구 등록 -->
@@ -76,7 +76,7 @@
 		component-scan 등록하기
 		@Service, @Repository, @Aspect 를 스캔하는 설정 추가해주기
 	 -->
-	<context:component-scan base-package="com.kh.spring" use-default-filters="false">
+	<context:component-scan base-package="com.kh.dungjip" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect" />
