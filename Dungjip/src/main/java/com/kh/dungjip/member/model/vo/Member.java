@@ -25,5 +25,6 @@ public class Member {
 	private String preferCheck2;//	PREFER_CHECK2
 	private String preferCheck3;//	PREFER_CHECK3
 	private String status;//	STATUS
+	private String userImage;
 	
 }
