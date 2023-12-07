@@ -12,5 +12,7 @@
 		<typeAlias type="com.kh.dungjip.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.dungjip.house.model.vo.House"
 			alias="house" /> 
+			<typeAlias type="com.kh.dungjip.member.model.vo.Member"
+			alias="member" /> 
 	</typeAliases>
 </configuration>
