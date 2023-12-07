@@ -1,6 +1,5 @@
 package com.kh.dungjip.house.controller;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -9,6 +8,8 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,17 +20,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.dungjip.house.model.vo.House;
-//
-//import com.kh.dungjip.house.model.service.HouseService;
+
+import com.kh.dungjip.house.model.service.HouseService;
 
 @Controller
 public class HouseController {
-//
-//	@Autowired
-//	private HouseService houseService;
+
+	@Autowired
+	private HouseService houseService;
 	
 	@RequestMapping("insert.house")
-	public void insertHouse() throws IOException, ParseException {
+	public String insertHouse(HttpSession session) throws IOException, ParseException {
 		Reader reader = new FileReader("/Users/kim-eunseong/git/DungJip/Dungjip/src/main/webapp/WEB-INF/resources/jik.json");
 			
 		JSONParser parser = new JSONParser();
@@ -72,9 +73,19 @@ public class HouseController {
 			
 		}
 		
+		int result = 1;
+		
 		for(House house : hlist) {
-			System.out.println(house);
+			int count = houseService.insertHouseJSON(house);
+			
+			if(result * count == 0) {
+				session.setAttribute("alertMsg", "집 등록 실패");
+				return "common/errorPage";
+			}
 		}
+
+		session.setAttribute("alertMsg", "집 등록 성공");
+		return "main";
 		
 		
 	}
