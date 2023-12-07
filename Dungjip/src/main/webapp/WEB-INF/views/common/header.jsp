@@ -61,7 +61,7 @@
           <img src="https://placehold.co/100x50" alt="Zigbang Logo" />
         </div>
         <ul class="navbar-menu">
-          <li><a href="#">빌라, 투룸+</a></li>
+          <li><a href="insert.house">빌라, 투룸+</a></li>
           <li><a href="#" class="highlight">원룸</a></li>
         </ul>
       </div>
