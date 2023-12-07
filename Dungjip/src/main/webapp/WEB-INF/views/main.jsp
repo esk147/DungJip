@@ -83,10 +83,30 @@
 </head>
 <body>
 	<%@ include file="common/header.jsp"%>
+	<script>
+		$.ajax({
+			url:"select.location",
+			success: function(result){
+				console.log(result);
+				var str = "";
+				
+				for(var i = 0; i < result.length; i++){
+					console.log(result[i].houseAddress);
+					str += '<option value="'+result[i].houseAddress+'"/>'
+				}
+				$("#locations").html(str);
+			},error:function(){
+				console.log("통신 에러");
+			}
+		})
+	</script>
 	<div class="search-bar">
       <div class="search-bar-title">어떤 집을 찾고 계세요?</div>
       <div class="search-bar-input">
-        <input type="text" placeholder="검색어를 입력하세요" />
+        <input type="text" list="locations" placeholder="검색어를 입력하세요" />
+        <datalist id="locations">
+        	
+        </datalist>
         <button>검색</button>
       </div>
     </div>
