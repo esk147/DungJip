@@ -37,8 +37,7 @@
         <link rel="stylesheet" href="resources/assets/css/style.css">
         <link rel="stylesheet" href="resources/assets/css/responsive.css">
         
-        <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	
     </head>
     <body>
@@ -54,10 +53,10 @@
                 <div class="row">
                     <div class="col-md-5 col-sm-8  col-xs-12">
                         <div class="header-half header-call">
-                            <p>
+                            <!-- <p>
                                 <span><i class="pe-7s-call"></i> +1 234 567 7890</span>
                                 <span><i class="pe-7s-mail"></i> your@company.com</span>
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                     <div class="col-md-2 col-md-offset-5  col-sm-3 col-sm-offset-1  col-xs-12">
@@ -219,30 +218,6 @@
         <div class="register-area" style="background-color: rgb(249, 249, 249);">
             <div class="container">
 
-                <div class="col-md-6">
-                    <div class="box-for overflow">
-                        <div class="col-md-12 col-xs-12 register-blocks">
-                            <h2>New account : </h2> 
-                            <form action="" method="post">
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="text" class="form-control" id="email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password">
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-default">Register</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="col-md-6">
                     <div class="box-for overflow">                         
@@ -250,14 +225,27 @@
                             <h2>Login : </h2> 
                             <form action="login.me" method="post">
                                 <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="text" class="form-control" id="email">
+                                    <label for="userId">Id</label>
+                                    <input type="text" class="form-control" id="userId">
                                 </div>
                                 <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password">
+                                    <label for="userPwd">Password</label>
+                                    <input type="password" class="form-control" id="userPwd">
                                 </div>
-                                <div class="text-center">
+                                
+                                <!-- 아이디 저장하기 -->
+								<div class="form-check form-check-reverse py-2">
+								  <label class="form-check-label" for="reverseCheck1">아이디 저장하기</label>
+								  <input class="form-check-input" type="checkbox" id="reverseCheck1" name="saveId">
+								 
+								</div>
+								
+								<div class="col-md-12 form-group">
+									<span>아이디 찾기 / 비밀번호 찾기</span>
+								</div>
+                                
+                                
+                                <div class="text-center">                                	
                                     <button type="submit" class="btn btn-default"> Log in</button>
                                 </div>
                             </form>

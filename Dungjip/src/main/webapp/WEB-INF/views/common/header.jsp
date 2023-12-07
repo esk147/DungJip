@@ -66,7 +66,7 @@
         </ul>
       </div>
       <div>
-        <a href="#" class="highlight">로그인 및 회원가입</a>
+        <a href="login.me" class="highlight">로그인 및 회원가입</a>
       </div>
     </div>
   </body>
