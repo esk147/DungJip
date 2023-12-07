@@ -6,6 +6,9 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,66 +51,51 @@
             <div class="container">
                 <div class="row">
                     <div class="page-head-content">
-                        <h1 class="page-title">로그인 / 회원가입</h1>               
+                        <h1 class="page-title"></h1>               
                     </div>
                 </div>
             </div>
         </div>
         <!-- End page header -->
  
-
         <!-- register-area -->
         <div class="register-area" style="background-color: rgb(249, 249, 249);">
         
-            <div class="container" style="display: flex; justify-content: center;">
+         <h3 align="center" style="padding: 15px;"><b>회원가입</b></h3>
+         
+            <div class="container">
+
                 <div class="col-md-6">
-                    <div class="box-for overflow">                         
-                        <div class="col-md-12 col-xs-12 login-blocks">
-                            <h2>Login : </h2> 
-                            <form action="login.me" method="post">
-                                <div class="form-group">
-                                    <label for="userId">Id</label>
-                                    <input type="text" class="form-control" id="userId">
-                                </div>
-                                <div class="form-group">
-                                    <label for="userPwd">Password</label>
-                                    <input type="password" class="form-control" id="userPwd">
-                                </div>
-                                
-                                <!-- 아이디 저장하기 -->
-								<div class="form-check form-check-reverse py-2">
-								  <label class="form-check-label" for="reverseCheck1">아이디 저장하기</label>
-								  <input class="form-check-input" type="checkbox" id="reverseCheck1" name="saveId">
-								 	<br><br>
-								</div>
-								
-								<div class="col-md-12 form-group"  align = center>
-									<span> <a href="findInfo.bo">아이디 찾기 / 비밀번호 찾기</a></span> 
-									<span><a href="enrollType.me">/ 회원가입</a></span>
-									
-								</div>
-                                
-                                
-                                <div class="text-center">                                	
-                                    <button type="submit" class="btn btn-default"> Log in</button>
+                    <div class="box-for overflow">
+                        <div class="col-md-12 col-xs-12 register-blocks">
+                            <h2>사용자 / 임대인 : </h2> 
+                            <form action="agree.me" method="post">
+                                <img src="resources/assets/img/u1.png" alt="">
+                                <div class="text-center" style="padding: 10px;">
+                                    <button type="submit" class="btn btn-default">가입하기</button>
                                 </div>
                             </form>
-                            <br>
-                            
-                            <h2>Social login :  </h2> 
-                            
-                            <p>
-                            <a class="login-social" href="#"><i class="fa fa-facebook"></i>&nbsp;Facebook</a> 
-                            <a class="login-social" href="#"><i class="fa fa-google-plus"></i>&nbsp;Gmail</a> 
-                            <a class="login-social" href="#"><i class="fa fa-twitter"></i>&nbsp;Twitter</a>  
-                            </p> 
                         </div>
-                        
+                    </div>
+                </div>
+
+                <div class="col-md-6" >
+                    <div class="box-for overflow" >
+                        <div class="col-md-12 col-xs-12 register-blocks">
+                            <h2>중개인 : </h2> 
+                            <form action="agree.me" method="post">
+                                <img class="img-fluid" src="resources/assets/img/e1.png" alt="">
+                                <div class="text-center" style="padding: 10px;">
+                                    
+                                    <button type="submit" class="btn btn-default">가입하기</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
             </div>
-        </div>      
+        </div>          
 
           <!-- Footer area-->
          <%@ include file="../common/footer.jsp" %>
