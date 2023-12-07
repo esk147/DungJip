@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="memberMapper">
+    
+  		<resultMap type="member" id="memberResultSet"> 		
+  			<result column="USER_TYPE" property="userType"/>
+  			<result column="USER_ID" property="userId"/>
+    		<result column="USER_PWD" property="userPwd"/>
+    		<result column="USER_NAME" property="userName"/>
+    		<result column="USER_NICKNAME" property="userNickName"/>
+    		<result column="AGE" property="age"/>
+    		<result column="GENDER" property="gender"/>
+    		<result column="EMAIL" property="email"/>
+    		<result column="PHONE" property="phone"/>
+    		<result column="ADDRESS" property="address"/>
+    		<result column="PREFER_LOCATION" property="preferLocation"/>
+    		<result column="PREFER_CHECK1" property="preferCheck1"/> 		
+    		<result column="PREFER_CHECK2" property="preferCheck2"/>
+    		<result column="PREFER_CHECK3" property="preferCheck3"/> 
+    		<result column="STATUS" property="status"/>
+    		<result column="USER_IMAGE" property="userImage"/> 
+  		</resultMap>
+  		
+  		<select id="loginMember" parameterType="member" resultMap="memberResultSet">
+  			SELECT *
+			FROM MEMBER
+			WHERE USER_ID = #{userId}
+			AND USER_PWD = #{userPwd}
+			AND STATUS = 'Y' 		
+  		</select>
+    	
+    	<select id="ajaxMethod1" resultType="_int">
+    		SELECT COUNT(USER_ID) 
+    		FROM MEMBER 
+    		WHERE USER_ID = #{userId}    	
+    	</select>	
+  		
+  		
+    	
+    </mapper>

@@ -12,7 +12,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.kh.dungjip.common.websocket.model.service.ChatService;
+//import com.kh.dungjip.common.websocket.model.service.ChatService;
 import com.kh.dungjip.common.websocket.model.vo.ChatMessage;
 import com.kh.dungjip.member.model.vo.Member;
 
@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 public class WebsocketAskServer extends TextWebSocketHandler {
 
-	private ChatService wcs;
+	//private ChatService wcs;
 	
 	
 	private Set<WebSocketSession> users =  new CopyOnWriteArraySet<>();
@@ -62,8 +62,8 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 		
 		ArrayList<ChatMessage> cm = new ArrayList<>();
 		
-		cm.add(c);
-		wcs.insertMsg(cm);
+		//cm.add(c);
+		//wcs.insertMsg(cm);
 		
 		
 		JSONObject jobj = new JSONObject();
