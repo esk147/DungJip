@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="houseMapper">
+
+	<resultMap type="house" id="houseResultSet">
+		<result column="HOUSE_NO" property="houseNo" />
+		<result column="HOUSE_PRICE" property="housePrice" />
+		<result column="HOUSE_SQUARE" property="houseSquare" />
+		<result column="HOUSE_STYLE" property="houseStyle" />
+		<result column="HOUSE_TITLE" property="houseTitle" />
+		<result column="HOUSE_DETAILS" property="houseDetails" />
+		<result column="HOUSE_TYPE" property="houseType" />
+		<result column="HOUSE_LATITUDE" property="houseLatitude" />
+		<result column="HOUSE_LONGITUDE" property="houseLongitude" />
+		<result column="HOUSE_UPLOAD_TIME" property="houseUploadTime" />
+		<result column="HOUSE_ADDRESS" property="houseAddress" />
+		<result column="HOUSE_FLOOR" property="houseFloor" />
+		<result column="HOUSE_BUILDING_FLOOR"
+			property="houseBuildingFloor" />
+		<result column="STATUS" property="status" />
+	</resultMap>
+
+	<insert id="insertHouseJSON" parameterType="house">
+		insert into house (HOUSE_NO, HOUSE_PRICE, HOUSE_SQUARE,
+		HOUSE_STYLE,HOUSE_TITLE,HOUSE_DETAILS,HOUSE_TYPE,HOUSE_LATITUDE,
+		HOUSE_LONGITUDE,HOUSE_UPLOAD_TIME,HOUSE_ADDRESS,HOUSE_FLOOR,HOUSE_BUILDING_FLOOR)
+		values (seq_hno.nextval, #{housePrice}, #{houseSquare}, #{houseStyle}, #{houseTitle}
+		, #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude}, #{houseUploadTime}, #{houseAddress}
+		, #{houseFloor}, #{houseBuildingFloor})
+	</insert>
+	
+	<select id="selectLocations" resultMap="houseResultSet">
+		select DISTINCT house_address from house
+	</select>
+
+</mapper>
