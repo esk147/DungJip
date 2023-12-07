@@ -20,7 +20,7 @@ public class WebsocketController {
 		Member loginUser=new Member(1,"1","admin","1234","장재혁","I am 장재혁이에요","26","M","asd@na.com","010-3934-2457",
 				"서울시","Y");
 		session.setAttribute("loginUser", loginUser);
-		return "websocket/ask";
+		return "websocket/ask";//수정입니다
 	}
 
 	
