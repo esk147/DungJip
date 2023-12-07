@@ -81,4 +81,16 @@ public class MemberController {
 		
 		return result;
 	}
+	
+	@RequestMapping("agree.me")
+	public String memberAgree () {
+		
+		return "member/memberagreeForm";
+	}
+	
+	@RequestMapping("enrollType.me")
+	public String memberEnrollType () {
+		
+		return "member/memberEnrollTypeForm";
+	}
 }

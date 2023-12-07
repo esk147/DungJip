@@ -42,12 +42,21 @@
 	}
 	
 	.form-section input[type="text"], .form-section select, .form-section input[type="email"],
-		.form-section input[type="tel"] {
+		.form-section input[type="tel"], .form-section input[type="password"]{
 		width: 100%;
 		padding: 10px;
 		margin-bottom: 10px;
 		border: 1px solid #ddd;
 		border-radius: 4px;
+	}
+	
+	.userType input[type="radio"] {
+		width: 23%;
+		padding: 10px;
+		margin-bottom: 10px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		
 	}
 	
 	.form-section input[type="submit"] {
@@ -73,10 +82,19 @@
 		<div class="registration-container">
 			<h2 class="form-title">회원가입</h2>
 			<form action="enroll.me" method="post">
+			
+				<div class="userType">
+					<label for="">가입 유형 *</label> <br>
+					<input type="radio" id="user" value="U" name="userType" checked><label for="user">사용자</label>
+					<input type="radio" id="Muser" value="M" name="userType" /><label for="Muser">임대인</label>			
+					<br>
+				</div>
+			
 				<div class="form-section">
 					<label for="userId">아이디 *</label> <input type="text" id="userId"
 						required><div><font id ="id_feedback" size="2"></font></div>
 				</div>
+				
 	
 				<div class="form-section">
 					<label for="userPwd">비밀번호 *</label> <input type="password"
