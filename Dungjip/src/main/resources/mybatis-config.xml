@@ -9,7 +9,7 @@
 	</settings>
 
 	<typeAliases>
-		<!-- <typeAlias type="com.kh.spring.member.model.vo.Member"
-			alias="member" /> --><!-- 이게보인다면 장재혁 -->
+		<typeAlias type="com.kh.dungjip.house.model.vo.House"
+			alias="house" /> 
 	</typeAliases>
 </configuration>
