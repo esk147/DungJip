@@ -98,4 +98,10 @@ public class HouseController {
 		
 		return lList;
 	}
+	
+	@RequestMapping("villa.map")
+	public String villaMap() {
+
+		return "house/houseMap";
+	}
 }
