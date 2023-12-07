@@ -18,6 +18,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.dungjip.house.model.vo.House;
 
@@ -31,7 +32,7 @@ public class HouseController {
 	
 	@RequestMapping("insert.house")
 	public String insertHouse(HttpSession session) throws IOException, ParseException {
-		Reader reader = new FileReader("/Users/kim-eunseong/git/DungJip/Dungjip/src/main/webapp/WEB-INF/resources/jik.json");
+		Reader reader = new FileReader("C:\\Users\\easyoh\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
 			
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(reader);
@@ -88,5 +89,13 @@ public class HouseController {
 		return "main";
 		
 		
+	}
+	
+	@ResponseBody
+	@RequestMapping("select.location")
+	public ArrayList<House> selectLocation() {
+		ArrayList<House> lList = houseService.selectLocations();
+		
+		return lList;
 	}
 }
