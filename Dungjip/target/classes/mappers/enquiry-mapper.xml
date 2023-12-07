@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+ <mapper namespace="enquiryMapper">
+ 	<resultMap type="enquiry" id="enquiryResultSet">
+ 		<result column="ENQUIRY_NO" property="enquiryNo"/>
+ 		<result column="USER_NO" property="userNo"/>
+ 		<result column="ENQUIRY_ENROLL_DATE" property="enquiryEnrollDate"/>
+ 		<result column="ENQUIRY_TITLE" property="enquiryTitle"/>
+ 		<result column="ENQUIRY_CONTENT" property="enquiryContent"/>
+ 		<result column="ENQUIRY_IMAGE" property="enquiryImage"/>
+ 		<result column="ENQUIRY_DATE" property="enquiryDate"/>
+ 		<result column="ENQUIRY_REPLY" property="enquiryReply"/>
+ 		<result column="STATUS" property="status"/>
+ 	</resultMap>
+ 
+ 	<!-- 1:1문의 등록 -->
+ 	<insert id="insertEnquiry">
+ 		INSERT INTO ENQUIRY(ENQUIRY_NO
+		                   ,USER_NO
+		                   ,ENQUIRY_TITLE
+		                   ,ENQUIRY_CONTENT
+		                   ,ENQUIRY_IMAGE)
+					 VALUES(SEQ_ENQNO.NEXTVAL
+					       ,1
+					       ,#{enquiryTitle}
+					       ,#{enquiryContent}
+					       ,#{enquiryImage})
+ 	</insert>
+ </mapper>
