@@ -8,6 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DungJip Header</title>
     
+    <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="resources/assets/css/normalize.css">
         <link rel="stylesheet" href="resources/assets/css/font-awesome.min.css">
@@ -34,6 +37,9 @@
   	.navbar-brand p {
   		padding: 0.5em 0 0;
   	}
+  	.bounceInRight {
+  		margin-right: 10px;
+  	}
   </style>
   <body>
         <nav class="navbar navbar-default ">
@@ -52,7 +58,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse yamm" id="navigation">
                     <div class="button navbar-right">
-                        <button class="navbar-btn nav-button wow bounceInRight login" onclick='location.href="login.me"' data-wow-delay="0.4s">Login</button>
+                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="login.me"' data-wow-delay="0.4s">Login</button>
                         <button class="navbar-btn nav-button wow fadeInRight" onclick='' data-wow-delay="0.5s">QnA</button>
                     </div>
                     <ul class="main-nav nav navbar-nav navbar-right">
