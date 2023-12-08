@@ -14,10 +14,16 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.loginMember", m);
 	}
 	
-	//아이디 중복체크
-	public int ajaxMethod1(SqlSessionTemplate sqlSession, String userId) {
+	//아이디 중복체크 (임대인/임차인)
+	public int ajaxIdMethod(SqlSessionTemplate sqlSession, String userId) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("memberMapper.ajaxMathod1", userId);
+		return sqlSession.selectOne("memberMapper.ajaxIdMethod", userId);
+	}
+
+	//회원가입 메소드 (임대인/임차인)
+	public int insertMember(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("memberMapper.insertMember", m);
 	}
 
 
