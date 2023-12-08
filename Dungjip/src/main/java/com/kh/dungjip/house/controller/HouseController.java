@@ -17,11 +17,14 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.dungjip.house.model.vo.House;
-
+import com.kh.dungjip.estate.model.service.EstateService;
+import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.house.model.service.HouseService;
 
 @Controller
@@ -29,6 +32,9 @@ public class HouseController {
 
 	@Autowired
 	private HouseService houseService;
+	
+	@Autowired 
+	private EstateService estateService;
 	
 	@RequestMapping("insert.house")
 	public String insertHouse(HttpSession session) throws IOException, ParseException {
@@ -98,4 +104,57 @@ public class HouseController {
 		
 		return lList;
 	}
+
+	
+	//집 상세페이지
+	@RequestMapping("detail.ho")
+	public String houseDetail(Model model){		
+		
+		
+		ArrayList<Estate> elist = estateService.selectEstateList();
+		
+		//부동산 목록 조회해서 보여주기
+		model.addAttribute("elist",elist);
+		
+		System.out.println("나오는지 보자");
+		
+	    System.out.println("elist: " + elist);
+	    
+		
+		return "house/houseDetail";
+	}
+	
+	
+	@RequestMapping("villa.map")
+	public ModelAndView villaMap(ModelAndView mv) {
+		ArrayList<House> lList = houseService.selectHouse();
+		
+		mv.addObject("lList", lList).setViewName("house/houseMap");
+		
+		System.out.println(lList);
+		
+		return mv;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
