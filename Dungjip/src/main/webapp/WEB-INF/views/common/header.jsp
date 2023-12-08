@@ -30,8 +30,14 @@
   </head>
   
   <style>
+  	.navbar-default {
+  		display: flex;
+  		justify-content: center;
+  	}
+  	
   	.container {
-  		width: auto;
+  		margin: 0;
+  		width: 1660px;
   	}
   	
   	.navbar-brand p {
@@ -52,7 +58,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.html"><img src="assets/img/logo.png" alt=""><p>DungJip</p></a>
+                    <a class="navbar-brand" href=""><img src="" alt=""><p>DungJip</p></a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -62,10 +68,10 @@
                         <button class="navbar-btn nav-button wow fadeInRight" onclick='' data-wow-delay="0.5s">QnA</button>
                     </div>
                     <ul class="main-nav nav navbar-nav navbar-right">
-                        <li class="dropdown ymm-sw " data-wow-delay="0.1s"><a href="" class="active">빌라</a></li>
+                        <li class="dropdown ymm-sw " data-wow-delay="0.1s"><a href="villa.map" class="active">빌라</a></li>
                         <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">투룸</a></li>
                         <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">집내놓기</a></li>
-                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a href="contact.html">Contact</a></li>
+                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a href="">Contact</a></li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
