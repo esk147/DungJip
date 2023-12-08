@@ -30,16 +30,6 @@
   </head>
   
   <style>
-  	.navbar-default {
-  		display: flex;
-  		justify-content: center;
-  	}
-  	
-  	.container {
-  		margin: 0;
-  		width: 1660px;
-  	}
-  	
   	.navbar-brand p {
   		padding: 0.5em 0 0;
   	}
