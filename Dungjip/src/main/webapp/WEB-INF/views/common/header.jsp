@@ -30,9 +30,6 @@
   </head>
   
   <style>
-  	.container {
-  		width: auto;
-  	}
   	
   	.navbar-brand p {
   		padding: 0.5em 0 0;
