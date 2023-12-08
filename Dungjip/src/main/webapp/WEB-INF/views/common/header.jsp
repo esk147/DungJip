@@ -10,8 +10,6 @@
     
     <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9d3f1c90fc1cea85b8bb8303f360c81"></script>
     
      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="resources/assets/css/normalize.css">
@@ -32,8 +30,14 @@
   </head>
   
   <style>
+  	.navbar-default {
+  		display: flex;
+  		justify-content: center;
+  	}
+  	
   	.container {
-  		width: auto;
+  		margin: 0;
+  		width: 1660px;
   	}
   	
   	.navbar-brand p {
@@ -54,7 +58,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.html"><img src="assets/img/logo.png" alt=""><p>DungJip</p></a>
+                    <a class="navbar-brand" href=""><img src="" alt=""><p>DungJip</p></a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -67,7 +71,7 @@
                         <li class="dropdown ymm-sw " data-wow-delay="0.1s"><a href="villa.map" class="active">빌라</a></li>
                         <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">투룸</a></li>
                         <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">집내놓기</a></li>
-                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a href="contact.html">Contact</a></li>
+                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a href="">Contact</a></li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
