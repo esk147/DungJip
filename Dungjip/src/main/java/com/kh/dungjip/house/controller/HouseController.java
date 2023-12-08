@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.estate.model.service.EstateService;
@@ -124,6 +125,16 @@ public class HouseController {
 	}
 	
 	
+	@RequestMapping("villa.map")
+	public ModelAndView villaMap(ModelAndView mv) {
+		ArrayList<House> lList = houseService.selectHouse();
+		
+		mv.addObject("lList", lList).setViewName("house/houseMap");
+		
+		System.out.println(lList);
+		
+		return mv;
+	}
 }
 
 
