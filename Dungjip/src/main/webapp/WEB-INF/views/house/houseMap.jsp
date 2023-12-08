@@ -74,6 +74,10 @@
             padding: 10px;
             text-align: center;
         }
+        
+        .listing {
+        	cursor:pointer;
+        }
     </style>
 </head>
 
@@ -164,13 +168,18 @@
 
         <div class="sidebar">
         <c:forEach var="home" items="${lList}" varStatus="status">
-            <div class="listing">
+            <div class="listing" id="${home.houseNo }" onclick="detailHouse(this)">
                 <img src="https://placehold.co/200x150" alt="Placeholder for real estate image">
                 <p>${home.houseTitle }</p>
             </div>
         </c:forEach>
         </div>
     </div>
+    <script>
+    	function detailHouse(e){
+    		location.href="detail.ho?houseNo"+e.id;
+    	}
+    </script>
     
 	<%@ include file="../common/footer.jsp"%>
 </body>
