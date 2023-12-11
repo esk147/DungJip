@@ -109,12 +109,23 @@
 				<c:forEach var="house" items="${lList}" varStatus="status">
 				{
 					title: '${house.houseTitle}',
-					latlng: new kakao.maps.LatLng('${house.houseLatitude}','${house.houseLongitude}')
+					latlng: new kakao.maps.LatLng('${house.houseLatitude}','${house.houseLongitude}'),
+					houseNo: '${house.houseNo}'
 				}<c:if test="${!status.last}">,</c:if>
 				</c:forEach>
 			];
+			
+			 var geocoder = new kakao.maps.services.Geocoder();
+			 
+			 geocoder.addressSearch('서울 영등포구 양평동4가 2', function(result, status) {
+				 
+				     if (status === kakao.maps.services.Status.OK) {
 
-			 console.log(positions);
+				        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+				        map.setCenter(coords);
+				    } 
+				}); 
 			 
 			 var clusterer = new kakao.maps.MarkerClusterer({
 			        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
@@ -131,16 +142,37 @@
 			 
 		     // 클러스터러에 마커들을 추가합니다
 		     clusterer.addMarkers(markers);
+		     
+		     $(document).ready(function(){
+		    	 
+		    	 for(var i = 0; i < positions.length; i++){
+					 var infowindow = new kakao.maps.InfoWindow({
+						 content: '<div style="width:110%;padding:5px;z-index:1;">' + positions[i].title + '</div>'
+					 })
+					 var mark = markers[i];
+				     var itemEl = document.getElementById(positions[i].houseNo);
+				     
+					 itemEl.addEventListener('mouseover', makeOverListener(map, mark, infowindow));
+					 
+					 
+					 itemEl.addEventListener('mouseout', makeOutListener(infowindow));
+
+				 }
+		     })
+		     
+		     for(var i = 0; i < positions.length; i++){
+					 var infowindow = new kakao.maps.InfoWindow({
+						 content: '<div style="width:110%;padding:5px;z-index:1;">' + positions[i].title + '</div>'
+					 })
+					 var mark = markers[i];
+				     var itemEl = document.getElementById(positions[i].houseNo);
+					 
+					 kakao.maps.event.addListener(mark, 'mouseover', makeOverListener(map, mark, infowindow));
+					 kakao.maps.event.addListener(mark, 'mouseout', makeOutListener(infowindow));
+					 
+				 }
 			 
-			 for(var i = 0; i < positions.length; i++){
-				 var infowindow = new kakao.maps.InfoWindow({
-					 content: positions[i].title
-				 })
-				 var mark = markers[i];
-				 
-				 kakao.maps.event.addListener(mark, 'mouseover', makeOverListener(map, mark, infowindow));
-				 kakao.maps.event.addListener(mark, 'mouseout', makeOutListener(infowindow));
-			 }
+			 
 			 
 			 function makeOverListener(map, mark, infowindow) {
 				    return function() {
@@ -164,6 +196,18 @@
 		            // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
 		            map.setLevel(level, {anchor: cluster.getCenter()});
 		        });
+		        
+		        var showInfomation = new kakao.maps.InfoWindow({zIndex:1});
+		    	function showInfo(e){
+		    		console.log(e);
+		    		var content = '<div style="padding:5px;z-index:1;">' + e.innerText + '</div>';
+
+		    		showInfomation.setContent(content);
+		    		showInfomation.open(map, marker); 
+		    	}
+		    	function deleteShowInfo(e){
+		    		showInfomation.close();
+		    	}
 		</script>
 
         <div class="sidebar">
@@ -177,7 +221,7 @@
     </div>
     <script>
     	function detailHouse(e){
-    		location.href="detail.ho?houseNo"+e.id;
+    		location.href="detail.ho?houseNo="+e.id;
     	}
     </script>
     
