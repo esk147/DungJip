@@ -6,10 +6,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.dungjip.member.model.server.MemberService;
 import com.kh.dungjip.member.model.vo.Member;
@@ -53,8 +53,7 @@ public class MemberController {
 //		//return "mv";
 //	}
 	
-	
-	
+		
 	//로그아웃 
 	@RequestMapping("logout.me")
 	public String loginMember(HttpSession session) {
@@ -65,32 +64,60 @@ public class MemberController {
 		//로그아웃 처리 후 메인 페이지 재 요청 
 		return "redirect:/";
 	}
-	
-	//회원가입 
-	@RequestMapping("enroll.me")
-	public String memberEnroll () {
-		return "member/memberEnrollForm";
-	}
-	
-	//아이디 중복 체크 
-	@ResponseBody
-	@RequestMapping("idcheck.me")
-	public int ajaxMethod1 (@RequestParam("userId") String userId, HttpServletResponse resp) {
 		
-		int result = memberService.ajaxMethod1(userId);
-		
-		return result;
-	}
-	
+	//이용동의
 	@RequestMapping("agree.me")
 	public String memberAgree () {
 		
 		return "member/memberagreeForm";
 	}
 	
+	//회원가입 type 페이지로 이동 
 	@RequestMapping("enrollType.me")
 	public String memberEnrollType () {
 		
 		return "member/memberEnrollTypeForm";
 	}
+
+	//회원가입 (임대인/임차인) 폼으로 이동 
+	@RequestMapping("enroll.me")
+	public String memberEnroll () {
+		return "member/memberEnrollForm";
+	}
+	
+	//회원등록 (임대인/임차인)
+	@RequestMapping("insert.me")
+	public String insertMember(Member m,Model model, HttpSession session) {
+		
+		System.out.println("평문 : "+m.getUserPwd());
+		
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		
+		System.out.println("암호문 : "+encPwd );
+		
+		m.setUserPwd(encPwd);
+		
+		int insertUser = memberService.insertMember(m);
+		
+		if(insertUser > 0) { //성공 시 
+			
+			return "member/memberEnrollResult";
+		}else {
+			model.addAttribute("errorMsg", "회원가입 실패");
+			return "common/errorPage"; //포워딩 
+		}
+		
+	}
+	
+	//아이디 중복 체크 (임대인/임차인)
+	@ResponseBody
+	@RequestMapping("ajaxId.do")
+	public int ajaxIdMethod(@RequestParam("userId") String userId, HttpServletResponse resp) {
+				
+		int result = memberService.ajaxIdMethod(userId);
+		
+		return result;		
+	}
+	
+	
 }
