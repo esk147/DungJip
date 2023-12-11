@@ -20,7 +20,9 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public Member loginMember(Member m) {
 		// TODO Auto-generated method stub
-		return memberDao.loginMember(sqlSession,m);
+		Member loginMember = memberDao.loginMember(sqlSession, m);
+		System.out.println("serviceimple " + loginMember);
+		return memberDao.loginMember(sqlSession, m);
 	}
 	
 	

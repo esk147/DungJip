@@ -1,5 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.kh.dungjip.member.model.vo.Member"%>
+<% 
+	String contextPath = request.getContextPath();	
+
+	Member loginUser = (Member)session.getAttribute("loginUser");
+	String alertMsg = (String)session.getAttribute("alertMsg");
+
+	//쿠키정보 
+	//쿠키정보
+	Cookie[] cookies = request.getCookies();		//반환타입: 배열
+	
+	//쿠키 배열에서 필요한 쿠키 정보를 추출하기
+	//반복으로 돌려서 해당 쿠키의 이름을 찾고 그 쿠키의 값을 담아두기
+	String saveId = "";
+	
+	if(cookies != null){
+		for(Cookie c : cookies){
+			if((c.getName()).equals("userId")){
+				saveId = c.getValue();
+			}
+		}
+	}
+	
+	System.out.println("저장된 ID : "+saveId);
+%>    
+    
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -20,15 +45,7 @@
 
        <%@ include file="../common/header.jsp" %>
 
-        <div class="page-head"> 
-            <div class="container">
-                <div class="row">
-                    <div class="page-head-content">
-                        <h1 class="page-title"></h1>               
-                    </div>
-                </div>
-            </div>
-        </div>
+ 
         <!-- End page header -->
  
 
@@ -43,17 +60,17 @@
                             <form action="login.me" method="post">
                                 <div class="form-group">
                                     <label for="userId">Id</label>
-                                    <input type="text" class="form-control" id="userId">
+                                    <input type="text" class="form-control" name="userId" id="userId">
                                 </div>
                                 <div class="form-group">
                                     <label for="userPwd">Password</label>
-                                    <input type="password" class="form-control" id="userPwd">
+                                    <input type="password" class="form-control" name="userPwd" id="userPwd">
                                 </div>
                                 
                                 <!-- 아이디 저장하기 -->
 								<div class="form-check <!-- form-check-reverse py-2 -->">
-								  <label class="form-check-label" for="reverseCheck1" style="padding:0px 10px 0 0px">아이디 저장하기</label>
-								  <input class="form-check-input" type="checkbox" id="reverseCheck1" name="saveId" style="width: min-content;">
+								  <label class="form-check-label" for="saveId" style="padding:0px 10px 0 0px">아이디 저장하기</label>
+								  <input class="form-check-input" type="checkbox" id="saveId" name="saveId" style="width: min-content;">
 								 	<br><br>
 								</div>
 								
@@ -83,7 +100,33 @@
                 </div>
 
             </div>
-        </div>      
+        </div> 
+        
+        <script type="text/javascript">
+        
+        	var msg = "<%=alertMsg%>"; 
+        	
+        	if(msg != "null") {
+        		
+        		alert(msg);
+        		
+        		<%session.removeAttribute("alertMsg");%>
+        	}
+       
+        	$(function() {
+        		//쿠키 아이디 값 가지고 오기 
+        		var saveId= "<%= saveId %>";
+        		
+        		console.log("가져왓니?? : ",saveId);
+        		
+        		if(saveId != "") {
+        			console.log("가져온 ID : ",saveId);
+        			$("input[name=userId]").val(saveId);
+        			$("input[name=saveId]").attr("checked",true);
+        		}
+        	});
+        
+        </script>     
 
           <!-- Footer area-->
          <%@ include file="../common/footer.jsp" %>

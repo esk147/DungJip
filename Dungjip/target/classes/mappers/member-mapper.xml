@@ -25,11 +25,11 @@
     		<result column="USER_IMAGE" property="userImage"/> 
   		</resultMap>
   		
+  		
   		<select id="loginMember" parameterType="member" resultMap="memberResultSet">
   			SELECT *
 			FROM MEMBER
 			WHERE USER_ID = #{userId}
-			AND USER_PWD = #{userPwd}
 			AND STATUS = 'Y' 		
   		</select>
     	

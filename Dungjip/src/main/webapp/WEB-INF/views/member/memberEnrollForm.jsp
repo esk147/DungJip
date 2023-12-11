@@ -85,9 +85,9 @@
 			<form action="insert.me" method="post">
 			
 				<div class="userType">
-					<label for="">가입 유형 *</label> <br>
-					<input type="radio" id="user" value="U" name="userType" style="margin:0px -55px 0 0;" checked ><label for="user">임차인</label>
-					<input type="radio" id="Muser" value="M" name="userType" style="margin:0px -55px 0 0;" /><label for="Muser">임대인</label>			
+					<label for="userType">가입 유형 *</label> <br>
+					<input type="radio" id="user" value="임차인" name="userType" style="margin:0px -55px 0 0;" checked ><label for="user">임차인</label>
+					<input type="radio" id="Muser" value="임대인" name="userType" style="margin:0px -55px 0 0;" /><label for="Muser">임대인</label>			
 					<br>
 				</div>
 				<div class="form-section">
@@ -120,9 +120,11 @@
 				</div>
 	
 	
+	
 				<div class="form-section">
 					<label for="email">이메일 *</label>  
 					<input type="text" class="form-control" id="email" name="email" placeholder="이메일 (example@example.kr)">
+					<span id="confirm3"></span>
 				</div>
 	
 				<div class="form-section">
@@ -130,10 +132,11 @@
 					<input type="text" class="form-control" id="phone" name="phone" placeholder="'-'를 제외한 숫자 11자리로 작성해 주세요">
 				</div>
 	
-	
-				<div class="form-section">
-					<input type="submit" value="가입완료" onclick="return memberEnrollResult();" style="background-color: #e3dcd6;">
-				</div>
+				<div align="center">
+	                <button type="submit" value="가입완료" onclick="return memberEnrollResult();" disabled>가입완료</button>
+	                <button type="reset">초기화</button>
+           		 </div>
+				
 			</form>
 		</div>
 		
@@ -210,7 +213,8 @@
 					}
 				});
 			});
-		
+					
+			
 			
 			function memberEnrollResult() {
 				
@@ -220,7 +224,7 @@
 				var checkPwd = $("#checkPwd").val();
 				var userName = $("#userName").val();
 				var userNickName = $("userNickName").val();
-				var email = $("email").val();
+				var email = $("#email").val();
 				var phone = $("#phone").val();
 								
 				if (userId == null || userId == '') {
@@ -277,9 +281,11 @@
 					alert("전화번호를 입력하세요.");
 					$("#phone").focus();
 					return false;
+					
 				}
 				
-				
+				$("button[type=submit]").removeAttr("disabled"); //버튼 비활성화 제거하기
+					
 				
 			}
 			

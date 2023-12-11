@@ -10,7 +10,6 @@ public class MemberDao {
 	
 	//로그인
 	public Member loginMember(SqlSessionTemplate sqlSession, Member m) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberMapper.loginMember", m);
 	}
 	
@@ -25,6 +24,9 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("memberMapper.insertMember", m);
 	}
+	
+	
+	
 
 
 }
