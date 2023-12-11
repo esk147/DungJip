@@ -5,7 +5,8 @@
     
     <mapper namespace="memberMapper">
     
-  		<resultMap type="member" id="memberResultSet"> 		
+  		<resultMap type="member" id="memberResultSet">
+  			<result column="USER_NO" property="userNo" />
   			<result column="USER_TYPE" property="userType"/>
   			<result column="USER_ID" property="userId"/>
     		<result column="USER_PWD" property="userPwd"/>
@@ -32,12 +33,29 @@
 			AND STATUS = 'Y' 		
   		</select>
     	
-    	<select id="ajaxMethod1" resultType="_int">
+    	<select id="ajaxIdMethod" resultType="_int">
     		SELECT COUNT(USER_ID) 
     		FROM MEMBER 
     		WHERE USER_ID = #{userId}    	
     	</select>	
   		
-  		
+  		<insert id="insertMember" parameterType="member">
+  			INSERT INTO MEMBER (USER_NO
+  								,USER_TYPE                    
+			                    ,USER_ID
+			                    ,USER_PWD
+			                    ,USER_NAME
+			                    ,USER_NICKNAME
+			                    ,EMAIL
+			                    ,PHONE )
+			VALUES(SEQ_MNO.NEXTVAL
+					,#{userType}
+					,#{userId}
+					,#{userPwd}
+					,#{userName}
+					,#{userNickName}
+					,#{email}
+					,#{phone})
+  		</insert>
     	
     </mapper>
