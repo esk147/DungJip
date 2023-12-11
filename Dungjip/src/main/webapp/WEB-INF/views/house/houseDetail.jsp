@@ -1068,7 +1068,6 @@
 	<script src="resources/assets/js/price-range.js"></script>
 	<script type="text/javascript"
 		src="resources/assets/js/lightslider.min.js"></script>
-	-->
 	<script src="resources/assets/js/main.js"></script>
 
 	<script>
