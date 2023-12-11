@@ -117,7 +117,7 @@
 			
 			 var geocoder = new kakao.maps.services.Geocoder();
 			 
-			 geocoder.addressSearch('서울 영등포구 양평동4가 2', function(result, status) {
+			 geocoder.addressSearch('${locate}', function(result, status) {
 				 
 				     if (status === kakao.maps.services.Status.OK) {
 
