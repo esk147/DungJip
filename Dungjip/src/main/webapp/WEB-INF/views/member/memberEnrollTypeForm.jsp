@@ -59,7 +59,7 @@
                     <div class="box-for overflow" >
                         <div class="col-md-12 col-xs-12 register-blocks">
                             <h2>중개인 : </h2> 
-                            <form action="agree.me" method="post">
+                            <form action="enroll.es" method="post">
                                 <img class="img-fluid" src="resources/assets/img/e1.png" alt="">
                                 <div class="text-center" style="padding: 10px;">
                                     
