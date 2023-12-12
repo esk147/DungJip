@@ -162,9 +162,12 @@
                	</div>
            </div>
        <script>
-       	  $(document).ready(function(){
-       		  
-       	  });
+			function moreEnquiry(){
+				$.ajax({
+					url : "moreEnquiry.en",
+					data : 
+				})
+			}
        </script>
 
        <%@ include file="../common/footer.jsp" %>

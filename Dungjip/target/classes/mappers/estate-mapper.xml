@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="estateMapper">
+
+	<resultMap type="estate" id="estateResultSet">
+		<result column="ES_NO" property="esNo"/>
+		<result column="USER_NO" property="userNo"/>
+		<result column="ES_NAME" property="esName"/>
+		<result column="ES_CEO" property="esCeo"/>
+		<result column="ES_PHONE" property="esPhone"/>
+		<result column="ES_NUM" property="esNum"/>
+		<result column="ES_REGISTER" property="esRegister"/>
+		<result column="ES_ADDRESS" property="esAddress"/>
+		<result column="ES_CONTENT" property="esContent"/>
+		<result column="ES_IMAGE" property="esImage"/>
+	</resultMap>
+	
+	<select id="selectEatateList" parameterType="_int" resultMap="estateResultSet">
+	SELECT ES_NO
+      ,ES_NAME
+      ,ES_IMAGE
+	FROM ESTATE E
+	JOIN OWN O
+	USING(ES_NO)
+	WHERE HOUSE_NO=1
+	AND STATUS='Y'
+	
+	</select>
+
+</mapper>

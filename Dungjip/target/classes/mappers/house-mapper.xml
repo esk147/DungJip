@@ -31,5 +31,13 @@
 		, #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude}, #{houseUploadTime}, #{houseAddress}
 		, #{houseFloor}, #{houseBuildingFloor})
 	</insert>
+	
+	<select id="selectLocations" resultMap="houseResultSet">
+		select DISTINCT house_address from house
+	</select>
+	
+	<select id="selectHouse" resultMap="houseResultSet">
+		select * from house
+	</select>
 
 </mapper>
