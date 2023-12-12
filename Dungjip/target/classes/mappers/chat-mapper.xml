@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="chatMapper">
+    
+    <resultMap type="chatRoom" id="selectRoom">
+	    <result column="CHATROOM_NO" property="chatRoomNo"/>
+	    <result column="USER_NO" property="userNo"/>
+	    <result column="CHATROOM_NAME" property="chatRoomName"/>
+	    <result column="CHATROOM_CREATE" property="chatRoomCreate"/>
+	    <result column="STATUS" property="status"/>
+    </resultMap>    
+    
+    <select id="chatRoomList" resultMap="selectRoom">
+    SELECT *
+    FROM CHATROOM
+    WHERE USER_NO = #{userNo}
+    AND STATUS='Y'
+    ORDER BY CHATROOM_CREATE DESC
+    </select>
+    
+    
+   <resultMap type="chatMessage" id="chatRoomMsg">
+   
+   <result column="CONTENT_MESSAGE" property="contentMessage"/>
+   <result column="CHATROOM_NO" property="chatRoomNo"/>
+   <result column="USER_NO" property="userNo"/>
+   <result column="USER_NICKNAME" property="userNickname"/>
+   <result column="SENDMESSAGE_TIME" property="sendMessageTime"/>
+   <result column="READMESSAGE" property="readMessage"/>
+   <result column="STATUS" property="status"/>
+   
+   </resultMap> 
+    
+    
+    <select id="selectChatMsg" resultMap="chatRoomMsg">
+     SELECT CONTENT_MESSAGE
+            ,CHATROOM_NO
+            ,USER_NO
+            ,USER_NICKNAME
+            ,SENDMESSAGE_TIME
+            ,READMESSAGE
+            ,C.STATUS
+    FROM CHATMESSAGE C
+    JOIN MEMBER USING(USER_NO)
+    WHERE CHATROOM_NO = ${cno}
+    ORDER BY SENDMESSAGE_TIME
+    </select>
+    
+	<insert id="updateChatRoomMsg">
+	INSERT INTO CHATMESSAGE(CONTENT_MESSAGE
+							,CHATROOM_NO
+							,USER_NO
+							,SENDMESSAGE_TIME
+							,READMESSAGE,STATUS)
+	VALUES(#{contentMessage}
+			,#{chatRoomNo}
+			,#{userNo}
+			,SYSDATE
+			,1
+			,'Y')
+	</insert>
+
+
+    </mapper>

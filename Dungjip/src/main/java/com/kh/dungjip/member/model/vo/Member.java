@@ -24,6 +24,10 @@ public class Member {
     private String preferCheck3;//  PREFER_CHECK3
     private String status;//    STATUS
     private String userImage;
+    
+    
+    
+    
 	public Member(int userNo, String userType, String userId, String userPwd, String userName, String userNickName,
 			String age, String gender, String email, String phone, String address, String status) {
 		super();
