@@ -87,9 +87,7 @@
 		$.ajax({
 			url:"select.location",
 			success: function(result){
-				console.log(result);
 				var str = "";
-				
 				for(var i = 0; i < result.length; i++){
 					str += '<option value="'+result[i].houseAddress+'"/>'
 				}
