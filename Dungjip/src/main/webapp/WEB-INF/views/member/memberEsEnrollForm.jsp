@@ -82,12 +82,11 @@
 		<div class="registration-container" style="padding:40px;width:40%;box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);">
 			<h2 class="form-title">회원가입</h2>
 			
-			<form action="insert.me" method="post" enctype="multipart/form-data">
+			<form action="enroll.es" method="post" enctype="multipart/form-data">
 			
 				<div class="userType">
 					<label for="userType">가입 유형 *</label> <br>
-					<input type="radio" id="user" value="임차인" name="userType" style="margin:0px -55px 0 0;" checked ><label for="user">임차인</label>
-					<input type="radio" id="Muser" value="임대인" name="userType" style="margin:0px -55px 0 0;" /><label for="Muser">임대인</label>			
+					<input type="radio" id="Euser" value="중개인" name="userType" style="margin:0px -55px 0 0;" checked ><label for="Euser">중개인</label>
 					<br>
 				</div>
 				<div class="form-section">
@@ -131,13 +130,13 @@
 				</div>
 				
 				<div class="form-section">
-					<label for="upfile">프로필 사진 설정</label> 
+					<label for="upfile">프로필</label> 
 					<img id="titleImg" alt="" src="resources/img/person/person.jpg" style="width: 100px; height: 100px;">					
-				 	<input style="display: none; " type="file"  class="form-control" id="upfile" name="upfile" onchange="loadImg(this,1)"> 									
+				 	<input style="display: none; " type="file"  class="form-control" id="upfile" name="upfile" onchange="loadImg(this,1)" required> 									
 				</div>
 	
 				<div align="center">
-	                <button type="submit" value="가입완료" onclick="return memberEnrollResult();" >가입완료</button>
+	                <button type="submit" value="nextEnroll" onclick="return memberEnrollResult();" >사업자 등록</button>
 	                <button type="reset">초기화</button>
            		 </div>
 				

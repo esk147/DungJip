@@ -1,5 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.kh.dungjip.member.model.vo.Member"%>
+<% 
+	String contextPath = request.getContextPath();	
+
+	Member loginUser = (Member)session.getAttribute("loginUser");
+	String alertMsg = (String)session.getAttribute("alertMsg");
+
+	//쿠키정보 
+	//쿠키정보
+	Cookie[] cookies = request.getCookies();		//반환타입: 배열
+	
+	//쿠키 배열에서 필요한 쿠키 정보를 추출하기
+	//반복으로 돌려서 해당 쿠키의 이름을 찾고 그 쿠키의 값을 담아두기
+	String saveId = "";
+	
+	if(cookies != null){
+		for(Cookie c : cookies){
+			if((c.getName()).equals("userId")){
+				saveId = c.getValue();
+			}
+		}
+	}
+	
+	System.out.println("저장된 ID : "+saveId);
+%>    
+    
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -14,45 +39,13 @@
         <meta name="author" content="Kimarotec">
         <meta name="keyword" content="html5, css, bootstrap, property, real-estate theme , bootstrap template">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
-
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-        <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-       <link rel="stylesheet" href="resources/assets/css/normalize.css">
-        <link rel="stylesheet" href="resources/assets/css/font-awesome.min.css">
-        <link rel="stylesheet" href="resources/assets/css/fontello.css">
-        <link href="resources/assets/fonts/icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet">
-        <link href="resources/assets/fonts/icon-7-stroke/css/helper.css" rel="stylesheet">
-        <link href="resources/assets/css/animate.css" rel="stylesheet" media="screen">
-        <link rel="stylesheet" href="resources/assets/css/bootstrap-select.min.css"> 
-        <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="resources/assets/css/icheck.min_all.css">
-        <link rel="stylesheet" href="resources/assets/css/price-range.css">
-        <link rel="stylesheet" href="resources/assets/css/owl.carousel.css">  
-        <link rel="stylesheet" href="resources/assets/css/owl.theme.css">
-        <link rel="stylesheet" href="resources/assets/css/owl.transitions.css">
-        <link rel="stylesheet" href="resources/assets/css/style.css">
-        <link rel="stylesheet" href="resources/assets/css/responsive.css">
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	
     </head>
     <body>
 
        <%@ include file="../common/header.jsp" %>
 
-        <div class="page-head"> 
-            <div class="container">
-                <div class="row">
-                    <div class="page-head-content">
-                        <h1 class="page-title">로그인 / 회원가입</h1>               
-                    </div>
-                </div>
-            </div>
-        </div>
+ 
         <!-- End page header -->
  
 
@@ -61,23 +54,23 @@
         
             <div class="container" style="display: flex; justify-content: center;">
                 <div class="col-md-6">
-                    <div class="box-for overflow">                         
+                    <div class="box-for overflow" style="width: 600px; height: 600px;">                         
                         <div class="col-md-12 col-xs-12 login-blocks">
                             <h2>Login : </h2> 
                             <form action="login.me" method="post">
                                 <div class="form-group">
                                     <label for="userId">Id</label>
-                                    <input type="text" class="form-control" id="userId">
+                                    <input type="text" class="form-control" name="userId" id="userId">
                                 </div>
                                 <div class="form-group">
                                     <label for="userPwd">Password</label>
-                                    <input type="password" class="form-control" id="userPwd">
+                                    <input type="password" class="form-control" name="userPwd" id="userPwd">
                                 </div>
                                 
                                 <!-- 아이디 저장하기 -->
-								<div class="form-check form-check-reverse py-2">
-								  <label class="form-check-label" for="reverseCheck1">아이디 저장하기</label>
-								  <input class="form-check-input" type="checkbox" id="reverseCheck1" name="saveId">
+								<div class="form-check <!-- form-check-reverse py-2 -->">
+								  <label class="form-check-label" for="saveId" style="padding:0px 10px 0 0px">아이디 저장하기</label>
+								  <input class="form-check-input" type="checkbox" id="saveId" name="saveId" style="width: min-content;">
 								 	<br><br>
 								</div>
 								
@@ -107,28 +100,36 @@
                 </div>
 
             </div>
-        </div>      
+        </div> 
+        
+        <script type="text/javascript">
+        
+        	var msg = "<%=alertMsg%>"; 
+        	
+        	if(msg != "null") {
+        		
+        		alert(msg);
+        		
+        		<%session.removeAttribute("alertMsg");%>
+        	}
+       
+        	$(function() {
+        		//쿠키 아이디 값 가지고 오기 
+        		var saveId= "<%= saveId %>";
+        		
+        		console.log("가져왓니?? : ",saveId);
+        		
+        		if(saveId != "") {
+        			console.log("가져온 ID : ",saveId);
+        			$("input[name=userId]").val(saveId);
+        			$("input[name=saveId]").attr("checked",true);
+        		}
+        	});
+        
+        </script>     
 
           <!-- Footer area-->
          <%@ include file="../common/footer.jsp" %>
-
-         <script src="resources/assets/js/modernizr-2.6.2.min.js"></script>
-
-        <script src="resources/assets/js/jquery-1.10.2.min.js"></script> 
-        <script src="resources/bootstrap/js/bootstrap.min.js"></script>
-        <script src="resources/assets/js/bootstrap-select.min.js"></script>
-        <script src="resources/assets/js/bootstrap-hover-dropdown.js"></script>
-
-        <script src="resources/assets/js/easypiechart.min.js"></script>
-        <script src="resources/assets/js/jquery.easypiechart.min.js"></script>
-
-        <script src="resources/assets/js/owl.carousel.min.js"></script>
-        <script src="resources/assets/js/wow.js"></script>
-
-        <script src="resources/assets/js/icheck.min.js"></script>
-        <script src="resources/assets/js/price-range.js"></script>
-
-        <script src="resources/assets/js/main.js"></script>
 
     </body>
 </html>

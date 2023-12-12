@@ -23,8 +23,12 @@ public class Member {
     private String preferCheck2;//  PREFER_CHECK2
     private String preferCheck3;//  PREFER_CHECK3
     private String status;//    STATUS
+
     private String originName;
     private String changeName;
+
+    
+
 	public Member(int userNo, String userType, String userId, String userPwd, String userName, String userNickName,
 			String age, String gender, String email, String phone, String address, String status,String originName, String changeName) {
 		super();

@@ -5,7 +5,8 @@
     
     <mapper namespace="memberMapper">
     
-  		<resultMap type="member" id="memberResultSet"> 		
+  		<resultMap type="member" id="memberResultSet">
+  			<result column="USER_NO" property="userNo" />
   			<result column="USER_TYPE" property="userType"/>
   			<result column="USER_ID" property="userId"/>
     		<result column="USER_PWD" property="userPwd"/>
@@ -21,23 +22,46 @@
     		<result column="PREFER_CHECK2" property="preferCheck2"/>
     		<result column="PREFER_CHECK3" property="preferCheck3"/> 
     		<result column="STATUS" property="status"/>
-    		<result column="USER_IMAGE" property="userImage"/> 
+    		<result column="ORIGIN_NAME" property="originName"/> 
+    		<result column="CHANGE_NAME" property="changeName"/>
+    		
   		</resultMap>
+  		
   		
   		<select id="loginMember" parameterType="member" resultMap="memberResultSet">
   			SELECT *
 			FROM MEMBER
 			WHERE USER_ID = #{userId}
-			AND USER_PWD = #{userPwd}
 			AND STATUS = 'Y' 		
   		</select>
     	
-    	<select id="ajaxMethod1" resultType="_int">
+    	<select id="ajaxIdMethod" resultType="_int">
     		SELECT COUNT(USER_ID) 
     		FROM MEMBER 
     		WHERE USER_ID = #{userId}    	
     	</select>	
   		
-  		
+  		<insert id="insertMember" parameterType="member">
+  			INSERT INTO MEMBER (USER_NO
+  								,USER_TYPE                    
+			                    ,USER_ID
+			                    ,USER_PWD
+			                    ,USER_NAME
+			                    ,USER_NICKNAME
+			                    ,EMAIL
+			                    ,PHONE
+			                    ,ORIGIN_NAME
+			                    ,CHANGE_NAME)
+			VALUES(SEQ_MNO.NEXTVAL
+					,#{userType}
+					,#{userId}
+					,#{userPwd}
+					,#{userName}
+					,#{userNickName}
+					,#{email}
+					,#{phone}
+					,#{originName}
+					,#{changeName})
+  		</insert>
     	
     </mapper>
