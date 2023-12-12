@@ -4,11 +4,13 @@
 <html lang="ko">
 
 <head>
-    
+	
    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이용약관</title>
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,700&display=swap" rel="stylesheet">
+   	
+   
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
@@ -179,13 +181,14 @@
         
     </div>
     
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
     
     	$(function() {
     		
     		//전체동의 클릭 시 전부 체크
     		$("#default-checkbox3").on("click",function() {
+    			console.log("클릭했다");
     			$("#default-checkbox1, #default-checkbox2").prop("checked",true);
     		});
     		

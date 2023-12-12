@@ -84,7 +84,7 @@
             <h1>WELCOME</h1>
             <p>회원가입이 완료되었습니다.</p>
         </div>
-        <button class="confirm-button" onclick="location.href='${contextPath}/login.me'" style="background-color: #e3dcd6;">로그인하기</button>
+        <button class="confirm-button" onclick='location.href="login.be"' style="background-color: #e3dcd6;">로그인하기</button>
         <div class="back-to-top">
             <!-- Typically this would be an icon, for demo purposes we use "^" -->
             ^
