@@ -35,5 +35,9 @@
 	<select id="selectLocations" resultMap="houseResultSet">
 		select DISTINCT house_address from house
 	</select>
+	
+	<select id="selectHouse" resultMap="houseResultSet">
+		select * from house
+	</select>
 
 </mapper>

@@ -20,17 +20,28 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public Member loginMember(Member m) {
 		// TODO Auto-generated method stub
-		return memberDao.loginMember(sqlSession,m);
+		Member loginMember = memberDao.loginMember(sqlSession, m);
+		System.out.println("serviceimple " + loginMember);
+		return memberDao.loginMember(sqlSession, m);
 	}
 	
 	
-	//아이디 중복 체크
+	//아이디 중복 체크 (임대인/임차인)
 	@Override
-	public int ajaxMethod1(String userId) {
+	public int ajaxIdMethod(String userId) {
 		// TODO Auto-generated method stub
-		return memberDao.ajaxMethod1(sqlSession,userId);
+		return memberDao.ajaxIdMethod(sqlSession,userId);
 	}
 
+	
+	//회원가입 메소드 (임대인/임차인)
+	@Override
+	public int insertMember(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.insertMember(sqlSession,m);
+	}
+
+	
 
 
 

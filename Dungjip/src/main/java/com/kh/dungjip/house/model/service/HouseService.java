@@ -10,4 +10,6 @@ public interface HouseService {
 
 	ArrayList<House> selectLocations();
 
+	ArrayList<House> selectHouse();
+
 }
