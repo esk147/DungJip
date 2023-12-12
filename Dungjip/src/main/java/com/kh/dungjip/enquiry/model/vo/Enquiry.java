@@ -15,8 +15,9 @@ public class Enquiry {
 	private String enquiryTitle; //ENQUIRY_TITLE	VARCHAR2(100 BYTE)
 	private String enquiryContent; //ENQUIRY_CONTENT	VARCHAR2(1000 BYTE)
 	private String enquiryImage; //ENQUIRY_IMAGE	VARCHAR2(500 BYTE)
-	private String changeName;
 	private String enquiryDate; //ENQUIRY_DATE	DATE
 	private String enquiryReply; //ENQUIRY_REPLY	VARCHAR2(1000 BYTE)
 	private String status; //STATUS	VARCHAR2(1 BYTE)
+	private String changeName; //CHANGE_NAME	VARCHAR2(100 BYTE)
+	private String userName;
 }

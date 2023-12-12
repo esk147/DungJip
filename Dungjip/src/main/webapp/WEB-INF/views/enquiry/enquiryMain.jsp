@@ -90,10 +90,6 @@ input[type="text"], input[type="email"], select, textarea {
     background-color: #000;
     color: #fff;
 }
-
-label {
-	font-size: 15px;
-}
 </style>
 <meta name="description" content="company is a real-estate template">
 <meta name="author" content="Kimarotec">
@@ -106,52 +102,66 @@ label {
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-<link rel="stylesheet" href="resources/assets/css/normalize.css">
-<link rel="stylesheet" href="resources/assets/css/font-awesome.min.css">
-<link rel="stylesheet" href="resources/assets/css/fontello.css">
-<link href="resources/assets/fonts/icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet">
-<link href="resources/assets/fonts/icon-7-stroke/css/helper.css" rel="stylesheet">
-<link href="resources/assets/css/animate.css" rel="stylesheet" media="screen">
-<link rel="stylesheet" href="resources/assets/css/bootstrap-select.min.css">
-<link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="resources/assets/css/icheck.min_all.css">
-<link rel="stylesheet" href="resources/assets/css/price-range.css">
-<link rel="stylesheet" href="resources/assets/css/owl.carousel.css">
-<link rel="stylesheet" href="resources/assets/css/owl.theme.css">
-<link rel="stylesheet" href="resources/assets/css/owl.transitions.css">
-<link rel="stylesheet" href="resources/assets/css/style.css">
-<link rel="stylesheet" href="resources/assets/css/responsive.css">
 </head>
 <body>
+<%@ include file="../common/header.jsp" %>
 	<div class="page-head">
 		<div class="container">
 		</div>
 	</div>
 	<br><br>
 		<div align="center">
-			<a href="enList.en" class="nav-item" style="width:180px;">1:1문의 내역</a>
-			<a href="enquiry.en" class="nav-item active" style="width:180px;">1:1문의</a>
-			<a href="#" class="nav-item">공지사항</a>
+			<c:if test="${loginUser.userType == '관리자' }">
+				<a href="enList.en" class="nav-item" style="width:180px;">1:1문의 내역</a>
+			</c:if>	
+				<a href="enquiry.en" class="nav-item active" style="width:180px;">1:1문의</a>
+				<a href="#" class="nav-item">공지사항</a>
 		</div>
-	<div class="form-container">
-		<form id="insertForm" method="post" action="insert.en" enctype="multipart/form-data">
-			<p align="center" style="font-size: 16px;">
-				둥집에 궁금하신 점을 문의해주세요. <br> 문의내용과 답변은 <a>'마이페이지 문의내역'</a> 에서 확인 하실 수 있습니다. </p>
-			
-			<br> 
-			<label for="">문의 유형</label> 
-            <input type="text" value="서비스 이용 문의" disabled>
-		    <label for="name">제목</label>
-            <input type="text" id="enquiryTitle" name="enquiryTitle" placeholder="제목을 입력해주세요."> 
-            <label for="content">문의 내용</label>
-			<textarea id="enquiryContent" name="enquiryContent" rows="4" style="resize: none;" placeholder="문의 하실 내용을 입력해주세요."></textarea>
-			<label>사진</label>
-			<input type="file" id="enfile" name="enfile" class="form-control-file border">
-			<br>
-			<div align="center">
-				<button type="submit" class="submit-button" style="width:100px">문의하기</button>
+	<c:choose>
+		<c:when test="${loginUser == null }">
+			<div class="form-container">
+				<form id="insertForm" method="post" action="insert.en" enctype="multipart/form-data">
+					<input type="hidden" name="userNo" id="userNo" value="${loginUser.userNo}">
+					<p align="center" style="font-size: 25px;">
+						<a href="login.be">로그인</a> 후 등록이 가능합니다 </p>
+					
+					<br> 
+					<label for="">문의 유형</label> 
+		            <input type="text" value="서비스 이용 문의" disabled>
+				    <label for="name">제목</label>
+		            <input type="text" id="enquiryTitle" name="enquiryTitle" placeholder="제목을 입력해주세요."> 
+		            <label for="content">문의 내용</label>
+					<textarea id="enquiryContent" name="enquiryContent" rows="4" style="resize: none;" placeholder="문의 하실 내용을 입력해주세요."></textarea>
+					<label>사진</label>
+					<input type="file" id="enfile" name="enfile" class="form-control-file border">
+				</form>
 			</div>
-		</form>
-	</div>
+			</c:when>
+			<c:otherwise>
+	
+		<div class="form-container">
+			<form id="insertForm" method="post" action="insert.en" enctype="multipart/form-data">
+				<input type="hidden" name="userNo" id="userNo" value="${loginUser.userNo}">
+				<p align="center" style="font-size: 16px;">
+					둥집에 궁금하신 점을 문의해주세요. <br> 문의내용과 답변은 <a>'마이페이지 문의내역'</a> 에서 확인 하실 수 있습니다. </p>
+				
+				<br> 
+				<label for="">문의 유형</label> 
+	            <input type="text" value="서비스 이용 문의" disabled>
+			    <label for="name">제목</label>
+	            <input type="text" id="enquiryTitle" name="enquiryTitle" placeholder="제목을 입력해주세요."> 
+	            <label for="content">문의 내용</label>
+				<textarea id="enquiryContent" name="enquiryContent" rows="4" style="resize: none;" placeholder="문의 하실 내용을 입력해주세요."></textarea>
+				<label>사진</label>
+				<input type="file" id="enfile" name="enfile" class="form-control-file border">
+				<br>
+					<div align="center">
+						<button type="submit" class="submit-button" style="width:100px">문의하기</button>
+					</div>
+			</form>
+		</div>	
+			</c:otherwise>
+			</c:choose>
+	<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

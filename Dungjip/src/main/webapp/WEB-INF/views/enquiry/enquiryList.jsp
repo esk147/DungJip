@@ -12,13 +12,6 @@
         <meta name="keyword" content="html5, css, bootstrap, property, real-estate theme , bootstrap template">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
-
-        <link rel="stylesheet" href="resources/assets/css/font-awesome.min.css">
-        <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="resources/assets/css/owl.theme.css">
-        <link rel="stylesheet" href="resources/assets/css/owl.transitions.css">
-        <link rel="stylesheet" href="resources/assets/css/style.css">
     </head>
     <style>
 		.nav-menu {
@@ -73,7 +66,7 @@
 		}
 		
 		.feat-list{
-			margin-left: 60px;
+			margin-left: 70px;
 		}
 		
 		.submit-button {
@@ -90,22 +83,16 @@
 		}
 		
 		.title{
-			margin-left: 340px;
+			margin-left: 300px;
 		}
 		
-		li{
-			list-style: none;
+		.feat-list{
+			margin-left: 290px;
 		}
 		
-		.fqa-title{
-			margin-left: -50px;
-		}
-		
-		.panel-body{
-			margin-left: 5px;
-		}
     </style>
     <body>
+    <%@ include file="../common/header.jsp" %>
          <div class="page-head"> 
             <div class="container">
             </div>
@@ -118,11 +105,7 @@
 		</div>
         <div class="content-area recent-property" style="background-color: #FCFCFC; padding-bottom: 55px;">
             <div class="container">    
-                  <h3 align="center">1:1문의 내역</h3>
-                    <div class="title">
-                      <span>* 삭제,수정이 불가하여 삭제,수정이 필요한경우 <a href="enquiry.en">1:1문의</a> 재등록 부탁드리겠습니다. </span> <br> 
-                      <span>* 고객센터 답변 가능 시간 : 평일 09:30~18:20 (토, 일요일, 공휴일 휴무) </span>
-                     </div>
+                    <br>
                      <br>
 				<c:forEach items="${enList}" var="en">
 			      	<form method="post" action="reply.en">
@@ -132,20 +115,19 @@
 		                            <div class="panel-group">
 		                                <div class="panel panel-default">
 		                                    <div class="panel-heading">
-		                                    	<ul class="panel-title fqa-title" data-toggle="collapse" data-target="#fqa${en.enquiryNo}">
-		                                    		<li>${en.enquiryTitle}</li>
-		                                    	</ul>
+		                                         <h4 class="panel-title fqa-title" data-toggle="collapse" data-target="#fqa${en.enquiryNo}" >
+		                                         		<span>${en.enquiryTitle}</span>
+		                                         </h4> 
 		                                    </div>
 		                                    <div id="fqa${en.enquiryNo}" class="panel-collapse collapse fqa-body">
 		                                        <div class="panel-body">
-		                                       		<ul>
 			                                        <c:if test="${not empty en.enquiryImage}">
-		                                       		<li><a href="${en.changeName}" download="${en.enquiryImage}">${en.enquiryImage}</a></li>
+			                                        	<a href="${en.changeName}" download="${en.enquiryImage}">${en.enquiryImage}</a>
+			                                        <br>
 			                                        </c:if>
-			                                        	<li>작성자 : ${en.userNo}</li>
-			                                        	<li>내용 : ${en.enquiryContent}</li>
-													    <li>작성일자 : ${en.enquiryEnrollDate}</li>
-													</ul>    			                                            
+			                                        	  작성자 : <span>${en.userName}</span> <br>
+			                                        	   내용 : <span>${en.enquiryContent}</span> <br>
+													    작성일자 : <span>${en.enquiryEnrollDate}</span>			                                            
 			                                        <br> <br>
 			                                        <c:choose>
 				                                        <c:when test="${not empty en.enquiryReply}">
@@ -155,8 +137,10 @@
 				                                        	<input type="hidden" name="userNo" value="${en.userNo}">
 				                                        	<input type="hidden" name="enquiryNo" value="${en.enquiryNo}"
 				                                        	>
-				                                        	<textarea rows="2" cols="65" style="resize: none;width:100%;" id="enquiryReply" name="enquiryReply" ></textarea>
+				                                        	<textarea rows="2" cols="65" style="resize: none;" id="enquiryReply" name="enquiryReply" ></textarea>
+				                                        	<br>
 				                                        	<div align="right">
+				                                        	<br>
 				                                        		<button type="submit">전송</button>
 				                                        	</div>
 				                                        </c:otherwise>
@@ -170,13 +154,20 @@
                         </div>
 					</form>    
 		          </c:forEach>
+		        <div id="oldList">
+                </div>
                 <div align="center">
-		          <button id="moreEnquiry" class="submit-button">더보기(More)</button>
+		          <button id="moreEnquiry" class="submit-button">더보기</button>
 		        </div>  
                	</div>
            </div>
-       <script src="resources/assets/js/jquery-1.10.2.min.js"></script> 
-       <script src="resources/bootstrap/js/bootstrap.min.js"></script>
+       <script>
+       	  $(document).ready(function(){
+       		  
+       	  });
+       </script>
+
+       <%@ include file="../common/footer.jsp" %>
     </body>
 </html>
 
