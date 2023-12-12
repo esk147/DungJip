@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="resources/assets/css/lightslider.min.css">
 
 <style>
+
 .fa-star {
 	color: #D27E04;
 }
@@ -214,26 +215,25 @@
 					<aside class="sidebar sidebar-property blog-asside-right">
 						<div class="dealer-widget">
 							<c:forEach var="estate" items="${elist}">
-								<div class="dealer-content">
-									<div class="inner-wrapper">
-										<div class="clear">
-											<div class="col-xs-4 col-sm-4 dealer-face">
-												<a href=""> <img src="resources/img/person/${estate.esImage} "
-													class="img-circle">
-												</a>
-											</div>
-											<div class="col-xs-8 col-sm-8">
-												<h3 class="dealer-name">
-													<a href="" style="font-size: 14px;">${estate.esName}</a> 
-												</h3>
-											</div>
-										</div>
-										<div class="clear">
-											<!-- 추가적인 내용이 있다면 여기에 추가할 수 있습니다. -->
-										</div>
-									</div>
-								</div>
-							</c:forEach>
+    <div class="dealer-content">
+        <div class="inner-wrapper">
+            <div class="clear" id="${estate.esNo }" onclick="detailEstate(this)">
+                <div class="col-xs-4 col-sm-4 dealer-face">
+                    <img src="resources/img/person/${estate.member.changeName}" class="img-circle" >
+               
+                </div>
+                <div class="col-xs-8 col-sm-8">
+                    <h3 class="dealer-name">
+                        <a style="font-size: 14px;">${estate.esName}</a> 
+                    </h3>
+                </div>
+            </div>
+            <div class="clear">
+                <!-- 추가적인 내용이 있다면 여기에 추가할 수 있습니다. -->
+            </div>
+        </div>
+    </div>
+</c:forEach>
 
 
 
@@ -1095,6 +1095,14 @@
 			$('#myTab a[href="#home"]').tab('show');
 		});
 	</script>
+	
+<script>
+   function detailEstate(e){
+	   location.href="detail.es?esNo="+e.id;
+   }
+</script>
+
+
 
 	<%@ include file="../common/footer.jsp"%>
 

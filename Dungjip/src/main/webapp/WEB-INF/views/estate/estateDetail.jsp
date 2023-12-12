@@ -222,7 +222,7 @@
                                             <div class="clear">
                                                 <div class="col-xs-4 col-sm-4 dealer-face">
                                                     <a href="">
-                                                        <img src="resources/assets/img/client-face1.png" class="img-circle">
+                                                        <img src="resources/img/person/${estate.esImage}" class="img-circle">
                                                     </a>
                                                 </div>
                                                 <div class="col-xs-8 col-sm-8 ">
@@ -987,12 +987,12 @@
             });
         </script>
         
-		<script>
-    	$(document).ready(function(){
-        	// Description 탭을 활성화
-        	$('#myTab a[href="#home"]').tab('show');
-    	});
-</script>
+<script>
+		$(document).ready(function() {
+			// Description 탭을 활성화
+			$('#myTab a[href="#home"]').tab('show');
+		});
+	</script>
 
 	<%@ include file="../common/footer.jsp" %>
 

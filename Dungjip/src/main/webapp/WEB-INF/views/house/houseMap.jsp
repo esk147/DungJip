@@ -177,7 +177,7 @@
     </div>
     <script>
     	function detailHouse(e){
-    		location.href="detail.ho?houseNo"+e.id;
+    		location.href="detail.ho?houseNo="+e.id;
     	}
     </script>
     
