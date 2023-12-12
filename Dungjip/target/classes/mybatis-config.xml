@@ -9,7 +9,7 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias type="com.kh.dungjip.house.model.vo.House" alias="house" />
-		<typeAlias type="com.kh.dungjip.enquiry.model.vo.Enquiry" alias="enquiry" /> 
+		<typeAlias type="com.kh.dungjip.house.model.vo.House"
+			alias="house" /> 
 	</typeAliases>
 </configuration>
