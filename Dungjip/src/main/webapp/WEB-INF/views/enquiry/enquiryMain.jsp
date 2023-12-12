@@ -56,7 +56,7 @@ input[type="text"], input[type="email"], select, textarea {
 }
 
 .submit-button {
-	width: 80px;
+	width: 110px;
 }
 
 .col-md-12 {
@@ -70,7 +70,6 @@ input[type="text"], input[type="email"], select, textarea {
 	list-style: none;
 	padding: 0;
 	background-color: #f4f4f4;
-	margin: 20px 0;
 }
 
 .nav-item {
@@ -78,6 +77,7 @@ input[type="text"], input[type="email"], select, textarea {
 	margin: 0 10px; /* Space between items */
 	border: 1px solid #ddd; /* Border color */
 	background-color: #fff; /* Background color for non-active items */
+	color:#000;
 	cursor: pointer;
 }
 
@@ -125,32 +125,29 @@ label {
 <body>
 	<div class="page-head">
 		<div class="container">
-			<div class="row">
-				<div class="page-head-content">
-					<h1 class="page-title" align="center">문의하기</h1>
-				</div>
-			</div>
 		</div>
 	</div>
 	<br><br>
-	<ul class="nav-menu" style="background-color: #fff;">
-		<li class="nav-item" style="width:190px;">1:1문의 내역</li>
-		<li class="nav-item active">1:1 문의</li>
-		<li class="nav-item">공지사항</li>
-	</ul>
+		<div align="center">
+			<a href="enList.en" class="nav-item" style="width:180px;">1:1문의 내역</a>
+			<a href="enquiry.en" class="nav-item active" style="width:180px;">1:1문의</a>
+			<a href="#" class="nav-item">공지사항</a>
+		</div>
 	<div class="form-container">
 		<form id="insertForm" method="post" action="insert.en" enctype="multipart/form-data">
 			<p align="center" style="font-size: 16px;">
 				둥집에 궁금하신 점을 문의해주세요. <br> 문의내용과 답변은 <a>'마이페이지 문의내역'</a> 에서 확인 하실 수 있습니다. </p>
-			<input type="hidden" id="userId" name="userId" value="${loginUser.userId}">
-			<br> <label for="">문의 유형</label> 
+			
+			<br> 
+			<label for="">문의 유형</label> 
             <input type="text" value="서비스 이용 문의" disabled>
 		    <label for="name">제목</label>
-            <input type="text" id="enquiryTitle" id="enquiryTitle" placeholder="제목을 입력해주세요."> 
+            <input type="text" id="enquiryTitle" name="enquiryTitle" placeholder="제목을 입력해주세요."> 
             <label for="content">문의 내용</label>
 			<textarea id="enquiryContent" name="enquiryContent" rows="4" style="resize: none;" placeholder="문의 하실 내용을 입력해주세요."></textarea>
 			<label>사진</label>
-			<input type="file" id="enquiryImage" name="enquiryImage">
+			<input type="file" id="enfile" name="enfile" class="form-control-file border">
+			<br>
 			<div align="center">
 				<button type="submit" class="submit-button" style="width:100px">문의하기</button>
 			</div>

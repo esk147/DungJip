@@ -13,6 +13,7 @@
  		<result column="ENQUIRY_IMAGE" property="enquiryImage"/>
  		<result column="ENQUIRY_DATE" property="enquiryDate"/>
  		<result column="ENQUIRY_REPLY" property="enquiryReply"/>
+ 		<result column="CHANGE_NAME" property="changeName"/>
  		<result column="STATUS" property="status"/>
  	</resultMap>
  
@@ -22,11 +23,31 @@
 		                   ,USER_NO
 		                   ,ENQUIRY_TITLE
 		                   ,ENQUIRY_CONTENT
-		                   ,ENQUIRY_IMAGE)
+		                   ,ENQUIRY_IMAGE
+		                   ,CHANGE_NAME
+		                   ,ENQUIRY_DATE)
 					 VALUES(SEQ_ENQNO.NEXTVAL
 					       ,1
 					       ,#{enquiryTitle}
 					       ,#{enquiryContent}
-					       ,#{enquiryImage})
+					       ,#{enquiryImage}
+					       ,#{changeName}
+					       ,'')
  	</insert>
+ 	
+ 	<!-- 1:1문의 상세 -->
+	<select id="selectEnList" resultMap="enquiryResultSet">
+		SELECT *
+		FROM ENQUIRY
+		ORDER BY STATUS, ENQUIRY_ENROLL_DATE	
+	</select>
+	
+	<!-- 관리자 댓글 -->
+	<insert id="insertReply">
+		UPDATE ENQUIRY
+		SET ENQUIRY_REPLY = #{enquiryReply}
+		   ,STATUS = 'Y'
+		   ,ENQUIRY_DATE = SYSDATE
+		WHERE ENQUIRY_NO = #{enquiryNo}
+	</insert>
  </mapper>
