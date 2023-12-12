@@ -43,6 +43,35 @@
             margin-right: 10px;
             border: 1px solid #ddd;
         }
+        
+        .inputWrap {
+		    position: relative;
+		    height: 50px;
+		    display: inline-block;
+		 }
+		  
+		.inputWrap input {
+		  padding-right: 30px;
+		  height: inherit;
+		}
+		
+		.inputWrap .btnClear {
+		  position: absolute;
+		  top: 0;
+		  right: 0;
+		  width: 30px;
+		  height: inherit;
+		  background: url(https://img.icons8.com/pastel-glyph/2x/cancel.png) center center no-repeat;
+		  background-size: 50%;
+		  border: none;
+		  outline: none;
+		  cursor: pointer;
+		}
+        
+        
+        #searchIcon {
+        	cursor: pointer;
+        }
 
         .main-container {
             display: flex;
@@ -84,11 +113,18 @@
 <body>
 	<%@ include file="../common/header.jsp"%>
 	
+	<script>
+	    var clearInput = function(obj) {
+	        obj.parentNode.querySelector('input').value = ""
+	    }
+	</script>
+	
     <header class="header">
-        <div class="search-container">
-            <input type="text" placeholder="지역, 지하철역, 학교 검색">
+        <div class="inputWrap">
+            <input type="text" id="searchLocation" placeholder="지역, 지하철역, 학교 검색">
+            <button class="btnClear" onClick="clearInput(this)"></button>
         </div>
-        <img src="https://placehold.co/100x50" alt="Placeholder for Zigbang logo">
+        <img src="https://placehold.co/100x50" alt="Placeholder for Zigbang logo" id="searchIcon" onclick="searchLocate()">
     </header>
 
     <div class="main-container">
@@ -126,6 +162,33 @@
 				        map.setCenter(coords);
 				    } 
 				}); 
+			 
+			 function searchLocate(){
+				 var ps = new kakao.maps.services.Places(); 
+				 var searchLocation = document.getElementById("searchLocation").value;
+				 console.log(searchLocation);
+
+				// 키워드로 장소를 검색합니다
+				ps.keywordSearch(searchLocation, placesSearchCB); 
+
+				// 키워드 검색 완료 시 호출되는 콜백함수 입니다
+				function placesSearchCB (data, status, pagination) {
+				    if (status === kakao.maps.services.Status.OK) {
+
+				        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+				        // LatLngBounds 객체에 좌표를 추가합니다
+				        var bounds = new kakao.maps.LatLngBounds();
+
+				        for (var i=0; i<data.length; i++) {
+				            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+				        }       
+
+				        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+				        map.setBounds(bounds);
+				    } 
+				}
+			 }
+			 
 			 
 			 var clusterer = new kakao.maps.MarkerClusterer({
 			        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
