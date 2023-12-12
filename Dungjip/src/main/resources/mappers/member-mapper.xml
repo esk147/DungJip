@@ -22,7 +22,9 @@
     		<result column="PREFER_CHECK2" property="preferCheck2"/>
     		<result column="PREFER_CHECK3" property="preferCheck3"/> 
     		<result column="STATUS" property="status"/>
-    		<result column="USER_IMAGE" property="userImage"/> 
+    		<result column="ORIGIN_NAME" property="originName"/> 
+    		<result column="CHANGE_NAME" property="changeName"/>
+    		
   		</resultMap>
   		
   		
@@ -47,7 +49,9 @@
 			                    ,USER_NAME
 			                    ,USER_NICKNAME
 			                    ,EMAIL
-			                    ,PHONE )
+			                    ,PHONE
+			                    ,ORIGIN_NAME
+			                    ,CHANGE_NAME)
 			VALUES(SEQ_MNO.NEXTVAL
 					,#{userType}
 					,#{userId}
@@ -55,7 +59,9 @@
 					,#{userName}
 					,#{userNickName}
 					,#{email}
-					,#{phone})
+					,#{phone}
+					,#{originName}
+					,#{changeName})
   		</insert>
     	
     </mapper>

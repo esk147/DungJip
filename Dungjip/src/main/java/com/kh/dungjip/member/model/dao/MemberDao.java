@@ -24,6 +24,8 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("memberMapper.insertMember", m);
 	}
+
+
 	
 	
 	

@@ -39,14 +39,6 @@
   </head>
   
   <style>
-  	.navbar-default {
-  		width: 100%;
-  	}
-  	
-  	.header-container{
-  		margin: 10px 20px 0 20px;
-  	}
-  
   	.navbar-brand p {
   		padding: 0.5em 0 0;
   	}
@@ -56,7 +48,7 @@
   </style>
   <body>
         <nav class="navbar navbar-default ">
-            <div class="header-container">
+            <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">

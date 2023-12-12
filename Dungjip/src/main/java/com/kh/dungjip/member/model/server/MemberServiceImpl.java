@@ -41,6 +41,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.insertMember(sqlSession,m);
 	}
 
+	
 
 
 

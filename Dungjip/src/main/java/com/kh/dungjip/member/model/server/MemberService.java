@@ -13,5 +13,7 @@ public interface MemberService {
 	//회원가입 메소드 (임대인/임차인)
 	int insertMember(Member m);
 
+	
+
 
 }
