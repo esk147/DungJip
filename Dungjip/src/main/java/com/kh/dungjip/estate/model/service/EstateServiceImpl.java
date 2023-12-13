@@ -20,8 +20,24 @@ public class EstateServiceImpl implements EstateService {
 
 	//부동산 리스트
 	@Override
-	public ArrayList<Estate> selectEstateList() {
+	public ArrayList<Estate> selectEstateList(int houseNo) {
 		
-		return estateDao.selectEstateList(sqlSession);
+		return estateDao.selectEstateList(sqlSession,houseNo);
 	}
+
+	//조회수 증가
+	@Override
+	public int increaseCount(int esNo) {
+	
+		return estateDao.increaseCount(sqlSession,esNo);
+	}
+
+	//부동산 상세정보
+	@Override
+	public Estate estateDetail(int esNo) {
+		
+		return estateDao.estateDetail(sqlSession,esNo);
+	}
+
+	
 }
