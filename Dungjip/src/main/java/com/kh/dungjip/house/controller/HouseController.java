@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -131,12 +132,10 @@ public class HouseController {
 	
 	//집 리스트
 	@RequestMapping("villa.map")
-	public ModelAndView villaMap(ModelAndView mv) {
+	public ModelAndView villaMap(@RequestParam(value="locate", defaultValue="서울 영등포구 양평동4가 2") String locate,ModelAndView mv) {
 		ArrayList<House> lList = houseService.selectHouse();
 		
-		mv.addObject("lList", lList).setViewName("house/houseMap");
-		
-		System.out.println(lList);
+		mv.addObject("lList", lList).addObject("locate", locate).setViewName("house/houseMap");
 		
 		return mv;
 	}
