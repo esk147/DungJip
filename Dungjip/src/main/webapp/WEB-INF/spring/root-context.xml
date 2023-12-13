@@ -19,8 +19,8 @@
 			value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url"
 			value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="DUNGJIB" />
-		<property name="password" value="DUNGJIB" />
+		<property name="username" value="DUNGJIP" />
+		<property name="password" value="DUNGJIP" />
 	</bean>
 
 	<!-- 2. mybatis spring에서 제공하는 sql 명령어 실행을 위한 도구 등록 -->

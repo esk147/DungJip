@@ -1,5 +1,15 @@
 package com.kh.dungjip.house.model.service;
 
-//public interface HouseService {
-//
-//}
+import java.util.ArrayList;
+
+import com.kh.dungjip.house.model.vo.House;
+
+public interface HouseService {
+
+	int insertHouseJSON(House house);
+
+	ArrayList<House> selectLocations();
+
+	ArrayList<House> selectHouse();
+
+}
