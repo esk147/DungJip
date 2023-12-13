@@ -15,26 +15,22 @@
 	
     
      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="resources/assets/css/normalize.css">
-        <link rel="stylesheet" href="resources/assets/css/font-awesome.min.css">
-        <link rel="stylesheet" href="resources/assets/css/fontello.css">
-        <link href="resources/assets/fonts/icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet">
-        <link href="resources/assets/fonts/icon-7-stroke/css/helper.css" rel="stylesheet">
-        <link href="resources/assets/css/animate.css" rel="stylesheet" media="screen">
-        <link rel="stylesheet" href="resources/assets/css/bootstrap-select.min.css"> 
-        <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="resources/assets/css/icheck.min_all.css">
-        <link rel="stylesheet" href="resources/assets/css/price-range.css">
-        <link rel="stylesheet" href="resources/assets/css/owl.carousel.css">  
-        <link rel="stylesheet" href="resources/assets/css/owl.theme.css">
-        <link rel="stylesheet" href="resources/assets/css/owl.transitions.css">
-        <link rel="stylesheet" href="resources/assets/css/style.css">
-        <link rel="stylesheet" href="resources/assets/css/responsive.css">
-        
-		<noscript>
-        <link rel="stylesheet" type="text/css" href="resources/assets/css/styleNoJS.css" />
-        </noscript>
-        
+        <link rel="stylesheet" href="/dungjip/resources/assets/css/normalize.css">
+        <link rel="stylesheet" href="/dungjip/resources/assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dungjip/resources/assets/css/fontello.css">
+        <link href="/dungjip/resources/assets/fonts/icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet">
+        <link href="/dungjip/resources/assets/fonts/icon-7-stroke/css/helper.css" rel="stylesheet">
+        <link href="/dungjip/resources/assets/css/animate.css" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="/dungjip/resources/assets/css/bootstrap-select.min.css"> 
+        <link rel="stylesheet" href="/dungjip/resources/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/dungjip/resources/assets/css/icheck.min_all.css">
+        <link rel="stylesheet" href="/dungjip/resources/assets/css/price-range.css">
+        <link rel="stylesheet" href="/dungjip/resources/assets/css/owl.carousel.css">  
+        <link rel="stylesheet" href="/dungjip/resources/assets/css/owl.theme.css">
+        <link rel="stylesheet" href="/dungjip/resources/assets/css/owl.transitions.css">
+        <link rel="stylesheet" href="/dungjip/resources/assets/css/style.css">
+        <link rel="stylesheet" href="/dungjip/resources/assets/css/responsive.css">
+       
  
   </head>
   
@@ -121,28 +117,28 @@
         </nav>
        
   
-        <script src="resources/assets/js/modernizr-2.6.2.min.js"></script>
+        <script src="/dungjip/resources/assets/js/modernizr-2.6.2.min.js"></script>
 
-        <script src="resources/assets/js/jquery-1.10.2.min.js"></script>
-        <script src="resources/bootstrap/js/bootstrap.min.js"></script>
-        <script src="resources/assets/js/bootstrap-select.min.js"></script>
-        <script src="resources/assets/js/bootstrap-hover-dropdown.js"></script>
+        <script src="/dungjip/resources/assets/js/jquery-1.10.2.min.js"></script>
+        <script src="/dungjip/resources/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/dungjip/resources/assets/js/bootstrap-select.min.js"></script>
+        <script src="/dungjip/resources/assets/js/bootstrap-hover-dropdown.js"></script>
 
-        <script src="resources/assets/js/easypiechart.min.js"></script>
-        <script src="resources/assets/js/jquery.easypiechart.min.js"></script>
+        <script src="/dungjip/resources/assets/js/easypiechart.min.js"></script>
+        <script src="/dungjip/resources/assets/js/jquery.easypiechart.min.js"></script>
 
-        <script src="resources/assets/js/owl.carousel.min.js"></script>        
+        <script src="/dungjip/resources/assets/js/owl.carousel.min.js"></script>        
 
-        <script src="resources/assets/js/wow.js"></script>
+        <script src="/dungjip/resources/assets/js/wow.js"></script>
 
-        <script src="resources/assets/js/icheck.min.js"></script>
-        <script src="resources/assets/js/price-range.js"></script>
+        <script src="/dungjip/resources/assets/js/icheck.min.js"></script>
+        <script src="/dungjip/resources/assets/js/price-range.js"></script>
 
 
-        <script src="resources/assets/js/jquery.ba-cond.min.js"></script>
-        <script src="resources/assets/js/jquery.slitslider.js"></script>
+        <script src="/dungjip/resources/assets/js/jquery.ba-cond.min.js"></script>
+        <script src="/dungjip/resources/assets/js/jquery.slitslider.js"></script>
 
-        <script src="resources/assets/js/main.js"></script>
+        <script src="/dungjip/resources/assets/js/main.js"></script>
         
   </body>
 </html>
