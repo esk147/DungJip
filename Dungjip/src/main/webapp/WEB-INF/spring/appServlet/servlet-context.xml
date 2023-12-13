@@ -34,9 +34,13 @@
 	 <beans:bean id="askServer" class="com.kh.dungjip.common.websocket.server.WebsocketAskServer" /> 
 	<!-- 접속을 받아줄 대상을 지정, 다받아주겠다고 지정 -->
 <websocket:handlers allowed-origins="*"> 
+<!-- 	<websocket:handlers allowed-origins="*"> -->
+
 	<!-- /basic으로 요청이 오면 basicServer에 등록된 클래스로 서버를 사용하겠다. -->
+
 		<websocket:mapping handler="askServer" path="/ask"/>
-		
+
+<!-- 		<websocket:mapping handler="basicServer" path="/basic"/> -->
 	<!-- Http 통신에 있는 HttpSession 정보를 연결해보기 -->
 	<websocket:handshake-interceptors>
 		<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
@@ -45,5 +49,11 @@
 </websocket:handlers> 
 	
 	
-	
+
+		<!-- Http 통신에 있는 HttpSession 정보를 연결해보기 -->
+<!-- 		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
+		</websocket:handshake-interceptors>
+		
+	</websocket:handlers> -->
 </beans:beans>

@@ -34,7 +34,6 @@
 		<noscript>
         <link rel="stylesheet" type="text/css" href="/dungjip/resources/assets/css/styleNoJS.css" />
         </noscript>
-        
  
   </head>
   
@@ -121,28 +120,28 @@
         </nav>
        
   
-        <script src="resources/assets/js/modernizr-2.6.2.min.js"></script>
+        <script src="/dungjip/resources/assets/js/modernizr-2.6.2.min.js"></script>
 
-        <script src="resources/assets/js/jquery-1.10.2.min.js"></script>
-        <script src="resources/bootstrap/js/bootstrap.min.js"></script>
-        <script src="resources/assets/js/bootstrap-select.min.js"></script>
-        <script src="resources/assets/js/bootstrap-hover-dropdown.js"></script>
+        <script src="/dungjip/resources/assets/js/jquery-1.10.2.min.js"></script>
+        <script src="/dungjip/resources/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/dungjip/resources/assets/js/bootstrap-select.min.js"></script>
+        <script src="/dungjip/resources/assets/js/bootstrap-hover-dropdown.js"></script>
 
-        <script src="resources/assets/js/easypiechart.min.js"></script>
-        <script src="resources/assets/js/jquery.easypiechart.min.js"></script>
+        <script src="/dungjip/resources/assets/js/easypiechart.min.js"></script>
+        <script src="/dungjip/resources/assets/js/jquery.easypiechart.min.js"></script>
 
-        <script src="resources/assets/js/owl.carousel.min.js"></script>        
+        <script src="/dungjip/resources/assets/js/owl.carousel.min.js"></script>        
 
-        <script src="resources/assets/js/wow.js"></script>
+        <script src="/dungjip/resources/assets/js/wow.js"></script>
 
-        <script src="resources/assets/js/icheck.min.js"></script>
-        <script src="resources/assets/js/price-range.js"></script>
+        <script src="/dungjip/resources/assets/js/icheck.min.js"></script>
+        <script src="/dungjip/resources/assets/js/price-range.js"></script>
 
 
-        <script src="resources/assets/js/jquery.ba-cond.min.js"></script>
-        <script src="resources/assets/js/jquery.slitslider.js"></script>
+        <script src="/dungjip/resources/assets/js/jquery.ba-cond.min.js"></script>
+        <script src="/dungjip/resources/assets/js/jquery.slitslider.js"></script>
 
-        <script src="resources/assets/js/main.js"></script>
+        <script src="/dungjip/resources/assets/js/main.js"></script>
         
   </body>
 </html>
