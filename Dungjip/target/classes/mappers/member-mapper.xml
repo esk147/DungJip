@@ -23,8 +23,23 @@
     		<result column="PREFER_CHECK3" property="preferCheck3"/> 
     		<result column="STATUS" property="status"/>
     		<result column="ORIGIN_NAME" property="originName"/> 
-    		<result column="CHANGE_NAME" property="changeName"/>
-    		
+    		<result column="CHANGE_NAME" property="changeName"/>    		
+  		</resultMap>
+  		
+  		<resultMap type="estate" id="estateResultSet">  		
+    		<result column="ES_NO" property="esNo"/>   		
+  			<result column="USER_NO" property="userNo" />
+  			<result column="ES_NAME" property="esName"/>
+  			<result column="ES_CEO" property="esCeo"/>
+    		<result column="ES_PHONE" property="esPhone"/>
+    		<result column="ES_NUM" property="esNum"/>
+    		<result column="ES_REGISTER_NUM" property="esRegisterNum"/>
+    		<result column="ES_ADDRESS" property="esAddress"/>
+    		<result column="ES_CONTENT" property="esContent"/>
+    		<result column="ES_IMAGE" property="esImage"/>
+    		<result column="ES_COUNT" property="esCount"/>
+    		<result column="ES_STATUS" property="esStatus"/>
+		
   		</resultMap>
   		
   		
@@ -32,7 +47,7 @@
   			SELECT *
 			FROM MEMBER
 			WHERE USER_ID = #{userId}
-			AND STATUS = 'Y' 		
+<!-- 			AND STATUS = 'Y' 		 -->
   		</select>
     	
     	<select id="ajaxIdMethod" resultType="_int">
@@ -47,9 +62,11 @@
 			                    ,USER_ID
 			                    ,USER_PWD
 			                    ,USER_NAME
-			                    ,USER_NICKNAME
 			                    ,EMAIL
 			                    ,PHONE
+			                    ,AGE
+			                    ,GENDER
+			                    ,ADDRESS
 			                    ,ORIGIN_NAME
 			                    ,CHANGE_NAME)
 			VALUES(SEQ_MNO.NEXTVAL
@@ -57,11 +74,85 @@
 					,#{userId}
 					,#{userPwd}
 					,#{userName}
-					,#{userNickName}
 					,#{email}
 					,#{phone}
+					,#{age}
+					,#{gender}
+					,#{address}
 					,#{originName}
-					,#{changeName})
+					,#{changeName}) 
   		</insert>
+  		
+  		<insert id="esInsertMember" parameterType="member">
+  			INSERT INTO MEMBER (USER_NO
+  								,USER_TYPE                    
+			                    ,USER_ID
+			                    ,USER_PWD
+			                    ,USER_NAME
+			                    ,EMAIL
+			                    ,PHONE
+			                    ,AGE
+			                    ,GENDER
+			                    ,ADDRESS
+			                    ,ORIGIN_NAME
+			                    ,CHANGE_NAME)
+			VALUES(SEQ_MNO.NEXTVAL
+					,#{userType}
+					,#{userId}
+					,#{userPwd}
+					,#{userName}
+					,#{email}
+					,#{phone}
+					,#{age}
+					,#{gender}
+					,#{address}
+					,#{originName}
+					,#{changeName}) 		  		
+  		</insert>
+  		
+  		<select id="esajaxIdMethod" resultType="_int">
+    		SELECT COUNT(USER_ID) 
+    		FROM MEMBER 
+    		WHERE USER_ID = #{userId}    	
+    	</select>
+    	
+    	<select id="exajaxphoneMethod" resultType="_int">
+    		SELECT COUNT (PHONE)
+			FROM MEMBER
+			WHERE PHONE = #{phone}
+    	</select>
+    	
+    	<select id="ajaxphoneMethod" resultType="_int">
+    		SELECT COUNT (PHONE)
+			FROM MEMBER
+			WHERE PHONE = #{phone}
+    	</select>
+    	
+    	<insert id="insertEsMember" parameterType="estate">
+    		INSERT INTO ESTATE (ES_NO
+    							,USER_NO
+    							,ES_NAME
+								,ES_CEO
+								,ES_PHONE
+								,ES_NUM
+								,ES_REGISTER_NUM
+								,ES_ADDRESS
+								,ES_CONTENT)
+			VALUES(SEQ_ENO.NEXTVAL
+					,#{userNo}
+					,#{esName}
+					,#{esCeo}
+					,#{esPhone}
+					,#{esNum}
+					,#{esRegisterNum}
+					,#{esAddress}
+					,#{esContent}) 		  	    	
+    	</insert>	
+    	
+    	<select id="userNum" resultType="_int">
+    		SELECT USER_NO
+    		FROM MEMBER
+    		WHERE USER_ID = #{userId}   	
+    	</select>
     	
     </mapper>
