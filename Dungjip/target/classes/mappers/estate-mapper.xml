@@ -12,12 +12,13 @@
 		<result column="ES_CEO" property="esCeo"/>
 		<result column="ES_PHONE" property="esPhone"/>
 		<result column="ES_NUM" property="esNum"/>
-		<result column="ES_REGISTER" property="esRegister"/>
+		<result column="ES_REGISTER_NUM" property="esRegisterNum"/>
 		<result column="ES_ADDRESS" property="esAddress"/>
 		<result column="ES_CONTENT" property="esContent"/>
 		
 		<result column="ES_COUNT" property="esCount"/>
 		<result column="ES_Status" property="esStatus"/>
+		<result column="ENROLLDATE" property="enrollDate"/>
 		<association property="member" javaType="member">
         	<result column="CHANGE_NAME" property="changeName"/>
 		</association>
@@ -38,17 +39,21 @@
 	</select>
 	
 	<select id="estateDetail" parameterType="estate" resultMap="estateResultSet">
-	SELECT ES_NO
-      ,USER_NO
-      ,ES_NAME
-      ,ES_PHONE
-      ,ES_NUM
-      ,ES_REGISTER_NUM
-      ,ES_ADDRESS
-      ,ES_CONTENT
-      ,ES_IMAGE
-	FROM ESTATE
+	 SELECT E.ES_NO
+           ,E.USER_NO
+           ,E.ES_NAME
+           ,E.ES_CEO
+           ,E.ES_PHONE
+           ,E.ES_NUM
+           ,E.ES_REGISTER_NUM
+           ,E.ES_ADDRESS
+           ,E.ES_CONTENT
+           ,E.ENROLLDATE
+           ,M.CHANGE_NAME
+	FROM ESTATE E
+    JOIN MEMBER M ON E.USER_NO=M.USER_NO
 	WHERE ES_NO=#{esNo}
+	AND ES_STATUS = 'Y'
 	</select>
 	
 	<update id="increaseCount" parameterType="_int">

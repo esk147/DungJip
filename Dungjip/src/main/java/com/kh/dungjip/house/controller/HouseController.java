@@ -124,8 +124,7 @@ public class HouseController {
 		System.out.println("부동산리스트");
 		
 	    System.out.println("elist: " + elist);
-	    System.out.println(member);
-		
+	  
 		return "house/houseDetail";
 	}
 	
