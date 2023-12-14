@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>회원가입</title>
-	
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	 
 	 
 	<style>
@@ -82,7 +82,7 @@
 		<div class="registration-container" style="padding:40px;width:40%;box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);">
 			<h2 class="form-title">회원가입</h2>
 			
-			<form action="enroll.es" method="post" enctype="multipart/form-data">
+			<form action="esinsert.me" method="post" enctype="multipart/form-data">
 			
 				<div class="userType">
 					<label for="userType">가입 유형 *</label> <br>
@@ -91,52 +91,97 @@
 				</div>
 				<div class="form-section">
 					<label for="userId">아이디 *</label> 
-					<input type="text" class="form-control" id="userId" name="userId" placeholder="ID (6~12자리 영문 및 숫자 조합)">
+					<input type="text" class="form-control" id="userId" name="userId" placeholder="ID (6~12자리 영문 및 숫자 조합)" required>
 					<span id="confirm"></span>
-				</div>
-				
+				</div>				
 	
 				<div class="form-section">
 					<label for="userPwd">비밀번호 *</label> 
-					<input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="비밀번호 (6~15자리 영문 및 숫자 조합)">
+					<input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="비밀번호 (6~15자리 영문 및 숫자 조합)" required>
 				</div>
 	
 				<div class="form-section">
 					<label for="checkPwd">비밀번호 확인 *</label> 
-					<input type="password" class="form-control" id="checkPwd" name="checkPwd" placeholder="비밀번호 확인">
+					<input type="password" class="form-control" id="checkPwd" name="checkPwd" placeholder="비밀번호 확인" required>
 					<span id="confirm2"></span>
 				</div>
-	
-	
+		
 				<div class="form-section">
 					<label for="userName">이름 *</label> 
- 					<input type="text" class="form-control" id="userName" name="userName" placeholder="이름">				
+ 					<input type="text" class="form-control" id="userName" name="userName" placeholder="이름" required>				
 				</div>
 			
-				<div class="form-section">
-					<label for="userNickName">닉네임</label> 
-					<input type="text" class="form-control" id="userNickname" name="userNickname" placeholder="닉네임">				
-				</div>
 	
 				<div class="form-section">
 					<label for="email">이메일 *</label>  
-					<input type="text" class="form-control" id="email" name="email" placeholder="이메일 (example@example.kr)">
-					<span id="confirm3"></span>
+					<input type="text" class="form-control" id="email" name="email" placeholder="이메일 (example@example.kr)" required>
+					
 				</div>
 	
 				<div class="form-section">
 					<label for="phone">전화번호 *</label> 
-					<input type="text" class="form-control" id="phone" name="phone" placeholder="'-'를 제외한 숫자 11자리로 작성해 주세요">
+					<input type="text" class="form-control" id="phone" name="phone" placeholder="'-'를 제외한 숫자 11자리로 작성해 주세요" required>
+					<span id="confirm3"></span>
 				</div>
+				
+				<div class="form-section">
+					<label for="age">나이</label> 
+					<input type="text" class="form-control" id="age" name="age" placeholder="나이">
+				</div>
+				
+				<div class="genderType">
+                    <label for="gender">성별</label>
+                    <div class="gender" style="display: flex; margin:0px -55px 0 0;">
+                        <div style="display:flex;">
+
+                            <input type="radio" id="F" value="F" name="gender" style="margin:0px -55px 0 0;" checked ><label for="F">여자</label>
+                        </div>
+                        <div style="display:flex;">
+
+                            <input type="radio" id="M" value="M" name="gender" style="margin:0px -55px 0 0;" ><label for="M">남자</label>
+                        </div>
+                            <br>
+                    </div>
+
+				</div>
+				
+				<!-- 주소 text 누르면 팝업까지 -->
+                <div class="form-section">
+                    <label for="esAddress">주소</label>
+                    <input type="text" class="form-control" id="address_kakao" name="esAddress" placeholder="주소(클릭해주세요.)" >
+                    <span class="placeholder"></span>
+                </div>         	
+				
+				<script type="text/javascript">
+				
+	               	    window.onload = function(){
+	               	        document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+	               	            
+	               	        	event.preventDefault(); // 링크의 기본 동작을 중지
+	               	        	//카카오 지도 발생
+	               	            new daum.Postcode({
+	               	                oncomplete: function(data) { //선택시 입력값 세팅
+	               	                    document.getElementById("address_kakao").value = data.address; 	// 주소 넣기
+	               	                    document.querySelector("input[name=esAddress]").focus(); //다음 임력 칸으로 포커싱
+	               	                }
+	               	            }).open();
+	               	        });
+	               	    }
+	               	    
+                 </script>
+				
+				
 				
 				<div class="form-section">
 					<label for="upfile">프로필</label> 
 					<img id="titleImg" alt="" src="resources/img/person/person.jpg" style="width: 100px; height: 100px;">					
-				 	<input style="display: none; " type="file"  class="form-control" id="upfile" name="upfile" onchange="loadImg(this,1)" required> 									
+				 	<input style="display: none; " type="file"  class="form-control" id="upfile" name="upfile" onchange="loadImg(this,1)"> 									
 				</div>
+				
+				
 	
 				<div align="center">
-	                <button type="submit" value="nextEnroll" onclick="return memberEnrollResult();" >사업자 등록</button>
+	                <button type="submit" value="사업자등록" onclick="return memberEsInsertEnrollForm();" >사업자등록</button>
 	                <button type="reset">초기화</button>
            		 </div>
 				
@@ -205,7 +250,7 @@
 					}else{
 						
 						$.ajax({
-		        			url : "ajaxId.do",
+		        			url : "esajaxId.do",
 		        			
 		        			data : {
 		        				userId : checkId,
@@ -259,20 +304,80 @@
 					}
 				});
 			});
+			
+			
+			//번호 중복 확인
+			var phonecheck = false;
+			var regexphone = /^\d{11}$/;
+
+            $(document).ready(function() {
+
+            	$("#phone").change(function() {
+            		
+					var checkph = $("#phone").val();
 					
+					if(!regexphone.test(checkph)) {
+						
+						$("#confirm3")
+						.html("'-'를 제외한 숫자 11자리로 작성해 주세요")
+						.css("color","red");
+						phone.focus();
+						phonecheck = false;
+						
+					}else{
+						
+						$.ajax({
+		        			url : "exajaxphone.do",
+		        			
+		        			data : {
+		        				phone : checkph,
+		        			},
+		        			
+		        			success : function(result) {
+		        				
+		        				console.log(result);
+		        				
+		        				if(result == '1') { //중복
+		        					$("#confirm3")
+									.html("해당 번호는 이미 존재함으로 사용하실수 없습니다.")
+									.css("color","red");
+		        					$("#phone").focus();
+									phonecheck = false;
+		        					
+		        				}else{ //사용가능
+		        					$("#confirm3")
+									.html("사용 가능한 번호입니다.")
+									.css("color","blue");
+		        					phonecheck = true;
+		        				}
+		        				
+		        			},error : function() {
+		        				
+		        				console.log("통신 오류");
+		        			}
+
+		        		});	
+					}
+					
+				});
+			});
 			
 			
-			function memberEnrollResult() {
+			
+			
+			function memberEsInsertEnrollForm() {
 				
 				var userType= $("#userType").val();
 				var userId = $("#userId").val();
 				var userPwd = $("#userPwd").val();
 				var checkPwd = $("#checkPwd").val();
 				var userName = $("#userName").val();
-				var userNickName = $("userNickName").val();
 				var email = $("#email").val();
-				var phone = $("#phone").val();
+				var phone = $("#phone").val();	
+				var age = $("#age").val();
+				var gender = $("#gender").val();
 				
+				var address_kakao = $("#address_kakao").val();
 								
 				if (userId == null || userId == '') {
 					alert("ID를 입력하세요.");
@@ -280,22 +385,26 @@
 					return false;
 				}
 
-
-				if (userPassword == null || userPassword == '') {
+				if (userPwd == null || userPwd == '') {
 					alert("비밀번호를 입력하세요");
+					$("#userPwd").focus();
 					return false;
 					
 				} else {
 					
-					var regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,14}$/;
+					var regExp =  /^(?=.*[A-Za-z\d?!\s])[A-Za-z\d?!]{5,14}$/;
+					
+					console.log("비번이요~")
+					console.log(userPwd);
+					console.log("비번이요~")
 
-					if (!regExp.test(userPassword)) {
+					if (!regExp.test(userPwd)) {
 						alert("비밀번호는 4~15자리 영문 및 숫자 조합이어야 합니다.");
-						$("#checkPwd").focus();
+						$("#userPwd").focus();
 						return false;
 					}
 					
-					if (userPassword != userPasswordChk) {
+					if (userPwd != checkPwd) {
 						alert("비밀번호가 일치하지 않습니다.");
 						$("#checkPwd").focus();
 						return false;
@@ -330,8 +439,7 @@
 					return false;
 					
 				}
-					
-				
+									
 			}
 			
 			
