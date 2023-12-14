@@ -20,4 +20,13 @@ public class Enquiry {
 	private String status; //STATUS	VARCHAR2(1 BYTE)
 	private String changeName; //CHANGE_NAME	VARCHAR2(100 BYTE)
 	private String userName;
+	
+	private int enquiryList;
+	private int startIndex;
+	
+	public Enquiry(int enquiryList, int startIndex) {
+		super();
+		this.enquiryList = enquiryList;
+		this.startIndex = startIndex;
+	}
 }

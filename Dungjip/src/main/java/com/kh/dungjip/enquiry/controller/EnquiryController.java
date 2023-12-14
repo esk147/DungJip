@@ -13,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.kh.dungjip.enquiry.model.service.EnquiryService;
 import com.kh.dungjip.enquiry.model.vo.Enquiry;
 
@@ -31,12 +33,7 @@ public class EnquiryController {
 	
 	//문의하기 메인 (1:1문의 내역)
 	@RequestMapping("enList.en")
-	public String enquiryList(Model model) {
-		
-		ArrayList<Enquiry> enList = enquiryService.selectEnList();
-		
-		model.addAttribute("enList",enList);
-		
+	public String enquiryList() {
 		return "enquiry/enquiryList";
 	}
 	
@@ -77,11 +74,57 @@ public class EnquiryController {
 	
 	//관리자 댓글 등록
 	@PostMapping("reply.en")
-	public String insertReply(Enquiry en) {
+	public String insertReply(Enquiry en
+							 ,HttpSession session) {
 		
 		int result = enquiryService.insertReply(en);
-		System.out.println(en);
-		
-		return "redirect:enList.en";
+		if(result>0) {
+			session.setAttribute("alertMsg", "댓글 등록 성공");
+			return "redirect:enList.en";
+		}else {
+			session.setAttribute("alertMsg", "댓글 등록 실패");
+			return "redirect:enList.en";
+		}
 	}
+	
+	//더보기 버튼
+	@ResponseBody
+	@RequestMapping(value="moreEnquiry.en",produces="application/json; charset=UTF-8")
+	public ArrayList<Enquiry> moreEnquiry(int enquiryList, int page) {
+		int defaultPage = 5;
+		int startIndex = (page - 1) * defaultPage + 1;
+		enquiryList = startIndex + enquiryList - 1;
+		Enquiry en = new Enquiry(enquiryList,startIndex);
+		
+		System.out.println(startIndex);
+		System.out.println(enquiryList);
+		System.out.println(page);
+		
+		
+		ArrayList<Enquiry> enList = enquiryService.moreEnquiry(en);
+		
+		return enList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

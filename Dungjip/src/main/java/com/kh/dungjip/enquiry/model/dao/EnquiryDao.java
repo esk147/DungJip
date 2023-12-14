@@ -16,15 +16,14 @@ public class EnquiryDao {
 		return sqlSession.insert("enquiryMapper.insertEnquiry",en);
 	}
 
-	//1:1문의 내역
-	public ArrayList<Enquiry> selectEnList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("enquiryMapper.selectEnList");
-		                        
-	}
-
 	//관리자 댓글 등록
 	public int insertReply(SqlSessionTemplate sqlSession, Enquiry en) {
 		return sqlSession.insert("enquiryMapper.insertReply", en);
+	}
+
+	//더보기
+	public ArrayList<Enquiry> moreEnquiry(SqlSessionTemplate sqlSession, Enquiry en) {
+		return (ArrayList)sqlSession.selectList("enquiryMapper.moreEnquiry",en);
 	}
 
 }

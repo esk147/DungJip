@@ -90,6 +90,20 @@ input[type="text"], input[type="email"], select, textarea {
     background-color: #000;
     color: #fff;
 }
+
+#enquiryButton{
+	background-color: #f1a90e;
+	color: white;
+	height: 50px;
+	width: 90px;
+	font-size: 15px;
+}
+
+#enquiryButton:hover{
+	background-color: #ffd883;
+	color: #fff;
+}
+
 </style>
 <meta name="description" content="company is a real-estate template">
 <meta name="author" content="Kimarotec">
@@ -105,6 +119,14 @@ input[type="text"], input[type="email"], select, textarea {
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
+<c:if test="${not empty alertMsg }">
+        <script>
+            var alertMsg = "${alertMsg}";
+            alert(alertMsg);
+        </script>
+        <c:remove var="alertMsg" />
+    </c:if>
+    
 	<div class="page-head">
 		<div class="container">
 		</div>
@@ -156,7 +178,7 @@ input[type="text"], input[type="email"], select, textarea {
 				<input type="file" id="enfile" name="enfile" class="form-control-file border">
 				<br>
 					<div align="center">
-						<button type="submit" class="submit-button" style="width:100px">문의하기</button>
+						<button type="submit" style="width:100px" id="enquiryButton">문의하기</button>
 					</div>
 			</form>
 		</div>	

@@ -36,22 +36,6 @@
 					       ,#{changeName}
 					       ,'')
  	</insert>
- 	
- 	<!-- 1:1문의 상세 -->
-	<select id="selectEnList" resultMap="enquiryResultSet">
-		SELECT E.USER_NO
-	          ,M.USER_NAME
-	          ,ENQUIRY_NO
-	          ,ENQUIRY_ENROLL_DATE
-	          ,ENQUIRY_TITLE
-	          ,ENQUIRY_CONTENT
-	          ,ENQUIRY_IMAGE
-	          ,E.CHANGE_NAME
-	    FROM ENQUIRY E
-        	,MEMBER M
-    	WHERE E.USER_NO = M.USER_NO
-		ORDER BY E.STATUS, ENQUIRY_ENROLL_DATE
-	</select>
 	
 	<!-- 관리자 댓글 -->
 	<insert id="insertReply">
@@ -61,5 +45,27 @@
 		   ,ENQUIRY_DATE = SYSDATE
 		WHERE ENQUIRY_NO = #{enquiryNo}
 	</insert>
+	
+	<select id="moreEnquiry" resultMap="enquiryResultSet">
+        SELECT *
+        FROM(SELECT ROWNUM RNUM , A.*
+        FROM(SELECT E.USER_NO
+	               ,M.USER_NAME
+	               ,ENQUIRY_NO
+	               ,ENQUIRY_ENROLL_DATE
+	               ,ENQUIRY_TITLE
+	               ,ENQUIRY_CONTENT
+	               ,ENQUIRY_IMAGE
+	               ,E.CHANGE_NAME
+	               ,ENQUIRY_DATE
+	               ,ENQUIRY_REPLY
+	               ,E.STATUS
+        FROM ENQUIRY E
+        	,MEMBER M
+    	WHERE E.USER_NO = M.USER_NO
+		ORDER BY E.STATUS, ENQUIRY_ENROLL_DATE) A)
+        WHERE RNUM BETWEEN #{startIndex} AND #{enquiryList}		
+	
+	</select>
  </mapper>
  

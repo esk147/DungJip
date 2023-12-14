@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html class="no-js">
     <head>
@@ -90,8 +91,48 @@
 			margin-left: 290px;
 		}
 		
+		#moreEnquiry{
+			background-color: #f1a90e;
+			color: white;
+			height: 50px;
+			width: 90px;
+			font-size: 15px;
+		}
+		
+		#moreEnquiry:hover{
+			background-color: #ffd883;
+			color: #fff;
+		}
+		
+		.panel-body2{
+			color: #000;
+			font-size: 15px;
+		}
+		
+		.check{
+			color: blue;
+			float:right;
+			font-size: 15px;
+		}
+		
+		.success{
+			color: red;
+			float:right;
+		}
+		
+		.content{
+			float:right;
+		}
+		
     </style>
     <body>
+    <c:if test="${not empty alertMsg }">
+        <script>
+            var alertMsg = "${alertMsg}";
+            alert(alertMsg);
+        </script>
+        <c:remove var="alertMsg" />
+    </c:if>
     <%@ include file="../common/header.jsp" %>
          <div class="page-head"> 
             <div class="container">
@@ -107,66 +148,83 @@
             <div class="container">    
                     <br>
                      <br>
-				<c:forEach items="${enList}" var="en">
-			      	<form method="post" action="reply.en">
-		                <div class="row row-feat"> 
-		                    <div class="col-md-12">
-		                        <div class="col-sm-6 feat-list">
-		                            <div class="panel-group">
-		                                <div class="panel panel-default">
-		                                    <div class="panel-heading">
-		                                         <h4 class="panel-title fqa-title" data-toggle="collapse" data-target="#fqa${en.enquiryNo}" >
-		                                         		<span>${en.enquiryTitle}</span>
-		                                         </h4> 
-		                                    </div>
-		                                    <div id="fqa${en.enquiryNo}" class="panel-collapse collapse fqa-body">
-		                                        <div class="panel-body">
-			                                        <c:if test="${not empty en.enquiryImage}">
-			                                        	<a href="${en.changeName}" download="${en.enquiryImage}">${en.enquiryImage}</a>
-			                                        <br>
-			                                        </c:if>
-			                                        	  작성자 : <span>${en.userName}</span> <br>
-			                                        	   내용 : <span>${en.enquiryContent}</span> <br>
-													    작성일자 : <span>${en.enquiryEnrollDate}</span>			                                            
-			                                        <br> <br>
-			                                        <c:choose>
-				                                        <c:when test="${not empty en.enquiryReply}">
-				                                        	<textarea rows="2" cols="65" style="resize: none;" disabled>${en.enquiryReply}</textarea>
-				                                        </c:when>
-				                                        <c:otherwise>
-				                                        	<input type="hidden" name="userNo" value="${en.userNo}">
-				                                        	<input type="hidden" name="enquiryNo" value="${en.enquiryNo}"
-				                                        	>
-				                                        	<textarea rows="2" cols="65" style="resize: none;" id="enquiryReply" name="enquiryReply" ></textarea>
-				                                        	<br>
-				                                        	<div align="right">
-				                                        	<br>
-				                                        		<button type="submit">전송</button>
-				                                        	</div>
-				                                        </c:otherwise>
-			                                        </c:choose>
-		                                        </div> 
-		                                    </div>
-		                                </div>
-		                            </div>
-                                </div>
-                            </div>
-                        </div>
-					</form>    
-		          </c:forEach>
-		        <div id="oldList">
-                </div>
-                <div align="center">
-		          <button id="moreEnquiry" class="submit-button">더보기</button>
-		        </div>  
+		          <!-- 더보기 -->
+                   <div class="enquiry-list" id="enquiry-list">
+                   	
+                   </div>		          	
                	</div>
            </div>
+               	<div align="center">
+		          <button id="moreEnquiry">더보기</button>
+		        </div>
+		        <br>
        <script>
-			function moreEnquiry(){
+			var page = 1;
+			var enquiryList = 5;
+			
+			$(document).ready(function(){
+				moreEnquiryList();
+				$("#moreEnquiry").click(moreEnquiryList);
+			});
+			
+			function moreEnquiryList(){
 				$.ajax({
-					url : "moreEnquiry.en",
-					data : 
-				})
+					url: "moreEnquiry.en",
+					type: "GET",
+					data: {page: page,
+						   enquiryList: enquiryList},
+					success: function(data){
+						$.each(data, function (index, pm){
+						var enquriyHtml = "";
+				      	enquriyHtml += '<form method="post" action="reply.en">'
+			                        + '<div class="row row-feat">'
+			                        + '<div class="col-md-12">'
+			                        + '<div class="col-sm-6 feat-list">'
+			                        + '<div class="panel-group">'
+			                        + '<div class="panel panel-default">'
+			                        + '<div class="panel-heading">'
+			                        + '<h4 class="panel-title fqa-title" data-toggle="collapse" data-target="#fqa'+pm.enquiryNo+'">'
+			                        + '<span>'+pm.enquiryTitle+'</span>';
+			                        if(pm.status == 'Y'){
+			                        	enquriyHtml += '<span class="success">답변 완료</span>';
+			                        }else{
+			                        	enquriyHtml += '<span class="check">확인 중</span>';
+			                        }
+			                        enquriyHtml += '</h4>'
+			                        + '</div>'
+			                        + '<div id="fqa'+pm.enquiryNo+'" class="panel-collapse collapse fqa-body">'
+			                        + '<div class="panel-body">';
+			                        if (pm.enquiryImage != null) {
+			                        enquriyHtml += '<a href="'+pm.changeName+'" download="'+pm.enquiryImage+'">'+pm.enquiryImage+'</a> <br>';
+			                        }
+			                        enquriyHtml += '작성자 : <span>' + pm.userName + '</span>'
+			                        + '<span class="content">'+ pm.enquiryEnrollDate +'</span><hr>'
+			                        + '내용 : <span>' + pm.enquiryContent + '</span><hr>';
+			                        if (pm.enquiryReply != null) {
+			                        	enquriyHtml+= '<textarea rows="2" cols="65" style="resize: none;width:500px;height:100px;" readonly>'+pm.enquiryReply+'</textarea> <br>'
+			                        			   +  '답변일자: <span>' +pm.enquiryDate+'</span>';
+			                        } else {
+			                        	enquriyHtml+= '<textarea rows="2" cols="65" style="resize: none;width:500px;height:100px;" id="enquiryReply" name="enquiryReply"></textarea>'
+			                        	+ '<input type="hidden" name="userNo" value="'+pm.userNo+'">'
+                                    	+ '<input type="hidden" name="enquiryNo" value="'+pm.enquiryNo+'">'
+                                    	+ '<br>'
+                                    	+ '<div align="right">'
+                                    	+ '<br>'
+                                    	+ '<button type="submit">전송</button>'
+                                    	+ '</div>';
+			                        }
+			                        enquriyHtml+= '</div></div></div></div></div>'
+			                        + '</form>';
+	                        	$('#enquiry-list').append(enquriyHtml);
+							});
+						},
+						error: function(){
+							console.error("Error enquiry list");
+						},
+						complete: function(){
+							page++;
+						}
+				});
 			}
        </script>
 
