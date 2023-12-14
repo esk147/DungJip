@@ -18,11 +18,14 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.dungjip.house.model.vo.House;
+import com.kh.dungjip.member.model.vo.Member;
 import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.house.model.service.HouseService;
@@ -108,30 +111,31 @@ public class HouseController {
 	
 	//집 상세페이지
 	@RequestMapping("detail.ho")
-	public String houseDetail(Model model){		
+	public String houseDetail(int houseNo,Model model){		
 		
+		Member member = new Member();
+		ArrayList<Estate> elist = estateService.selectEstateList(houseNo);
 		
-		ArrayList<Estate> elist = estateService.selectEstateList();
 		
 		//부동산 목록 조회해서 보여주기
 		model.addAttribute("elist",elist);
+		model.addAttribute("member", member);
 		
-		System.out.println("나오는지 보자");
+		
+		System.out.println("부동산리스트");
 		
 	    System.out.println("elist: " + elist);
-	    
+	    System.out.println(member);
 		
 		return "house/houseDetail";
 	}
 	
-	
+	//집 리스트
 	@RequestMapping("villa.map")
-	public ModelAndView villaMap(ModelAndView mv) {
+	public ModelAndView villaMap(@RequestParam(value="locate", defaultValue="서울 영등포구 양평동4가 2") String locate,ModelAndView mv) {
 		ArrayList<House> lList = houseService.selectHouse();
 		
-		mv.addObject("lList", lList).setViewName("house/houseMap");
-		
-		System.out.println(lList);
+		mv.addObject("lList", lList).addObject("locate", locate).setViewName("house/houseMap");
 		
 		return mv;
 	}
