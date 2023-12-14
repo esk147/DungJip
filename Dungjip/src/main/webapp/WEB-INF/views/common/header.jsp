@@ -97,16 +97,23 @@
 	                       
 	                        <li class="dropdown ymm-sw" data-wow-delay="0.1s">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">
-									${loginUser.userName } 님 환영합니다! <b class="caret"></b>
+									<c:choose>
+										<c:when test="${not empty loginUser.userNickName }">
+											${loginUser.userNickName } 님 환영합니다! <b class="caret"></b>
+										</c:when>
+										<c:otherwise>
+											${loginUser.userName } 님 환영합니다! <b class="caret"></b>											
+										</c:otherwise>
+									</c:choose>
 								</a>
 								<ul class="dropdown-menu">
 								
 									<c:if test="${loginUser.userType == '관리자' }">
-										<li class="nav-item"><a class="nav-link" href="">관리자 페이지</a></li>
-										
+										<li class="nav-item"><a class="nav-link" href="">관리자 페이지</a></li>										
 									</c:if>
+									<c:if test="${loginUser.userType != '관리자' }">
 										<li class="nav-item"><a class="nav-link" href="myPage.me">마이페이지</a></li>
-										
+									</c:if>	
 								</ul>
 							</li>
 							

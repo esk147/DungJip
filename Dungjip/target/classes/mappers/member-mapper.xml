@@ -47,7 +47,7 @@
   			SELECT *
 			FROM MEMBER
 			WHERE USER_ID = #{userId}
-<!-- 			AND STATUS = 'Y' 		 -->
+ 			AND STATUS = 'Y'
   		</select>
     	
     	<select id="ajaxIdMethod" resultType="_int">
@@ -62,6 +62,7 @@
 			                    ,USER_ID
 			                    ,USER_PWD
 			                    ,USER_NAME
+			                    ,USER_NICKNAME
 			                    ,EMAIL
 			                    ,PHONE
 			                    ,AGE
@@ -74,6 +75,7 @@
 					,#{userId}
 					,#{userPwd}
 					,#{userName}
+					,#{userNickName}
 					,#{email}
 					,#{phone}
 					,#{age}

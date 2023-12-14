@@ -192,7 +192,7 @@ public class MemberController {
 		
 		if(insertUser > 0) { //성공 시 
 			
-			return "member/memberEnrollResult";
+			return "redirect:/esResult.es";
 			
 		}else {
 			model.addAttribute("errorMsg", "회원가입 실패");
