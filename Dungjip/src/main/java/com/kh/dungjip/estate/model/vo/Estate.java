@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Estate {
 
 	private int esNo;
-	private int userNo;
+	private int userNo;//회원번호
 	private String esName;
 	private String esCeo;
 	private String esPhone;
