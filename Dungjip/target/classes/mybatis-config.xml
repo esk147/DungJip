@@ -17,6 +17,5 @@
  
 		<typeAlias type="com.kh.dungjip.estate.model.vo.Estate"
 			alias="estate"/>
-
 	</typeAliases>
 </configuration>
