@@ -3,7 +3,9 @@ package com.kh.dungjip.member.model.server;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.member.model.dao.MemberDao;
 import com.kh.dungjip.member.model.vo.Member;
 
@@ -21,7 +23,7 @@ public class MemberServiceImpl implements MemberService{
 	public Member loginMember(Member m) {
 		// TODO Auto-generated method stub
 		Member loginMember = memberDao.loginMember(sqlSession, m);
-		System.out.println("serviceimple " + loginMember);
+		//System.out.println("serviceimple " + loginMember);
 		return memberDao.loginMember(sqlSession, m);
 	}
 	
@@ -40,6 +42,52 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDao.insertMember(sqlSession,m);
 	}
+
+
+	//회원가입 메소드 (사용자폼에추가)
+	@Override
+	public int esInsertMember(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.esInsertMember(sqlSession,m);
+	}
+
+	//아이디 중복 체크(중개인)
+	@Override
+	public int esajaxIdMethod(String userId) {
+		// TODO Auto-generated method stub
+		return memberDao.esajaxIdMethod(sqlSession,userId);
+	}
+
+	//번호 중복 체크(중개인)
+	@Override
+	public int exajaxphoneMethod(String phone) {
+		// TODO Auto-generated method stub
+		return memberDao.exajaxphoneMethod(sqlSession,phone);
+	}
+	
+	//회원가입 메소드 (중개인폼에추가)
+	@Override
+	public int insertEsMember(Estate e) {
+				
+		return memberDao.insertEsMember(sqlSession,e);
+	}
+
+
+	//userID를 이용하여 userNo 데려오기
+	@Override
+	public int userNum(String userId) {
+		// TODO Auto-generated method stub
+		return memberDao.userNum(sqlSession,userId);
+	}
+
+	//번호 중복 체크(임대인/임차인)
+	@Override
+	public int ajaxphoneMethod(String phone) {
+		// TODO Auto-generated method stub
+		return memberDao.ajaxphoneMethod(sqlSession,phone);
+	}
+
+
 
 	
 
