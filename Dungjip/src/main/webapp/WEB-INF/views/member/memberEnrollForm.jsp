@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>회원가입</title>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	
 	 
 	 
@@ -122,14 +123,62 @@
 				<div class="form-section">
 					<label for="email">이메일 *</label>  
 					<input type="text" class="form-control" id="email" name="email" placeholder="이메일 (example@example.kr)">
-					<span id="confirm3"></span>
+					
 				</div>
 	
 				<div class="form-section">
 					<label for="phone">전화번호 *</label> 
 					<input type="text" class="form-control" id="phone" name="phone" placeholder="'-'를 제외한 숫자 11자리로 작성해 주세요">
+					<span id="confirm3"></span>
 				</div>
 				
+				<div class="form-section">
+					<label for="age">나이</label> 
+					<input type="text" class="form-control" id="age" name="age" placeholder="나이">
+				</div>
+				
+				<div class="genderType">
+                    <label for="gender">성별</label>
+                    <div class="gender" style="display: flex; margin:0px -55px 0 0;">
+                        <div style="display:flex;">
+
+                            <input type="radio" id="F" value="F" name="gender" style="margin:0px -55px 0 0;" checked ><label for="F">여자</label>
+                        </div>
+                        <div style="display:flex;">
+
+                            <input type="radio" id="M" value="M" name="gender" style="margin:0px -55px 0 0;" ><label for="M">남자</label>
+                        </div>
+                            <br>
+                    </div>
+
+				</div>
+				
+				<!-- 주소 text 누르면 팝업까지 -->
+                <div class="form-section">
+                    <label for="esAddress">주소</label>
+                    <input type="text" class="form-control" id="address_kakao" name="esAddress" placeholder="주소(클릭해주세요.)" >
+                    <span class="placeholder"></span>
+                </div>         	
+				
+				<script type="text/javascript">
+				
+	               	    window.onload = function(){
+	               	        document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+	               	            
+	               	        	event.preventDefault(); // 링크의 기본 동작을 중지
+	               	        	//카카오 지도 발생
+	               	            new daum.Postcode({
+	               	                oncomplete: function(data) { //선택시 입력값 세팅
+	               	                    document.getElementById("address_kakao").value = data.address; 	// 주소 넣기
+	               	                    document.querySelector("input[name=esAddress]").focus(); //다음 임력 칸으로 포커싱
+	               	                }
+	               	            }).open();
+	               	        });
+	               	    }
+	               	    
+                 </script>
+				
+								
 				<div class="form-section">
 					<label for="upfile">프로필 사진 설정</label> 
 					<img id="titleImg" alt="" src="resources/img/person/person.jpg" style="width: 100px; height: 100px;">					
@@ -261,6 +310,61 @@
 				});
 			});
 					
+			//번호 중복 확인
+			var phonecheck = false;
+			var regexphone = /^\d{11}$/;
+
+            $(document).ready(function() {
+
+            	$("#phone").change(function() {
+            		
+					var checkph = $("#phone").val();
+					
+					if(!regexphone.test(checkph)) {
+						
+						$("#confirm3")
+						.html("'-'를 제외한 숫자 11자리로 작성해 주세요")
+						.css("color","red");
+						phone.focus();
+						phonecheck = false;
+						
+					}else{
+						
+						$.ajax({
+		        			url : "ajaxphone.do",
+		        			
+		        			data : {
+		        				phone : checkph,
+		        			},
+		        			
+		        			success : function(result) {
+		        				
+		        				console.log(result);
+		        				
+		        				if(result == '1') { //중복
+		        					$("#confirm3")
+									.html("해당 번호는 이미 존재함으로 사용하실수 없습니다.")
+									.css("color","red");
+		        					$("#phone").focus();
+									phonecheck = false;
+		        					
+		        				}else{ //사용가능
+		        					$("#confirm3")
+									.html("사용 가능한 번호입니다.")
+									.css("color","blue");
+		        					phonecheck = true;
+		        				}
+		        				
+		        			},error : function() {
+		        				
+		        				console.log("통신 오류");
+		        			}
+
+		        		});	
+					}
+					
+				});
+			});
 			
 			
 			function memberEnrollResult() {
@@ -273,7 +377,9 @@
 				var userNickName = $("userNickName").val();
 				var email = $("#email").val();
 				var phone = $("#phone").val();
-				
+				var age = $("#age").val();
+				var gender = $("#gender").val();
+				var address_kakao = $("#address_kakao").val();
 								
 				if (userId == null || userId == '') {
 					alert("ID를 입력하세요.");
@@ -282,21 +388,26 @@
 				}
 
 
-				if (userPassword == null || userPassword == '') {
+				if (userPwd == null || userPwd == '') {
 					alert("비밀번호를 입력하세요");
+					$("#userPwd").focus();
 					return false;
 					
 				} else {
 					
-					var regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,14}$/;
+					var regExp =  /^(?=.*[A-Za-z\d?!\s])[A-Za-z\d?!]{5,14}$/;
+					
+					console.log("비번이요~")
+					console.log(userPwd);
+					console.log("비번이요~")
 
-					if (!regExp.test(userPassword)) {
+					if (!regExp.test(userPwd)) {
 						alert("비밀번호는 4~15자리 영문 및 숫자 조합이어야 합니다.");
-						$("#checkPwd").focus();
+						$("#userPwd").focus();
 						return false;
 					}
 					
-					if (userPassword != userPasswordChk) {
+					if (userPwd != checkPwd) {
 						alert("비밀번호가 일치하지 않습니다.");
 						$("#checkPwd").focus();
 						return false;
