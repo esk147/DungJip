@@ -15,6 +15,7 @@ public class House {
 
 	private int houseNo;
 	private int housePrice;
+	private int houseRent;
 	private Double houseSquare;
 	private String houseStyle;
 	private String houseTitle;
