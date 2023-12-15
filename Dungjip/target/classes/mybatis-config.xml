@@ -9,7 +9,6 @@
 	</settings>
 
 	<typeAliases>
-<<<<<<< HEAD
 		<typeAlias type="com.kh.dungjip.notice.model.vo.Notice"
 			alias="notice" /> 
 		<typeAlias type="com.kh.dungjip.member.model.vo.Member" alias="member"/>
@@ -18,9 +17,7 @@
  
 		<typeAlias type="com.kh.dungjip.estate.model.vo.Estate"
 			alias="estate"/>
-=======
 		<!-- <typeAlias type="com.kh.spring.member.model.vo.Member"
 			alias="member" /> -->
->>>>>>> refs/remotes/origin/donghyeok
 	</typeAliases>
 </configuration>
