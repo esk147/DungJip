@@ -30,7 +30,10 @@
         <link rel="stylesheet" href="/dungjip/resources/assets/css/owl.transitions.css">
         <link rel="stylesheet" href="/dungjip/resources/assets/css/style.css">
         <link rel="stylesheet" href="/dungjip/resources/assets/css/responsive.css">
-       
+        
+		<noscript>
+        <link rel="stylesheet" type="text/css" href="/dungjip/resources/assets/css/styleNoJS.css" />
+        </noscript>
  
   </head>
   
@@ -53,7 +56,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href=""><img src="" alt=""><p>DungJip</p></a>
+                    <a class="navbar-brand" href="/dungjip"><img src="" alt=""><p>DungJip</p></a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -65,7 +68,7 @@
 	                <div class="collapse navbar-collapse yamm" id="navigation">
 	                    <div class="button navbar-right">
 	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="login.be"' data-wow-delay="0.4s">Login</button>
-	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='' data-wow-delay="0.5s">QnA</button>
+	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="enquiry.en"' data-wow-delay="0.5s">QnA</button>
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right">
 	                        <li class="dropdown ymm-sw " data-wow-delay="0.1s"><a href="villa.map" class="active">빌라</a></li>
@@ -83,7 +86,7 @@
                 	<div class="collapse navbar-collapse yamm" id="navigation">
 	                    <div class="button navbar-right">
 	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="logout.me"' data-wow-delay="0.4s">Logout</button>
-	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='' data-wow-delay="0.5s">QnA</button>
+	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="enquiry.en"' data-wow-delay="0.5s">QnA</button>
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right">
                  

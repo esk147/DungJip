@@ -1,5 +1,6 @@
 package com.kh.dungjip.member.model.server;
 
+import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.member.model.vo.Member;
 
 public interface MemberService {
@@ -10,8 +11,32 @@ public interface MemberService {
 	//아이디 중복체크 (임대인/임차인)
 	int ajaxIdMethod(String userId);
 
+	
 	//회원가입 메소드 (임대인/임차인)
 	int insertMember(Member m);
+
+	//회원가입 메소드 (사용자폼에추가)
+	int esInsertMember(Member m);
+
+	//아이디 중복체크(중개인)
+	int esajaxIdMethod(String userId);
+	
+	//번호 중복체크 (중개인)
+	int exajaxphoneMethod(String phone);
+	
+	//회원가입 메소드 (중개인폼추가)
+	int insertEsMember(Estate e);
+
+	//userId를 이용해서 uno 데이고오기
+	int userNum(String userId);
+
+	//번호 중복체크 (임대인/임차인)
+	int ajaxphoneMethod(String phone);
+
+
+	
+
+
 
 	
 

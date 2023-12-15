@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <title>Insert title here</title>
 <style>
       * {
@@ -87,11 +88,8 @@
 		$.ajax({
 			url:"select.location",
 			success: function(result){
-				console.log(result);
 				var str = "";
-				
 				for(var i = 0; i < result.length; i++){
-					console.log(result[i].houseAddress);
 					str += '<option value="'+result[i].houseAddress+'"/>'
 				}
 				$("#locations").html(str);
@@ -99,17 +97,31 @@
 				console.log("통신 에러");
 			}
 		})
+    
+		$("#goChat").click(function(){
+			location.href="websocket/ask";
+			
+			
+		});
 	</script>
 	<div class="search-bar">
       <div class="search-bar-title">어떤 집을 찾고 계세요?</div>
       <div class="search-bar-input">
-        <input type="text" list="locations" placeholder="검색어를 입력하세요" />
+        <input type="text" list="locations" id="locationInput" placeholder="검색어를 입력하세요" />
         <datalist id="locations">
         	
         </datalist>
-        <button>검색</button>
+        <button onclick="moveToMap();">검색</button>
       </div>
     </div>
+    
+    <script>
+    	function moveToMap(){
+        	const locationValue = document.getElementById('locationInput').value;
+
+        	location.href="villa.map?locate="+locationValue;
+    	}
+    </script>
 
     <div class="main-content">
       <div class="card">
@@ -120,11 +132,15 @@
         <p>광고 공간</p>
       </div>
       <div class="card">
+        <button>
+          <a href="websocket/ask?estateUserNo=4"><!-- 각 부동산의 사용자 순번을 넣을거다 --><!-- 부동산 상세페이지가 아직 구현이 안돼서 해두었습니다 -->
         <img
           src="https://placehold.co/200x200"
           alt="Placeholder image representing an advertisement"
         />
-        <p>광고 공간</p>
+      </a>
+      </button>
+        <p>채팅 임시 확인 버튼</p>
       </div>
       <div class="card">
         <img

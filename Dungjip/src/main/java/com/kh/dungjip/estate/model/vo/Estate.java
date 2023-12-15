@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
 public class Estate {
 
 	private int esNo;
-	private int userNo;
+	private int userNo;//회원번호
 	private String esName;
 	private String esCeo;
 	private String esPhone;
 	private String esNum;
-	private String esRegister;
+	private String esRegisterNum;
 	private String esAddress;
 	private String esContent;
 	private String esImage;
