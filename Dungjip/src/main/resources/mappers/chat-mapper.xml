@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="chatMapper">
+    
+    <resultMap id="chatRoomWithMembersMap" type="ChatRoom">
+    <id column="CHATROOM_NO" property="chatRoomNo"/>
+    <result column="CHATROOM_NAME" property="chatRoomName"/>
+    <result column="CHATROOM_CREATE" property="chatRoomCreate"/>
+    <result column="STATUS" property="status"/>
+    <collection property="members" ofType="member">
+        <id column="USER_NO" property="userNo"/>
+        <result column="USER_NAME" property="userName"/>
+    </collection>
+</resultMap>
+    
+    
+    <resultMap type="chatRoom" id="selectRoom">
+	    <result column="CHATROOM_NO" property="chatRoomNo"/>
+	    <result column="USER_NO" property="userNo"/>
+	    <result column="CHATROOM_NAME" property="chatRoomName"/>
+	    <result column="CHATROOM_CREATE" property="chatRoomCreate"/>
+	    <result column="STATUS" property="status"/>
+	    
+	    
+    </resultMap>    
+    
+  	
+  		<resultMap type="member" id="memberResultSet">
+  		
+  			<result column="USER_NO" property="userNo" />
+  			<result column="USER_TYPE" property="userType"/>
+  			<result column="USER_ID" property="userId"/>
+    		<result column="USER_PWD" property="userPwd"/>
+    		<result column="USER_NAME" property="userName"/>
+    		<result column="USER_NICKNAME" property="userNickName"/>
+    		<result column="AGE" property="age"/>
+    		<result column="GENDER" property="gender"/>
+    		<result column="EMAIL" property="email"/>
+    		<result column="PHONE" property="phone"/>
+    		<result column="ADDRESS" property="address"/>
+    		<result column="PREFER_LOCATION" property="preferLocation"/>
+    		<result column="PREFER_CHECK1" property="preferCheck1"/> 		
+    		<result column="PREFER_CHECK2" property="preferCheck2"/>
+    		<result column="PREFER_CHECK3" property="preferCheck3"/> 
+    		<result column="STATUS" property="status"/>
+    		<result column="ORIGIN_NAME" property="originName"/> 
+    		<result column="CHANGE_NAME" property="changeName"/>
+    	
+      </resultMap>
+      
+      <select id="alreadyUsedChatRoomCheck" parameterType="joinchat" resultType="_int">
+      SELECT COUNT(*)
+		FROM (
+		    SELECT CHATROOM_NO
+		    FROM JOINCHAT
+		    WHERE USER_NO IN (#{loginUserNo}, #{estateuserNo})
+		    GROUP BY CHATROOM_NO
+		    HAVING COUNT(DISTINCT USER_NO) = 2
+		)
+      
+      </select>
+      
+      
+      
+      <insert id="joinNowCreateChatRoom">
+      INSERT INTO JOINCHAT (CHATROOM_NO, USER_NO) 
+		VALUES (SEQ_CHATNO.CURRVAL, #{estateUserNo})
+      
+      </insert>
+
+		<insert id="nowCreateChatRoomMe">
+		INSERT INTO JOINCHAT (CHATROOM_NO, USER_NO)
+		  VALUES(SEQ_CHATNO.CURRVAL,#{loginUserNo})
+		</insert>
+      
+      <insert id="createChatRoom">
+      
+        INSERT INTO CHATROOM (CHATROOM_NO, USER_NO,CHATROOM_NAME,CHATROOM_CREATE,STATUS) 
+		VALUES (SEQ_CHATNO.NEXTVAL, #{loginUserNo},#{estateUserName},SYSDATE,'Y')
+     
+      </insert>
+      
+    
+    <select id="clickIndividualEstate" resultMap="memberResultSet">
+    
+    		SELECT *
+			FROM MEMBER
+			WHERE USER_NO = #{mno}
+			AND STATUS = 'Y' 	
+    
+    </select>
+    
+    <select id="chatRoomList" resultMap="chatRoomWithMembersMap">
+		SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME
+		FROM JOINCHAT J
+		JOIN CHATROOM C ON J.CHATROOM_NO = C.CHATROOM_NO
+		JOIN MEMBER M ON J.USER_NO = M.USER_NO
+		WHERE C.CHATROOM_NO IN (
+		    SELECT CHATROOM_NO
+		    FROM JOINCHAT
+		    WHERE USER_NO = #{userNo})
+		AND J.USER_NO != #{userNo}
+    </select>
+    
+    
+   <resultMap type="chatMessage" id="chatRoomMsg">
+   
+   <result column="CONTENT_MESSAGE" property="contentMessage"/>
+   <result column="CHATROOM_NO" property="chatRoomNo"/>
+   <result column="USER_NO" property="userNo"/>
+   <result column="USER_NAME" property="userName"/>
+   <result column="SENDMESSAGE_TIME" property="sendMessageTime"/>
+   <result column="READMESSAGE" property="readMessage"/>
+   <result column="STATUS" property="status"/>
+   
+   </resultMap> 
+    
+    
+    <select id="selectChatMsg" resultMap="chatRoomMsg">
+     SELECT CONTENT_MESSAGE
+            ,CHATROOM_NO
+            ,USER_NO
+            ,USER_NAME
+            ,SENDMESSAGE_TIME
+            ,READMESSAGE
+            ,C.STATUS
+    FROM CHATMESSAGE C
+    JOIN MEMBER USING(USER_NO)
+    WHERE CHATROOM_NO = ${cno}
+    ORDER BY SENDMESSAGE_TIME
+    </select>
+    
+	<insert id="updateChatRoomMsg">
+	
+	INSERT INTO CHATMESSAGE(CONTENT_MESSAGE
+							,CHATROOM_NO
+							,USER_NO
+							,SENDMESSAGE_TIME
+							,READMESSAGE,STATUS)
+	VALUES(#{contentMessage}
+			,#{chatRoomNo}
+			,#{userNo}
+			,SYSDATE
+			,1
+			,'Y')
+			
+	</insert>
+
+
+    </mapper>

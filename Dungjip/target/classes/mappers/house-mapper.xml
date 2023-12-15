@@ -8,6 +8,7 @@
 	<resultMap type="house" id="houseResultSet">
 		<result column="HOUSE_NO" property="houseNo" />
 		<result column="HOUSE_PRICE" property="housePrice" />
+		<result column="HOUSE_RENT" property="houseRent" />
 		<result column="HOUSE_SQUARE" property="houseSquare" />
 		<result column="HOUSE_STYLE" property="houseStyle" />
 		<result column="HOUSE_TITLE" property="houseTitle" />
@@ -22,12 +23,22 @@
 			property="houseBuildingFloor" />
 		<result column="STATUS" property="status" />
 	</resultMap>
+	
+	<resultMap type="houseImg" id="houseImgResultSet">
+		<result column="FILE_NO" property="fileNo"/>
+		<result column="HOUSE_NO" property="houseNo"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="UPLOAD_DATE" property="uploadDate"/>
+		<result column="STATUS" property="status"/>
+	</resultMap>
 
 	<insert id="insertHouseJSON" parameterType="house">
-		insert into house (HOUSE_NO, HOUSE_PRICE, HOUSE_SQUARE,
+		insert into house (HOUSE_NO, HOUSE_PRICE, HOUSE_RENT, HOUSE_SQUARE,
 		HOUSE_STYLE,HOUSE_TITLE,HOUSE_DETAILS,HOUSE_TYPE,HOUSE_LATITUDE,
 		HOUSE_LONGITUDE,HOUSE_UPLOAD_TIME,HOUSE_ADDRESS,HOUSE_FLOOR,HOUSE_BUILDING_FLOOR)
-		values (seq_hno.nextval, #{housePrice}, #{houseSquare}, #{houseStyle}, #{houseTitle}
+		values (seq_hno.nextval, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle}
 		, #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude}, #{houseUploadTime}, #{houseAddress}
 		, #{houseFloor}, #{houseBuildingFloor})
 	</insert>
@@ -37,7 +48,18 @@
 	</select>
 	
 	<select id="selectHouse" resultMap="houseResultSet">
-		select * from house
+		select * from house order by house_no
+	</select>
+	
+	<select id="selectHouseThumnail" resultMap="houseImgResultSet">
+		SELECT MIN(FILE_NO) AS FILE_NO,
+	    HOUSE_NO,
+	    MIN(ORIGIN_NAME) AS ORIGIN_NAME,
+	    MIN(CHANGE_NAME) AS CHANGE_NAME,
+	    MIN(UPLOAD_DATE) AS UPLOAD_DATE,
+	    MIN(STATUS) AS STATUS
+		FROM HOUSE_IMG
+		GROUP BY HOUSE_NO
 	</select>
 
 </mapper>

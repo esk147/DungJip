@@ -38,7 +38,8 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder; 	
 	
-	  @RequestMapping("login.be") public String loginMember () {
+	  @RequestMapping("login.be") 
+	  public String loginMember () {
 	  
 	  return "member/memberLoginForm"; 
 	  

@@ -139,6 +139,7 @@
 
         .listing img {
             height: 120px;
+            min-width: 180px;
             margin-right: 10px;
         }
 
@@ -553,7 +554,7 @@
         <div class="sidebar">
         <c:forEach var="home" items="${lList}" varStatus="status">
             <div class="listing" id="${home.houseNo }" onclick="detailHouse(this)">
-                <img src="https://placehold.co/200x150" alt="Placeholder for real estate image">
+                <img class="homeImg" src="${hImgList[status.index].changeName }" alt="Placeholder for real estate image">
                 <p>${home.houseTitle }</p>
             </div>
         </c:forEach>

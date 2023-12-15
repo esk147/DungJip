@@ -136,6 +136,7 @@
 										</c:otherwise>
 									</c:choose>
 							</a>
+
 								<ul class="dropdown-menu">
 									<c:choose>
 										<c:when test="${loginUser.userType == '관리자'}">

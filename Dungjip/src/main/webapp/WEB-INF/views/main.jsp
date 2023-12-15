@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <title>Insert title here</title>
 <style>
       * {
@@ -96,6 +97,12 @@
 				console.log("통신 에러");
 			}
 		})
+    
+		$("#goChat").click(function(){
+			location.href="websocket/ask";
+			
+			
+		});
 	</script>
 	<div class="search-bar">
       <div class="search-bar-title">어떤 집을 찾고 계세요?</div>
@@ -125,11 +132,15 @@
         <p>광고 공간</p>
       </div>
       <div class="card">
+        <button>
+          <a href="websocket/ask?estateUserNo=4"><!-- 각 부동산의 사용자 순번을 넣을거다 --><!-- 부동산 상세페이지가 아직 구현이 안돼서 해두었습니다 -->
         <img
           src="https://placehold.co/200x200"
           alt="Placeholder image representing an advertisement"
         />
-        <p>광고 공간</p>
+      </a>
+      </button>
+        <p>채팅 임시 확인 버튼</p>
       </div>
       <div class="card">
         <img
