@@ -22,6 +22,16 @@
 			property="houseBuildingFloor" />
 		<result column="STATUS" property="status" />
 	</resultMap>
+	
+	<resultMap type="houseImg" id="houseImgResultSet">
+		<result column="FILE_NO" property="fileNo"/>
+		<result column="HOUSE_NO" property="houseNo"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="UPLOAD_DATE" property="uploadDate"/>
+		<result column="STATUS" property="status"/>
+	</resultMap>
 
 	<insert id="insertHouseJSON" parameterType="house">
 		insert into house (HOUSE_NO, HOUSE_PRICE, HOUSE_SQUARE,
@@ -38,6 +48,17 @@
 	
 	<select id="selectHouse" resultMap="houseResultSet">
 		select * from house
+	</select>
+	
+	<select id="selectHouseThumnail" resultMap="houseImgResultSet">
+		SELECT MIN(FILE_NO) AS FILE_NO,
+	    HOUSE_NO,
+	    MIN(ORIGIN_NAME) AS ORIGIN_NAME,
+	    MIN(CHANGE_NAME) AS CHANGE_NAME,
+	    MIN(UPLOAD_DATE) AS UPLOAD_DATE,
+	    MIN(STATUS) AS STATUS
+		FROM HOUSE_IMG
+		GROUP BY HOUSE_NO
 	</select>
 
 </mapper>

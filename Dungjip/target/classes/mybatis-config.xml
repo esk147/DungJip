@@ -9,15 +9,22 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias type="com.kh.dungjip.notice.model.vo.Notice"
-			alias="notice" /> 
+		<typeAlias type="com.kh.dungjip.notice.model.vo.Notice" alias="notice" /> 
+		
 		<typeAlias type="com.kh.dungjip.member.model.vo.Member" alias="member"/>
 
-		<typeAlias type="com.kh.dungjip.house.model.vo.House" alias="house" />
+		<typeAlias type="com.kh.dungjip.house.model.vo.House" alias="house" /> 
+    
+		<typeAlias type="com.kh.dungjip.common.websocket.model.vo.ChatMessage" alias="chatMessage" /> 
 		
-		<typeAlias type="com.kh.dungjip.enquiry.model.vo.Enquiry" alias="enquiry" />  
- 
-		<typeAlias type="com.kh.dungjip.estate.model.vo.Estate"
-			alias="estate"/>
+		<typeAlias type="com.kh.dungjip.common.websocket.model.vo.ChatRoom" alias="chatRoom" /> 
+		
+		<typeAlias type="com.kh.dungjip.common.websocket.model.vo.JoinChat" alias="joinChat" /> 
+		 
+		<typeAlias type="com.kh.dungjip.estate.model.vo.Estate" alias="estate"/>
+		
+		<typeAlias type="com.kh.dungjip.house.model.vo.HouseImg" alias="houseImg" /> 
+		
+		<typeAlias type="com.kh.dungjip.enquiry.model.vo.Enquiry" alias="enquiry" /> 
 	</typeAliases>
 </configuration>
