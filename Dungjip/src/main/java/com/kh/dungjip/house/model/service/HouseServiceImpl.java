@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.dungjip.house.model.dao.HouseDao;
 import com.kh.dungjip.house.model.vo.House;
+import com.kh.dungjip.house.model.vo.HouseImg;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +35,11 @@ public class HouseServiceImpl implements HouseService{
 	@Override
 	public ArrayList<House> selectHouse() {
 		return houseDao.selectHouse(sqlSession);
+	}
+
+	@Override
+	public ArrayList<HouseImg> selectHouseThumnail() {
+		return houseDao.selectHouseThumnail(sqlSession);
 	}
 
 }

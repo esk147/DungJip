@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.dungjip.house.model.vo.House;
+import com.kh.dungjip.house.model.vo.HouseImg;
 import com.kh.dungjip.member.model.vo.Member;
 import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.Estate;
@@ -46,10 +47,7 @@ public class HouseController {
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(reader);
 		JSONObject jsonMain = (JSONObject) obj;
-		
-		System.out.println(jsonMain);
 		JSONArray jsonArr = (JSONArray) jsonMain.get("items");
-		System.out.println(jsonArr);
 		
 		ArrayList<House> hlist = new ArrayList<>();
 		
@@ -85,6 +83,7 @@ public class HouseController {
 		
 		int result = 1;
 		
+		int index = 1;
 		for(House house : hlist) {
 			int count = houseService.insertHouseJSON(house);
 			
@@ -92,8 +91,10 @@ public class HouseController {
 				session.setAttribute("alertMsg", "집 등록 실패");
 				return "common/errorPage";
 			}
+			
+			index++;
 		}
-
+		
 		session.setAttribute("alertMsg", "집 등록 성공");
 		return "main";
 		
@@ -104,6 +105,7 @@ public class HouseController {
 	@RequestMapping("select.location")
 	public ArrayList<House> selectLocation() {
 		ArrayList<House> lList = houseService.selectLocations();
+		ArrayList<HouseImg> hImgList = new ArrayList<>();
 		
 		return lList;
 	}
@@ -134,8 +136,9 @@ public class HouseController {
 	@RequestMapping("villa.map")
 	public ModelAndView villaMap(@RequestParam(value="locate", defaultValue="서울 영등포구 양평동4가 2") String locate,ModelAndView mv) {
 		ArrayList<House> lList = houseService.selectHouse();
+		ArrayList<HouseImg> hImgList = houseService.selectHouseThumnail();
 		
-		mv.addObject("lList", lList).addObject("locate", locate).setViewName("house/houseMap");
+		mv.addObject("lList", lList).addObject("locate", locate).addObject("hImgList", hImgList).setViewName("house/houseMap");
 		
 		return mv;
 	}
