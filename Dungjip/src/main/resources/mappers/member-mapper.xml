@@ -157,4 +157,27 @@
     		WHERE USER_ID = #{userId}   	
     	</select>
     	
+    	<select id="memberFindId" parameterType="member" resultMap="memberResultSet">
+    		SELECT *
+			FROM MEMBER 
+			WHERE USER_NAME = #{userName}
+			AND EMAIL = #{email}
+    	</select>
+    	
+    	<select id="memberFindPwd" resultType="_int">
+    		SELECT COUNT(*)
+			FROM MEMBER 
+			WHERE USER_NAME = #{userName}
+			AND EMAIL = #{email}
+			AND USER_ID = #{userId}
+    	</select>
+    	
+    	<update id="updateMemberPwd">
+    		UPDATE MEMBER
+    		SET USER_PWD = #{userPwd}
+    		WHERE USER_NAME = #{userName}
+			AND EMAIL = #{email}
+			AND USER_ID = #{userId}	    	
+    	</update>
+    	
     </mapper>
