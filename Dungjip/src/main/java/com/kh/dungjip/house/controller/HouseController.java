@@ -42,7 +42,7 @@ public class HouseController {
 	
 	@RequestMapping("insert.house")
 	public String insertHouse(HttpSession session) throws IOException, ParseException {
-		Reader reader = new FileReader("C:\\Users\\easyoh\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
+		Reader reader = new FileReader("C:\\Users\\82103\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
 			
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(reader);
