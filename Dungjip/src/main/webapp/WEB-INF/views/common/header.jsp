@@ -72,7 +72,7 @@
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right">
 	                        <li class="dropdown ymm-sw " data-wow-delay="0.1s"><a href="villa.map" class="active">빌라</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">투룸</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="insert.house">투룸</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">집내놓기</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a href="">Contact</a></li>
 	                    </ul>
