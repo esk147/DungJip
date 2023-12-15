@@ -299,26 +299,49 @@ aside ul::-webkit-scrollbar-track {
 				<input type="text" placeholder="search">
 			</header>
 			<ul>
+					<c:choose>
+		<c:when test="${not empty chatList}">
+		    <c:forEach items="${chatList}" var="chatRoom">
+		        <li>
+		            <div>
+		            <input type="hidden" name="cno" value="${chatRoom.chatRoomNo}">
+		            <!-- 각 채팅방의 멤버에 대해 루프를 돌면서 userName을 표시 -->
+		            <c:forEach items="${chatRoom.members}" var="member">
+		                <h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userName}</h2>
+		            </c:forEach>
+		            <h3>
+		                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="status orange"></span>
+		                offline
+		            </h3>
+		            </div>
+		        </li>
+		    </c:forEach>
+		</c:when>				
+		<c:otherwise>
 				
+				<h2 align="center">채팅방이 존재 하지 않습니다</h2>
 				
-				<h2 align="center" style="color: #bbb;">
-          채팅방이 존재 하지 않습니다
-          <br><br><br><br><br>
-     
-          <img src="../webapp/resources/img/chatImg/emptyChatRoom.png" height="300" alt="아 왜안보여">
-      
-        </h2>
-		
+				</c:otherwise>
+
+				</c:choose>
 				
 			</ul>
 		</aside>
 		<main>
 			<header>
 				<div>
-					<h2>하나부동산</h2>
-					<h3>언제나 항상 최고의 서비스를 보답합니다</h3>
-					<button onclick="connect();">접속</button>
-					<button onclick="disconnect();">해제</button>
+					<h2>${estate.userName }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<span class="status orange"></span>
+					offline
+					
+					</h2>
+					<button onclick="connect();">연결</button>
+					<button onclick="disconnect();">종료</button>
+					
+					<h3>
+					부동산 소개 들어갈 자리입니다
+					</h3>
+		
 				</div>
 			</header>
 			<ul id="chat">
@@ -339,6 +362,7 @@ aside ul::-webkit-scrollbar-track {
 </body>
 
 <script>
+
 $(document).keyup(function(event){
 	if(event.which ===13){//keyup 이벤트의 13번쨰가  엔터 키이다.
 		send();//13번째인 엔터키를 누르면 send(); 함수로 이동 /얄루얄루/
@@ -346,12 +370,34 @@ $(document).keyup(function(event){
 });
 
 var chatRoomNo; //전역변수 채팅방 설정. 웹소켓으로 보낼때 밑에서 클릭했을때 받아오는 채팅방 순번이 필요함(식별자)
+
+$(window).on('load',function(){//페이지가 로드 될때마다 실행되는 함수이다.
+	var firstLi = $('aside ul li:first');//현재 공인중개사와 상담하기를 누르면 만들어진 채팅방이 제일 상단에있다.
+	
+	firstLi.trigger('click');//강제로 클릭을 하게만든다.(이미 만들어진 채팅방을)
+	
+	firstLi.on('click',function(){//그럼 그걸 클릭할때 함수를 만들어준다
+		
+		chatRoomNo = $(this).find("input[name='cno']").val();//채팅방 리스트를 만들때 만들어둔 input hidden 으로 cno를 가져온다.
+		
+		
+	});
+	
+	
+	console.log(chatRoomNo);
+	
+	
+	
+});
+
+
 //-------------------------------왼쪽 채팅방 클릭했을때 이전 대화내역 나오는함수-------------------------------------------------------
    $(document).ready(function() {
 	   // 사이드바의 부동산을 클릭할 때
 	   $('aside ul li').click(function(){
 	     // 클릭된 부동산의 인덱스를 가져옵니다
 		chatRoomNo = $(this).find("input[name='cno']").val();//this는 li요소 find는 li 안에 있는 input[name='cno'] 이걸 가져온다
+		console.log(chatRoomNo);
 		
 		$.ajax({
 			url: "../websocket/selectChatMsg.ch",
@@ -365,7 +411,7 @@ var chatRoomNo; //전역변수 채팅방 설정. 웹소켓으로 보낼때 밑�
 				chatHtml += "<li class='me'>"+
 		        "<div class='entete'>" +
 		        "<h3>" + chatRoomMsg[i].sendMessageTime + "</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-		        "<h2>" + chatRoomMsg[i].userNickname + "</h2>" +
+		        "<h2>" + chatRoomMsg[i].userName + "</h2>" +
 		        "<span class='status blue'></span>" +
 		        "</div>" +
 		        "<div class='triangle'></div>" +
@@ -380,7 +426,7 @@ var chatRoomNo; //전역변수 채팅방 설정. 웹소켓으로 보낼때 밑�
 				  chatHtml += "<li class='you'>"+
 			        "<div class='entete'>" +
 			        "<h3>" + chatRoomMsg[i].sendMessageTime + "</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-			        "<h2>" + chatRoomMsg[i].userNickname + "</h2>" +
+			        "<h2>" + chatRoomMsg[i].userName + "</h2>" +
 			        "<span class='status blue'></span>" +
 			        "</div>" +
 			        "<div class='triangle'></div>" +
@@ -402,33 +448,35 @@ var chatRoomNo; //전역변수 채팅방 설정. 웹소켓으로 보낼때 밑�
 			}
 			
 		});
-
+	
 		
-		
-	     // 모든 채팅 숨기기
-	    // $('#chat li').hide();
-
-	     // 선택한 부동산의 채팅만 보이도록 설정
-	   //  $('#chat li').eq(index).show();
 	   });
 	 });
    //------------------------------------웹소켓------------------------------------------------------------------------
+  
 		//웹소켓 접속 함수 
 		var socket; //소켓담아놓을 변수 (접속과 종료 함수가 다르기 때문에 전역변수에 담아두고 사용한다)
 		
 		//연결함수(접속)
 		function connect(){
 			//접속경로를 담아 socket을 생성한다.
-			var url = "ws://localhost:9999/dungjip/ask";
+			
+			 console.log("url 집어넣기전 :"+chatRoomNo);
+			var url = "ws://192.168.150.140:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			socket = new WebSocket(url);
 			
+			
+			
 			//연결이 되었을때
-			socket.onopen = function(){
-				console.log("연결 성공");	
+			socket.onopen = function(event){
+				console.log("연결 성공");
+				console.log(url);
+		
 			};
 			//연결이 종료됐을때
 			socket.onclose = function(){
 				console.log("연결 종료");
+				
 			};
 			//에러가 발생했을때
 			socket.onerror = function(e){
@@ -446,7 +494,7 @@ var chatRoomNo; //전역변수 채팅방 설정. 웹소켓으로 보낼때 밑�
 			     chatHtml += "<li class='me'>"+
 			        "<div class='entete'>" +
 			        "<h3>" + message.date + "</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-			        "<h2>" + message.userNickName + "</h2>" +
+			        "<h2>" + message.userName + "</h2>" +
 			        "<span class='status blue'></span>" +
 			        "</div>" +
 			        "<div class='triangle'></div>" +
@@ -460,7 +508,7 @@ var chatRoomNo; //전역변수 채팅방 설정. 웹소켓으로 보낼때 밑�
 						  chatHtml += "<li class='you'>"+
 					        "<div class='entete'>" +
 					        "<h3>" + message.date + "</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-					        "<h2>" + message.userNickName + "</h2>" +
+					        "<h2>" + message.userName + "</h2>" +
 					        "<span class='status blue'></span>" +
 					        "</div>" +
 					        "<div class='triangle'></div>" +
@@ -478,9 +526,12 @@ var chatRoomNo; //전역변수 채팅방 설정. 웹소켓으로 보낼때 밑�
 		function disconnect(){
 			socket.close();//소켓 닫기 
 		}
+		
 		//메세지 전송
-		function send(){
 
+
+	
+		function send(){
 		var text = $("#sendChat").val();
 		var data={
 				cno : chatRoomNo,

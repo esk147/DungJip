@@ -7,13 +7,20 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.dungjip.common.websocket.model.vo.ChatMessage;
 import com.kh.dungjip.common.websocket.model.vo.ChatRoom;
+import com.kh.dungjip.common.websocket.model.vo.JoinChat;
+import com.kh.dungjip.member.model.vo.Member;
 @Repository
 public class ChatDao {
+
+	public Member clickIndividualEstate(SqlSessionTemplate sqlSession, int mno) {
+
+		return (Member)sqlSession.selectOne("chatMapper.clickIndividualEstate", mno);
+	}
 
 	public ArrayList<ChatRoom> chatRoomList(SqlSessionTemplate sqlSession, int userNo) {//채팅방 리스트
 		
 
-		return (ArrayList)sqlSession.selectList("chatMapper.chatRoomList", userNo);
+		 return new ArrayList<>(sqlSession.selectList("chatRoomList", userNo));
 	}
 
 	public ArrayList<ChatMessage> selectChatMsg(SqlSessionTemplate sqlSession, int cno) {//이전 대화 불러오는 기능
@@ -26,6 +33,27 @@ public class ChatDao {
 
 		return sqlSession.insert("chatMapper.updateChatRoomMsg",c);
 	}
+
+	public int createChatRoom(SqlSessionTemplate sqlSession, JoinChat createRoom) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("chatMapper.createChatRoom", createRoom);
+	}
+	public int nowCreateChatRoomMe(SqlSessionTemplate sqlSession, int loginUserNo) {
+
+		return sqlSession.insert("chatMapper.nowCreateChatRoomMe",loginUserNo);
+	}
+	public int joinNowCreateChatRoom(SqlSessionTemplate sqlSession, int estateUserNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("chatMapper.joinNowCreateChatRoom",estateUserNo);
+	}
+	public int alreadyUsedChatRoomCheck(SqlSessionTemplate sqlSession, JoinChat c) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("chatMapper.alreadyUsedChatRoomCheck", c);
+	}
+
+
+
+
 
 
 

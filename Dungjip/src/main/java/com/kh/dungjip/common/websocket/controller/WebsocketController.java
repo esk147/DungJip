@@ -15,48 +15,69 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kh.dungjip.common.websocket.model.service.ChatService;
 import com.kh.dungjip.common.websocket.model.vo.ChatMessage;
 import com.kh.dungjip.common.websocket.model.vo.ChatRoom;
+import com.kh.dungjip.common.websocket.model.vo.JoinChat;
 //import com.kh.dungjip.common.websocket.model.service.ChatService;
 import com.kh.dungjip.member.model.vo.Member;
-
 
 @Controller
 @RequestMapping("/websocket")
 public class WebsocketController {
-	
+
 	@Autowired
 	private ChatService chatService;
-	
+
 	@GetMapping("/ask")
-	public String ask(HttpSession session, int mno, Model m) {
-		
-		
+	public String ask(HttpSession session, int estateUserNo, Model m) {
+		// 이제 채팅창이 중복안되게 loginUserNo랑 estateUserNo랑 만들어진 채팅방이 있을때 바로 return값으로 넘아가게 하자
 
-		
-		Member loginUser = new Member(2,"1","admin","1234","장재순","재혁짱","26","M","asd@na.com","010-3934-2457", "서울시","Y");
-		session.setAttribute("loginUser", loginUser);
+		// 현재 채팅방의 공인중개사 정보 띄우기
+		Member estate = chatService.clickIndividualEstate(estateUserNo);// 현재 클릭한 공인중개사의 userNo를 가지고 공인중개사의 정보를 가지고온다.
+		m.addAttribute("estate", estate);// ask.jsp에 넘겨줌
 
-		int userNo = loginUser.getUserNo();
+		Member loginUser = (Member) session.getAttribute("loginUser");// 현재 세션에 저장되어있는 loginUser의 정보를 가지고온다.
 
-		
-			ArrayList<ChatRoom> chatList = chatService.chatRoomList(userNo);
+		int loginUserNo = loginUser.getUserNo();
 
-			m.addAttribute("chatList", chatList);
-			
+		String estateUserName = estate.getUserName();
+
+		JoinChat createRoom = new JoinChat(loginUserNo, estateUserName);// 채팅방을 만들 유저의 넘버와 채팅방의 이름을 설정
+
+		JoinChat c = new JoinChat(loginUserNo, estateUserNo);
+		// chatService.alreadyUsedChatRoomCheck//채팅방이 이미 존재하면 안만들어지게 한다.
+
+		int count = chatService.alreadyUsedChatRoomCheck(c);
+
+		if (count == 0 && loginUserNo != estateUserNo) {//기존에 존재하지 않는 채팅방이면 만들고 존재 하면 if문을 채팅방을 생성하지 말거라
+
+			int createChatRoom = chatService.createChatRoom(createRoom);// 유저가 채팅방을 만든다
+
+			if (createChatRoom > 0) {
+
+				int nowCreateChatRoomMe = chatService.nowCreateChatRoomMe(loginUserNo);// 유저가 방금만든채팅방에 들어간다
+
+				if (nowCreateChatRoomMe > 0) {
+
+					chatService.joinNowCreateChatRoom(estateUserNo);// 상대유저가 유저가 만든 채팅방에 들어간다
+
+				}
+			}
+		}
+		ArrayList<ChatRoom> chatList = chatService.chatRoomList(loginUserNo);// 현재 유저가 채팅하고있는 방의 리스트를 가지고온다.
+		System.out.println(chatList);
+
+		m.addAttribute("chatList", chatList);
+
 		return "websocket/ask";
 	}
-	@ResponseBody
-	@PostMapping(value="/selectChatMsg.ch",produces = "application/json; charset=UTF-8")
-	public ArrayList<ChatMessage> selectChatMsg(int cno,Model m) {
-		
-	ArrayList<ChatMessage> chatMsg=	chatService.selectChatMsg(cno);
-	
-	System.out.println(chatMsg);
-	
-	return chatMsg;
-	
-		
-	}
-	
 
-	
+	@ResponseBody
+	@PostMapping(value = "/selectChatMsg.ch", produces = "application/json; charset=UTF-8")
+	public ArrayList<ChatMessage> selectChatMsg(int cno, Model m) {
+
+		ArrayList<ChatMessage> chatMsg = chatService.selectChatMsg(cno);
+
+		return chatMsg;
+
+	}
+
 }

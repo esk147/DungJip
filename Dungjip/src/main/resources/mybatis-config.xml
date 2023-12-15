@@ -16,6 +16,8 @@
 		<typeAlias type="com.kh.dungjip.common.websocket.model.vo.ChatMessage" alias="chatMessage" /> 
 		
 		<typeAlias type="com.kh.dungjip.common.websocket.model.vo.ChatRoom" alias="chatRoom" /> 
+		
+		<typeAlias type="com.kh.dungjip.common.websocket.model.vo.JoinChat" alias="joinChat" /> 
 		 
 
 		<typeAlias type="com.kh.dungjip.estate.model.vo.Estate" alias="estate"/>

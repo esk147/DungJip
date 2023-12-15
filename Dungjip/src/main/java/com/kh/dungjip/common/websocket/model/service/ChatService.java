@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import com.kh.dungjip.common.websocket.model.vo.ChatMessage;
 import com.kh.dungjip.common.websocket.model.vo.ChatRoom;
+import com.kh.dungjip.common.websocket.model.vo.JoinChat;
+import com.kh.dungjip.member.model.vo.Member;
 
 public interface ChatService {
 	ArrayList<ChatRoom> chatRoomList(int userNo);//채팅방 리스트
@@ -13,6 +15,17 @@ public interface ChatService {
 
 	int updateChatRoomMsg(ChatMessage c);
 
+	Member clickIndividualEstate(int mno);
+
+	int createChatRoom(JoinChat createRoom);//로그인유저가 방을 만들고 
+
+	int joinNowCreateChatRoom(int estateUserNo);//바로 대상자 조인
+
+	int nowCreateChatRoomMe(int loginUserNo);
+
+	int alreadyUsedChatRoomCheck(JoinChat c);
+
+	
 
 
 }
