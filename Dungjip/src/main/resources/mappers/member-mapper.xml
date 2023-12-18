@@ -47,7 +47,7 @@
   			SELECT *
 			FROM MEMBER
 			WHERE USER_ID = #{userId}
-<!-- 			AND STATUS = 'Y' 		 -->
+ 			AND STATUS = 'Y'
   		</select>
     	
     	<select id="ajaxIdMethod" resultType="_int">
@@ -62,6 +62,7 @@
 			                    ,USER_ID
 			                    ,USER_PWD
 			                    ,USER_NAME
+			                    ,USER_NICKNAME
 			                    ,EMAIL
 			                    ,PHONE
 			                    ,AGE
@@ -74,6 +75,7 @@
 					,#{userId}
 					,#{userPwd}
 					,#{userName}
+					,#{userNickName}
 					,#{email}
 					,#{phone}
 					,#{age}
@@ -180,5 +182,28 @@
     		FROM MEMBER
     		WHERE USER_ID = #{userId}   	
     	</select>
+    	
+    	<select id="memberFindId" parameterType="member" resultMap="memberResultSet">
+    		SELECT *
+			FROM MEMBER 
+			WHERE USER_NAME = #{userName}
+			AND EMAIL = #{email}
+    	</select>
+    	
+    	<select id="memberFindPwd" resultType="_int">
+    		SELECT COUNT(*)
+			FROM MEMBER 
+			WHERE USER_NAME = #{userName}
+			AND EMAIL = #{email}
+			AND USER_ID = #{userId}
+    	</select>
+    	
+    	<update id="updateMemberPwd">
+    		UPDATE MEMBER
+    		SET USER_PWD = #{userPwd}
+    		WHERE USER_NAME = #{userName}
+			AND EMAIL = #{email}
+			AND USER_ID = #{userId}	    	
+    	</update>
     	
     </mapper>

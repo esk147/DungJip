@@ -175,8 +175,8 @@
             <label for="default-checkbox3">이용 약관에 모두 동의합니다.</label>
         </div>
        
-        <div class="btn-area">
-            <button class="btn" id="memberEnrollNext">가입하기</button>
+        <div class="btn-area" id="memberEnrollNext">
+            <button class="btn" >가입하기</button>
         </div>
         
     </div>
@@ -186,10 +186,22 @@
     
     	$(function() {
     		
+    		var toggle = false; //체크 상태를 나타내는 변수
+    		
+    		
     		//전체동의 클릭 시 전부 체크
     		$("#default-checkbox3").on("click",function() {
-    			console.log("클릭했다");
-    			$("#default-checkbox1, #default-checkbox2").prop("checked",true);
+    			
+    			toggle = !toggle; //클릭할 때마다 상태 변경
+    			
+    			//console.log("클릭했다");
+    			
+    			if(toggle) { //한번 클릭 시 
+    				$("#default-checkbox1, #default-checkbox2").prop("checked",true);
+    			}else{ //또 한번 클릭 시
+    				$("#default-checkbox1, #default-checkbox2").prop("checked",false);
+    			}  			
+    			
     		});
     		
     		//전체동의 되지 않은 상태로 회원가입 버튼 클릭 시 페이지 이동 막기 
