@@ -1,18 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.kh.dungjip.member.model.vo.Member"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DungJip Header</title>
-    
-    <script
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DungJip Header</title>
+
+<script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	
     
      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/dungjip/resources/assets/css/normalize.css">
@@ -100,16 +99,28 @@
 	                       
 	                        <li class="dropdown ymm-sw" data-wow-delay="0.1s">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">
-									${loginUser.userName } 님 환영합니다! <b class="caret"></b>
+									<c:choose>
+										<c:when test="${not empty loginUser.userNickName }">
+											${loginUser.userNickName } 님 환영합니다! <b class="caret"></b>
+										</c:when>
+										<c:otherwise>
+											${loginUser.userName } 님 환영합니다! <b class="caret"></b>
+										</c:otherwise>
+									</c:choose>
 								</a>
 								<ul class="dropdown-menu">
-								
-									<c:if test="${loginUser.userType == '관리자' }">
-										<li class="nav-item"><a class="nav-link" href="">관리자 페이지</a></li>
-										
-									</c:if>
-										<li class="nav-item"><a class="nav-link" href="myPage.me">마이페이지</a></li>
-										
+									<c:choose>
+										<c:when test="${loginUser.userType == '관리자'}">
+											<li class="nav-item"><a class="nav-link" href="">관리자 페이지</a></li>
+										</c:when>
+										<c:when test="${loginUser.userType == '중개인'}">
+											<li class="nav-item"><a class="nav-link" href="myPage.me">중개인 페이지</a></li>
+										</c:when>
+										<c:otherwise>
+											<!-- 기본적으로는 마이 페이지가 나타나도록 설정 -->
+											<li class="nav-item"><a class="nav-link" href="myPage.me">마이 페이지</a></li>
+										</c:otherwise>
+									</c:choose>
 								</ul>
 							</li>
 							
