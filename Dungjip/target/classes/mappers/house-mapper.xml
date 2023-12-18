@@ -58,8 +58,8 @@
 		select DISTINCT house_address from house
 	</select>
 	
-	<select id="selectHouse" resultMap="houseResultSet">
-		select * from house order by house_no
+	<select id="selectHouse" parameterType="string" resultMap="houseResultSet">
+		select * from house where house_type = #{type} order by house_no
 	</select>
 	
 	<select id="selectHouseThumnail" resultMap="houseImgResultSet">

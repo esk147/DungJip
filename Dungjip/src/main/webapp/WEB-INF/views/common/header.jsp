@@ -71,10 +71,10 @@
 	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="enquiry.en"' data-wow-delay="0.5s">QnA</button>
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right">
-	                        <li class="dropdown ymm-sw " data-wow-delay="0.1s"><a href="villa.map" class="active">빌라</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">투룸</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">집내놓기</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a href="">Contact</a></li>
+	                        <li class="dropdown ymm-sw " data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">빌라</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">원룸</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">오피스텔</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">집내놓기</a></li>
 	                    </ul>
 	                </div>  
 	                  
@@ -90,10 +90,10 @@
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right">
                  
-	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a href="villa.map" class="active">빌라</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">투룸</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">집내놓기</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a href="">Contact</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">빌라</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">원룸</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">오피스텔</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">집내놓기</a></li>
 	                       
 	                        <li class="dropdown ymm-sw" data-wow-delay="0.1s">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">
@@ -118,6 +118,14 @@
                 
             </div><!-- /.container-fluid -->
         </nav>
+        
+        <script>
+        	function clickVilla(e){
+				var villa = e.text;
+				console.log(villa);
+				location.href="villa.map?type="+villa;
+        	}
+        </script>
        
   
         <script src="/dungjip/resources/assets/js/modernizr-2.6.2.min.js"></script>

@@ -147,8 +147,8 @@ public class HouseController {
 	
 	//집 리스트
 	@RequestMapping("villa.map")
-	public ModelAndView villaMap(@RequestParam(value="locate", defaultValue="서울 영등포구 양평동4가 2") String locate,ModelAndView mv) {
-		ArrayList<House> lList = houseService.selectHouse();
+	public ModelAndView villaMap(@RequestParam(value="locate", defaultValue="서울 영등포구 양평동4가 2") String locate, String type, ModelAndView mv) {
+		ArrayList<House> lList = houseService.selectHouse(type);
 		ArrayList<HouseImg> hImgList = houseService.selectHouseThumnail();
 		
 		mv.addObject("lList", lList).addObject("locate", locate).addObject("hImgList", hImgList).setViewName("house/houseMap");
