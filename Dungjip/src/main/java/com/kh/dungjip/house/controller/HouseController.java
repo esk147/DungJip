@@ -151,7 +151,7 @@ public class HouseController {
 		ArrayList<House> lList = houseService.selectHouse(type);
 		ArrayList<HouseImg> hImgList = houseService.selectHouseThumnail();
 		
-		mv.addObject("lList", lList).addObject("locate", locate).addObject("hImgList", hImgList).setViewName("house/houseMap");
+		mv.addObject("lList", lList).addObject("locate", locate).addObject("hImgList", hImgList).addObject("type",type).setViewName("house/houseMap");
 		
 		return mv;
 	}
