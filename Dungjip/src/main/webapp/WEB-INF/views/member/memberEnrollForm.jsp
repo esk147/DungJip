@@ -117,7 +117,7 @@
 			
 				<div class="form-section">
 					<label for="userNickName">닉네임</label> 
-					<input type="text" class="form-control" id="userNickname" name="userNickname" placeholder="닉네임">				
+					<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="닉네임">				
 				</div>
 	
 				<div class="form-section">
@@ -374,7 +374,7 @@
 				var userPwd = $("#userPwd").val();
 				var checkPwd = $("#checkPwd").val();
 				var userName = $("#userName").val();
-				var userNickName = $("userNickName").val();
+				var userNickName = $("#userNickName").val();
 				var email = $("#email").val();
 				var phone = $("#phone").val();
 				var age = $("#age").val();
