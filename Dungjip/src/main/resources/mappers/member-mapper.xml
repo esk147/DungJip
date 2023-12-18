@@ -85,6 +85,32 @@
 					,#{changeName}) 
   		</insert>
   		
+  		<select id="selectMemberList" parameterType="member" resultMap="memberResultSet">
+  			SELECT *
+			FROM MEMBER 		
+			ORDER BY USER_NO
+  		</select>
+  		
+  		<select id="getNoticeByNo" resultType="member" resultMap="memberResultSet">
+  			SELECT *
+  			FROM MEMBER
+  			WHERE USER_NO = #{userNo}
+  		</select>
+  		
+  		<update id="banMember" parameterType="member">
+  			UPDATE MEMBER
+  			SET STATUS = 'N'
+  			WHERE USER_NO = #{userNo}
+  			AND STATUS = 'Y'
+  		</update>
+  		
+  		<update id="permitMember" parameterType="member">
+  			UPDATE MEMBER
+  			SET STATUS = 'Y'
+  			WHERE USER_NO = #{userNo}
+  			AND STATUS = 'N'
+  		</update>
+  		
   		<insert id="esInsertMember" parameterType="member">
   			INSERT INTO MEMBER (USER_NO
   								,USER_TYPE                    
