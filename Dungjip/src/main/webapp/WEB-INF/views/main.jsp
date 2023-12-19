@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <title>Insert title here</title>
 <style>
       * {
@@ -16,12 +17,13 @@
       }
 
       .search-bar {
-        background: url("https://placehold.co/1400x300") no-repeat center center;
+        background: url("https://placehold.co/1400x460") no-repeat center center;
         background-size: cover;
         display: flex;
+        align-items: center;
         justify-content: center;
         flex-direction: column;
-        height: 400px;
+        height: 460px;
         padding: 20px;
         text-align: center;
         color: #fff;
@@ -30,7 +32,7 @@
       .search-bar-title {
         font-size: 40px;
         font-weight: bold;
-        margin-bottom: 40px;
+        margin-bottom: 72px;
       }
 
       .search-bar-input {
@@ -79,6 +81,39 @@
         height: auto;
       }
 
+		#menu {
+			width: 640px;
+            display: flex;
+            justify-content: space-around;
+            background-color: #cca427;
+            padding: 0;
+            list-style-type: none;
+            margin: 0 0 20px 0;
+            border-radius: 10px;
+            opacity : 0.9;
+            overflow: hidden;
+        }
+        #menu li {
+            color: white;
+            display: block;
+            font-size: 18px;
+            text-align: center;
+            padding: 8px 85.79px;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        #menu li:hover {
+            background-color: #cca427;
+        }
+        #menu li.active {
+            background-color: #fff;
+            color: #cca427;
+            border-radius: 10px;
+            font-weight: 800;
+        }
+
     </style>
 </head>
 <body>
@@ -96,9 +131,20 @@
 				console.log("통신 에러");
 			}
 		})
+    
+		$("#goChat").click(function(){
+			location.href="websocket/ask";
+			
+			
+		});
 	</script>
 	<div class="search-bar">
       <div class="search-bar-title">어떤 집을 찾고 계세요?</div>
+      <ul id="menu">
+        <li class="active">원룸</li>
+        <li>빌라</li>
+        <li>오피스텔</li>
+    </ul>
       <div class="search-bar-input">
         <input type="text" list="locations" id="locationInput" placeholder="검색어를 입력하세요" />
         <datalist id="locations">
@@ -109,10 +155,38 @@
     </div>
     
     <script>
+        // Get all the menu items
+        var menuItems = document.querySelectorAll('#menu li');
+
+        // Function to remove the active class from all items
+        function removeActiveClasses() {
+            menuItems.forEach(function(item) {
+                item.classList.remove('active');
+            });
+        }
+
+        // Function to add active class to the clicked item
+        function setActiveClass(clickedItem) {
+            removeActiveClasses();
+            clickedItem.classList.add('active');
+        }
+
+        // Add click event to all menu items
+        menuItems.forEach(function(item) {
+            item.addEventListener('click', function() {
+                setActiveClass(item);
+            });
+        });
+    </script>
+    
+    <script>
     	function moveToMap(){
         	const locationValue = document.getElementById('locationInput').value;
+        	const activeMenuItem = document.querySelector('#menu li.active');
+            // 선택된 메뉴 항목의 텍스트 값 가져오기
+            const type = activeMenuItem.textContent.trim();
 
-        	location.href="villa.map?locate="+locationValue;
+        	location.href="villa.map?type="+type+"&locate="+locationValue;
     	}
     </script>
 
@@ -125,11 +199,15 @@
         <p>광고 공간</p>
       </div>
       <div class="card">
+        <button>
+          <a href="websocket/ask?estateUserNo=4"><!-- 각 부동산의 사용자 순번을 넣을거다 --><!-- 부동산 상세페이지가 아직 구현이 안돼서 해두었습니다 -->
         <img
           src="https://placehold.co/200x200"
           alt="Placeholder image representing an advertisement"
         />
-        <p>광고 공간</p>
+      </a>
+      </button>
+        <p>채팅 임시 확인 버튼</p>
       </div>
       <div class="card">
         <img

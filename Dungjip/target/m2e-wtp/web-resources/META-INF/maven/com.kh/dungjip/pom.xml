@@ -260,6 +260,13 @@
 		    <version>2.12.3</version>
 		</dependency>
 		
+		<!-- 비밀번호 찾을 시 임시발급 받을 랜덤값 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.0</version>
+		</dependency>
+		
 	</dependencies>
 	
     <build>

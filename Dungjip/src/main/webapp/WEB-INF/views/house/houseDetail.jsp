@@ -241,7 +241,9 @@
                 </div>
                 <div class="col-xs-8 col-sm-8">
                     <h3 class="dealer-name">
-                        <a style="font-size: 14px;">${estate.esName}</a> 
+                        <a style="font-size: 16px;">${estate.esName}</a> 
+                        <br>
+                        <a style="font-size: 14px; color:white;" >${estate.esIntro}</a>
                     </h3>
                 </div>
             </div>

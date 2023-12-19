@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.dungjip.house.model.vo.House;
+import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.member.model.vo.Member;
 import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.house.model.service.HouseService;
@@ -41,15 +44,14 @@ public class HouseController {
 	
 	@RequestMapping("insert.house")
 	public String insertHouse(HttpSession session) throws IOException, ParseException {
+
 		Reader reader = new FileReader("C:\\Users\\easyoh\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
+
 			
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(reader);
 		JSONObject jsonMain = (JSONObject) obj;
-		
-		System.out.println(jsonMain);
 		JSONArray jsonArr = (JSONArray) jsonMain.get("items");
-		System.out.println(jsonArr);
 		
 		ArrayList<House> hlist = new ArrayList<>();
 		
@@ -59,13 +61,18 @@ public class HouseController {
 			JSONObject location = (JSONObject) object.get("random_location");
 			
 			String isoDate = String.valueOf(object.get("reg_date"));
+			String buildDate = String.valueOf(object.get("build_date"));
 			ZonedDateTime zonedDateTime = ZonedDateTime.parse(isoDate, DateTimeFormatter.ISO_DATE_TIME);
+			ZonedDateTime zonedBuildDateTime = ZonedDateTime.parse(buildDate, DateTimeFormatter.ISO_DATE_TIME);
 			LocalDateTime localDateTime = zonedDateTime.toLocalDateTime();
+			LocalDateTime localBuildDateTime = zonedBuildDateTime.toLocalDateTime();
 			
 			Date sqlDate = Date.valueOf(localDateTime.toLocalDate());
+			Date sqlBuildDate = Date.valueOf(localBuildDateTime.toLocalDate());
 			
 			House house = House.builder()
 											.housePrice(Integer.parseInt(String.valueOf(object.get("deposit"))))
+											.houseRent(Integer.parseInt(String.valueOf(object.get("rent"))))
 											.houseSquare(Double.parseDouble(String.valueOf(sqrtP.get("p"))))
 											.houseStyle((String)object.get("sales_type"))
 											.houseTitle((String)object.get("title"))
@@ -77,12 +84,21 @@ public class HouseController {
 											.houseAddress((String)object.get("address1"))
 											.houseFloor(Integer.parseInt(String.valueOf(object.get("floor"))))
 											.houseBuildingFloor(Integer.parseInt(String.valueOf(object.get("building_floor"))))
+											.houseToilet(Integer.parseInt(String.valueOf(object.get("toilet"))))
+											.houseRooms(Integer.parseInt(String.valueOf(object.get("rooms"))))
+											.houseParkAble(Integer.parseInt(String.valueOf(object.get("park_able"))))
+											.houseBalcony((String)object.get("balcony"))
+											.houseMaintainCost(Integer.parseInt(String.valueOf(object.get("maintain_cost"))))
+											.houseDoItNow((String)object.get("doItNow"))
+											.houseBuildDate(sqlBuildDate)
+											.houseAnimals((String)object.get("animals"))
 											.build();
 			hlist.add(house);
 		}
 		
 		int result = 1;
 		
+		int index = 1;
 		for(House house : hlist) {
 			int count = houseService.insertHouseJSON(house);
 			
@@ -90,8 +106,10 @@ public class HouseController {
 				session.setAttribute("alertMsg", "집 등록 실패");
 				return "common/errorPage";
 			}
+			
+			index++;
 		}
-
+		
 		session.setAttribute("alertMsg", "집 등록 성공");
 		return "main";
 		
@@ -102,6 +120,7 @@ public class HouseController {
 	@RequestMapping("select.location")
 	public ArrayList<House> selectLocation() {
 		ArrayList<House> lList = houseService.selectLocations();
+		ArrayList<HouseImg> hImgList = new ArrayList<>();
 		
 		return lList;
 	}
@@ -123,16 +142,16 @@ public class HouseController {
 		Jjim jjim = Jjim.builder().houseNo(houseNo).userNo(loginUser.getUserNo()).build();
 		Jjim jj = houseService.selectJjim(jjim);
 		model.addAttribute("jj",jj);
-		
 		return "house/houseDetail";
 	}
 	
 	//집 리스트
 	@RequestMapping("villa.map")
-	public ModelAndView villaMap(@RequestParam(value="locate", defaultValue="서울 영등포구 양평동4가 2") String locate,ModelAndView mv) {
-		ArrayList<House> lList = houseService.selectHouse();
+	public ModelAndView villaMap(@RequestParam(value="locate", defaultValue="서울 영등포구 양평동4가 2") String locate, String type, ModelAndView mv) {
+		ArrayList<House> lList = houseService.selectHouse(type);
+		ArrayList<HouseImg> hImgList = houseService.selectHouseThumnail();
 		
-		mv.addObject("lList", lList).addObject("locate", locate).setViewName("house/houseMap");
+		mv.addObject("lList", lList).addObject("locate", locate).addObject("hImgList", hImgList).addObject("type",type).setViewName("house/houseMap");
 		
 		return mv;
 	}
