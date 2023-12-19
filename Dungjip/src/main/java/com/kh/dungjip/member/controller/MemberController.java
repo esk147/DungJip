@@ -1,6 +1,7 @@
 package com.kh.dungjip.member.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -23,8 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.dungjip.estate.model.vo.Estate;
-import com.kh.dungjip.member.model.server.MemberService;
+import com.kh.dungjip.member.model.service.MemberService;
 import com.kh.dungjip.member.model.vo.Member;
+
 
 @Controller
 public class MemberController {
@@ -40,7 +43,7 @@ public class MemberController {
 	  
 	  return "member/memberLoginForm"; 
 	  
-	  }
+	}
 	 	
 	//로그인 
 	@RequestMapping("login.me")
@@ -127,6 +130,86 @@ public class MemberController {
 		return "member/memberEnrollForm";
 	}
 	
+	//아이디 찾는 홈페이지로 이동 
+	@RequestMapping("findIdCheck")
+	public String memberFindIdCheck() {
+		return "member/memberFindIdForm";
+	}
+	
+	//아이디 찾기
+	@PostMapping("findId.bo")
+	public String memberFindId(@RequestParam("userName") String userName,@RequestParam("phone") String phone, HttpServletResponse resp,Model model,Member m) {
+		
+		m.setUserName(userName);
+		m.setPhone(phone);
+		Member findId = memberService.memberFindId(m);
+		
+		//System.out.println("확인 1"+email);
+		
+		if(findId != null) { //일치할때
+			//System.out.println("확인 2"+email);
+			model.addAttribute("findId", findId);
+			return "member/memberFindIdResultForm";
+		
+		}else { //일치하지 않을때 
+					
+			return "member/memberFindIdResultForm";		
+		}
+		
+	}
+	
+	//비밀번호 찾기 
+	@PostMapping("findPwd.bo")
+	public String memberFindPwd(@RequestParam("userId") String userId,@RequestParam("userName") String userName,@RequestParam("email") String email, Model model,Member m) {
+		
+		m.setUserId(userId);
+		m.setUserName(userName);
+		m.setEmail(email);
+		int findPwd = memberService.memberFindPwd(m);
+		
+		System.out.println("확인 1"+findPwd);	
+		
+		if(findPwd == 0) { //입력한 정보가 없을 때 			
+		
+			//System.out.println("확인 2"+findPwd);	
+			
+			model.addAttribute("findPwd", findPwd);
+			return "member/memberFindPwdResultForm";
+		
+		}else { //입력한 정보가 있을 때
+			
+			//System.out.println("확인 3"+findPwd);	
+			
+			String newPwd = RandomStringUtils.randomAlphanumeric(10);
+			String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
+			
+			//System.out.println("새로운 비밀번호 확인 "+newPwd);	
+			
+			m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
+			
+			memberService.updateMemberPwd(m);
+			
+			model.addAttribute("newPwd", newPwd);
+			
+			return "member/memberFindPwdResultForm";		
+			
+		}
+		
+	}
+	
+
+	//아이디찾기 결과
+	@RequestMapping("findIdresult")
+	public String memberFindIdResult() {
+		return "member/memberFindIdResultForm";
+	}
+	
+	//비밀번호 찾는 홈페이지로 이동 
+	@RequestMapping("findPwdCheck")
+	public String memberFindPwdCheck() {
+		return "member/memberFindPwdForm";
+	}
+	
 	
 	
 	//회원등록 (임대인/임차인)
@@ -176,11 +259,11 @@ public class MemberController {
 			
 			//8. 데이터 베이스에 등록할 변경이름, 원본이름 member VO에 담기 
 			m.setOriginName(originName);
-			m.setChangeName("/resources/img/person"+changeName);			
+			m.setChangeName("resources/img/person"+changeName);			
 			
 		}else {
 			
-			String defaultImagePath = "/resources/img/person/person.jpg";
+			String defaultImagePath = "resources/img/person/person.jpg";
 			
 			m.setChangeName(defaultImagePath);
 			
@@ -193,7 +276,7 @@ public class MemberController {
 		
 		if(insertUser > 0) { //성공 시 
 			
-			return "member/memberEnrollResult";
+			return "redirect:/esResult.es";
 			
 		}else {
 			model.addAttribute("errorMsg", "회원가입 실패");
@@ -373,6 +456,16 @@ public class MemberController {
 		return "member/memberEnrollResult";
 	}
 	
+	//mypage 이동
+	@RequestMapping("myPage.me")
+	public String memberMypage () {
+		return "member/memberMypageForm";
+	}
 	
+	//mypage에서 내프로필 수정하는 페이지로 이동 
+	@RequestMapping("mypageupdate.me")
+	public String memberMypageUpdate () {
+		return "member/memberMypageUpdateForm";
+	}
 	
 }

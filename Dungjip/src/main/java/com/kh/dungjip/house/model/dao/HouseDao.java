@@ -22,8 +22,8 @@ public class HouseDao {
 		return list;
 	}
 
-	public ArrayList<House> selectHouse(SqlSessionTemplate sqlSession) {
-		ArrayList<House> list = (ArrayList) sqlSession.selectList("houseMapper.selectHouse");
+	public ArrayList<House> selectHouse(SqlSessionTemplate sqlSession, String type) {
+		ArrayList<House> list = (ArrayList) sqlSession.selectList("houseMapper.selectHouse", type);
 		return list;
 	}
 

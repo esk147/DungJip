@@ -34,8 +34,8 @@ public class HouseServiceImpl implements HouseService{
 	}
 
 	@Override
-	public ArrayList<House> selectHouse() {
-		return houseDao.selectHouse(sqlSession);
+	public ArrayList<House> selectHouse(String type) {
+		return houseDao.selectHouse(sqlSession, type);
 	}
 
 	@Override

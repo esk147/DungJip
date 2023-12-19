@@ -22,7 +22,7 @@
 		}
 	}
 	
-	System.out.println("저장된 ID : "+saveId);
+	//System.out.println("저장된 ID : "+saveId);
 %>    
     
 <!DOCTYPE html>
@@ -34,7 +34,7 @@
     
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>GARO ESTATE | Register page</title>
+        <title>Login</title>
         <meta name="description" content="GARO is a real-estate template">
         <meta name="author" content="Kimarotec">
         <meta name="keyword" content="html5, css, bootstrap, property, real-estate theme , bootstrap template">
@@ -75,8 +75,11 @@
 								</div>
 								
 								<div class="col-md-12 form-group"  align = center>
-									<span> <a href="findInfo.bo">아이디 찾기 / 비밀번호 찾기</a></span> 
-									<span><a href="enrollType.me">/ 회원가입</a></span>
+									<span> <a href="findIdCheck">아이디 찾기  </a></span> 
+									<a>/</a>
+									<span> <a href="findPwdCheck"> 비밀번호 찾기</a></span>
+									<a>/</a>
+									<span><a href="enrollType.me"> 회원가입</a></span>
 									
 								</div>
                                 
@@ -94,6 +97,7 @@
                             <a class="login-social" href="#"><i class="fa fa-google-plus"></i>&nbsp;Gmail</a> 
                             <a class="login-social" href="#"><i class="fa fa-twitter"></i>&nbsp;Twitter</a>  
                             </p> 
+                            
                         </div>
                         
                     </div>

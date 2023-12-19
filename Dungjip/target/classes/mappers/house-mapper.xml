@@ -21,6 +21,14 @@
 		<result column="HOUSE_FLOOR" property="houseFloor" />
 		<result column="HOUSE_BUILDING_FLOOR"
 			property="houseBuildingFloor" />
+		<result column="HOUSE_TOILET" property="houseToilet" />
+		<result column="HOUSE_ROOMS" property="houseRooms" />
+		<result column="HOUSE_PARKABLE" property="houseParkAble" />
+		<result column="HOUSE_BALCONY" property="houseBalcony" />
+		<result column="HOUSE_MAINTAINCOST" property="houseMaintainCost" />
+		<result column="HOUSE_DOITNOW" property="houseDoItNow" />
+		<result column="HOUSE_BUILDDATE" property="houseBuildDate" />
+		<result column="HOUSE_ANIMALS" property="houseAnimals" />
 		<result column="STATUS" property="status" />
 	</resultMap>
 	
@@ -37,18 +45,21 @@
 	<insert id="insertHouseJSON" parameterType="house">
 		insert into house (HOUSE_NO, HOUSE_PRICE, HOUSE_RENT, HOUSE_SQUARE,
 		HOUSE_STYLE,HOUSE_TITLE,HOUSE_DETAILS,HOUSE_TYPE,HOUSE_LATITUDE,
-		HOUSE_LONGITUDE,HOUSE_UPLOAD_TIME,HOUSE_ADDRESS,HOUSE_FLOOR,HOUSE_BUILDING_FLOOR)
+		HOUSE_LONGITUDE,HOUSE_UPLOAD_TIME,HOUSE_ADDRESS,HOUSE_FLOOR,HOUSE_BUILDING_FLOOR,
+		HOUSE_TOILET, HOUSE_ROOMS, HOUSE_PARKABLE, HOUSE_BALCONY, HOUSE_MAINTAINCOST,
+		HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS)
 		values (seq_hno.nextval, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle}
 		, #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude}, #{houseUploadTime}, #{houseAddress}
-		, #{houseFloor}, #{houseBuildingFloor})
+		, #{houseFloor}, #{houseBuildingFloor}, #{houseToilet}, #{houseRooms}, #{houseParkAble}, #{houseBalcony}
+		, #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals})
 	</insert>
 	
 	<select id="selectLocations" resultMap="houseResultSet">
 		select DISTINCT house_address from house
 	</select>
 	
-	<select id="selectHouse" resultMap="houseResultSet">
-		select * from house order by house_no
+	<select id="selectHouse" parameterType="string" resultMap="houseResultSet">
+		select * from house where house_type = #{type} order by house_no
 	</select>
 	
 	<select id="selectHouseThumnail" resultMap="houseImgResultSet">

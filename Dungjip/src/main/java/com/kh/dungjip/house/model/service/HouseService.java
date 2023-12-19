@@ -12,7 +12,7 @@ public interface HouseService {
 
 	ArrayList<House> selectLocations();
 
-	ArrayList<House> selectHouse();
+	ArrayList<House> selectHouse(String type);
 
 	ArrayList<HouseImg> selectHouseThumnail();
 
