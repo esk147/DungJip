@@ -187,7 +187,7 @@
     		SELECT *
 			FROM MEMBER 
 			WHERE USER_NAME = #{userName}
-			AND EMAIL = #{email}
+			AND PHONE = #{phone}
     	</select>
     	
     	<select id="memberFindPwd" resultType="_int">
