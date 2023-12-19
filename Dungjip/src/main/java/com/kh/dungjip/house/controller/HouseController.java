@@ -18,17 +18,17 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.dungjip.house.model.vo.House;
-import com.kh.dungjip.member.model.vo.Member;
 import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.house.model.service.HouseService;
+import com.kh.dungjip.house.model.vo.House;
+import com.kh.dungjip.house.model.vo.Jjim;
+import com.kh.dungjip.member.model.vo.Member;
 
 @Controller
 public class HouseController {
@@ -78,9 +78,7 @@ public class HouseController {
 											.houseFloor(Integer.parseInt(String.valueOf(object.get("floor"))))
 											.houseBuildingFloor(Integer.parseInt(String.valueOf(object.get("building_floor"))))
 											.build();
-			
 			hlist.add(house);
-			
 		}
 		
 		int result = 1;
@@ -111,21 +109,20 @@ public class HouseController {
 	
 	//집 상세페이지
 	@RequestMapping("detail.ho")
-	public String houseDetail(int houseNo,Model model){		
+	public String houseDetail(HttpSession session, int houseNo,Model model){		
 		
 		Member member = new Member();
 		ArrayList<Estate> elist = estateService.selectEstateList(houseNo);
-		
 		
 		//부동산 목록 조회해서 보여주기
 		model.addAttribute("elist",elist);
 		model.addAttribute("member", member);
 		
-		
-		System.out.println("부동산리스트");
-		
-	    System.out.println("elist: " + elist);
-	    System.out.println(member);
+		//찜 데이터 있는지 없는지 확인
+		Member loginUser = ((Member)session.getAttribute("loginUser"));
+		Jjim jjim = Jjim.builder().houseNo(houseNo).userNo(loginUser.getUserNo()).build();
+		Jjim jj = houseService.selectJjim(jjim);
+		model.addAttribute("jj",jj);
 		
 		return "house/houseDetail";
 	}
@@ -138,6 +135,40 @@ public class HouseController {
 		mv.addObject("lList", lList).addObject("locate", locate).setViewName("house/houseMap");
 		
 		return mv;
+	}
+	
+	//찜하기
+	@RequestMapping("insertJjim.de")
+	public ModelAndView insertJjim(Jjim jj
+								,HttpSession session
+								,ModelAndView mv) {
+		
+		
+		int result = houseService.insertJjim(jj);
+		
+		if(result>0) {
+			session.setAttribute("alertMsg", "찜하기 성공");
+			mv.setViewName("redirect:detail.ho?houseNo="+jj.getHouseNo());
+		}else {
+			session.setAttribute("alertMsg", "찜하기 실패");
+			mv.setViewName("redirect:detail.ho");
+		}
+		return mv;
+	}
+	
+	//찜취소
+	@RequestMapping("deleteJjim.de")
+	public String deleteJjim(Jjim jj
+							,HttpSession session) {
+		int result = houseService.deleteJjim(jj);
+		
+		if(result>0) {
+			session.setAttribute("alertMsg", "찜 취소 성공");
+			return "redirect:detail.ho?houseNo="+jj.getHouseNo();
+		}else {
+			session.setAttribute("alertMsg", "찜 취소 실패");
+			return "redirect:detail.ho?houseNo="+jj.getHouseNo();
+		}
 	}
 }
 

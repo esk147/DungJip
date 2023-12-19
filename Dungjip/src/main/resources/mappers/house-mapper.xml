@@ -18,8 +18,7 @@
 		<result column="HOUSE_UPLOAD_TIME" property="houseUploadTime" />
 		<result column="HOUSE_ADDRESS" property="houseAddress" />
 		<result column="HOUSE_FLOOR" property="houseFloor" />
-		<result column="HOUSE_BUILDING_FLOOR"
-			property="houseBuildingFloor" />
+		<result column="HOUSE_BUILDING_FLOOR" property="houseBuildingFloor" />
 		<result column="STATUS" property="status" />
 	</resultMap>
 
@@ -39,5 +38,29 @@
 	<select id="selectHouse" resultMap="houseResultSet">
 		select * from house
 	</select>
+	
+	<resultMap type="jjim" id="JjimResultSet">
+		<result column="HOUSE_NO" property="houseNo" />
+		<result column="USER_NO" property="userNo" />
+	</resultMap>	
+	
+	<!-- 찜하기 -->
+	<insert id="insertJjim" parameterType="jjim">
+		INSERT INTO JJIM(HOUSE_NO,USER_NO)
+		VALUES (#{houseNo},#{userNo})
+	</insert>
+	
+	<!-- 찜 데이터 있는지 여부 확인 -->
+	<select id="selectJjim" resultMap="JjimResultSet">
+		SELECT *
+		FROM JJIM
+		WHERE USER_NO = #{userNo}
+		AND HOUSE_NO = #{houseNo}
+	</select>
+	<delete id="deleteJjim" parameterType="jjim">
+		DELETE FROM JJIM
+		WHERE USER_NO = #{userNo}
+		AND HOUSE_NO = #{houseNo}
+	</delete>
 
 </mapper>
