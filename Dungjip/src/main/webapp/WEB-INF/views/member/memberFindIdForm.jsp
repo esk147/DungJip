@@ -40,8 +40,8 @@
                                     <input type="text" class="form-control" name="userName" id="userName" placeholder="가입시 등록한 이름을 입력하세요.">
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="text" class="form-control" name="email" id="email" placeholder="가입시 등록한 이메일을 입력하세요.">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" class="form-control" name="phone" id="phone" placeholder="가입시 등록한 번호를 입력하세요.">
                                 </div>
                                 
                                <div class="form-check <!-- form-check-reverse py-2 -->">
@@ -72,7 +72,7 @@
         	function findCheck() {
     		
         		var userName = $("#userName").val();
-        		var email = $("#email").val();
+        		var phone = $("#phone").val();
         		
         		if (userName == null || userName == '') {
 					alert("이름을 입력하세요.");
@@ -80,18 +80,18 @@
 					return false;
 				}
         		
-        		if (email == null || email == '') {
-					alert("이메일을 입력하세요");
-					$("#email").focus();
+        		if (phone == null || phone == '') {
+					alert("'-'를 제외한 숫자 11자리로 작성해 주세요");
+					$("#phone").focus();
 					return false;
 					
 				}else{
 					
-					var regExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+					var regExp = /^\d{11}$/;
 					
-					if (!regExp.test(email)) { 
-						alert("올바르지 않은 이메일 형식입니다.");
-						$("#email").focus();
+					if (!regExp.test(phone)) { 
+						alert("올바르지 않은 번호 형식입니다.");
+						$("#phone").focus();
 						return false;
 					}
 				}
