@@ -19,6 +19,7 @@
 		<result column="ES_COUNT" property="esCount"/>
 		<result column="ES_Status" property="esStatus"/>
 		<result column="ENROLLDATE" property="enrollDate"/>
+		<result column="ES_INTRO" property="esIntro"/>
 		<association property="member" javaType="member">
         	<result column="CHANGE_NAME" property="changeName"/>
 		</association>
@@ -30,6 +31,7 @@
 	SELECT E.ES_NO
       ,E.ES_NAME
       ,M.CHANGE_NAME
+      ,E.ES_INTRO
 	FROM ESTATE E
 	JOIN OWN O ON E.ES_NO = O.ES_NO
 	JOIN MEMBER M ON E.USER_NO = M.USER_NO
@@ -50,6 +52,7 @@
            ,E.ES_CONTENT
            ,E.ENROLLDATE
            ,M.CHANGE_NAME
+           ,E.ES_INTRO
 	FROM ESTATE E
     JOIN MEMBER M ON E.USER_NO=M.USER_NO
 	WHERE ES_NO=#{esNo}

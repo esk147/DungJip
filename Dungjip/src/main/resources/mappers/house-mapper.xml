@@ -8,6 +8,7 @@
 	<resultMap type="house" id="houseResultSet">
 		<result column="HOUSE_NO" property="houseNo" />
 		<result column="HOUSE_PRICE" property="housePrice" />
+		<result column="HOUSE_RENT" property="houseRent" />
 		<result column="HOUSE_SQUARE" property="houseSquare" />
 		<result column="HOUSE_STYLE" property="houseStyle" />
 		<result column="HOUSE_TITLE" property="houseTitle" />
@@ -34,10 +35,10 @@
 	</resultMap>
 
 	<insert id="insertHouseJSON" parameterType="house">
-		insert into house (HOUSE_NO, HOUSE_PRICE, HOUSE_SQUARE,
+		insert into house (HOUSE_NO, HOUSE_PRICE, HOUSE_RENT, HOUSE_SQUARE,
 		HOUSE_STYLE,HOUSE_TITLE,HOUSE_DETAILS,HOUSE_TYPE,HOUSE_LATITUDE,
 		HOUSE_LONGITUDE,HOUSE_UPLOAD_TIME,HOUSE_ADDRESS,HOUSE_FLOOR,HOUSE_BUILDING_FLOOR)
-		values (seq_hno.nextval, #{housePrice}, #{houseSquare}, #{houseStyle}, #{houseTitle}
+		values (seq_hno.nextval, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle}
 		, #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude}, #{houseUploadTime}, #{houseAddress}
 		, #{houseFloor}, #{houseBuildingFloor})
 	</insert>
@@ -47,7 +48,7 @@
 	</select>
 	
 	<select id="selectHouse" resultMap="houseResultSet">
-		select * from house
+		select * from house order by house_no
 	</select>
 	
 	<select id="selectHouseThumnail" resultMap="houseImgResultSet">
@@ -59,6 +60,42 @@
 	    MIN(STATUS) AS STATUS
 		FROM HOUSE_IMG
 		GROUP BY HOUSE_NO
+	</select>
+	
+	<select id="selectHouseList" resultMap="houseResultSet">
+	SELECT H.HOUSE_NO
+          ,H.HOUSE_PRICE
+          ,H.HOUSE_RENT
+          ,H.HOUSE_SQUARE
+          ,H.HOUSE_STYLE
+          ,H.HOUSE_TYPE
+          ,H.HOUSE_FLOOR
+    FROM OWN O 
+    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+    WHERE O.ES_NO=#{esNo}
+    AND O.STATUS = 'Y'
+	</select>
+	
+	<select id="selectHouseImg" resultMap="houseImgResultSet">
+	SELECT MIN(H.FILE_NO) AS FILE_NO
+          ,H.HOUSE_NO
+          ,MIN(H.CHANGE_NAME) AS CHANGE_NAME
+          ,MIN(H.UPLOAD_DATE) AS UPLOAD_DATE
+          ,MIN(H.STATUS) AS STATUS
+    FROM HOUSE_IMG H
+    JOIN OWN O ON O.HOUSE_NO = H.HOUSE_NO
+    WHERE O.ES_NO=#{esNo}
+    AND O.STATUS = 'Y'
+    GROUP BY H.HOUSE_NO
+	
+	</select>
+	
+	<select id="selectHouseListCount" resultType="_int">
+	SELECT COUNT(*)
+	FROM OWN O
+ 	JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+    WHERE O.ES_NO=#{esNo}
+    AND O.STATUS = 'Y'
 	</select>
 
 </mapper>

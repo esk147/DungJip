@@ -64,6 +64,7 @@ public class HouseController {
 			
 			House house = House.builder()
 											.housePrice(Integer.parseInt(String.valueOf(object.get("deposit"))))
+											.houseRent(Integer.parseInt(String.valueOf(object.get("rent"))))
 											.houseSquare(Double.parseDouble(String.valueOf(sqrtP.get("p"))))
 											.houseStyle((String)object.get("sales_type"))
 											.houseTitle((String)object.get("title"))

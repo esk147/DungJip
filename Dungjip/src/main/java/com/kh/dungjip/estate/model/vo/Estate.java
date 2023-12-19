@@ -26,6 +26,7 @@ public class Estate {
 	private int esCount;
 	private String esStatus;
 	private Date enrollDate;
+	private String esIntro;
 
 	
 	private Member member;
