@@ -35,23 +35,21 @@
                         <div class="col-md-12 col-xs-12 login-blocks">
                             <h2>Find your ID : </h2> 
                             <form action="login.be" method="post">
-                                <div class="form-group" style="display:flex; justify-content:center; margin:45px;">
-                                    
+                                <div class="form-group" style="margin:45px;">
+								                                    
 									<c:choose>
-										<c:when test="${empty userId }">
+										<c:when test="${empty newPwd }">																				
 											<p class="idresult"> 조회 결과가 없습니다. </p>
 										</c:when>
 										
-										<c:otherwise>
-										
-											<a>임시비밀번호 : ${newPwd } </a>
-											<a>로그인 후 비밀번호를 변경해주세요.</a>
-											
+										<c:otherwise>										
+											<b>임시비밀번호 : ${newPwd } </b>
+											<br><br>
+											<b>로그인 후 비밀번호를 변경해주세요.</b>											
 										</c:otherwise>
-									</c:choose>                                
-                                
-                                </div>
-                                
+										
+									</c:choose>                                                                
+                                </div>                               
                             </form>
                                 
                                <div class="form-check <!-- form-check-reverse py-2 -->">
