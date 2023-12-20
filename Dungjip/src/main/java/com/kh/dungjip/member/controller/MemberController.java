@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -70,35 +71,36 @@ public class MemberController {
 			response.addCookie(cookies);
 		}
 		
+		
 		//아이디를 가지고 db에서 일치하는 회원정보 조회 
-		Member loginUser = memberService.loginMember(m);
+		Member beginLoginUser = memberService.loginMember(m);
 		
 		//bcryptPasswordEncoder.matches(평문, 암호문)를 이용 (일치하면 true 아니면 false) 
-		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) { //성공시
-		
-			
-			//System.out.println("로그인 성공 " );
-			
-			//값 담아주고 메인페이지로 이동시키기 
-			session.setAttribute("loginUser", loginUser);				
-			mv.setViewName("main");
-						
-		}else {
-			
-			//System.out.println("로그인 실패 " );
+		if(beginLoginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())) { //성공시
 
+			int SuccessLoginTime =	memberService.updateLastLoginTime(beginLoginUser);//현재 시간 추가 
 			
+			//굳이 if문 추가안함 
+			//현재시간이 추가안되었다고 로그인을 막아버리는 예외가 있으면 안된다고 판단
+				//System.out.println("로그인 성공 " );
+				Member loginUser = memberService.loginMemberPlusCurrentTime(beginLoginUser);
+				
+				System.out.println("현재시간 : "+ loginUser);
+				//값 담아주고 메인페이지로 이동시키기 
+				session.setAttribute("loginUser", loginUser);				
+				mv.setViewName("main");
+		}else {
+			//System.out.println("로그인 실패 " );
 			mv.addObject("errorMsg","로그인 실패"); 			
 			mv.setViewName("common/errorPage");
 		}
-		
 		return mv;
 	}
-	
-		
 	//로그아웃 
 	@RequestMapping("logout.me")
-	public String loginMember(HttpSession session) {
+	public String loginMember(@RequestParam ("userNo") int userNo,HttpSession session) {//로그아웃 버튼에 파라미터 영역으로 userNo를 보내주었습니다.
+		
+		int logoutTime = memberService.LastLogoutTime(userNo);
 		
 		//세션에 담겨있는 logoutUser정보 지우기 
 		session.removeAttribute("loginUser");

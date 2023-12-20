@@ -87,6 +87,29 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.ajaxphoneMethod(sqlSession,phone);
 	}
 
+	//로그인시 현재시간 집어넣기
+	@Override
+	public int updateLastLoginTime(Member loginUser) {
+
+		
+		return memberDao.updateLastLoginTime(sqlSession,loginUser);
+	}
+
+	//이전 로그인 할때는 현재시간이 없어서 현재 시간 추가된 select문 가져옴
+	@Override
+	public Member loginMemberPlusCurrentTime(Member beginLoginUser) {
+
+		
+		return memberDao.loginMemberPlusCurrentTime(sqlSession,beginLoginUser);
+	}
+
+
+	@Override
+	public int LastLogoutTime(int userNo) {//로그아웃 할떄의 시간
+		// TODO Auto-generated method stub
+		return memberDao.LastLogoutTime(sqlSession,userNo);
+	}
+
 
 
 	

@@ -32,6 +32,13 @@ public interface MemberService {
 
 	//번호 중복체크 (임대인/임차인)
 	int ajaxphoneMethod(String phone);
+	
+	//로그인시 현재시간 집어넣기
+	int updateLastLoginTime(Member loginUser);
+
+	Member loginMemberPlusCurrentTime(Member beginLoginUser);
+
+	int LastLogoutTime(int userNo);
 
 
 	
