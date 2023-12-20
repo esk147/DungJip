@@ -46,6 +46,9 @@
   	#right-navi {
   		padding-top: 5px;
   	}
+  	.fadeInDown {
+  		cursor: pointer;
+  	}
   </style>
   <body>
         <nav class="navbar navbar-default ">
