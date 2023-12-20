@@ -26,6 +26,8 @@ public class Member {
     private String status;//    STATUS
     private String changeName;			//CHANGE_NAME
     private String originName;  //ORIGIN_NAME
+    
+    private String subscribe;
 
     
 

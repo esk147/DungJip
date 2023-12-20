@@ -54,7 +54,20 @@
         padding: 10px;
         width: 80px;
         font-size: 16px;
-        background-color: #ff6600;
+        background-color: #cca427;
+        color: white;
+        font-weight: bold;
+        border-radius: 0 8px 8px 0;
+        border: none;
+        cursor: pointer;
+        transition: font-size 0.2s ease;
+      }
+      
+      .search-bar button:hover {
+        padding: 10px;
+        width: 80px;
+        font-size: 20px;
+        background-color: #cca427;
         color: white;
         border-radius: 0 8px 8px 0;
         border: none;
@@ -103,9 +116,6 @@
             font-weight: 500;
             cursor: pointer;
             transition: background 0.3s ease;
-        }
-        #menu li:hover {
-            background-color: #cca427;
         }
         #menu li.active {
             background-color: #fff;
@@ -185,8 +195,12 @@
         	const activeMenuItem = document.querySelector('#menu li.active');
             // 선택된 메뉴 항목의 텍스트 값 가져오기
             const type = activeMenuItem.textContent.trim();
-
-        	location.href="villa.map?type="+type+"&locate="+locationValue;
+			
+            if(locationValue == null || locationValue == ""){
+            	location.href="villa.map?type="+type+"&locate=서울%영등포구%양평동4가%2";   
+            } else {            	
+	        	location.href="villa.map?type="+type+"&locate="+locationValue;            	
+            }
     	}
     </script>
 

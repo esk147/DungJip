@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -271,6 +272,10 @@ public class MemberController {
 			
 		m.setUserPwd(encPwd); //암호화된 비번
 		
+		System.out.println("member log");
+
+		System.out.println(m);
+		
 		
 		int insertUser = memberService.insertMember(m);
 		
@@ -344,7 +349,7 @@ public class MemberController {
 			String changeName = currentTime + ranNum + ext;
 			
 			//6. 저장시킬 실직적인 물리적 경로 추출하기 
-			String savePath = session.getServletContext().getRealPath("/resources/img/person");
+			String savePath = session.getServletContext().getRealPath("resources/img/person/");
 			
 			try {
 				//7. 경로와 수정파일명으로 파일 업로드 하기 (경로 + 파일명) 파일객체를 생성한 뒤 해당 파일 객체를 업로드시킨다.
@@ -358,11 +363,11 @@ public class MemberController {
 			
 			//8. 데이터 베이스에 등록할 변경이름, 원본이름 member VO에 담기 
 			m.setOriginName(originName);
-			m.setChangeName("/resources/img/person"+changeName);			
+			m.setChangeName("resources/img/person/"+changeName);			
 			
 		}else {
 			
-			String defaultImagePath = "/resources/img/person/person.jpg";
+			String defaultImagePath = "resources/img/person/person.jpg";
 			
 			m.setChangeName(defaultImagePath);
 			
@@ -467,5 +472,13 @@ public class MemberController {
 	public String memberMypageUpdate () {
 		return "member/memberMypageUpdateForm";
 	}
-	
+
+	@ResponseBody
+	@RequestMapping("subscribe.pay")
+	public int userSubscribe(int userNo) {
+		
+		int result = memberService.userSubscribe(userNo);
+		
+		return result;
+	}
 }
