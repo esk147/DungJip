@@ -1,5 +1,6 @@
 package com.kh.dungjip.member.model.dao;
 
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -81,6 +82,30 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("memberMapper.lastLogoutTime", userNo);
 	}
+
+	//아이디 찾기 
+	public Member memberFindId(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.memberFindId", m);
+	}
+
+	//비밀번호 찾기 
+	public int memberFindPwd(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.memberFindPwd", m);
+	}
+
+	//새로 발급받은 비밀번호 update
+	public void updateMemberPwd(SqlSessionTemplate sqlSession,Member m) {
+		// TODO Auto-generated method stub
+		sqlSession.update("memberMapper.updateMemberPwd",m);
+	}
+
+	public int userSubscribe(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.update("memberMapper.userSubscribe", userNo);
+	}
+
+	
 
 
 	

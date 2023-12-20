@@ -6,7 +6,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>회원가입</title>
+	<title>중개인 회원가입</title>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	 
 	 
@@ -147,8 +147,8 @@
 				
 				<!-- 주소 text 누르면 팝업까지 -->
                 <div class="form-section">
-                    <label for="esAddress">주소</label>
-                    <input type="text" class="form-control" id="address_kakao" name="esAddress" placeholder="주소(클릭해주세요.)" >
+                    <label for="address">주소</label>
+                    <input type="text" class="form-control" id="address_kakao" name="address" placeholder="주소(클릭해주세요.)" >
                     <span class="placeholder"></span>
                 </div>         	
 				
@@ -162,7 +162,7 @@
 	               	            new daum.Postcode({
 	               	                oncomplete: function(data) { //선택시 입력값 세팅
 	               	                    document.getElementById("address_kakao").value = data.address; 	// 주소 넣기
-	               	                    document.querySelector("input[name=esAddress]").focus(); //다음 임력 칸으로 포커싱
+	               	                    document.querySelector("input[name=address]").focus(); //다음 임력 칸으로 포커싱
 	               	                }
 	               	            }).open();
 	               	        });

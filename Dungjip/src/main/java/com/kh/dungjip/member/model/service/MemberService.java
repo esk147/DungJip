@@ -1,4 +1,4 @@
-package com.kh.dungjip.member.model.server;
+package com.kh.dungjip.member.model.service;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.member.model.vo.Member;
@@ -32,14 +32,23 @@ public interface MemberService {
 
 	//번호 중복체크 (임대인/임차인)
 	int ajaxphoneMethod(String phone);
-	
-	//로그인시 현재시간 집어넣기
-	int updateLastLoginTime(Member loginUser);
+
+	//아이디 찾기
+	Member memberFindId(Member m);
+
+	//비밀번호 찾기 
+	int memberFindPwd(Member m);
+
+	//새로 부여받은 비밀번호 update 
+	void updateMemberPwd(Member m);
+
+	int userSubscribe(int userNo);
+
+	int updateLastLoginTime(Member beginLoginUser);
 
 	Member loginMemberPlusCurrentTime(Member beginLoginUser);
-
+	
 	int LastLogoutTime(int userNo);
-
 
 	
 

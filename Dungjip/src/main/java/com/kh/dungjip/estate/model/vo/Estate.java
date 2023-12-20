@@ -1,5 +1,7 @@
 package com.kh.dungjip.estate.model.vo;
 
+import java.sql.Date;
+
 import com.kh.dungjip.member.model.vo.Member;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +25,8 @@ public class Estate {
 	private String esImage;
 	private int esCount;
 	private String esStatus;
+	private Date enrollDate;
+	private String esIntro;
 
 	
 	private Member member;

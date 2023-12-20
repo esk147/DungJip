@@ -1,4 +1,4 @@
-package com.kh.dungjip.member.model.server;
+package com.kh.dungjip.member.model.service;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +87,37 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.ajaxphoneMethod(sqlSession,phone);
 	}
 
-	//로그인시 현재시간 집어넣기
+	//아이디 찾기
+	@Override
+	public Member memberFindId(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.memberFindId(sqlSession,m);
+	}
+
+	//비밀번호 찾기 
+	@Override
+	public int memberFindPwd(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.memberFindPwd(sqlSession,m);
+	}
+
+	//새로 부여받은 비밀번호 update
+	@Override
+	public void updateMemberPwd(Member m) {
+		// TODO Auto-generated method stub
+		String newPwd = m.getUserPwd(); //새로운 암호화된 비밀번호 가져오기 
+		
+		memberDao.updateMemberPwd(sqlSession, m);
+	}
+
+
+	@Override
+	public int userSubscribe(int userNo) {
+		int result = memberDao.userSubscribe(sqlSession, userNo);
+		
+		return result;
+	}
+
 	@Override
 	public int updateLastLoginTime(Member loginUser) {
 
@@ -95,24 +125,17 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.updateLastLoginTime(sqlSession,loginUser);
 	}
 
-	//이전 로그인 할때는 현재시간이 없어서 현재 시간 추가된 select문 가져옴
 	@Override
 	public Member loginMemberPlusCurrentTime(Member beginLoginUser) {
 
 		
 		return memberDao.loginMemberPlusCurrentTime(sqlSession,beginLoginUser);
 	}
-
-
 	@Override
 	public int LastLogoutTime(int userNo) {//로그아웃 할떄의 시간
 		// TODO Auto-generated method stub
 		return memberDao.LastLogoutTime(sqlSession,userNo);
 	}
-
-
-
-	
 
 
 

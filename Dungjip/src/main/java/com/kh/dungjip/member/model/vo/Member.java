@@ -22,11 +22,11 @@ public class Member {
     private String preferCheck1;//  PREFER_CHECK1
     private String preferCheck2;//  PREFER_CHECK2
     private String preferCheck3;//  PREFER_CHECK3
-
     private String status;//    STATUS
     private String changeName;			//CHANGE_NAME
     private String originName;  //ORIGIN_NAME
-
+    private String subscribe;
+    private boolean active;
     
 
 	public Member(int userNo, String userType, String userId, String userPwd, String userName, String userNickName,
@@ -47,7 +47,5 @@ public class Member {
 		this.originName = originName;
 		this.changeName= changeName;
 	}
-    
-    
     
 }
