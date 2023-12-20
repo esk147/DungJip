@@ -42,6 +42,8 @@ public interface MemberService {
 	//새로 부여받은 비밀번호 update 
 	void updateMemberPwd(Member m);
 
+	int userSubscribe(int userNo);
+
 	
 
 

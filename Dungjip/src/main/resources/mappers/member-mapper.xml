@@ -23,7 +23,8 @@
     		<result column="PREFER_CHECK3" property="preferCheck3"/> 
     		<result column="STATUS" property="status"/>
     		<result column="ORIGIN_NAME" property="originName"/> 
-    		<result column="CHANGE_NAME" property="changeName"/>    		
+    		<result column="CHANGE_NAME" property="changeName"/>
+    		<result column="SUBSCRIBE" property="subscribe" />	
   		</resultMap>
   		
   		<resultMap type="estate" id="estateResultSet">  		
@@ -68,6 +69,9 @@
 			                    ,AGE
 			                    ,GENDER
 			                    ,ADDRESS
+			                    ,PREFER_LOCATION
+			                    ,PREFER_CHECK1
+			                    ,PREFER_CHECK2
 			                    ,ORIGIN_NAME
 			                    ,CHANGE_NAME)
 			VALUES(SEQ_MNO.NEXTVAL
@@ -81,6 +85,9 @@
 					,#{age}
 					,#{gender}
 					,#{address}
+					,#{preferLocation}
+					,#{preferCheck1}
+					,#{preferCheck2}
 					,#{originName}
 					,#{changeName}) 
   		</insert>
@@ -204,6 +211,12 @@
     		WHERE USER_NAME = #{userName}
 			AND EMAIL = #{email}
 			AND USER_ID = #{userId}	    	
+    	</update>
+    	
+    	<update id="userSubscribe">
+    		UPDATE MEMBER
+    		SET SUBSCRIBE = 'Y'
+    		WHERE USER_NO = #{userNo}
     	</update>
     	
     </mapper>

@@ -110,6 +110,14 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.updateMemberPwd(sqlSession, m);
 	}
 
+
+	@Override
+	public int userSubscribe(int userNo) {
+		int result = memberDao.userSubscribe(sqlSession, userNo);
+		
+		return result;
+	}
+
 	
 
 	
