@@ -125,7 +125,7 @@
             display: block;
             font-size: 18px;
             text-align: center;
-            padding: 8px 85.79px;
+            padding: 8px 84.59px;
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
@@ -142,6 +142,7 @@
 </head>
 <body>
 	<%@ include file="common/header.jsp"%>
+	<%@ include file="common/chatbot.jsp"%>
 	<script>
 		$.ajax({
 			url:"select.location",

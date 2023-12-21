@@ -5,7 +5,7 @@
     
     <mapper namespace="memberMapper">
     
-  		<resultMap type="member" id="memberResultSet">
+  	<resultMap type="member" id="memberResultSet">
   			<result column="USER_NO" property="userNo" />
   			<result column="USER_TYPE" property="userType"/>
   			<result column="USER_ID" property="userId"/>
@@ -23,8 +23,9 @@
     		<result column="PREFER_CHECK3" property="preferCheck3"/> 
     		<result column="STATUS" property="status"/>
     		<result column="ORIGIN_NAME" property="originName"/> 
-    		<result column="CHANGE_NAME" property="changeName"/>
-    		<result column="SUBSCRIBE" property="subscribe" />	
+    		<result column="CHANGE_NAME" property="changeName"/>   
+    		<result column="LASTLOGINTIME" property="lastLoginTime"/> 
+    		<result column="LASTLOGOUTTIME" property="lastLogoutTime"/>   		
   		</resultMap>
   		
   		<resultMap type="estate" id="estateResultSet">  		
@@ -42,6 +43,19 @@
     		<result column="ES_STATUS" property="esStatus"/>
 		
   		</resultMap>
+  		
+  		<update id="lastLogoutTime">
+  		UPDATE MEMBER 
+		SET LASTLOGOUTTIME= SYSTIMESTAMP
+		WHERE USER_NO = #{userNo}
+  		</update>
+  		
+		<update id="updateLastLoginTime">
+		UPDATE MEMBER 
+		SET LASTLOGINTIME= SYSTIMESTAMP
+		WHERE USER_NO = #{userNo}
+		</update>  		
+  		
   		
   		
   		<select id="loginMember" parameterType="member" resultMap="memberResultSet">

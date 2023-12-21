@@ -44,8 +44,11 @@ public interface MemberService {
 
 	int userSubscribe(int userNo);
 
-	
+	int updateLastLoginTime(Member beginLoginUser);
 
+	Member loginMemberPlusCurrentTime(Member beginLoginUser);
+	
+	int LastLogoutTime(int userNo);
 
 	
 
