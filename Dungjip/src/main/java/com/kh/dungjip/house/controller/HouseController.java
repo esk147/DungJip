@@ -155,6 +155,25 @@ public class HouseController {
 		
 		return mv;
 	}
+	
+	@ResponseBody
+	@RequestMapping("select.house")
+	public ArrayList<House> selectHouse(String type) {
+		ArrayList<House> mainList = houseService.selectHouseMain(type);
+		
+		ArrayList<HouseImg> imgList = new ArrayList<>();
+		for(House h : mainList) {
+			HouseImg img = houseService.selectHouseMainThumnail(h.getHouseNo());
+			
+			imgList.add(img);
+		}
+		
+		ArrayList<Estate> subscribeUser = estateService.selectSubscribeEstateList();
+		
+		System.out.println(subscribeUser);
+		
+		return mainList;
+	}
 }
 
 

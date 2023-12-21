@@ -64,4 +64,14 @@ public class HouseServiceImpl implements HouseService{
 		return houseDao.selectHouseListCount(sqlSession,esNo);
 	}
 
+	@Override
+	public ArrayList<House> selectHouseMain(String type) {
+		return houseDao.selectHouseMain(sqlSession, type);
+	}
+
+	@Override
+	public HouseImg selectHouseMainThumnail(int houseNo) {
+		return houseDao.selectHouseMainThumnail(sqlSession, houseNo);
+	}
+
 }
