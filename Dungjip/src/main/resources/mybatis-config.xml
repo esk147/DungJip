@@ -27,6 +27,8 @@
 		
 		<typeAlias type="com.kh.dungjip.enquiry.model.vo.Enquiry" alias="enquiry" /> 
 		
-		
+		<typeAlias type="com.kh.dungjip.estate.model.vo.EstateReview" alias="estateReview"/>
+	
+		<typeAlias type="com.kh.dungjip.estate.model.vo.Own" alias="own"/>
 	</typeAliases>
 </configuration>

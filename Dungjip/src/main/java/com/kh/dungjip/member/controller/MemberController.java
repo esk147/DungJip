@@ -35,8 +35,8 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@Autowired
-	private BCryptPasswordEncoder bcryptPasswordEncoder; 	
+	//@Autowired
+	//private BCryptPasswordEncoder bcryptPasswordEncoder; 	
 	
 	  @RequestMapping("login.be") 
 	  public String loginMember () {
@@ -77,7 +77,7 @@ public class MemberController {
 		Member loginUser = memberService.loginMember(m);
 		
 		//bcryptPasswordEncoder.matches(평문, 암호문)를 이용 (일치하면 true 아니면 false) 
-		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) { //성공시
+		if(loginUser != null /*&& bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())*/) { //성공시
 		
 			
 			//System.out.println("로그인 성공 " );
@@ -181,11 +181,11 @@ public class MemberController {
 			//System.out.println("확인 3"+findPwd);	
 			
 			String newPwd = RandomStringUtils.randomAlphanumeric(10);
-			String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
+			//String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
 			
 			//System.out.println("새로운 비밀번호 확인 "+newPwd);	
 			
-			m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
+			//m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
 			
 			memberService.updateMemberPwd(m);
 			
@@ -219,7 +219,7 @@ public class MemberController {
 		//System.out.println("평문 : "+m.getUserPwd());
 		
 		//비밀번호 암호화
-		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		//String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
 		
 		//System.out.println("암호문 : "+encPwd );
 		
@@ -245,7 +245,7 @@ public class MemberController {
 			String changeName = currentTime + ranNum + ext;
 			
 			//6. 저장시킬 실직적인 물리적 경로 추출하기 
-			String savePath = session.getServletContext().getRealPath("/resources/img/person");
+			String savePath = session.getServletContext().getRealPath("resources/img/person/");
 			
 			try {
 				//7. 경로와 수정파일명으로 파일 업로드 하기 (경로 + 파일명) 파일객체를 생성한 뒤 해당 파일 객체를 업로드시킨다.
@@ -259,7 +259,7 @@ public class MemberController {
 			
 			//8. 데이터 베이스에 등록할 변경이름, 원본이름 member VO에 담기 
 			m.setOriginName(originName);
-			m.setChangeName("resources/img/person"+changeName);			
+			m.setChangeName("resources/img/person/"+changeName);			
 			
 		}else {
 			
@@ -269,7 +269,7 @@ public class MemberController {
 			
 		}
 			
-		m.setUserPwd(encPwd); //암호화된 비번
+		//m.setUserPwd(encPwd); //암호화된 비번
 		
 		
 		int insertUser = memberService.insertMember(m);
@@ -318,7 +318,7 @@ public class MemberController {
 		
 		//System.out.println("평문 : "+m.getUserPwd());
 		//비밀번호 암호화
-		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		//String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
 		
 		//System.out.println("암호문 : "+encPwd );
 		
@@ -368,7 +368,7 @@ public class MemberController {
 			
 		}
 			
-		m.setUserPwd(encPwd); //암호화된 비번
+		//m.setUserPwd(encPwd); //암호화된 비번
 		
 		
 		int esInsertUser = memberService.esInsertMember(m);
