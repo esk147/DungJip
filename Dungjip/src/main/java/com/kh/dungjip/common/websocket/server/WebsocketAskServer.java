@@ -48,7 +48,7 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 			String chatRoomNoStr = queryParams.get("chatRoomNo");
 			if (chatRoomNoStr != null) {
 				int chatRoomNo = Integer.parseInt(chatRoomNoStr);
-				 session.getAttributes().put("chatRoomNo", chatRoomNo); // 세션 속성에 채팅방 번호 저장
+
 				roomSessions.computeIfAbsent(chatRoomNo, k -> new CopyOnWriteArraySet<>()).add(session);// 만들어놓은 맵에 추가
 				System.out.println("세션에 추가된 방번호 " + chatRoomNo);
 			}
@@ -100,45 +100,7 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 			}
 		}
 	}
-	private Set<WebSocketSession> determineTargetSessions(WebSocketSession session, int chatRoomNo) {
-	    Set<WebSocketSession> targetSessions = new HashSet<>();
-	    // roomSessions 맵에서 해당 채팅방 번호의 세션들을 찾음
-	    Set<WebSocketSession> sessionsInRoom = roomSessions.get(chatRoomNo);
-	    if (sessionsInRoom != null) {
-	        // 현재 세션을 제외한 다른 세션들을 타겟 세션으로 설정
-	        targetSessions.addAll(sessionsInRoom);
-	        targetSessions.remove(session);
-	    }
-	    return targetSessions;
-	}
-	@Override
-	protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) {
-		System.out.println("왔냐 ㅋㅋ");
-	    ByteBuffer payload = message.getPayload();
-	    byte[] byteArray = new byte[payload.remaining()];
-	    payload.get(byteArray);
 
-	    // 채팅방 번호를 얻는 방법은 구현에 따라 다름
-	    // 예: 세션의 속성이나 파라미터에서 채팅방 번호를 얻음
-	    int chatRoomNo = (Integer) session.getAttributes().get("chatRoomNo");;
-
-	    Set<WebSocketSession> targetSessions = determineTargetSessions(session, chatRoomNo);
-
-	    for (WebSocketSession targetSession : targetSessions) {
-	        if (targetSession.isOpen()) {
-	            BinaryMessage fileMessage = new BinaryMessage(byteArray);
-	       System.out.println(fileMessage);
-	            try {
-	       
-					targetSession.sendMessage(fileMessage);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					System.out.println(" binary 오류");
-				}
-	        }
-	    }
-	}
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 

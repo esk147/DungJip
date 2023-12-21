@@ -103,6 +103,7 @@ public class MemberController {
 	@RequestMapping("logout.me")
 	public String loginMember(@RequestParam ("userNo") int userNo,HttpSession session) {//로그아웃 버튼에 파라미터 영역으로 userNo를 보내주었습니다.
 		
+		System.out.println(userNo);
 		int logoutTime = memberService.LastLogoutTime(userNo);
 		
 		//세션에 담겨있는 logoutUser정보 지우기 

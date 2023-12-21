@@ -377,8 +377,8 @@ aside ul::-webkit-scrollbar-track {
 				<label for="inputFile"> <img
 					src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png"
 					alt="">
-				</label> <input type="file" id="inputFile" style="display: none;" /> <a
-					href="#" id="send" onclick="send();">Send</a>
+				</label> <!-- <input type="file" id="inputFile" style="display: none;" /> <a
+					href="#" id="send" onclick="send();">Send</a> -->
 			</footer>
 
 		</main>
@@ -386,29 +386,22 @@ aside ul::-webkit-scrollbar-track {
 
 </body>
 <script>
-$(document).ready(function() {
+/* $(document).ready(function() {
     $('#inputFile').change(function() {
         var fileName = $(this).val().split('\\').pop(); // 파일 경로에서 파일명만 추출
 
         // 파일명을 textarea의 placeholder로 설정
         $('#sendChat').text(fileName);
-
-       
- 
     });
-});
-
+}); */
 /* $('#sendChat').on('keyup', function(){
-	
-
 	$("#currentTyping").html("입력중입니다");
 }); */
-console.log($("#inputFile").val());
+
 //왼쪽 채팅방 리스트 클릭시 해당 하는방의 사람이 메인채팅방 이름에 뜬다.
  function whatEvent(e){
 	$("#otherUser").text(e.lastElementChild.children[1].id);
 } 
-
 //엔터키 누르면 메세지  전송
 $(document).keyup(function(event){
 	if(event.which ===13){//keyup 이벤트의 13번쨰가  엔터 키이다.
@@ -492,9 +485,6 @@ window.onload = function() {
 					$("#chat").html(chatHtml);
 				}
 			$("#chat").scrollTop($("#chat").prop('scrollHeight'));//채팅을 최신순으로 내려주는 작업
-			
-			
-			
 			
 			},
 			error: function(xhr, status, error) {
@@ -601,36 +591,16 @@ window.onload = function() {
 	
 		function send(){
 		var text = $("#sendChat").val();
-		var fileInput = $("#inputFile")[0];//파일입력
-		var file = fileInput.files[0];//선택된 파일
-		
-		if(file){
-			
-			sendBinary(file);//파일이있을때는 sendBinary 함수로 
-			
-		}else{
-		
+
 			var data={
 					cno : chatRoomNo,
 					message : text
 			};
-				console.log(socket.send(JSON.stringify(data)));
+	
 				socket.send(JSON.stringify(data));
-				
-			  }
+			
 		$("#sendChat").val("");
 	}
-		function sendBinary(file){
-			var reader = new FileReader();
-			
-			reader.onload = function(event){
-				var arrayBuffer = event.target.result;
-				var blob = new Blob([arrayBuffer]);//Blob객체 생성 blob은 자바스크립트에서 이진데이터를 다룰때 생성된다.;
-				socket.send(blob);
-			};
-			reader.readAsArrayBuffer(file); // 파일을 ArrayBuffer로 읽기
-		}
-		
 	     </script>
 
 
