@@ -89,8 +89,9 @@
                 
                 <!-- 로그인 후  -->
                 	<div class="collapse navbar-collapse yamm" id="navigation">
+
 	                    <div class="button navbar-right" id="right-navi">
-	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="logout.me"' data-wow-delay="0.4s">Logout</button>
+	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="logout.me?userNo=${loginUser.userNo}"' data-wow-delay="0.4s">Logout</button>
 	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="enquiry.en"' data-wow-delay="0.5s">QnA</button>
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right">
@@ -135,6 +136,7 @@
                 
             </div><!-- /.container-fluid -->
         </nav>
+
         
         <script>
         	function clickVilla(e){
@@ -157,7 +159,6 @@
             }
         });
     </script>
-       
   
         <script src="/dungjip/resources/assets/js/modernizr-2.6.2.min.js"></script>
 

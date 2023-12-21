@@ -13,6 +13,8 @@
     <collection property="members" ofType="member">
         <id column="USER_NO" property="userNo"/>
         <result column="USER_NAME" property="userName"/>
+        <result column="LASTLOGINTIME" property="lastLoginTime"/>
+        <result column="LASTLOGOUTTIME" property="lastLogoutTime"/> 
     </collection>
 </resultMap>
     
@@ -27,7 +29,7 @@
 	    
     </resultMap>    
     
-  	
+
   		<resultMap type="member" id="memberResultSet">
   		
   			<result column="USER_NO" property="userNo" />
@@ -94,7 +96,7 @@
     </select>
     
     <select id="chatRoomList" resultMap="chatRoomWithMembersMap">
-		SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME
+		SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME
 		FROM JOINCHAT J
 		JOIN CHATROOM C ON J.CHATROOM_NO = C.CHATROOM_NO
 		JOIN MEMBER M ON J.USER_NO = M.USER_NO
@@ -103,6 +105,7 @@
 		    FROM JOINCHAT
 		    WHERE USER_NO = #{userNo})
 		AND J.USER_NO != #{userNo}
+		ORDER BY M.USER_NAME DESC
     </select>
     
     

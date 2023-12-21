@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kh.dungjip.member.model.server.AdminService;
+import com.kh.dungjip.member.model.service.AdminService;
 import com.kh.dungjip.member.model.vo.Member;
 
 @Controller

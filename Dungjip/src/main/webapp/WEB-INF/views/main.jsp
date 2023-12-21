@@ -128,6 +128,7 @@
 </head>
 <body>
 	<%@ include file="common/header.jsp"%>
+	<%@ include file="common/chatbot.jsp"%>
 	<script>
 		$.ajax({
 			url:"select.location",
@@ -214,7 +215,7 @@
       </div>
       <div class="card">
         <button>
-          <a href="websocket/ask?estateUserNo=4"><!-- 각 부동산의 사용자 순번을 넣을거다 --><!-- 부동산 상세페이지가 아직 구현이 안돼서 해두었습니다 -->
+          <a href="websocket/ask?estateUserNo=6"><!-- 각 부동산의 사용자 순번을 넣을거다 --><!-- 부동산 상세페이지가 아직 구현이 안돼서 해두었습니다 -->
         <img
           src="https://placehold.co/200x200"
           alt="Placeholder image representing an advertisement"
