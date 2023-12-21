@@ -108,5 +108,35 @@
     WHERE O.ES_NO=#{esNo}
     AND O.STATUS = 'Y'
 	</select>
+	
+	<select id="selectHouseMain" parameterType="string" resultMap="houseResultSet">
+		select * from house where house_type = #{type} order by house_price FETCH FIRST 7 ROWS ONLY
+	</select>
+	
+	<select id="selectHouseMainThumnail" parameterType="_int" resultMap="houseImgResultSet">
+		SELECT MIN(FILE_NO) AS FILE_NO,
+	    HOUSE_NO,
+	    MIN(ORIGIN_NAME) AS ORIGIN_NAME,
+	    MIN(CHANGE_NAME) AS CHANGE_NAME,
+	    MIN(UPLOAD_DATE) AS UPLOAD_DATE,
+	    MIN(STATUS) AS STATUS
+		FROM HOUSE_IMG
+		WHERE HOUSE_NO = #{houseNo}
+		GROUP BY HOUSE_NO
+	</select>
+	
+	<select id="selectSubscribeEstateList" resultMap="houseResultSet">
+		select user_no from estate e
+		join member m using (user_no)
+		where subscribe = 'Y'
+	</select>
+	
+	<select id="selectSubscribeHouseList" resultMap="houseResultSet">
+		SELECT H.*
+	    FROM OWN O
+	    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+	    WHERE O.ES_NO=#{esNo}
+	    AND O.STATUS = 'Y'
+	</select>
 
 </mapper>

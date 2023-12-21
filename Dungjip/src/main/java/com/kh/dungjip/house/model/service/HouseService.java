@@ -13,6 +13,8 @@ public interface HouseService {
 	ArrayList<House> selectLocations();
 
 	ArrayList<House> selectHouse(String type);
+	
+	ArrayList<House> selectHouseMain(String type);
 
 	ArrayList<HouseImg> selectHouseThumnail();
 
@@ -24,5 +26,7 @@ public interface HouseService {
 
 	//부동산이 갖고 있는 집 개수
 	int selectHouseListCount(int esNo);
+
+	HouseImg selectHouseMainThumnail(int houseNo);
 
 }
