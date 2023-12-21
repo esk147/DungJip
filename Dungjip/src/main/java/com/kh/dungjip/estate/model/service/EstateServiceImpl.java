@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.kh.dungjip.estate.model.dao.EstateDao;
 import com.kh.dungjip.estate.model.vo.Estate;
+<<<<<<< HEAD
+import com.kh.dungjip.estate.model.vo.EstateReview;
+=======
 import com.kh.dungjip.member.model.vo.Member;
+>>>>>>> branch 'develop' of https://github.com/esk147/DungJip.git
 
 @Service
 public class EstateServiceImpl implements EstateService {
@@ -40,6 +44,63 @@ public class EstateServiceImpl implements EstateService {
 		return estateDao.estateDetail(sqlSession,esNo);
 	}
 
+	//부동산 리뷰 리스트
+	@Override
+	public ArrayList<EstateReview> selectEstateReviewList(int esNo) {
+	
+		return estateDao.selectEstateReviewList(sqlSession,esNo);
+	}
+
+	//부동산 리뷰 총점
+	@Override
+	public int selectEstateReviewSum(int esNo) {
+		
+		return estateDao.selectEstateReviewSum(sqlSession,esNo);
+	}
+
+	//부동산 리뷰 개수
+	@Override
+	public int selectEstateReviewCount(int esNo) {
+		
+		return estateDao.selectEstateReviewCount(sqlSession,esNo);
+	}
+
+	
+	//각 별의 개수
+	@Override
+	public int selectEstateFiveStar(int esNo) {
+	
+		return estateDao.selectEstateFiveStar(sqlSession,esNo);
+	}
+	
+	@Override
+	public int selectEstateFourStar(int esNo) {
+	
+		return estateDao.selectEstateFourStar(sqlSession,esNo);
+	}
+
+	
+	@Override
+	public int selectEstateThreeStar(int esNo) {
+	
+		return estateDao.selectEstateThreeStar(sqlSession,esNo);
+	}
+
+	
+	@Override
+	public int selectEstateTwoStar(int esNo) {
+	
+		return estateDao.selectEstateTwoStar(sqlSession,esNo);
+	}
+
+	
+	@Override
+	public int selectEstateOneStar(int esNo) {
+	
+		return estateDao.selectEstateOneStar(sqlSession,esNo);
+	}
+
+	
 	@Override
 	public ArrayList<Estate> selectSubscribeEstateList() {
 		return estateDao.selectSubscribeEstateList(sqlSession);
