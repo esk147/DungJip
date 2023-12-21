@@ -13,6 +13,7 @@
 		<result column="ES_PHONE" property="esPhone"/>
 		<result column="ES_NUM" property="esNum"/>
 		<result column="ES_REGISTER" property="esRegister"/>
+		<result column="ES_REGISTER_NUM" property="esRegisterNum"/>
 		<result column="ES_ADDRESS" property="esAddress"/>
 		<result column="ES_CONTENT" property="esContent"/>
 		
@@ -23,7 +24,7 @@
 		</association>
 	</resultMap>
 	
-	<select id="selectEatateList" parameterType="_int" resultMap="estateResultSet" >
+	<select id="selectEstateList" parameterType="_int" resultMap="estateResultSet" >
 
 	
 	SELECT E.ES_NO
@@ -57,5 +58,24 @@
     WHERE ES_STATUS = 'Y'
     AND ES_NO = #{esNo}
 	</update>
-
+	
+	<select id="selectEstateLists" parameterType="estate" resultMap="estateResultSet">
+	  	SELECT *
+		FROM ESTATE 		
+		ORDER BY ES_NO
+	</select>
+	
+	<update id="banEstate" parameterType="estate">
+  		UPDATE ESTATE
+  		SET ES_STATUS = 'N'
+  		WHERE ES_NO = #{esNo}
+  		AND ES_STATUS = 'Y'
+  	</update>
+  		
+  	<update id="permitEstate" parameterType="estate">
+  		UPDATE ESTATE
+  		SET ES_STATUS = 'Y'
+  		WHERE ES_NO = #{esNo}
+  		AND ES_STATUS = 'N'
+  	</update>
 </mapper>

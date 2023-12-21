@@ -61,5 +61,27 @@
 		FROM HOUSE_IMG
 		GROUP BY HOUSE_NO
 	</select>
+	
+<insert id="enrollHouse" parameterType="house">
+    <selectKey keyProperty="houseNo" resultType="int" order="BEFORE">
+        SELECT SEQ_HNO.NEXTVAL FROM DUAL
+    </selectKey>
+    INSERT INTO HOUSE (
+        HOUSE_NO, HOUSE_PRICE, HOUSE_RENT, HOUSE_SQUARE, HOUSE_STYLE, HOUSE_TITLE,
+        HOUSE_DETAILS, HOUSE_TYPE, HOUSE_LATITUDE, HOUSE_LONGITUDE,
+        HOUSE_ADDRESS, HOUSE_FLOOR, HOUSE_BUILDING_FLOOR
+    )
+    VALUES (
+        #{houseNo}, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle},
+        #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude},
+        #{houseAddress}, #{houseFloor}, #{houseBuildingFloor}
+    )
+</insert>
+    
+	<insert id="enrollHouseImg" parameterType="houseImg">
+		INSERT INTO HOUSE_IMG (FILE_NO, HOUSE_NO, ORIGIN_NAME, CHANGE_NAME)
+		VALUES (SEQ_HINO.NEXTVAL, #{houseNo}, #{originName}, #{changeName})
+    </insert>
+
 
 </mapper>
