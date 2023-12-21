@@ -1,6 +1,7 @@
 package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class EstateServiceImpl implements EstateService {
 	}
 
 	@Override
-	public ArrayList<Estate> selectSubscribeEstateList() {
+	public List<Integer> selectSubscribeEstateList() {
 		return estateDao.selectSubscribeEstateList(sqlSession);
 	}
 

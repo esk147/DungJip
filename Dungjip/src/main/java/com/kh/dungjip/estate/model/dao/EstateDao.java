@@ -1,6 +1,7 @@
 package com.kh.dungjip.estate.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -28,8 +29,8 @@ public class EstateDao {
 		return sqlSession.selectOne("estateMapper.estateDetail",esNo);
 	}
 
-	public ArrayList<Estate> selectSubscribeEstateList(SqlSessionTemplate sqlSession) {
-		return (ArrayList) sqlSession.selectList("estateMapper.selectSubscribeEstateList");
+	public List<Integer> selectSubscribeEstateList(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("estateMapper.selectSubscribeEstateList");
 	}
 
 	

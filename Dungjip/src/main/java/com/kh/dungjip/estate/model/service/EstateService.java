@@ -1,6 +1,7 @@
 package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.member.model.vo.Member;
@@ -16,7 +17,7 @@ public interface EstateService {
 	//부동산 상세정보
 	Estate estateDetail(int esNo);
 
-	ArrayList<Estate> selectSubscribeEstateList();
+	List<Integer> selectSubscribeEstateList();
 
 
 
