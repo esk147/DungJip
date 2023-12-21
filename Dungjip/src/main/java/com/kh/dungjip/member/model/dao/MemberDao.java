@@ -66,6 +66,25 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberMapper.ajaxphoneMethod", phone);
 	}
+	//로그인시 현재시간 집어넣기
+	public int updateLastLoginTime(SqlSessionTemplate sqlSession, Member loginUser) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.updateLastLoginTime", loginUser);
+	}
+
+	public Member loginMemberPlusCurrentTime(SqlSessionTemplate sqlSession, Member beginLoginUser) {
+		// TODO Auto-generated method stub
+		Member member = sqlSession.selectOne("memberMapper.loginMember", beginLoginUser);
+		
+		member.setActive(member.isActive());
+		
+		return member;
+	}
+
+	public int LastLogoutTime(SqlSessionTemplate sqlSession, int userNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.lastLogoutTime", userNo);
+	}
 
 	//아이디 찾기 
 	public Member memberFindId(SqlSessionTemplate sqlSession, Member m) {
@@ -106,9 +125,10 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.mypageUpdate", m);
 	}
 
-	
 
-	
+	public int userSubscribe(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.update("memberMapper.userSubscribe", userNo);
+	}
 
 	
 

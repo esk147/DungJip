@@ -51,6 +51,22 @@
 		border-radius: 4px;
 	}
 	
+	.prefer-section{
+		display: flex;
+	}
+	
+	.prefer-check {
+		width: 50%;
+	}
+	
+	.prefer-section input[type="number"]{
+		width: 100%;
+		padding: 10px;
+		margin-bottom: 10px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+	}
+	
 	.userType input[type="radio"] {
 		width: 23%;
 		padding: 10px;
@@ -154,11 +170,28 @@
 				</div>
 				
 				<!-- 주소 text 누르면 팝업까지 -->
-                <div class="form-section">
+                <div class="form-section">                
                     <label for="address">주소</label>
                     <input type="text" class="form-control" id="address_kakao" name="address" placeholder="주소(클릭해주세요.)" >
                     <span class="placeholder"></span>
-                </div>         	
+                </div>
+                
+				<div class="form-section">
+                    <label for="preferLocation">선호 주소</label>
+                    <input type="text" class="form-control" id="prefer_location" name="preferLocation" placeholder="선호 주소(클릭해주세요.)" >
+                    <span class="placeholder"></span>
+                </div>
+                
+                <div class="prefer-section">
+                	<div class="prefer-check">
+	                    <label for="preferCheck1">선호 평수</label>
+	                    <input type="number" class="form-control" id="preferCheck1" name="preferCheck1" placeholder="(~평 이상)">
+                	</div>
+                	<div class="prefer-check">
+	                    <label for="preferCheck2">선호 층수</label>
+	                    <input type="number" class="form-control" id="preferCheck2" name="preferCheck2" placeholder="(~층 이상)">
+                	</div>
+                </div>
 				
 				<script type="text/javascript">
 				
@@ -174,6 +207,18 @@
 	               	                }
 	               	            }).open();
 	               	        });
+	               	        
+	               	     document.getElementById("prefer_location").addEventListener("click", function(){ //주소입력칸을 클릭하면
+	               	            
+	               	        	event.preventDefault(); // 링크의 기본 동작을 중지
+	               	        	//카카오 지도 발생
+	               	            new daum.Postcode({
+	               	                oncomplete: function(data) { //선택시 입력값 세팅
+	               	                    document.getElementById("prefer_location").value = data.address; 	// 주소 넣기
+	               	                    document.querySelector("input[name=preferLocation]").focus(); //다음 임력 칸으로 포커싱
+	               	                }
+	               	            }).open();
+	               	        });
 	               	    }
 	               	    
                  </script>
@@ -183,7 +228,7 @@
 					<label for="upfile">프로필 사진 설정</label> 
 					<img id="titleImg" alt="" src="resources/img/person/person.jpg" style="width: 100px; height: 100px;">					
 				 	<input style="display: none; " type="file"  class="form-control" id="upfile" name="upfile" onchange="loadImg(this,1)"> 									
-				</div>
+				</div>  
 	
 				<div align="center">
 	                <button type="submit" value="가입완료" onclick="return memberEnrollResult();" >가입완료</button>

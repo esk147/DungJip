@@ -131,9 +131,31 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.mypageUpdate(sqlSession,m);
 	}
 
-	
+	@Override
+	public int userSubscribe(int userNo) {
+		int result = memberDao.userSubscribe(sqlSession, userNo);
+		
+		return result;
+	}
 
-	
+	@Override
+	public int updateLastLoginTime(Member loginUser) {
+
+		
+		return memberDao.updateLastLoginTime(sqlSession,loginUser);
+	}
+
+	@Override
+	public Member loginMemberPlusCurrentTime(Member beginLoginUser) {
+
+		
+		return memberDao.loginMemberPlusCurrentTime(sqlSession,beginLoginUser);
+	}
+	@Override
+	public int LastLogoutTime(int userNo) {//로그아웃 할떄의 시간
+		// TODO Auto-generated method stub
+		return memberDao.LastLogoutTime(sqlSession,userNo);
+	}
 
 
 

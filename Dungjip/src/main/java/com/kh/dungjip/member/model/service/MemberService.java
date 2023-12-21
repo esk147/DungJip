@@ -51,10 +51,13 @@ public interface MemberService {
 	//회원 정보 수정
 	int mypageUpdate(Member m);
 
-	
+	int userSubscribe(int userNo);
 
-	
+	int updateLastLoginTime(Member beginLoginUser);
 
+	Member loginMemberPlusCurrentTime(Member beginLoginUser);
+	
+	int LastLogoutTime(int userNo);
 
 	
 

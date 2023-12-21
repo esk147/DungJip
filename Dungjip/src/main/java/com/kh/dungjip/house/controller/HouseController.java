@@ -42,7 +42,9 @@ public class HouseController {
 	
 	@RequestMapping("insert.house")
 	public String insertHouse(HttpSession session) throws IOException, ParseException {
-		Reader reader = new FileReader("/Users/kim-eunseong/git/DungJip/Dungjip/src/main/webapp/WEB-INF/resources/jik.json");
+
+		Reader reader = new FileReader("C:\\Users\\easyoh\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
+
 			
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(reader);
@@ -118,7 +120,6 @@ public class HouseController {
 	@RequestMapping("select.location")
 	public ArrayList<House> selectLocation() {
 		ArrayList<House> lList = houseService.selectLocations();
-		ArrayList<HouseImg> hImgList = new ArrayList<>();
 		
 		return lList;
 	}
@@ -140,20 +141,38 @@ public class HouseController {
 		System.out.println("부동산리스트");
 		
 	    System.out.println("elist: " + elist);
-	    System.out.println(member);
-		
+	  
 		return "house/houseDetail";
 	}
 	
 	//집 리스트
 	@RequestMapping("villa.map")
-	public ModelAndView villaMap(@RequestParam(value="locate", defaultValue="서울 영등포구 양평동4가 2") String locate, String type, ModelAndView mv) {
+	public ModelAndView villaMap(String locate, String type, ModelAndView mv) {
 		ArrayList<House> lList = houseService.selectHouse(type);
 		ArrayList<HouseImg> hImgList = houseService.selectHouseThumnail();
 		
 		mv.addObject("lList", lList).addObject("locate", locate).addObject("hImgList", hImgList).addObject("type",type).setViewName("house/houseMap");
 		
 		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping("select.house")
+	public ArrayList<House> selectHouse(String type) {
+		ArrayList<House> mainList = houseService.selectHouseMain(type);
+		
+		ArrayList<HouseImg> imgList = new ArrayList<>();
+		for(House h : mainList) {
+			HouseImg img = houseService.selectHouseMainThumnail(h.getHouseNo());
+			
+			imgList.add(img);
+		}
+		
+		ArrayList<Estate> subscribeUser = estateService.selectSubscribeEstateList();
+		
+		System.out.println(subscribeUser);
+		
+		return mainList;
 	}
 }
 

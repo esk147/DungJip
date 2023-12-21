@@ -147,7 +147,7 @@
 				
 				<!-- 주소 text 누르면 팝업까지 -->
                 <div class="form-section">
-                    <label for="esAddress">주소</label>
+                    <label for="address">주소</label>
                     <input type="text" class="form-control" id="address_kakao" name="address" placeholder="주소(클릭해주세요.)" >
                     <span class="placeholder"></span>
                 </div>         	
