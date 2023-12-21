@@ -110,6 +110,27 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.updateMemberPwd(sqlSession, m);
 	}
 
+	//회원 탈퇴
+	@Override
+	public int memberDelete(String userId) {
+		// TODO Auto-generated method stub
+		return memberDao.memberDelete(sqlSession,userId);
+	}
+
+	//비밀번호 변경
+	@Override
+	public int memberPwdUpdate(Member member) {
+		// TODO Auto-generated method stub
+		return memberDao.memberPwdUpdate(sqlSession,member);
+	}
+
+	//회원정보 수정
+	@Override
+	public int mypageUpdate(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.mypageUpdate(sqlSession,m);
+	}
+
 	
 
 	

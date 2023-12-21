@@ -206,4 +206,29 @@
 			AND USER_ID = #{userId}	    	
     	</update>
     	
+    	<delete id="memberDelete" parameterType="string">
+    		UPDATE MEMBER 
+ 			SET	STATUS = 'N'
+    		WHERE USER_ID = #{userId}
+    		AND STATUS = 'Y'   	
+    	</delete>
+    	
+    	<update id="memberPwdUpdate" parameterType="java.util.Map">
+		    UPDATE MEMBER
+		    SET USER_PWD = #{userPwd}
+		    WHERE USER_NO = #{userNo}
+		</update>
+		
+		<update id="mypageUpdate" >
+			UPDATE MEMBER
+			SET USER_NAME = #{userName}
+				,USER_NICKNAME = #{userNickName}
+				,AGE = #{age}
+				,PHONE = #{phone}
+				,EMAIL = #{email}
+				,ADDRESS = #{address}
+			WHERE USER_NO = #{userNo}	
+		
+		</update>
+    	
     </mapper>

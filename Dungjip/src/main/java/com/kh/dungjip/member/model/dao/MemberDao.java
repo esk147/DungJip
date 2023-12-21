@@ -1,5 +1,8 @@
 package com.kh.dungjip.member.model.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -81,6 +84,31 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		sqlSession.update("memberMapper.updateMemberPwd",m);
 	}
+
+	//회원 탈퇴
+	public int memberDelete(SqlSessionTemplate sqlSession, String userId) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("memberMapper.memberDelete", userId);
+	}
+
+	//비밀번호 변경
+	public int memberPwdUpdate(SqlSessionTemplate sqlSession,Member member) {
+		
+    		Map<String, Object> mpwd = new HashMap<>();
+    		mpwd.put("member", member);
+
+	    return sqlSession.update("memberMapper.memberPwdUpdate", member);	
+	}
+
+	//회원 정보 수정 
+	public int mypageUpdate(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.mypageUpdate", m);
+	}
+
+	
+
+	
 
 	
 

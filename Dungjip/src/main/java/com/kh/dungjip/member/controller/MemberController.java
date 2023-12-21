@@ -1,5 +1,7 @@
 package com.kh.dungjip.member.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.io.File;
 
 import java.io.IOException;
@@ -245,7 +247,7 @@ public class MemberController {
 			String changeName = currentTime + ranNum + ext;
 			
 			//6. 저장시킬 실직적인 물리적 경로 추출하기 
-			String savePath = session.getServletContext().getRealPath("/resources/img/person");
+			String savePath = session.getServletContext().getRealPath("resources/img/person/");
 			
 			try {
 				//7. 경로와 수정파일명으로 파일 업로드 하기 (경로 + 파일명) 파일객체를 생성한 뒤 해당 파일 객체를 업로드시킨다.
@@ -259,7 +261,7 @@ public class MemberController {
 			
 			//8. 데이터 베이스에 등록할 변경이름, 원본이름 member VO에 담기 
 			m.setOriginName(originName);
-			m.setChangeName("resources/img/person"+changeName);			
+			m.setChangeName("resources/img/person/"+changeName);			
 			
 		}else {
 			
@@ -344,7 +346,7 @@ public class MemberController {
 			String changeName = currentTime + ranNum + ext;
 			
 			//6. 저장시킬 실직적인 물리적 경로 추출하기 
-			String savePath = session.getServletContext().getRealPath("/resources/img/person");
+			String savePath = session.getServletContext().getRealPath("resources/img/person/");
 			
 			try {
 				//7. 경로와 수정파일명으로 파일 업로드 하기 (경로 + 파일명) 파일객체를 생성한 뒤 해당 파일 객체를 업로드시킨다.
@@ -358,18 +360,17 @@ public class MemberController {
 			
 			//8. 데이터 베이스에 등록할 변경이름, 원본이름 member VO에 담기 
 			m.setOriginName(originName);
-			m.setChangeName("/resources/img/person"+changeName);			
+			m.setChangeName("resources/img/person/"+changeName);			
 			
 		}else {
 			
-			String defaultImagePath = "/resources/img/person/person.jpg";
+			String defaultImagePath = "resources/img/person/person.jpg";
 			
 			m.setChangeName(defaultImagePath);
 			
 		}
 			
 		m.setUserPwd(encPwd); //암호화된 비번
-		
 		
 		int esInsertUser = memberService.esInsertMember(m);
 		
@@ -468,4 +469,119 @@ public class MemberController {
 		return "member/memberMypageUpdateForm";
 	}
 	
+	//회원탈퇴
+	@RequestMapping("mdelete.me")
+	public String memberDelete(String userPwdChk, HttpSession session, Model model) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		String userId = loginUser.getUserId();
+		String loginUserPwd = loginUser.getUserPwd();
+		
+		//System.out.println("비밀번호 확인"+loginUserPwd);
+		//System.out.println("로그인 유저 확인"+userPwd);
+		
+		if(bcryptPasswordEncoder.matches(userPwdChk, loginUserPwd)) { //비밀번호가 같을때
+			
+			
+			//System.out.println("비밀번호 확인2"+loginUserPwd);
+			//System.out.println("로그인 유저 확인2"+loginUser);
+			
+			int result = memberService.memberDelete(userId);
+			
+			if(result > 0) { //탈퇴 성공
+			
+				session.setAttribute("alertMsg", "그동안 저희 사이트를 이용해 주셔서 감사합니다.");
+				session.removeAttribute("loginUser"); 
+				return "redirect:/";
+				
+			}else { //탈퇴 실패 
+				
+				model.addAttribute("errorMsg", "회원 탈퇴 실패");
+				return "common/errorPage";
+				
+			}
+			
+		}else { //비밀번호가 다를 때 
+			
+			session.setAttribute("alertMsg", "비밀번호를 잘못 입력하셨습니다.");
+			return "redirect:myPage.me";
+		}
+
+	}
+	
+	//비밀번호 수정 
+	@RequestMapping("changePwd.me")
+	public String memberPwdUpdate(Member m, Model model, HttpSession session,HttpServletRequest request) {
+		
+		String userPwd = request.getParameter("userPassword");//친거(현재비밀번호)
+		String newPwd = request.getParameter("userNewPassword");//바꿀거
+		
+		Member member = (Member)session.getAttribute("loginUser");
+		
+		if(member != null && bcryptPasswordEncoder.matches(userPwd, member.getUserPwd())) { //일치할때
+			
+			String encryptNewPassword = bcryptPasswordEncoder.encode(newPwd);
+			
+			member.setUserPwd(encryptNewPassword);	
+			
+			int memberPwdUpdate = memberService.memberPwdUpdate(member);
+		
+			if (memberPwdUpdate > 0) { // 비밀번호 변경 성공
+				
+	            session.setAttribute("alertMsg", "비밀번호 변경이 완료되었습니다.");
+	            return "redirect:/";
+	            
+	        } else { // DB 업데이트 실패
+	        	
+	            session.setAttribute("alertMsg", "비밀번호 변경에 실패하셨습니다.");
+	            return "redirect:myPage.me";
+	            
+	        }
+			
+		}else {
+			
+			session.setAttribute("alertMsg", "비밀번호 수정에 실패하셨습니다.");
+			return "redirect:myPage.me";
+		}
+				
+	}
+	
+	//회원 정보 수정
+	@RequestMapping("mupdate.me")
+	public ModelAndView mypageUpdate(Member m,Model model, HttpSession session,ModelAndView mv ) {
+		
+		int result = memberService.mypageUpdate(m); //처리 된 행 수 전달
+		
+		if(result > 0) { //성공
+			
+			Member loginUser = memberService.loginMember(m);
+			session.setAttribute("loginUser", loginUser); //조회한 데이터 세션에 갱신
+			session.setAttribute("alertMsg", "정보 수정이 완료되었습니다.");
+			
+			mv.setViewName("redirect:/myPage.me");
+		} else { //수정 실패
+			
+			mv.addObject("errorMsg", "회원 정보 수정 실패").setViewName("common/errorPage");
+		}
+		
+		return mv;
+	}
+	
+	//프로필 사진 변경
+//	@PostMapping("/changefile")
+//	public String fileajaxmethod (@RequestParam("titleImg") MultipartFile titleImg) {
+//		
+//		String uploadPath = "resources/img/person/";
+//		
+//		return "success";
+//	}
+	
+	
+	//mypage에서 예약내역 페이지로 이동 
+	@RequestMapping("mReservation.me")
+	public String memberReservationForm () {
+		return "member/memberMypageReservationForm";
+	}
+	                                     
 }
