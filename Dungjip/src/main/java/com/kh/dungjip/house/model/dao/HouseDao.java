@@ -57,5 +57,13 @@ public class HouseDao {
 		
 		return sqlSession.selectOne("houseMapper.selectHouseListCount",esNo);
 	}
+	
+	public ArrayList<House> selectHouseMain(SqlSessionTemplate sqlSession, String type){
+		return (ArrayList)sqlSession.selectList("houseMapper.selectHouseMain", type);
+	}
+
+	public HouseImg selectHouseMainThumnail(SqlSessionTemplate sqlSession, int houseNo) {
+		return sqlSession.selectOne("houseMapper.selectHouseMainThumnail", houseNo);
+	}
 
 }

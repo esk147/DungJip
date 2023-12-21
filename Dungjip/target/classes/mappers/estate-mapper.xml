@@ -65,7 +65,7 @@
     WHERE ES_STATUS = 'Y'
     AND ES_NO = #{esNo}
 	</update>
-	
+
 	<!-- 댓글용 resultMap -->
 	<resultMap type="estateReview" id="EstateReviewResultSet">
 		<result column="ES_RE_NO" property="esReNo"/>
@@ -161,5 +161,12 @@
 	</select>
 	
 	
+
+	<select id="selectSubscribeEstateList" resultMap="estateResultSet">
+		select user_no from estate e
+		join member m using (user_no)
+		where subscribe = 'Y'
+	</select>
+
 
 </mapper>

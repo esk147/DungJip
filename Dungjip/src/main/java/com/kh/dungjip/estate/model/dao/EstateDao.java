@@ -74,6 +74,9 @@ public class EstateDao {
 	}
 
 
+	public ArrayList<Estate> selectSubscribeEstateList(SqlSessionTemplate sqlSession) {
+		return (ArrayList) sqlSession.selectList("estateMapper.selectSubscribeEstateList");
+	}
 
 	
 }

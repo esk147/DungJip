@@ -109,7 +109,7 @@
 		.placeinfo a, .placeinfo a:hover, .placeinfo a:active{color:#fff;text-decoration: none;}
 		.placeinfo a, .placeinfo span {display: block;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 		.placeinfo span {margin:5px 5px 0 5px;cursor: default;font-size:13px;}
-		.placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #89725B;}
+		.placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #cca427;}
 		.placeinfo .tel {color:#0f7833;}
 		.placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
 		

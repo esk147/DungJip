@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.member.model.vo.Member;
 
 public interface EstateService {
 
@@ -31,6 +32,8 @@ public interface EstateService {
 	int selectEstateThreeStar(int esNo);
 	int selectEstateTwoStar(int esNo);
 	int selectEstateOneStar(int esNo);
+	
+	ArrayList<Estate> selectSubscribeEstateList();
 
 
 

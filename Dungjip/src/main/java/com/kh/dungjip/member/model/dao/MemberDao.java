@@ -1,5 +1,8 @@
 package com.kh.dungjip.member.model.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -63,6 +66,25 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberMapper.ajaxphoneMethod", phone);
 	}
+	//로그인시 현재시간 집어넣기
+	public int updateLastLoginTime(SqlSessionTemplate sqlSession, Member loginUser) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.updateLastLoginTime", loginUser);
+	}
+
+	public Member loginMemberPlusCurrentTime(SqlSessionTemplate sqlSession, Member beginLoginUser) {
+		// TODO Auto-generated method stub
+		Member member = sqlSession.selectOne("memberMapper.loginMember", beginLoginUser);
+		
+		member.setActive(member.isActive());
+		
+		return member;
+	}
+
+	public int LastLogoutTime(SqlSessionTemplate sqlSession, int userNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.lastLogoutTime", userNo);
+	}
 
 	//아이디 찾기 
 	public Member memberFindId(SqlSessionTemplate sqlSession, Member m) {
@@ -80,6 +102,32 @@ public class MemberDao {
 	public void updateMemberPwd(SqlSessionTemplate sqlSession,Member m) {
 		// TODO Auto-generated method stub
 		sqlSession.update("memberMapper.updateMemberPwd",m);
+	}
+
+	//회원 탈퇴
+	public int memberDelete(SqlSessionTemplate sqlSession, String userId) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("memberMapper.memberDelete", userId);
+	}
+
+	//비밀번호 변경
+	public int memberPwdUpdate(SqlSessionTemplate sqlSession,Member member) {
+		
+    		Map<String, Object> mpwd = new HashMap<>();
+    		mpwd.put("member", member);
+
+	    return sqlSession.update("memberMapper.memberPwdUpdate", member);	
+	}
+
+	//회원 정보 수정 
+	public int mypageUpdate(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.mypageUpdate", m);
+	}
+
+
+	public int userSubscribe(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.update("memberMapper.userSubscribe", userNo);
 	}
 
 	
