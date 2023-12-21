@@ -28,5 +28,9 @@ public class EstateDao {
 		return sqlSession.selectOne("estateMapper.estateDetail",esNo);
 	}
 
+	public ArrayList<Estate> selectSubscribeEstateList(SqlSessionTemplate sqlSession) {
+		return (ArrayList) sqlSession.selectList("estateMapper.selectSubscribeEstateList");
+	}
+
 	
 }

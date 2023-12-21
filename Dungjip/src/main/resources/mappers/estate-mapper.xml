@@ -19,6 +19,8 @@
 		
 		<result column="ES_COUNT" property="esCount"/>
 		<result column="ES_Status" property="esStatus"/>
+		<result column="ENROLLDATE" property="enrollDate"/>
+		<result column="ES_INTRO" property="esIntro"/>
 		<association property="member" javaType="member">
         	<result column="CHANGE_NAME" property="changeName"/>
 		</association>
@@ -30,6 +32,7 @@
 	SELECT E.ES_NO
       ,E.ES_NAME
       ,M.CHANGE_NAME
+      ,E.ES_INTRO
 	FROM ESTATE E
 	JOIN OWN O ON E.ES_NO = O.ES_NO
 	JOIN MEMBER M ON E.USER_NO = M.USER_NO
@@ -39,17 +42,22 @@
 	</select>
 	
 	<select id="estateDetail" parameterType="estate" resultMap="estateResultSet">
-	SELECT ES_NO
-      ,USER_NO
-      ,ES_NAME
-      ,ES_PHONE
-      ,ES_NUM
-      ,ES_REGISTER_NUM
-      ,ES_ADDRESS
-      ,ES_CONTENT
-      ,ES_IMAGE
-	FROM ESTATE
+	 SELECT E.ES_NO
+           ,E.USER_NO
+           ,E.ES_NAME
+           ,E.ES_CEO
+           ,E.ES_PHONE
+           ,E.ES_NUM
+           ,E.ES_REGISTER_NUM
+           ,E.ES_ADDRESS
+           ,E.ES_CONTENT
+           ,E.ENROLLDATE
+           ,M.CHANGE_NAME
+           ,E.ES_INTRO
+	FROM ESTATE E
+    JOIN MEMBER M ON E.USER_NO=M.USER_NO
 	WHERE ES_NO=#{esNo}
+	AND ES_STATUS = 'Y'
 	</select>
 	
 	<update id="increaseCount" parameterType="_int">
@@ -78,4 +86,10 @@
   		WHERE ES_NO = #{esNo}
   		AND ES_STATUS = 'N'
   	</update>
+	<select id="selectSubscribeEstateList" resultMap="estateResultSet">
+		select user_no from estate e
+		join member m using (user_no)
+		where subscribe = 'Y'
+	</select>
+
 </mapper>

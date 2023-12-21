@@ -21,6 +21,14 @@
 		<result column="HOUSE_FLOOR" property="houseFloor" />
 		<result column="HOUSE_BUILDING_FLOOR"
 			property="houseBuildingFloor" />
+		<result column="HOUSE_TOILET" property="houseToilet" />
+		<result column="HOUSE_ROOMS" property="houseRooms" />
+		<result column="HOUSE_PARKABLE" property="houseParkAble" />
+		<result column="HOUSE_BALCONY" property="houseBalcony" />
+		<result column="HOUSE_MAINTAINCOST" property="houseMaintainCost" />
+		<result column="HOUSE_DOITNOW" property="houseDoItNow" />
+		<result column="HOUSE_BUILDDATE" property="houseBuildDate" />
+		<result column="HOUSE_ANIMALS" property="houseAnimals" />
 		<result column="STATUS" property="status" />
 	</resultMap>
 	
@@ -37,18 +45,21 @@
 	<insert id="insertHouseJSON" parameterType="house">
 		insert into house (HOUSE_NO, HOUSE_PRICE, HOUSE_RENT, HOUSE_SQUARE,
 		HOUSE_STYLE,HOUSE_TITLE,HOUSE_DETAILS,HOUSE_TYPE,HOUSE_LATITUDE,
-		HOUSE_LONGITUDE,HOUSE_UPLOAD_TIME,HOUSE_ADDRESS,HOUSE_FLOOR,HOUSE_BUILDING_FLOOR)
+		HOUSE_LONGITUDE,HOUSE_UPLOAD_TIME,HOUSE_ADDRESS,HOUSE_FLOOR,HOUSE_BUILDING_FLOOR,
+		HOUSE_TOILET, HOUSE_ROOMS, HOUSE_PARKABLE, HOUSE_BALCONY, HOUSE_MAINTAINCOST,
+		HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS)
 		values (seq_hno.nextval, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle}
 		, #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude}, #{houseUploadTime}, #{houseAddress}
-		, #{houseFloor}, #{houseBuildingFloor})
+		, #{houseFloor}, #{houseBuildingFloor}, #{houseToilet}, #{houseRooms}, #{houseParkAble}, #{houseBalcony}
+		, #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals})
 	</insert>
 	
 	<select id="selectLocations" resultMap="houseResultSet">
 		select DISTINCT house_address from house
 	</select>
 	
-	<select id="selectHouse" resultMap="houseResultSet">
-		select * from house order by house_no
+	<select id="selectHouse" parameterType="string" resultMap="houseResultSet">
+		select * from house where house_type = #{type} order by house_no
 	</select>
 	
 	<select id="selectHouseThumnail" resultMap="houseImgResultSet">
@@ -83,5 +94,64 @@
 		VALUES (SEQ_HINO.NEXTVAL, #{houseNo}, #{originName}, #{changeName})
     </insert>
 
+	<select id="selectHouseList" resultMap="houseResultSet">
+	SELECT H.HOUSE_NO
+          ,H.HOUSE_PRICE
+          ,H.HOUSE_RENT
+          ,H.HOUSE_SQUARE
+          ,H.HOUSE_STYLE
+          ,H.HOUSE_TYPE
+          ,H.HOUSE_FLOOR
+    FROM OWN O 
+    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+    WHERE O.ES_NO=#{esNo}
+    AND O.STATUS = 'Y'
+	</select>
+	
+	<select id="selectHouseImg" resultMap="houseImgResultSet">
+	SELECT MIN(H.FILE_NO) AS FILE_NO
+          ,H.HOUSE_NO
+          ,MIN(H.CHANGE_NAME) AS CHANGE_NAME
+          ,MIN(H.UPLOAD_DATE) AS UPLOAD_DATE
+          ,MIN(H.STATUS) AS STATUS
+    FROM HOUSE_IMG H
+    JOIN OWN O ON O.HOUSE_NO = H.HOUSE_NO
+    WHERE O.ES_NO=#{esNo}
+    AND O.STATUS = 'Y'
+    GROUP BY H.HOUSE_NO
+	
+	</select>
+	
+	<select id="selectHouseListCount" resultType="_int">
+	SELECT COUNT(*)
+	FROM OWN O
+ 	JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+    WHERE O.ES_NO=#{esNo}
+    AND O.STATUS = 'Y'
+	</select>
+	
+	<select id="selectHouseMain" parameterType="string" resultMap="houseResultSet">
+		select * from house where house_type = #{type} order by house_price FETCH FIRST 7 ROWS ONLY
+	</select>
+	
+	<select id="selectHouseMainThumnail" parameterType="_int" resultMap="houseImgResultSet">
+		SELECT MIN(FILE_NO) AS FILE_NO,
+	    HOUSE_NO,
+	    MIN(ORIGIN_NAME) AS ORIGIN_NAME,
+	    MIN(CHANGE_NAME) AS CHANGE_NAME,
+	    MIN(UPLOAD_DATE) AS UPLOAD_DATE,
+	    MIN(STATUS) AS STATUS
+		FROM HOUSE_IMG
+		WHERE HOUSE_NO = #{houseNo}
+		GROUP BY HOUSE_NO
+	</select>
+	
+	<select id="selectSubscribeHouseList" resultMap="houseResultSet">
+		SELECT H.*
+	    FROM OWN O
+	    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+	    WHERE O.ES_NO=#{esNo}
+	    AND O.STATUS = 'Y'
+	</select>
 
 </mapper>

@@ -1,4 +1,4 @@
-package com.kh.dungjip.member.model.server;
+package com.kh.dungjip.member.model.service;
 
 import java.util.List;
 
