@@ -125,12 +125,6 @@
 		GROUP BY HOUSE_NO
 	</select>
 	
-	<select id="selectSubscribeEstateList" resultMap="houseResultSet">
-		select user_no from estate e
-		join member m using (user_no)
-		where subscribe = 'Y'
-	</select>
-	
 	<select id="selectSubscribeHouseList" resultMap="houseResultSet">
 		SELECT H.*
 	    FROM OWN O

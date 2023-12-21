@@ -65,5 +65,11 @@
     WHERE ES_STATUS = 'Y'
     AND ES_NO = #{esNo}
 	</update>
+	
+	<select id="selectSubscribeEstateList" resultMap="estateResultSet">
+		select user_no from estate e
+		join member m using (user_no)
+		where subscribe = 'Y'
+	</select>
 
 </mapper>

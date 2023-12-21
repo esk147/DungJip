@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.dungjip.estate.model.dao.EstateDao;
 import com.kh.dungjip.estate.model.vo.Estate;
+import com.kh.dungjip.member.model.vo.Member;
 
 @Service
 public class EstateServiceImpl implements EstateService {
@@ -37,6 +38,11 @@ public class EstateServiceImpl implements EstateService {
 	public Estate estateDetail(int esNo) {
 		
 		return estateDao.estateDetail(sqlSession,esNo);
+	}
+
+	@Override
+	public ArrayList<Estate> selectSubscribeEstateList() {
+		return estateDao.selectSubscribeEstateList(sqlSession);
 	}
 
 	

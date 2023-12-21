@@ -168,6 +168,10 @@ public class HouseController {
 			imgList.add(img);
 		}
 		
+		ArrayList<Estate> subscribeUser = estateService.selectSubscribeEstateList();
+		
+		System.out.println(subscribeUser);
+		
 		return mainList;
 	}
 }
