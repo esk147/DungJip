@@ -129,7 +129,8 @@
 		SELECT H.*
 	    FROM OWN O
 	    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
-	    WHERE O.ES_NO=#{esNo}
+	    WHERE O.ES_NO=#{randomUser}
+	    AND H.HOUSE_TYPE=#{type}
 	    AND O.STATUS = 'Y'
 	</select>
 

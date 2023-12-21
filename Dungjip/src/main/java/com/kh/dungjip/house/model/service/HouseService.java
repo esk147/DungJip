@@ -1,6 +1,7 @@
 package com.kh.dungjip.house.model.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.house.model.vo.House;
@@ -28,5 +29,7 @@ public interface HouseService {
 	int selectHouseListCount(int esNo);
 
 	HouseImg selectHouseMainThumnail(int houseNo);
+
+	ArrayList<House> selectSubscribeHouseList(Map<String, Object> map);
 
 }
