@@ -88,6 +88,7 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 		jobj.put("text", contentMessage);
 		jobj.put("date", date);
 		jobj.put("userNo", userNo);
+		jobj.put("chatRoomNo", chatRoomNo);
 
 		String jobjString = jobj.toString();
 		TextMessage jobjMessage = new TextMessage(jobjString);

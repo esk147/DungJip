@@ -1,6 +1,9 @@
 package com.kh.dungjip.common.websocket.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.dungjip.common.websocket.model.service.ChatService;
@@ -63,8 +67,21 @@ public class WebsocketController {
 			}
 		}
 		ArrayList<ChatRoom> chatList = chatService.chatRoomList(loginUserNo);// 현재 유저가 채팅하고있는 방의 리스트를 가지고온다.
-		System.out.println(chatList);
 
+		/*
+		 * List<String> movinArr = new List(); for(ChatRoom cr : chatList) {
+		 * 
+		 * System.out.println("cr,member"); System.out.println(cr.getMembers()); Member
+		 * crM = (Member) cr.getMembers();
+		 * 
+		 * String movings = crM.calculateTimeAgo();
+		 * 
+		 * movinArr.add(movings); } System.out.println(chatList);
+		 * 
+		 */		//Map<String, Object> map = new HashMap();
+		
+	//	map.put("chatList", chatList);
+	//	map.put("movinArr", movinArr);
 		m.addAttribute("chatList", chatList);
 
 		return "websocket/ask";
@@ -79,5 +96,22 @@ public class WebsocketController {
 		return chatMsg;
 
 	}
+	@ResponseBody
+	@RequestMapping("/findChat.ch")
+	public ArrayList<ChatRoom> findChat(@RequestParam("findChat") String findChat,
+											@RequestParam("loginUserNo") int loginUserNo) {
+		System.out.println(findChat);
+		System.out.println(loginUserNo);
+		
+		ChatRoom c = new ChatRoom(loginUserNo,findChat);
+		
+		ArrayList<ChatRoom> cr = chatService.findChat(c);
+
+		System.out.println(cr);
+		
+		return cr;
+		
+	}
+	
 
 }

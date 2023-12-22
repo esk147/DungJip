@@ -25,7 +25,7 @@ public interface ChatService {
 
 	int alreadyUsedChatRoomCheck(JoinChat c);
 
+	ArrayList<ChatRoom> findChat(ChatRoom c);
+
 	
-
-
 }
