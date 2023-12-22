@@ -160,10 +160,8 @@
 	AND ES_RE_SCORE=1
 	</select>
 	
-	
-
-	<select id="selectSubscribeEstateList" resultMap="estateResultSet">
-		select user_no from estate e
+	<select id="selectSubscribeEstateList" resultType="java.lang.Integer">
+		select es_no from estate e
 		join member m using (user_no)
 		where subscribe = 'Y'
 	</select>
