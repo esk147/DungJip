@@ -1,5 +1,6 @@
 package com.kh.dungjip.member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.dungjip.estate.model.vo.Estate;
+import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.member.model.vo.Member;
 
 @Repository
@@ -128,6 +130,12 @@ public class MemberDao {
 
 	public int userSubscribe(SqlSessionTemplate sqlSession, int userNo) {
 		return sqlSession.update("memberMapper.userSubscribe", userNo);
+	}
+
+	//예약 내역
+	public ArrayList<Reservation> selectReservation(SqlSessionTemplate sqlSession, int userNo) {
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectReservation",userNo);
 	}
 
 	

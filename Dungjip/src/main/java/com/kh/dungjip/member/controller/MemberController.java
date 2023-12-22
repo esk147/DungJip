@@ -6,6 +6,7 @@ import java.io.File;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.Cookie;
@@ -28,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.dungjip.estate.model.vo.Estate;
+import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.member.model.service.MemberService;
 import com.kh.dungjip.member.model.vo.Member;
 
@@ -38,8 +40,8 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@Autowired
-	private BCryptPasswordEncoder bcryptPasswordEncoder; 	
+	//@Autowired
+	//private BCryptPasswordEncoder bcryptPasswordEncoder; 	
 	
 	  @RequestMapping("login.be") 
 	  public String loginMember () {
@@ -82,7 +84,7 @@ public class MemberController {
 		
 		//bcryptPasswordEncoder.matches(평문, 암호문)를 이용 (일치하면 true 아니면 false) 
 			
-		if(beginLoginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())) { //성공시
+		if(beginLoginUser != null /*&& bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())*/) { //성공시
 
 
 			int SuccessLoginTime =	memberService.updateLastLoginTime(beginLoginUser);//현재 시간 추가 
@@ -478,7 +480,7 @@ public class MemberController {
 		return "member/memberMypageUpdateForm";
 	}
 
-	
+	/*
 	//회원탈퇴
 	@RequestMapping("mdelete.me")
 	public String memberDelete(String userPwdChk, HttpSession session, Model model) {
@@ -519,8 +521,10 @@ public class MemberController {
 		}
 
 	}
+	*/
 	
 	//비밀번호 수정 
+	/*
 	@RequestMapping("changePwd.me")
 	public String memberPwdUpdate(Member m, Model model, HttpSession session,HttpServletRequest request) {
 		
@@ -556,6 +560,7 @@ public class MemberController {
 		}
 				
 	}
+	*/
 	
 	//회원 정보 수정
 	@RequestMapping("mupdate.me")
@@ -604,5 +609,21 @@ public class MemberController {
 		
 		return result;
 	}
+	
+	//예약 내역 
+	@RequestMapping("reservation.me")
+	public String selectReservation(int userNo,Model model) {
+		
+		ArrayList<Reservation> rlist = memberService.selectReservation(userNo);
+		
+		model.addAttribute("rlist", rlist);
+		
+		System.out.println(rlist);
+		return "member/memberMypageReservationForm";
+	}
+	
+	
+	
+	
 
 }

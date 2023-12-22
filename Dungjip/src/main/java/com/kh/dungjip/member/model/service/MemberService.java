@@ -1,6 +1,9 @@
 package com.kh.dungjip.member.model.service;
 
+import java.util.ArrayList;
+
 import com.kh.dungjip.estate.model.vo.Estate;
+import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.member.model.vo.Member;
 
 public interface MemberService {
@@ -58,6 +61,11 @@ public interface MemberService {
 	Member loginMemberPlusCurrentTime(Member beginLoginUser);
 	
 	int LastLogoutTime(int userNo);
+
+	//예약 내역
+	ArrayList<Reservation> selectReservation(int userNo);
+
+
 
 	
 
