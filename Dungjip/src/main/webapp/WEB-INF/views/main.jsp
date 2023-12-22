@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<title>Insert title here</title>
+<title>DungJip</title>
 <style>
       * {
         box-sizing: border-box;
@@ -211,29 +211,29 @@
     			data:{
     				type: type,
     			},success: function(result){
+    				$("#cardContainer").html('');
     				var str = "";
     				const imgList = result.imgList;
     				const mainList = result.mainList;
     				const randomSubscribeHouse = result.randomSubscribeHouse;
     				const subscribeImg = result.subscribeImg;
     				
-    				str += '<div class="card"> <img src="'+subscribeImg.changeName+'"/> <p>'+randomSubscribeHouse.houseTitle+'</p></div>';
+    				str += '<div class="card" id="'+randomSubscribeHouse.houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;"> <img src="'+subscribeImg.changeName+'"/> <p>'+randomSubscribeHouse.houseTitle+'</p></div>';
     				
     				for(var i = 0; i < mainList.length; i++){
-    					str += '<div class="card"> <img src="'+imgList[i].changeName+'"/> <p>'+mainList[i].houseTitle+'</p></div>';
+    					str += '<div class="card" id="'+mainList[i].houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;"> <img src="'+imgList[i].changeName+'"/> <p>'+mainList[i].houseTitle+'</p></div>';
     				}
     				
     				$("#cardContainer").append(str);
-    				
-    				console.log(subscribeImg);
-    				console.log(imgList);
-    				console.log(mainList);
-    				console.log(randomSubscribeHouse);
     			},error: function(){
     				console.log("통통신신에에러러");
     			}
         	})
         };
+        
+        function detailHouse(e){
+        	location.href="detail.ho?houseNo="+e.id;
+        }
     </script>
     
     <script>
