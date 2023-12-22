@@ -102,7 +102,7 @@
    
 </head>
 <body>
-    <div class="chat-toggle-button" onclick="toggleChat()"><img src="resources/img/AiBot.png" alt="메인이미지"></div>
+    <div class="chat-toggle-button" onclick="toggleChat()"><img src="/dungjip/resources/img/AiBot.png" alt="메인이미지"></div>
 <!--@@@@@@@@@@@@@@@@@@@@@메인 인덱스@@@@@@@@@@@@@@@@@@@@@@@@@-->
     <div class="chat-body">
         <!-- 챗봇 대화창 컨테이너 -->

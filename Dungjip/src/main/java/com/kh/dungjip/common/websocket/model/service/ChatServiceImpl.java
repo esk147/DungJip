@@ -66,6 +66,11 @@ public class ChatServiceImpl implements ChatService {
 		
 		return chatDao.updateChatRoomMsg(sqlSession, c);
 	}
+	@Override
+	public ArrayList<ChatRoom> findChat(ChatRoom c) {// 검색으로 채팅방 찾기
+		
+		return chatDao.findChat(sqlSession,c);
+	}
 
 	
 
