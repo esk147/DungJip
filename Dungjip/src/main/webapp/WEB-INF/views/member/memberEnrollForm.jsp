@@ -170,8 +170,8 @@
 				</div>
 				
 				<!-- 주소 text 누르면 팝업까지 -->
-                <div class="form-section">
-                    <label for="esAddress">주소</label>
+                <div class="form-section">                
+                    <label for="address">주소</label>
                     <input type="text" class="form-control" id="address_kakao" name="address" placeholder="주소(클릭해주세요.)" >
                     <span class="placeholder"></span>
                 </div>
@@ -203,7 +203,7 @@
 	               	            new daum.Postcode({
 	               	                oncomplete: function(data) { //선택시 입력값 세팅
 	               	                    document.getElementById("address_kakao").value = data.address; 	// 주소 넣기
-	               	                    document.querySelector("input[name=esAddress]").focus(); //다음 임력 칸으로 포커싱
+	               	                    document.querySelector("input[name=address]").focus(); //다음 임력 칸으로 포커싱
 	               	                }
 	               	            }).open();
 	               	        });
@@ -414,7 +414,6 @@
 			
 			function memberEnrollResult() {
 				
-				var userType= $("#userType").val();
 				var userId = $("#userId").val();
 				var userPwd = $("#userPwd").val();
 				var checkPwd = $("#checkPwd").val();
@@ -422,9 +421,6 @@
 				var userNickName = $("#userNickName").val();
 				var email = $("#email").val();
 				var phone = $("#phone").val();
-				var age = $("#age").val();
-				var gender = $("#gender").val();
-				var address_kakao = $("#address_kakao").val();
 								
 				if (userId == null || userId == '') {
 					alert("ID를 입력하세요.");
@@ -442,9 +438,9 @@
 					
 					var regExp =  /^(?=.*[A-Za-z\d?!\s])[A-Za-z\d?!]{5,14}$/;
 					
-					console.log("비번이요~")
-					console.log(userPwd);
-					console.log("비번이요~")
+					//console.log("비번이요~")
+					//console.log(userPwd);
+					//console.log("비번이요~")
 
 					if (!regExp.test(userPwd)) {
 						alert("비밀번호는 4~15자리 영문 및 숫자 조합이어야 합니다.");

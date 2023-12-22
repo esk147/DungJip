@@ -103,7 +103,7 @@
 				
 				<div class="form-section">
 					<label for="esNum">사업자 등록 번호*</label> 
-					<input type="text" class="form-control" id="esNum" name="esNum" placeholder="'-'를 제외한 숫자 10자리로 작성해 주세요">
+					<input type="text" class="form-control" id="esNum" name="esNum" placeholder="'-'를 제외한 숫자 11자리로 작성해 주세요">
 					<span id="confirm"></span>
 				</div>
                 

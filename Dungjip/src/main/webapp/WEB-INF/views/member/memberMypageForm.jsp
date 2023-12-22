@@ -71,7 +71,7 @@
         <section class="main-content" style="width:100%; margin: 70px 0 70px 50px; margin-left:4%;">
             <div class="card" style="width: 93%; margin-bottom:50px;">
             
-                <h3>내프로필 <img src="resources/img/icons/rightarrow271228.png" alt="" style="width: 15px; float:right;"></h3>
+                <a href="mypageupdate.me" style="width: 100%;"><h3>내프로필<img src="resources/img/icons/rightarrow271228.png" alt="" style="width: 15px; float:right;"></h3></a>
                 <!-- Additional content can be added here -->
                 <ul class="card_row" style="color: #333; list-style: none; padding: 0 20px 20px 20px;">
                     <li>

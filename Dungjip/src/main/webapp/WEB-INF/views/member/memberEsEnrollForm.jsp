@@ -367,17 +367,13 @@
 			
 			function memberEsInsertEnrollForm() {
 				
-				var userType= $("#userType").val();
 				var userId = $("#userId").val();
 				var userPwd = $("#userPwd").val();
 				var checkPwd = $("#checkPwd").val();
 				var userName = $("#userName").val();
 				var email = $("#email").val();
 				var phone = $("#phone").val();	
-				var age = $("#age").val();
-				var gender = $("#gender").val();
 				
-				var address_kakao = $("#address_kakao").val();
 								
 				if (userId == null || userId == '') {
 					alert("ID를 입력하세요.");
