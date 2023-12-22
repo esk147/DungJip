@@ -1,6 +1,7 @@
 package com.kh.dungjip.house.model.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,11 @@ public class HouseServiceImpl implements HouseService{
 	@Override
 	public HouseImg selectHouseMainThumnail(int houseNo) {
 		return houseDao.selectHouseMainThumnail(sqlSession, houseNo);
+	}
+
+	@Override
+	public ArrayList<House> selectSubscribeHouseList(Map<String, Object> map) {
+		return houseDao.selectSubscribeHouseList(sqlSession, map);
 	}
 
 }

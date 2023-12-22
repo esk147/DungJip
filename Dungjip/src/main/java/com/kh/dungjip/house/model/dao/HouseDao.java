@@ -1,6 +1,7 @@
 package com.kh.dungjip.house.model.dao;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -64,6 +65,10 @@ public class HouseDao {
 
 	public HouseImg selectHouseMainThumnail(SqlSessionTemplate sqlSession, int houseNo) {
 		return sqlSession.selectOne("houseMapper.selectHouseMainThumnail", houseNo);
+	}
+
+	public ArrayList<House> selectSubscribeHouseList(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		return (ArrayList) sqlSession.selectList("houseMapper.selectSubscribeHouseList", map);
 	}
 
 }
