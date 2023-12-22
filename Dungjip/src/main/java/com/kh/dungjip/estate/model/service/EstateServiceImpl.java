@@ -1,6 +1,7 @@
 package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.kh.dungjip.estate.model.dao.EstateDao;
 import com.kh.dungjip.estate.model.vo.Estate;
-<<<<<<< HEAD
 import com.kh.dungjip.estate.model.vo.EstateReview;
-=======
 import com.kh.dungjip.member.model.vo.Member;
->>>>>>> branch 'develop' of https://github.com/esk147/DungJip.git
 
 @Service
 public class EstateServiceImpl implements EstateService {
@@ -102,7 +100,7 @@ public class EstateServiceImpl implements EstateService {
 
 	
 	@Override
-	public ArrayList<Estate> selectSubscribeEstateList() {
+	public List<Integer> selectSubscribeEstateList() {
 		return estateDao.selectSubscribeEstateList(sqlSession);
 	}
 

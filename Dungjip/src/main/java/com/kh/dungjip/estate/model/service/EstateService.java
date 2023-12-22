@@ -1,6 +1,7 @@
 package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
@@ -17,6 +18,8 @@ public interface EstateService {
 	//부동산 상세정보
 	Estate estateDetail(int esNo);
 
+	List<Integer> selectSubscribeEstateList();
+
 	//부동산 리뷰 리스트
 	ArrayList<EstateReview> selectEstateReviewList(int esNo);
 
@@ -32,8 +35,6 @@ public interface EstateService {
 	int selectEstateThreeStar(int esNo);
 	int selectEstateTwoStar(int esNo);
 	int selectEstateOneStar(int esNo);
-	
-	ArrayList<Estate> selectSubscribeEstateList();
 
 
 

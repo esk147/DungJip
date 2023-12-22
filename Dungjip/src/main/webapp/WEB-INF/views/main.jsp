@@ -104,8 +104,8 @@
         }
 
       .card img {
-        max-width: 280px;
-        height: auto;
+        width: 280px;
+        height: 200px;
       }
 
 		#menu {
@@ -211,12 +211,24 @@
     			data:{
     				type: type,
     			},success: function(result){
-    				/* var str = "";
+    				var str = "";
+    				const imgList = result.imgList;
+    				const mainList = result.mainList;
+    				const randomSubscribeHouse = result.randomSubscribeHouse;
+    				const subscribeImg = result.subscribeImg;
     				
-    				for(var i = 0; i < result.length; i++){
-    					str += '<div class="card"> <img src="'+result[i].+'">' 
-    				} */
-    				console.log(result);
+    				str += '<div class="card"> <img src="'+subscribeImg.changeName+'"/> <p>'+randomSubscribeHouse.houseTitle+'</p></div>';
+    				
+    				for(var i = 0; i < mainList.length; i++){
+    					str += '<div class="card"> <img src="'+imgList[i].changeName+'"/> <p>'+mainList[i].houseTitle+'</p></div>';
+    				}
+    				
+    				$("#cardContainer").append(str);
+    				
+    				console.log(subscribeImg);
+    				console.log(imgList);
+    				console.log(mainList);
+    				console.log(randomSubscribeHouse);
     			},error: function(){
     				console.log("통통신신에에러러");
     			}
@@ -242,150 +254,7 @@
     <div class="main-content">
 		<button class="scroll-button" onclick="scroll(-200)">&lt;</button>
 			<div class="card-container" id="cardContainer">
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/280x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <button>
-		          <a href="websocket/ask?estateUserNo=4"><!-- 각 부동산의 사용자 순번을 넣을거다 --><!-- 부동산 상세페이지가 아직 구현이 안돼서 해두었습니다 -->
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		      </a>
-		      </button>
-		        <p>채팅 임시 확인 버튼</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
+		      
 	      </div>
       
 		<button class="scroll-button" onclick="scroll(200)">&gt;</button>
