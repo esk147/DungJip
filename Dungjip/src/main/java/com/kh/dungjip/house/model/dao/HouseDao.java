@@ -76,4 +76,24 @@ public class HouseDao {
 		return sqlSession.selectOne("houseMapper.selectHouseListCount",esNo);
 	}
 
+	//집 상세보기
+	public House selectHouseDetail(SqlSessionTemplate sqlSession, int houseNo) {
+		return sqlSession.selectOne("houseMapper.selectHouseDetail", houseNo);
+	}
+
+	//상세보기 집 이미지
+	public ArrayList<HouseImg> selectHouseImgDetail(SqlSessionTemplate sqlSession, int houseNo) {
+		return (ArrayList)sqlSession.selectList("houseMapper.selectHouseImgDetail", houseNo);
+	}
+
+	//비슷한 매물 찾기 list
+	public ArrayList<House> houseLikeList(SqlSessionTemplate sqlSession, String houseAddress) {
+		return (ArrayList)sqlSession.selectList("houseMapper.houseLikeList",houseAddress);
+	}
+
+	//비슷한 매물 찾기 img
+	public ArrayList<HouseImg> houseImgLike(SqlSessionTemplate sqlSession, String houseAddress) {
+		return (ArrayList)sqlSession.selectList("houseMapper.houseImgLike",houseAddress);
+	}
+
 }

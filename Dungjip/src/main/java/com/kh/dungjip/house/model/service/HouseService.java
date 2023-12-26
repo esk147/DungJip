@@ -35,4 +35,16 @@ public interface HouseService {
 	//찜취소
 	int deleteJjim(Jjim jj);
 
+	//집 상세보기
+	House selectHouseDetail(int houseNo);
+
+	//상세보기 집 이미지
+	 ArrayList<HouseImg> selectHouseImgDetail(int houseNo);
+
+	 //비슷한 매물 찾기 list
+	ArrayList<House> houseLikeList(String houseAddress);
+
+	//비슷한 매물 찾기 img
+	ArrayList<HouseImg> houseImgLike(String houseAddress);
+
 }

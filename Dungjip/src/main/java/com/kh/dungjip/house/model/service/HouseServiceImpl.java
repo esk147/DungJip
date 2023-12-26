@@ -83,4 +83,28 @@ public class HouseServiceImpl implements HouseService{
 		return houseDao.deleteJjim(sqlSession,jj);
 	}
 
+	//집 상세보기
+	@Override
+	public House selectHouseDetail(int houseNo) {
+		return houseDao.selectHouseDetail(sqlSession,houseNo);
+	}
+
+	//상세보기 집 이미지
+	@Override
+	public ArrayList<HouseImg> selectHouseImgDetail(int houseNo) {
+		return houseDao.selectHouseImgDetail(sqlSession,houseNo);
+	}
+
+	//비슷한 매물 찾기 list
+	@Override
+	public ArrayList<House> houseLikeList(String houseAddress) {
+		return houseDao.houseLikeList(sqlSession,houseAddress);
+	}
+
+	//비슷한 매물 찾기 img
+	@Override
+	public ArrayList<HouseImg> houseImgLike(String houseAddress) {
+		return houseDao.houseImgLike(sqlSession,houseAddress);
+	}
+
 }
