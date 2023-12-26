@@ -20,6 +20,12 @@ public class ChatRoom {
 	private String status;
 	
 	 private List<Member> members;
+
+	public ChatRoom(int userNo, String chatRoomName) {
+		super();
+		this.userNo = userNo;
+		this.chatRoomName = chatRoomName;
+	}
 	
 	
 	
