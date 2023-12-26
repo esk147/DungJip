@@ -32,6 +32,9 @@ public interface MemberService {
 
 	//번호 중복체크 (임대인/임차인)
 	int ajaxphoneMethod(String phone);
+	
+	//닉네임 중복 체크
+	int ajaxnickname(String userNickName);
 
 	//아이디 찾기
 	Member memberFindId(Member m);
@@ -58,6 +61,13 @@ public interface MemberService {
 	Member loginMemberPlusCurrentTime(Member beginLoginUser);
 	
 	int LastLogoutTime(int userNo);
+
+	//프로필 사진 수정
+	int fileAjaxMethod(Member m);
+
+	
+
+	
 
 	
 

@@ -10,6 +10,7 @@ import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.house.model.dao.HouseDao;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,5 +74,19 @@ public class HouseServiceImpl implements HouseService{
 	public HouseImg selectHouseMainThumnail(int houseNo) {
 		return houseDao.selectHouseMainThumnail(sqlSession, houseNo);
 	}
+
+	@Override
+	public ArrayList<House> memberMypageHousejjimForm(Member m) {
+		// TODO Auto-generated method stub
+		return houseDao.memberMypageHousejjimForm(sqlSession,m);
+	}
+
+	@Override
+	public HouseImg memberMypageHousejjimImg(int i) {
+		// TODO Auto-generated method stub
+		return houseDao.memberMypageHousejjimImg(sqlSession,i);
+	}
+
+
 
 }

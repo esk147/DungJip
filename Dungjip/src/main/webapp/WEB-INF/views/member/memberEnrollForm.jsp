@@ -134,6 +134,7 @@
 				<div class="form-section">
 					<label for="userNickName">닉네임</label> 
 					<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="닉네임">				
+					<span id="confirm4"></span>
 				</div>
 	
 				<div class="form-section">
@@ -411,6 +412,50 @@
 				});
 			});
 			
+            //닉네임 중복검사
+            var userNickNameck = false;
+
+            $(document).ready(function() {
+
+            	$("#userNickName").change(function() {
+            		
+					var userNickNameck = $("#userNickName").val();					
+						
+						$.ajax({
+		        			url : "ajaxNickName.do",
+		        			
+		        			data : {
+		        				userNickName : userNickNameck,
+		        			},
+		        			
+		        			success : function(result) {
+		        				
+		        				console.log(result);
+		        				
+		        				if(result == '1') { //중복
+		        					$("#confirm4")
+									.html("해당 닉네임은 이미 존재함으로 사용하실수 없습니다.")
+									.css("color","red");
+		        					$("#userNickName").focus();
+		        					userNickNameck = false;
+		        					
+		        				}else{ //사용가능
+		        					$("#confirm4")
+									.html("사용 가능한 닉네임입니다.")
+									.css("color","blue");
+		        					userNickNameck = true;
+		        				}
+		        				
+		        			},error : function() {
+		        				
+		        				console.log("통신 오류");
+		        			}
+
+		        		});	
+					
+					
+				});
+			});
 			
 			function memberEnrollResult() {
 				

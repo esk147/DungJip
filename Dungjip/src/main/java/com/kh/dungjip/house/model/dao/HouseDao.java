@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.member.model.vo.Member;
 
 @Repository
 public class HouseDao {
@@ -64,6 +65,16 @@ public class HouseDao {
 
 	public HouseImg selectHouseMainThumnail(SqlSessionTemplate sqlSession, int houseNo) {
 		return sqlSession.selectOne("houseMapper.selectHouseMainThumnail", houseNo);
+	}
+
+	public ArrayList<House> memberMypageHousejjimForm(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("houseMapper.memberMypageHousejjimForm",m);
+	}
+
+	public HouseImg memberMypageHousejjimImg(SqlSessionTemplate sqlSession, int i) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("houseMapper.selectHouseMainThumnail",i);
 	}
 
 }

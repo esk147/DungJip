@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.member.model.vo.Member;
 
 public interface HouseService {
 
@@ -28,5 +29,12 @@ public interface HouseService {
 	int selectHouseListCount(int esNo);
 
 	HouseImg selectHouseMainThumnail(int houseNo);
+
+	//조회
+	ArrayList<House> memberMypageHousejjimForm(Member m);
+	
+	//집사진 조회
+	HouseImg memberMypageHousejjimImg(int i);
+
 
 }
