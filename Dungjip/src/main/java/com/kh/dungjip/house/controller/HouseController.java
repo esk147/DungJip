@@ -168,6 +168,52 @@ public class HouseController {
 		return mv;
 	}
 
+	// 찜하기
+		@RequestMapping("insertJjim.de")
+		public ModelAndView insertJjim(Jjim jj, HttpSession session, ModelAndView mv) {
+
+			int result = houseService.insertJjim(jj);
+
+			if (result > 0) {
+				session.setAttribute("alertMsg", "찜하기 성공");
+				mv.setViewName("redirect:detail.ho?houseNo=" + jj.getHouseNo());
+			} else {
+				session.setAttribute("alertMsg", "찜하기 실패");
+				mv.setViewName("redirect:detail.ho");
+			}
+			return mv;
+		}
+
+		// 찜취소
+		@RequestMapping("deleteJjim.de")
+		public String deleteJjim(Jjim jj, HttpSession session) {
+			int result = houseService.deleteJjim(jj);
+
+			if (result > 0) {
+				session.setAttribute("alertMsg", "찜 취소 성공");
+				return "redirect:detail.ho?houseNo=" + jj.getHouseNo();
+			} else {
+				session.setAttribute("alertMsg", "찜 취소 실패");
+				return "redirect:detail.ho?houseNo=" + jj.getHouseNo();
+			}
+		}
+
+		//비슷한 매물 찾기
+		@ResponseBody
+		@RequestMapping(value="houseLikeList.ho",produces="application/json; charset=UTF-8")
+		public Map<String, ArrayList> houseLikeList(String houseAddress) {
+		    Map<String, ArrayList> resultMap = new HashMap<>();
+			//집 list
+			ArrayList<House> houseLike = houseService.houseLikeList(houseAddress);
+			resultMap.put("houseLike", houseLike);
+
+			//집 img
+			ArrayList<HouseImg> houseImgLike = houseService.houseImgLike(houseAddress);
+			resultMap.put("houseImgLike", houseImgLike);
+
+			return resultMap;
+
+		}
 	
 	@ResponseBody
 	@RequestMapping("select.house")
