@@ -26,8 +26,6 @@
 	</resultMap>
 	
 	<select id="selectEatateList" parameterType="_int" resultMap="estateResultSet" >
-
-	
 	SELECT E.ES_NO
       ,E.ES_NAME
       ,M.CHANGE_NAME

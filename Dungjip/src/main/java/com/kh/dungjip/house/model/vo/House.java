@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class House {
 
 	private int houseNo;
-	private int housePrice;
+	private String housePrice;
 	private int houseRent;
 	private Double houseSquare;
 	private String houseStyle;
@@ -37,4 +37,5 @@ public class House {
 	private String houseAnimals;
 	private String houseName;
 	private String status;
+	
 }
