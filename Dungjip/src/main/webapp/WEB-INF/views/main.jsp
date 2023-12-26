@@ -218,7 +218,9 @@
     				const randomSubscribeHouse = result.randomSubscribeHouse;
     				const subscribeImg = result.subscribeImg;
     				
-    				str += '<div class="card" id="'+randomSubscribeHouse.houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;"> <img src="'+subscribeImg.changeName+'"/> <p>'+randomSubscribeHouse.houseTitle+'</p></div>';
+    				if(subscribeImg){
+	    				str += '<div class="card" id="'+randomSubscribeHouse.houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;"> <img src="'+subscribeImg.changeName+'"/> <p>'+randomSubscribeHouse.houseTitle+'</p></div>';    					
+    				}
     				
     				for(var i = 0; i < mainList.length; i++){
     					str += '<div class="card" id="'+mainList[i].houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;"> <img src="'+imgList[i].changeName+'"/> <p>'+mainList[i].houseTitle+'</p></div>';
