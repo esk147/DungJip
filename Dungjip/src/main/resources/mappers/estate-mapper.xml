@@ -163,6 +163,42 @@
 		join member m using (user_no)
 		where subscribe = 'Y'
 	</select>
+	
+	<select id="selectEstateReview" resultMap="estateReviewResultSet" >
+
+		SELECT ES_RE_NO
+		        ,ER.ES_NO
+		        ,ER.USER_NO
+		        ,ES_RE_SCORE
+		        ,ES_RE_CONTENT
+		        ,ES_RE_CREATE_DATE
+		        ,ES_RE_TYPE
+		        ,ES_RE_STATUS
+		        ,ER.HOUSE_NO
+		FROM ESTATE_REVIEW ER
+		JOIN ESTATE E ON ER.ES_NO  = E.ES_NO
+		JOIN HOUSE H ON ER.HOUSE_NO = H.HOUSE_NO
+		WHERE ER.USER_NO = #{userNo}
+		AND ES_RE_STATUS='Y'
+	
+	</select>
+	
+	<delete id="esReviewDelete" parameterType="_int">		
+		UPDATE ESTATE_REVIEW
+		SET ES_RE_STATUS = 'N'
+		WHERE ES_RE_STATUS = 'Y'
+		AND ES_RE_NO = #{esReNo}
+	</delete>
+	
+	<update id="updateReview">
+		UPDATE ESTATE_REVIEW
+		SET ES_RE_SCORE = #{esReScore}
+		    ,ES_RE_CONTENT = #{esReContent}
+		    ,ES_RE_CREATE_DATE = SYSDATE
+		WHERE ES_RE_NO = #{esReNo}
+		AND ES_RE_STATUS='Y'  
+	</update>
+	
 
 
 </mapper>

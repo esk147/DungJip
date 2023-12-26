@@ -28,6 +28,8 @@
 		<typeAlias type="com.kh.dungjip.house.model.vo.HouseImg" alias="houseImg" /> 
 		
 		<typeAlias type="com.kh.dungjip.enquiry.model.vo.Enquiry" alias="enquiry" /> 
+		
+		<typeAlias type="com.kh.dungjip.residentReview.model.vo.ResidentReview" alias="residentReview" /> 
 
 		<typeAlias type="com.kh.dungjip.estate.model.vo.EstateReview" alias="estateReview"/>
 	

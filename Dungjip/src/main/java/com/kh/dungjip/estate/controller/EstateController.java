@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -142,7 +144,53 @@ public class EstateController {
 		return map;
 	}
 	
-
+	//삭제
+	@RequestMapping("/estateReview/delete.es")
+	public String esReviewDelete(@RequestParam("esReNo")int esReNo,Model model, HttpSession session) {
+		
+		int result = estateService.esReviewDelete(esReNo);
+		
+		System.out.println("번호 넘어오나" + esReNo);
+		
+		if(result > 0) {
+			
+			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
+			
+		}else {
+			
+			session.setAttribute("alertMsg", "다시 시도해주세요.");	
+			
+		}
+		
+		return "redirect:/myEsReview.me";
+	}
+	
+	//수정
+	@RequestMapping("updateReview.es")
+	public String updateReview(@RequestParam("esReNo") int esReNo,
+			 @RequestParam("esReScore") int esReScore,
+             @RequestParam("esReContent") String esReContent,Model model, HttpSession session) {
+		
+		
+		System.out.println("번호가 넘어오나요????" + esReNo);		
+		System.out.println("별점: " + esReScore);
+		System.out.println("내용: " + esReContent);
+		    
+		int result = estateService.updateReview(esReNo,esReScore,esReContent);
+		
+		System.out.println(esReNo);
+		if(result > 0) {
+			System.out.println(result);
+			session.setAttribute("alertMsg", "수정이 완료되었습니다.");
+			return "redirect:/myEsReview.me";
+		}else {
+			session.setAttribute("alertMsg", "다시 시도해주세요.");
+			return "common/errorPage";
+		}
+		
+	}
+	
+	
 	
 	
 }

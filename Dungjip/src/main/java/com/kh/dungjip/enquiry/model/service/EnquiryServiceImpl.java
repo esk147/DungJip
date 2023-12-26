@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.dungjip.enquiry.model.dao.EnquiryDao;
 import com.kh.dungjip.enquiry.model.vo.Enquiry;
+import com.kh.dungjip.member.model.vo.Member;
 
 @Service
 public class EnquiryServiceImpl implements EnquiryService{
@@ -32,5 +33,27 @@ public class EnquiryServiceImpl implements EnquiryService{
 	public ArrayList<Enquiry> moreEnquiry(Enquiry en) {
 		return enquiryDao.moreEnquiry(sqlSession, en);
 	}
+	
+	//조회
+	@Override
+	public ArrayList<Enquiry> selectEnquiryList(Member m) {
+		// TODO Auto-generated method stub
+		return enquiryDao.selectEnquiryList(sqlSession,m);
+	}
+	
+	//삭제
+	@Override
+	public int myQnAdelete(int enquiryNo) {
+		// TODO Auto-generated method stub
+		return enquiryDao.myQnAdelete(sqlSession,enquiryNo);
+	}
+	@Override
+	public ArrayList<Enquiry> selectqList(Member m) {
+		// TODO Auto-generated method stub
+		return enquiryDao.selectqList(sqlSession,m);
+	}
+	
+	
+	
 	
 }

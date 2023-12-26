@@ -104,5 +104,26 @@ public class EstateServiceImpl implements EstateService {
 		return estateDao.selectSubscribeEstateList(sqlSession);
 	}
 
+	//조회
+	@Override
+	public ArrayList<EstateReview> selectEstateReview(Member m) {
+		// TODO Auto-generated method stub
+		return estateDao.selectEstateReview(sqlSession,m);
+	}
+
+	//삭제
+	@Override
+	public int esReviewDelete(int esReNo) {
+		// TODO Auto-generated method stub
+		return estateDao.esReviewDelete(sqlSession,esReNo);
+	}
+
+	@Override
+	public int updateReview(int esReNo, int esReScore, String esReContent) {
+		// TODO Auto-generated method stub
+		return estateDao.updateReview(sqlSession,esReNo,esReScore,esReContent );
+	}
+	
+	
 	
 }

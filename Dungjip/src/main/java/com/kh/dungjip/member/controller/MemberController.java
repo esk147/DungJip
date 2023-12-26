@@ -1,18 +1,16 @@
 package com.kh.dungjip.member.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.io.File;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.ibatis.reflection.SystemMetaObject;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,16 +18,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.dungjip.enquiry.model.service.EnquiryService;
+import com.kh.dungjip.enquiry.model.vo.Enquiry;
+import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.Estate;
+import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.house.model.service.HouseService;
+import com.kh.dungjip.house.model.vo.House;
+import com.kh.dungjip.house.model.vo.HouseImg;
 import com.kh.dungjip.member.model.service.MemberService;
 import com.kh.dungjip.member.model.vo.Member;
+import com.kh.dungjip.residentReview.model.service.ResidentReviewService;
+import com.kh.dungjip.residentReview.model.vo.ResidentReview;
 
 
 @Controller
@@ -40,6 +46,18 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder; 	
+	
+	@Autowired
+	private EnquiryService enquiryService;
+	
+	@Autowired
+	private EstateService estateService;
+	
+	@Autowired
+	private ResidentReviewService residentReviewService;
+	
+	@Autowired
+	private HouseService houseService;
 	
 	  @RequestMapping("login.be") 
 	  public String loginMember () {
@@ -429,6 +447,15 @@ public class MemberController {
 		return result;		
 	}
 	
+	//닉네임 중복 체크
+	@ResponseBody
+	@RequestMapping("ajaxNickName.do")
+	public int ajaxnickname (@RequestParam("userNickName") String userNickName, HttpServletResponse resp) {
+		
+		int result = memberService.ajaxnickname(userNickName);
+		
+		return result;
+	}
 		
 	//회원등록 (중개인 폼)
 	@PostMapping("insertenroll.es")	
@@ -579,15 +606,73 @@ public class MemberController {
 	}
 	
 	//프로필 사진 변경
-//	@PostMapping("/changefile")
-//	public String fileajaxmethod (@RequestParam("titleImg") MultipartFile titleImg) {
-//		
-//		String uploadPath = "resources/img/person/";
-//		
-//		return "success";
-//	}
+	@PostMapping("changefile.me")
+	public void fileAjaxMethod (Model model,MultipartFile upfile, HttpSession session) {
+		
+		Member m = (Member)session.getAttribute("loginUser"); 
+		
+		if(!upfile.getOriginalFilename().equals("")) {
+			
+			//새로운 첨부파일 있고 기존 첨부파일 있는 경우 기존 첨부파일 삭제 작업 
+			//새로운 첨부파일 서버에 업로드 하는 작업
+			String changeName = saveFile(upfile,session);
+			
+			System.out.println("chageName" + changeName);
+			
+			System.out.println("확인 1"+m);
+			
+			//기존에 파일이 있다면 
+			if(!m.getChangeName().equals("")) { //빈문자열이 아니면
+				
+				//new File 객체로 해당 경로 파일 delete메소드로 지우기
+				new File(session.getServletContext().getRealPath(m.getChangeName())).delete();				
+			}
+			
+			m.setOriginName(upfile.getOriginalFilename());
+			m.setChangeName("resources/img/person/" + changeName);
+			
+			//System.out.println("확인 2"+fileData);
+		}
+		
+		//전달된 파일이 있다면 해당 정보 DB에 전달하기 
+		int result = memberService.fileAjaxMethod(m);
 	
+	}
 	
+	//파일명 수정 모듈
+	private String saveFile(MultipartFile upfile, HttpSession session) {
+		
+		//파일명 수정하기 
+		//1. 원본 파일 명 추출 
+		String originName = upfile.getOriginalFilename();
+		
+		//2. 시간 추출하기
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+	
+		//3. 뒤에 붙이 랜덤값 5자리 추출하기 
+		int ranNum = (int)(Math.random()*90000 + 10000);
+		
+		//4. 원본파일명에서 확장자 추출하기 test.txt - 뒤에서부터 . 을 찾고(lastIndexOf) 그 뒤로 잘라내기(substring)
+		String ext = originName.substring(originName.lastIndexOf("."));
+		
+		//5. 2,3,4 이어붙여서 변경이름 만들기  (업로드 이름)
+		String changeName = currentTime + ranNum + ext;
+		
+		//6. 저장시킬 실직적인 물리적 경로 추출하기 
+		String savePath = session.getServletContext().getRealPath("resources/img/person/");
+		
+		try {
+			//7. 경로와 수정파일명으로 파일 업로드 하기 (경로 + 파일명) 파일객체를 생성한 뒤 해당 파일 객체를 업로드시킨다.
+			upfile.transferTo(new File(savePath + changeName));				
+			
+		} catch (IllegalStateException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return changeName;
+	}
+
 	//mypage에서 예약내역 페이지로 이동 
 	@RequestMapping("mReservation.me")
 	public String memberReservationForm () {
@@ -604,5 +689,96 @@ public class MemberController {
 		
 		return result;
 	}
+	
+	//mypage에서 문의내역 페이지로 이동 
+	@RequestMapping("myQnA.me")
+	public String selectEnquiryList(HttpSession session ,Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		ArrayList <Enquiry> qlist = enquiryService.selectEnquiryList(m);
+		
+		model.addAttribute("qlist", qlist);
+		
+		return "member/memberMypageQnAForm";
+	}
+
+	//mypage에서 문의내역 페이지로 이동 
+	@GetMapping("myPage.me")
+	public String selectqList(HttpSession session ,Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		ArrayList <Enquiry> qlist = enquiryService.selectqList(m);
+		
+		model.addAttribute("qlist", qlist);
+		
+		return "member/memberMypageForm";
+	}
+	
+	//mypage에서 집리뷰내역 페이지로 이동
+	@GetMapping("myHReview.me")
+	public String memberMypageHouseReviewForm(HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		ArrayList<ResidentReview> hlist = residentReviewService.selectResidentReview(m);
+		
+		model.addAttribute("hlist", hlist);
+		
+		
+		return"member/memberMypageHouseReviewForm";
+	}
+	
+	//mypage에서 부동산리뷰내역 페이지로 이동
+	@RequestMapping("myEsReview.me")
+	public String memberMypageEstateReviewForm() {
+		return"member/memberMypageEstateReviewForm";
+	}
+	
+	
+	
+	@GetMapping("myEsReview.me")
+	public String selectEstateReview(HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		ArrayList<EstateReview> elist = estateService.selectEstateReview(m);
+		
+		model.addAttribute("elist", elist);		
+		
+		return "member/memberMypageEstateReviewForm";
+				
+	}
+
+	@RequestMapping("myHousejjim.me")
+	public String memberMypageHousejjimForm (HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		ArrayList<House> hlike = houseService.memberMypageHousejjimForm(m);
+		
+		ArrayList<HouseImg> himg = new ArrayList<>();
+		
+		for( House i : hlike ) {
+			
+			HouseImg j = houseService.memberMypageHousejjimImg(i.getHouseNo());
+			
+			himg.add(j); //하나씩 뽑은 j를 himg에 담아주기
+			
+		}
+
+		model.addAttribute("hlike", hlike);
+		model.addAttribute("himg", himg);
+		
+		return "member/memberMypageHousejjimForm";
+	}
+	
+	@RequestMapping("myEsjjim.me")
+	public String memberMypageEstatejjimForm () {
+		return "member/memberMypageEstatejjimForm";
+	}
+	
+	
 
 }

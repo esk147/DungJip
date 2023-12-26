@@ -235,5 +235,14 @@
 	    AND H.HOUSE_TYPE=#{type}
 	    AND O.STATUS = 'Y'
 	</select>
+	
+	<select id="memberMypageHousejjimForm" resultMap="houseResultSet">	
+		SELECT H.HOUSE_NO
+		        ,H.HOUSE_TITLE
+		FROM HOUSE H
+		JOIN JJIM J ON J.HOUSE_NO = H.HOUSE_NO	
+		WHERE J.USER_NO = #{userNo}
+	</select>
+	
 
 </mapper>

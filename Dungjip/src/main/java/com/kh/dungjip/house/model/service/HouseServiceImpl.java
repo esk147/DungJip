@@ -12,6 +12,7 @@ import com.kh.dungjip.house.model.dao.HouseDao;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.Jjim;
 import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -118,6 +119,18 @@ public class HouseServiceImpl implements HouseService{
 	}
 
 	@Override
+	public ArrayList<House> memberMypageHousejjimForm(Member m) {
+		// TODO Auto-generated method stub
+		return houseDao.memberMypageHousejjimForm(sqlSession,m);
+	}
+
+	@Override
+	public HouseImg memberMypageHousejjimImg(int houseNo) {
+		// TODO Auto-generated method stub
+		return houseDao.memberMypageHousejjimImg(sqlSession,houseNo);
+	}
+
+
 	public ArrayList<House> selectSubscribeHouseList(Map<String, Object> map) {
 		return houseDao.selectSubscribeHouseList(sqlSession, map);
 	}

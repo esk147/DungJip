@@ -7,6 +7,7 @@ import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.Jjim;
 import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.member.model.vo.Member;
 
 public interface HouseService {
 
@@ -50,6 +51,12 @@ public interface HouseService {
 	//비슷한 매물 찾기 img
 	ArrayList<HouseImg> houseImgLike(String houseAddress);
 	HouseImg selectHouseMainThumnail(int houseNo);
+
+	//조회
+	ArrayList<House> memberMypageHousejjimForm(Member m);
+	
+	//집사진 조회
+	HouseImg memberMypageHousejjimImg(int houseNo);
 
 	ArrayList<House> selectSubscribeHouseList(Map<String, Object> map);
 
