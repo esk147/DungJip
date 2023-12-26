@@ -21,28 +21,27 @@
                         <div class="col-md-3 col-sm-6 wow fadeInRight animated">
                             <div class="single-footer">
                                 <h4>About us </h4>
-                                <div class="footer-title-line"></div>
 
                                 <img src="assets/img/footer-logo.png" alt="" class="wow pulse" data-wow-delay="1s">
-                                <p>Lorem ipsum dolor cum necessitatibus su quisquam molestias. Vel unde, blanditiis.</p>
+                                <p>새로운 터전을 구하시는데 도움이 되고자 하는 DUNGJIP입니다!</p>
                                 <ul class="footer-adress">
-                                    <li><i class="pe-7s-map-marker strong"> </i> 9089 your adress her</li>
-                                    <li><i class="pe-7s-mail strong"> </i> email@yourcompany.com</li>
-                                    <li><i class="pe-7s-call strong"> </i> +1 908 967 5906</li>
+                                    <li><i class="pe-7s-map-marker strong"> </i> 서울특별시 영등포구 선유동2로 57 이레빌딩(구관) 20F</li>
+                                    <li><i class="pe-7s-mail strong"> </i> esk147@naver.com</li>
+                                    <li><i class="pe-7s-call strong"> </i> +82 10-8697-7610</li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 wow fadeInRight animated">
                             <div class="single-footer">
-                                <h4>Quick links </h4>
+                                <h4>Contributors </h4>
                                 <div class="footer-title-line"></div>
                                 <ul class="footer-menu">
-                                    <li><a href="properties.html">Properties</a>  </li> 
-                                    <li><a href="#">Services</a>  </li> 
-                                    <li><a href="submit-property.html">Submit property </a></li> 
-                                    <li><a href="contact.html">Contact us</a></li> 
-                                    <li><a href="faq.html">fqa</a>  </li> 
-                                    <li><a href="faq.html">Terms </a>  </li> 
+                                    <li><a>김은성</a></li> 
+                                    <li><a>이지오</a></li> 
+                                    <li><a>정슬기</a></li> 
+                                    <li><a>이채현</a></li> 
+                                    <li><a>이동혁</a></li> 
+                                    <li><a>장재혁</a></li> 
                                 </ul>
                             </div>
                         </div>
