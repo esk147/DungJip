@@ -24,7 +24,7 @@
 			margin: 20px 0;
 		}
 		
-		.nav-item {
+		.nav-item2 {
 			padding: 10px 50px; /* Adjust the padding as necessary */
 			margin: 0 10px; /* Space between items */
 			border: 1px solid #ddd; /* Border color */
@@ -33,12 +33,12 @@
 			color:#000;
 		}
 		
-		.nav-item.active {
+		.nav-item2.active {
 			background-color: #000; /* Active item background color */
 			color: #fff; /* Active item text color */
 		}
 		
-		.nav-item:hover{
+		.nav-item2:hover{
 		    background-color: #000;
 		    color: #fff;
 		}    
@@ -140,9 +140,9 @@
         </div>
        	<br><br>
 		<div align="center">
-			<a href="enList.en" class="nav-item active" style="width:180px;">1:1문의 내역</a>
-			<a href="enquiry.en" class="nav-item" style="width:180px;">1:1문의</a>
-			<a href="#" class="nav-item">공지사항</a>
+			<a href="enList.en" class="nav-item2 active" style="width:180px;">1:1문의 내역</a>
+			<a href="enquiry.en" class="nav-item2" style="width:180px;">1:1문의</a>
+			<a href="#" class="nav-item2">공지사항</a>
 		</div>
         <div class="content-area recent-property" style="background-color: #FCFCFC; padding-bottom: 55px;">
             <div class="container">    

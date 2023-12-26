@@ -26,9 +26,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.dungjip.enquiry.model.service.EnquiryService;
 import com.kh.dungjip.enquiry.model.vo.Enquiry;
+import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.Estate;
-import com.kh.dungjip.estateReview.model.service.EstateReviewService;
-import com.kh.dungjip.estateReview.model.vo.EstateReview;
+import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.house.model.service.HouseService;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
@@ -51,7 +51,7 @@ public class MemberController {
 	private EnquiryService enquiryService;
 	
 	@Autowired
-	private EstateReviewService estateReviewService;
+	private EstateService estateService;
 	
 	@Autowired
 	private ResidentReviewService residentReviewService;
@@ -99,7 +99,9 @@ public class MemberController {
 		Member beginLoginUser = memberService.loginMember(m);
 		
 		//bcryptPasswordEncoder.matches(평문, 암호문)를 이용 (일치하면 true 아니면 false) 
+			
 		if(beginLoginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())) { //성공시
+
 
 			int SuccessLoginTime =	memberService.updateLastLoginTime(beginLoginUser);//현재 시간 추가 
 			
@@ -204,11 +206,11 @@ public class MemberController {
 			//System.out.println("확인 3"+findPwd);	
 			
 			String newPwd = RandomStringUtils.randomAlphanumeric(10);
-			String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
+			//String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
 			
 			//System.out.println("새로운 비밀번호 확인 "+newPwd);	
 			
-			m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
+			//m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
 			
 			memberService.updateMemberPwd(m);
 			
@@ -242,7 +244,7 @@ public class MemberController {
 		//System.out.println("평문 : "+m.getUserPwd());
 		
 		//비밀번호 암호화
-		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		//String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
 		
 		//System.out.println("암호문 : "+encPwd );
 		
@@ -292,7 +294,7 @@ public class MemberController {
 			
 		}
 			
-		m.setUserPwd(encPwd); //암호화된 비번
+		//m.setUserPwd(encPwd); //암호화된 비번
 		
 		System.out.println("member log");
 
@@ -345,7 +347,7 @@ public class MemberController {
 		
 		//System.out.println("평문 : "+m.getUserPwd());
 		//비밀번호 암호화
-		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		//String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
 		
 		//System.out.println("암호문 : "+encPwd );
 		
@@ -395,7 +397,7 @@ public class MemberController {
 			
 		}
 			
-		m.setUserPwd(encPwd); //암호화된 비번
+		//m.setUserPwd(encPwd); //암호화된 비번
 		
 		int esInsertUser = memberService.esInsertMember(m);
 		
@@ -741,7 +743,7 @@ public class MemberController {
 		
 		Member m = (Member)session.getAttribute("loginUser");
 		
-		ArrayList<EstateReview> elist = estateReviewService.selectEstateReview(m);
+		ArrayList<EstateReview> elist = estateService.selectEstateReview(m);
 		
 		model.addAttribute("elist", elist);		
 		
@@ -771,18 +773,6 @@ public class MemberController {
 		
 		return "member/memberMypageHousejjimForm";
 	}
-	
-//	@GetMapping("myHousejjim.me")
-//	public String memberMypageHousejjimImg (HttpSession session, Model model) {
-//		
-//		Member m = (Member)session.getAttribute("loginUser");
-//		
-//		ArrayList<HouseImg> himg = houseService.memberMypageHousejjimImg(m);
-//		
-//		model.addAttribute("himg", himg);
-//		
-//		return "member/memberMypageHousejjimForm";
-//	}
 	
 	@RequestMapping("myEsjjim.me")
 	public String memberMypageEstatejjimForm () {
