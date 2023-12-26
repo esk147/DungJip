@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<title>Insert title here</title>
+<title>DungJip</title>
 <style>
       * {
         box-sizing: border-box;
@@ -17,7 +17,7 @@
       }
 
       .search-bar {
-        background: url("https://placehold.co/1400x460") no-repeat center center;
+        background: url("resources/img/mainPage.jpg") no-repeat center center;
         background-size: cover;
         display: flex;
         align-items: center;
@@ -54,7 +54,20 @@
         padding: 10px;
         width: 80px;
         font-size: 16px;
-        background-color: #ff6600;
+        background-color: #cca427;
+        color: white;
+        font-weight: bold;
+        border-radius: 0 8px 8px 0;
+        border: none;
+        cursor: pointer;
+        transition: font-size 0.2s ease;
+      }
+      
+      .search-bar button:hover {
+        padding: 10px;
+        width: 80px;
+        font-size: 20px;
+        background-color: #cca427;
         color: white;
         border-radius: 0 8px 8px 0;
         border: none;
@@ -65,20 +78,34 @@
         display: flex;
         margin: 20px;
       }
-
-      .card {
-        background: #fff;
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        margin-bottom: 20px;
-        padding: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      
+      .card-container{
+      	display: flex;
+        overflow: hidden;
+        scroll-behavior: smooth;
       }
 
+      .card {
+            flex: none;
+            width: 313px;
+            margin-right: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 16px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .scroll-button {
+            cursor: pointer;
+            padding: 8px;
+            background-color: #f4f4f4;
+            border: none;
+            font-size: 16px;
+        }
+
       .card img {
-        max-width: 100%;
-        height: auto;
+        width: 280px;
+        height: 200px;
       }
 
 		#menu {
@@ -98,14 +125,11 @@
             display: block;
             font-size: 18px;
             text-align: center;
-            padding: 8px 85.79px;
+            padding: 8px 84.59px;
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
             transition: background 0.3s ease;
-        }
-        #menu li:hover {
-            background-color: #cca427;
         }
         #menu li.active {
             background-color: #fff;
@@ -118,6 +142,7 @@
 </head>
 <body>
 	<%@ include file="common/header.jsp"%>
+	<%@ include file="common/chatbot.jsp"%>
 	<script>
 		$.ajax({
 			url:"select.location",
@@ -157,7 +182,7 @@
     <script>
         // Get all the menu items
         var menuItems = document.querySelectorAll('#menu li');
-
+        selectHouseType('원룸');
         // Function to remove the active class from all items
         function removeActiveClasses() {
             menuItems.forEach(function(item) {
@@ -175,55 +200,259 @@
         menuItems.forEach(function(item) {
             item.addEventListener('click', function() {
                 setActiveClass(item);
+                
+               	selectHouseType(item.textContent);
             });
         });
+        
+        function selectHouseType(type){
+        	$.ajax({
+    			url: 'select.house',
+    			data:{
+    				type: type,
+    			},success: function(result){
+    				$("#cardContainer").html('');
+    				var str = "";
+    				const imgList = result.imgList;
+    				const mainList = result.mainList;
+    				const randomSubscribeHouse = result.randomSubscribeHouse;
+    				const subscribeImg = result.subscribeImg;
+    				
+    				if(subscribeImg){
+	    				str += '<div class="card" id="'+randomSubscribeHouse.houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;"> <img src="'+subscribeImg.changeName+'"/> <p>'+randomSubscribeHouse.houseTitle+'</p></div>';    					
+    				}
+    				
+    				for(var i = 0; i < mainList.length; i++){
+    					str += '<div class="card" id="'+mainList[i].houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;"> <img src="'+imgList[i].changeName+'"/> <p>'+mainList[i].houseTitle+'</p></div>';
+    				}
+    				
+    				$("#cardContainer").append(str);
+    			},error: function(){
+    				console.log("통통신신에에러러");
+    			}
+        	})
+        };
+        
+        function detailHouse(e){
+        	location.href="detail.ho?houseNo="+e.id;
+        }
     </script>
     
     <script>
+	const activeMenuItem = document.querySelector('#menu li.active');
     	function moveToMap(){
         	const locationValue = document.getElementById('locationInput').value;
-        	const activeMenuItem = document.querySelector('#menu li.active');
             // 선택된 메뉴 항목의 텍스트 값 가져오기
             const type = activeMenuItem.textContent.trim();
-
-        	location.href="villa.map?type="+type+"&locate="+locationValue;
+			
+            if(locationValue == null || locationValue == ""){
+            	location.href="villa.map?type="+type+"&locate=서울%영등포구%양평동4가%2";   
+            } else {            	
+	        	location.href="villa.map?type="+type+"&locate="+locationValue;            	
+            }
     	}
     </script>
-
+    
     <div class="main-content">
-      <div class="card">
-        <img
-          src="https://placehold.co/200x200"
-          alt="Placeholder image representing an advertisement"
-        />
-        <p>광고 공간</p>
-      </div>
-      <div class="card">
-        <button>
-          <a href="websocket/ask?estateUserNo=4"><!-- 각 부동산의 사용자 순번을 넣을거다 --><!-- 부동산 상세페이지가 아직 구현이 안돼서 해두었습니다 -->
-        <img
-          src="https://placehold.co/200x200"
-          alt="Placeholder image representing an advertisement"
-        />
-      </a>
-      </button>
-        <p>채팅 임시 확인 버튼</p>
-      </div>
-      <div class="card">
-        <img
-          src="https://placehold.co/200x200"
-          alt="Placeholder image representing an advertisement"
-        />
-        <p>광고 공간</p>
-      </div>
-      <div class="card">
-        <img
-          src="https://placehold.co/200x200"
-          alt="Placeholder image representing an advertisement"
-        />
-        <p>광고 공간</p>
-      </div>
+		<button class="scroll-button" onclick="scroll(-200)">&lt;</button>
+			<div class="card-container" id="cardContainer">
+
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/280x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <button>
+		          <a href="websocket/ask?estateUserNo=3"><!-- 각 부동산의 사용자 순번을 넣을거다 --><!-- 부동산 상세페이지가 아직 구현이 안돼서 해두었습니다 -->
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		      </a>
+		      </button>
+		        <p>채팅 임시 확인 버튼</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+		      <div class="card">
+		        <img
+		          src="https://placehold.co/200x200"
+		          alt="Placeholder image representing an advertisement"
+		        />
+		        <p>광고 공간</p>
+		      </div>
+=======
+		      
+>>>>>>> branch 'develop' of https://github.com/esk147/DungJip.git
+	      </div>
+      
+		<button class="scroll-button" onclick="scroll(200)">&gt;</button>
     </div>
+     <script>
+	    let isDown = false;
+	    let startX;
+	    let scrollLeft;
+	    const slider = document.querySelector('.card-container');
+	
+	    // Button click scrolls
+	    function scroll(offset) {
+	        slider.scrollLeft += offset;
+	    }
+	
+	    document.querySelectorAll('.scroll-button').forEach(button => {
+	        button.addEventListener('click', (e) => {
+	            const direction = button.innerText === '>' ? 1 : -1;
+	            scroll(direction * 200); // Scroll distance for each click
+	        });
+	    });
+	
+	    // Mouse drag scrolls
+	    slider.addEventListener('mousedown', (e) => {
+	        isDown = true;
+	        slider.classList.add('active');
+	        startX = e.pageX - slider.offsetLeft;
+	        scrollLeft = slider.scrollLeft;
+	    });
+	
+	    slider.addEventListener('mouseleave', () => {
+	        isDown = false;
+	        slider.classList.remove('active');
+	    });
+	
+	    slider.addEventListener('mouseup', () => {
+	        isDown = false;
+	        slider.classList.remove('active');
+	    });
+	
+	    slider.addEventListener('mousemove', (e) => {
+	        if (!isDown) return;
+	        e.preventDefault();
+	        const x = e.pageX - slider.offsetLeft;
+	        const walk = (x - startX); // Scroll speed
+	        slider.scrollLeft = scrollLeft - walk;
+	    });
+    </script>
+	      
 	<%@ include file="common/footer.jsp"%>
 </body>
 </html>

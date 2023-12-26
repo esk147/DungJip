@@ -13,6 +13,9 @@
     <collection property="members" ofType="member">
         <id column="USER_NO" property="userNo"/>
         <result column="USER_NAME" property="userName"/>
+        <result column="CHANGE_NAME" property="changeName"/>
+        <result column="LASTLOGINTIME" property="lastLoginTime"/>
+        <result column="LASTLOGOUTTIME" property="lastLogoutTime"/> 
     </collection>
 </resultMap>
     
@@ -23,13 +26,10 @@
 	    <result column="CHATROOM_NAME" property="chatRoomName"/>
 	    <result column="CHATROOM_CREATE" property="chatRoomCreate"/>
 	    <result column="STATUS" property="status"/>
-	    
-	    
     </resultMap>    
-    
-  	
+  
+
   		<resultMap type="member" id="memberResultSet">
-  		
   			<result column="USER_NO" property="userNo" />
   			<result column="USER_TYPE" property="userType"/>
   			<result column="USER_ID" property="userId"/>
@@ -48,7 +48,6 @@
     		<result column="STATUS" property="status"/>
     		<result column="ORIGIN_NAME" property="originName"/> 
     		<result column="CHANGE_NAME" property="changeName"/>
-    	
       </resultMap>
       
       <select id="alreadyUsedChatRoomCheck" parameterType="joinchat" resultType="_int">
@@ -62,6 +61,7 @@
 		)
       
       </select>
+  
       
       
       
@@ -77,12 +77,9 @@
 		</insert>
       
       <insert id="createChatRoom">
-      
         INSERT INTO CHATROOM (CHATROOM_NO, USER_NO,CHATROOM_NAME,CHATROOM_CREATE,STATUS) 
 		VALUES (SEQ_CHATNO.NEXTVAL, #{loginUserNo},#{estateUserName},SYSDATE,'Y')
-     
       </insert>
-      
     
     <select id="clickIndividualEstate" resultMap="memberResultSet">
     
@@ -90,11 +87,10 @@
 			FROM MEMBER
 			WHERE USER_NO = #{mno}
 			AND STATUS = 'Y' 	
-    
     </select>
     
-    <select id="chatRoomList" resultMap="chatRoomWithMembersMap">
-		SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME
+    <select id="findChat" resultMap="chatRoomWithMembersMap">
+    SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,M.CHANGE_NAME
 		FROM JOINCHAT J
 		JOIN CHATROOM C ON J.CHATROOM_NO = C.CHATROOM_NO
 		JOIN MEMBER M ON J.USER_NO = M.USER_NO
@@ -103,6 +99,22 @@
 		    FROM JOINCHAT
 		    WHERE USER_NO = #{userNo})
 		AND J.USER_NO != #{userNo}
+        and M.USER_NAME LIKE '%'||#{chatRoomName}||'%'
+		ORDER BY M.USER_NAME DESC
+   
+    </select>
+    
+    <select id="chatRoomList" resultMap="chatRoomWithMembersMap">
+		SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,M.CHANGE_NAME
+		FROM JOINCHAT J
+		JOIN CHATROOM C ON J.CHATROOM_NO = C.CHATROOM_NO
+		JOIN MEMBER M ON J.USER_NO = M.USER_NO
+		WHERE C.CHATROOM_NO IN (
+		    SELECT CHATROOM_NO
+		    FROM JOINCHAT
+		    WHERE USER_NO = #{userNo})
+		AND J.USER_NO != #{userNo}
+		ORDER BY M.USER_NAME DESC
     </select>
     
     
@@ -117,7 +129,6 @@
    <result column="STATUS" property="status"/>
    
    </resultMap> 
-    
     
     <select id="selectChatMsg" resultMap="chatRoomMsg">
      SELECT CONTENT_MESSAGE
@@ -139,12 +150,13 @@
 							,CHATROOM_NO
 							,USER_NO
 							,SENDMESSAGE_TIME
-							,READMESSAGE,STATUS)
+							,READMESSAGE
+							,STATUS)
 	VALUES(#{contentMessage}
 			,#{chatRoomNo}
 			,#{userNo}
 			,SYSDATE
-			,1
+			,'N'
 			,'Y')
 			
 	</insert>

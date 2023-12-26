@@ -18,14 +18,29 @@ public class ChatDao {
 	}
 
 	public ArrayList<ChatRoom> chatRoomList(SqlSessionTemplate sqlSession, int userNo) {//채팅방 리스트
-		
+		ArrayList<ChatRoom> chatRooms = (ArrayList)sqlSession.selectList("chatMapper.chatRoomList", userNo);
 
-		 return new ArrayList<>(sqlSession.selectList("chatRoomList", userNo));
+
+		  for (ChatRoom chatRoom : chatRooms) {
+		        if (chatRoom.getMembers() != null) {
+		            for (Member member : chatRoom.getMembers()) {
+		                // Calculate the active status using the isActive method
+		                boolean activeStatus = member.isActive();
+		                String timeAgo = member.calculateTimeAgo();
+		                // Set the active field of the Member object
+		                member.setActive(activeStatus);
+		            }
+		        }
+		    }
+		 return chatRooms;
 	}
 
 	public ArrayList<ChatMessage> selectChatMsg(SqlSessionTemplate sqlSession, int cno) {//이전 대화 불러오는 기능
 
+
 		return (ArrayList)sqlSession.selectList("chatMapper.selectChatMsg",cno);
+		
+		
 	}
 
 
@@ -49,6 +64,11 @@ public class ChatDao {
 	public int alreadyUsedChatRoomCheck(SqlSessionTemplate sqlSession, JoinChat c) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("chatMapper.alreadyUsedChatRoomCheck", c);
+	}
+
+	public ArrayList<ChatRoom> findChat(SqlSessionTemplate sqlSession, ChatRoom c) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("chatMapper.findChat", c);
 	}
 
 

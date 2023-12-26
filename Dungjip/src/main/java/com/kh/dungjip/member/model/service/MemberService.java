@@ -42,8 +42,22 @@ public interface MemberService {
 	//새로 부여받은 비밀번호 update 
 	void updateMemberPwd(Member m);
 
-	
+	//회원 탈퇴
+	int memberDelete(String userId);
 
+	//비밀번호 변경
+	int memberPwdUpdate(Member member);
+
+	//회원 정보 수정
+	int mypageUpdate(Member m);
+
+	int userSubscribe(int userNo);
+
+	int updateLastLoginTime(Member beginLoginUser);
+
+	Member loginMemberPlusCurrentTime(Member beginLoginUser);
+	
+	int LastLogoutTime(int userNo);
 
 	
 

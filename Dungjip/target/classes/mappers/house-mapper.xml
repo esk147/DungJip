@@ -28,6 +28,7 @@
 		<result column="HOUSE_DOITNOW" property="houseDoItNow" />
 		<result column="HOUSE_BUILDDATE" property="houseBuildDate" />
 		<result column="HOUSE_ANIMALS" property="houseAnimals" />
+		<result column="HOUSE_NAME" property="houseName" />
 		<result column="STATUS" property="status" />
 	</resultMap>
 	
@@ -46,11 +47,11 @@
 		HOUSE_STYLE,HOUSE_TITLE,HOUSE_DETAILS,HOUSE_TYPE,HOUSE_LATITUDE,
 		HOUSE_LONGITUDE,HOUSE_UPLOAD_TIME,HOUSE_ADDRESS,HOUSE_FLOOR,HOUSE_BUILDING_FLOOR,
 		HOUSE_TOILET, HOUSE_ROOMS, HOUSE_PARKABLE, HOUSE_BALCONY, HOUSE_MAINTAINCOST,
-		HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS)
+		HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS, HOUSE_NAME)
 		values (seq_hno.nextval, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle}
 		, #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude}, #{houseUploadTime}, #{houseAddress}
 		, #{houseFloor}, #{houseBuildingFloor}, #{houseToilet}, #{houseRooms}, #{houseParkAble}, #{houseBalcony}
-		, #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals})
+		, #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals}, #{houseName})
 	</insert>
 	
 	<select id="selectLocations" resultMap="houseResultSet">
@@ -210,4 +211,29 @@
 		GROUP BY I.HOUSE_NO
 		ORDER BY I.HOUSE_NO
 	</select>
+	<select id="selectHouseMain" parameterType="string" resultMap="houseResultSet">
+		select * from house where house_type = #{type} order by house_price FETCH FIRST 7 ROWS ONLY
+	</select>
+	
+	<select id="selectHouseMainThumnail" parameterType="_int" resultMap="houseImgResultSet">
+		SELECT MIN(FILE_NO) AS FILE_NO,
+	    HOUSE_NO,
+	    MIN(ORIGIN_NAME) AS ORIGIN_NAME,
+	    MIN(CHANGE_NAME) AS CHANGE_NAME,
+	    MIN(UPLOAD_DATE) AS UPLOAD_DATE,
+	    MIN(STATUS) AS STATUS
+		FROM HOUSE_IMG
+		WHERE HOUSE_NO = #{houseNo}
+		GROUP BY HOUSE_NO
+	</select>
+	
+	<select id="selectSubscribeHouseList" resultMap="houseResultSet">
+		SELECT H.*
+	    FROM OWN O
+	    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+	    WHERE O.ES_NO=#{randomUser}
+	    AND H.HOUSE_TYPE=#{type}
+	    AND O.STATUS = 'Y'
+	</select>
+
 </mapper>

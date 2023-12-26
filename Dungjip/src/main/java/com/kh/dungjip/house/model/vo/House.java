@@ -35,6 +35,7 @@ public class House {
 	private String houseDoItNow;
 	private Date houseBuildDate;
 	private String houseAnimals;
+	private String houseName;
 	private String status;
 	
 }

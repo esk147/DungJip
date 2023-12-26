@@ -17,6 +17,7 @@ import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.common.template.Pagination;
 import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.Estate;
+import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.house.model.service.HouseService;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
@@ -33,9 +34,8 @@ public class EstateController {
 	@Autowired
 	private HouseService houseService;
 	
+	
 	//부동산 상세페이지
-	
-	
 	@GetMapping("detail.es")
 	public String estateDetail(int esNo,Model model) {
 		
@@ -64,6 +64,7 @@ public class EstateController {
 		
 	}
 	
+	//부동산이 갖고 있는 집 리스트
 	@ResponseBody
 	@RequestMapping(value="houseList.ho",produces="application/json; charset=UTF-8")
 	public Map<String, Object> selectHouseList(int esNo,
@@ -91,13 +92,53 @@ public class EstateController {
 		map.put("himglist", himglist);
 		
 		
-	    System.out.println(hlist);
-	    System.out.println("pi:"+pi);
-	    System.out.println(map);
-	    System.out.println("------------------------");
-	    System.out.println(pi.getCurrentPage());
+	    //System.out.println(hlist);
+	    //System.out.println("pi:"+pi);
+	    //System.out.println(map);
+	    //System.out.println("------------------------");
+	    //System.out.println(pi.getCurrentPage());
 	    
 	  
+		return map;
+	}
+	
+	//부동산 리뷰 리스트
+	@ResponseBody
+	@RequestMapping(value="estate.re",produces="application/json; charset=UTF-8")
+	public Map<String, Object> selectEstateReviewList(int esNo){
+		
+		ArrayList<EstateReview>erlist = estateService.selectEstateReviewList(esNo);
+		
+		//리뷰 총점
+		int sum = estateService.selectEstateReviewSum(esNo);
+		
+		//리뷰개수
+		int count = estateService.selectEstateReviewCount(esNo);
+		
+		//각 별의 개수
+		int fiveStar = estateService.selectEstateFiveStar(esNo);
+		int fourStar = estateService.selectEstateFourStar(esNo);
+		int threeStar = estateService.selectEstateThreeStar(esNo);
+		int twoStar = estateService.selectEstateTwoStar(esNo);
+		int oneStar = estateService.selectEstateOneStar(esNo);
+	
+		
+	
+		Map<String, Object> map = new HashMap<>();
+		map.put("erlist", erlist);
+		map.put("sum",sum);
+		map.put("count", count);
+		map.put("fiveStar", fiveStar);
+		map.put("fourStar", fourStar);
+		map.put("threeStar", threeStar);
+		map.put("twoStar", twoStar);
+		map.put("oneStar", oneStar);
+		
+		
+		System.out.println("------리뷰 리스트-----------");
+		System.out.println(erlist);
+		
+		
 		return map;
 	}
 	

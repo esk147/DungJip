@@ -197,9 +197,9 @@
     			//console.log("클릭했다");
     			
     			if(toggle) { //한번 클릭 시 
-    				$("#default-checkbox1, #default-checkbox2").prop("checked",true);
+    				$("#default-checkbox1, #default-checkbox2,#default-checkbox3").prop("checked",true);
     			}else{ //또 한번 클릭 시
-    				$("#default-checkbox1, #default-checkbox2").prop("checked",false);
+    				$("#default-checkbox1, #default-checkbox2,#default-checkbox3").prop("checked",false);
     			}  			
     			
     		});

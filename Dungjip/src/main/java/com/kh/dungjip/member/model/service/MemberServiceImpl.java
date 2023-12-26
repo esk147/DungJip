@@ -110,9 +110,52 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.updateMemberPwd(sqlSession, m);
 	}
 
-	
+	//회원 탈퇴
+	@Override
+	public int memberDelete(String userId) {
+		// TODO Auto-generated method stub
+		return memberDao.memberDelete(sqlSession,userId);
+	}
 
-	
+	//비밀번호 변경
+	@Override
+	public int memberPwdUpdate(Member member) {
+		// TODO Auto-generated method stub
+		return memberDao.memberPwdUpdate(sqlSession,member);
+	}
+
+	//회원정보 수정
+	@Override
+	public int mypageUpdate(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.mypageUpdate(sqlSession,m);
+	}
+
+	@Override
+	public int userSubscribe(int userNo) {
+		int result = memberDao.userSubscribe(sqlSession, userNo);
+		
+		return result;
+	}
+
+	@Override
+	public int updateLastLoginTime(Member loginUser) {
+
+		
+		return memberDao.updateLastLoginTime(sqlSession,loginUser);
+	}
+
+	@Override
+	public Member loginMemberPlusCurrentTime(Member beginLoginUser) {
+
+		
+		return memberDao.loginMemberPlusCurrentTime(sqlSession,beginLoginUser);
+	}
+	@Override
+	public int LastLogoutTime(int userNo) {//로그아웃 할떄의 시간
+		// TODO Auto-generated method stub
+		return memberDao.LastLogoutTime(sqlSession,userNo);
+	}
 
 
 
