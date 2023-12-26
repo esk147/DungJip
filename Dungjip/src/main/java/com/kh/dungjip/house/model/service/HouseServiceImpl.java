@@ -105,6 +105,8 @@ public class HouseServiceImpl implements HouseService{
 	@Override
 	public ArrayList<HouseImg> houseImgLike(String houseAddress) {
 		return houseDao.houseImgLike(sqlSession,houseAddress);
+	}
+	
 	@Override
 	public ArrayList<House> selectHouseMain(String type) {
 		return houseDao.selectHouseMain(sqlSession, type);

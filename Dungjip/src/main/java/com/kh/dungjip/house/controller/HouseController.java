@@ -9,13 +9,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-<<<<<<< HEAD
-import java.util.Map;
-=======
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
->>>>>>> branch 'develop' of https://github.com/esk147/DungJip.git
 
 import javax.servlet.http.HttpSession;
 
@@ -77,28 +73,8 @@ public class HouseController {
 
 			Date sqlDate = Date.valueOf(localDateTime.toLocalDate());
 			Date sqlBuildDate = Date.valueOf(localBuildDateTime.toLocalDate());
-<<<<<<< HEAD
-
-			House house = House.builder().housePrice((String) object.get("deposit"))
-					.houseRent(Integer.parseInt(String.valueOf(object.get("rent"))))
-					.houseSquare(Double.parseDouble(String.valueOf(sqrtP.get("p"))))
-					.houseStyle((String) object.get("sales_type")).houseTitle((String) object.get("title"))
-					.houseDetails((String) object.get("details")).houseType((String) object.get("service_type"))
-					.houseLatitude((Double) location.get("lat")).houseLongitude((Double) location.get("lng"))
-					.houseUploadTime(sqlDate).houseAddress((String) object.get("address1"))
-					.houseFloor(Integer.parseInt(String.valueOf(object.get("floor"))))
-					.houseBuildingFloor(Integer.parseInt(String.valueOf(object.get("building_floor"))))
-					.houseToilet(Integer.parseInt(String.valueOf(object.get("toilet"))))
-					.houseRooms(Integer.parseInt(String.valueOf(object.get("rooms"))))
-					.houseParkAble(Integer.parseInt(String.valueOf(object.get("park_able"))))
-					.houseBalcony((String) object.get("balcony"))
-					.houseMaintainCost(Integer.parseInt(String.valueOf(object.get("maintain_cost"))))
-					.houseDoItNow((String) object.get("doItNow")).houseBuildDate(sqlBuildDate)
-					.houseAnimals((String) object.get("animals")).build();
-=======
 			
-			House house = House.builder()
-											.housePrice(Integer.parseInt(String.valueOf(object.get("deposit"))))
+					House house = House.builder().housePrice((String) object.get("deposit"))
 											.houseRent(Integer.parseInt(String.valueOf(object.get("rent"))))
 											.houseSquare(Double.parseDouble(String.valueOf(sqrtP.get("p"))))
 											.houseStyle((String)object.get("sales_type"))
@@ -122,7 +98,6 @@ public class HouseController {
 											.houseName((String)object.get("name"))
 											.build();
 			
->>>>>>> branch 'develop' of https://github.com/esk147/DungJip.git
 			hlist.add(house);
 		}
 
@@ -149,12 +124,6 @@ public class HouseController {
 	@RequestMapping("select.location")
 	public ArrayList<House> selectLocation() {
 		ArrayList<House> lList = houseService.selectLocations();
-<<<<<<< HEAD
-		ArrayList<HouseImg> hImgList = new ArrayList<>();
-
-=======
-		
->>>>>>> branch 'develop' of https://github.com/esk147/DungJip.git
 		return lList;
 	}
 
