@@ -94,6 +94,7 @@ public class HouseController {
 											.houseDoItNow((String)object.get("doItNow"))
 											.houseBuildDate(sqlBuildDate)
 											.houseAnimals((String)object.get("animals"))
+											.houseName((String)object.get("name"))
 											.build();
 			
 			hlist.add(house);
