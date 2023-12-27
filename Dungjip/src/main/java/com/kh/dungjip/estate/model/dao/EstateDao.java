@@ -2,12 +2,14 @@ package com.kh.dungjip.estate.model.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.member.model.vo.Member;
 
 @Repository
 public class EstateDao {
@@ -78,5 +80,12 @@ public class EstateDao {
 		return sqlSession.selectList("estateMapper.selectSubscribeEstateList");
 	}
 
-	
+	//리뷰 작성
+	public int insertEstateReview(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("estateMapper.insertEstateReview",paramMap);
+	}
 }
+
+	
+

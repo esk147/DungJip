@@ -133,9 +133,9 @@ public class MemberDao {
 	}
 
 	//예약 내역
-	public ArrayList<Reservation> selectReservation(SqlSessionTemplate sqlSession, int userNo) {
+	public ArrayList<Reservation> selectReservation(SqlSessionTemplate sqlSession, Member loginUser) {
 		
-		return (ArrayList)sqlSession.selectList("memberMapper.selectReservation",userNo);
+		return (ArrayList)sqlSession.selectList("memberMapper.selectReservation",loginUser);
 	}
 
 	

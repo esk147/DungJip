@@ -40,8 +40,8 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	//@Autowired
-	//private BCryptPasswordEncoder bcryptPasswordEncoder; 	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder; 	
 	
 	  @RequestMapping("login.be") 
 	  public String loginMember () {
@@ -82,9 +82,9 @@ public class MemberController {
 		//아이디를 가지고 db에서 일치하는 회원정보 조회 
 		Member beginLoginUser = memberService.loginMember(m);
 		
-		//bcryptPasswordEncoder.matches(평문, 암호문)를 이용 (일치하면 true 아니면 false) 
+		bcryptPasswordEncoder.matches(평문, 암호문)를 이용 (일치하면 true 아니면 false) 
 			
-		if(beginLoginUser != null /*&& bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())*/) { //성공시
+		if(beginLoginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())) { //성공시
 
 
 			int SuccessLoginTime =	memberService.updateLastLoginTime(beginLoginUser);//현재 시간 추가 
@@ -190,11 +190,11 @@ public class MemberController {
 			//System.out.println("확인 3"+findPwd);	
 			
 			String newPwd = RandomStringUtils.randomAlphanumeric(10);
-			//String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
+			String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
 			
 			//System.out.println("새로운 비밀번호 확인 "+newPwd);	
 			
-			//m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
+			m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
 			
 			memberService.updateMemberPwd(m);
 			
@@ -228,7 +228,7 @@ public class MemberController {
 		//System.out.println("평문 : "+m.getUserPwd());
 		
 		//비밀번호 암호화
-		//String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
 		
 		//System.out.println("암호문 : "+encPwd );
 		
@@ -278,7 +278,7 @@ public class MemberController {
 			
 		}
 			
-		//m.setUserPwd(encPwd); //암호화된 비번
+		m.setUserPwd(encPwd); //암호화된 비번
 		
 		System.out.println("member log");
 
@@ -480,7 +480,7 @@ public class MemberController {
 		return "member/memberMypageUpdateForm";
 	}
 
-	/*
+
 	//회원탈퇴
 	@RequestMapping("mdelete.me")
 	public String memberDelete(String userPwdChk, HttpSession session, Model model) {
@@ -521,10 +521,10 @@ public class MemberController {
 		}
 
 	}
-	*/
+
 	
 	//비밀번호 수정 
-	/*
+
 	@RequestMapping("changePwd.me")
 	public String memberPwdUpdate(Member m, Model model, HttpSession session,HttpServletRequest request) {
 		
@@ -560,7 +560,7 @@ public class MemberController {
 		}
 				
 	}
-	*/
+
 	
 	//회원 정보 수정
 	@RequestMapping("mupdate.me")
@@ -584,18 +584,27 @@ public class MemberController {
 	}
 	
 	//프로필 사진 변경
-//	@PostMapping("/changefile")
-//	public String fileajaxmethod (@RequestParam("titleImg") MultipartFile titleImg) {
-//		
-//		String uploadPath = "resources/img/person/";
-//		
-//		return "success";
-//	}
+	@PostMapping("/changefile")
+	public String fileajaxmethod (@RequestParam("titleImg") MultipartFile titleImg) {
+		
+		String uploadPath = "resources/img/person/";
+		
+		return "success";
+	}
 	
 	
 	//mypage에서 예약내역 페이지로 이동 
 	@RequestMapping("mReservation.me")
-	public String memberReservationForm () {
+	public String selectReservation (HttpSession session, Model model) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		ArrayList<Reservation> rlist = memberService.selectReservation(loginUser);
+		
+		model.addAttribute("rlist", rlist);
+		
+		System.out.println(rlist);
+		
 		return "member/memberMypageReservationForm";
 	}
 	                                     
@@ -610,18 +619,8 @@ public class MemberController {
 		return result;
 	}
 	
-	//예약 내역 
-	@RequestMapping("reservation.me")
-	public String selectReservation(int userNo,Model model) {
-		
-		ArrayList<Reservation> rlist = memberService.selectReservation(userNo);
-		
-		model.addAttribute("rlist", rlist);
-		
-		System.out.println(rlist);
-		return "member/memberMypageReservationForm";
-	}
-	
+
+
 	
 	
 	

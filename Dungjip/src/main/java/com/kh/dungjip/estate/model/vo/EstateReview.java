@@ -3,6 +3,7 @@ package com.kh.dungjip.estate.model.vo;
 import java.sql.Date;
 
 import com.kh.dungjip.house.model.vo.House;
+import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.member.model.vo.Member;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class EstateReview {
 	private Member member;
 	private House house;
 	private Own own;
+	private Reservation reservation;
 
     // Member 속성에 접근할 수 있는 getter 메서드
     public Member getMember() {
@@ -56,5 +58,13 @@ public class EstateReview {
     // Member 속성에 값을 설정할 수 있는 setter 메서드
     public void setOwn(Own own) {
         this.own = own;
+    }
+    
+    public Reservation getReservation() {
+    	return reservation;
+    }
+    
+    public void setReservation(Reservation reservation) {
+    	this.reservation = reservation;
     }
 }

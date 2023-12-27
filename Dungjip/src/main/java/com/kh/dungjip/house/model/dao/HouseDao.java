@@ -71,4 +71,10 @@ public class HouseDao {
 		return (ArrayList) sqlSession.selectList("houseMapper.selectSubscribeHouseList", map);
 	}
 
+	//부동산 집 리스트(모달창)
+	public ArrayList<House> selectHouseModal(SqlSessionTemplate sqlSession, int esNo) {
+	
+		return (ArrayList)sqlSession.selectList("houseMapper.selectHouseModal",esNo);
+	}
+
 }

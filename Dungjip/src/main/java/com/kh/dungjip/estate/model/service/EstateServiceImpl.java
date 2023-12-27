@@ -2,6 +2,7 @@ package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +103,13 @@ public class EstateServiceImpl implements EstateService {
 	@Override
 	public List<Integer> selectSubscribeEstateList() {
 		return estateDao.selectSubscribeEstateList(sqlSession);
+	}
+
+	//리뷰 작성
+	@Override
+	public int insertEstateReview(Map<String, Object> paramMap) {
+
+		return estateDao.insertEstateReview(sqlSession,paramMap);
 	}
 
 	

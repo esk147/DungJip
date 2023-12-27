@@ -272,7 +272,8 @@
     	</resultMap>
     	
     	<select id="selectReservation" resultMap="reservationResultSet">
-    	SELECT E.ES_NAME
+    	SELECT E.ES_NO
+    	      ,E.ES_NAME
       	      ,R.USER_NO
               ,R.RESERVATION_DATE
               ,T.TIME_VALUE

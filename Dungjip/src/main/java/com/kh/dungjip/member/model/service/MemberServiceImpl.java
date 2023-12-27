@@ -163,9 +163,9 @@ public class MemberServiceImpl implements MemberService{
 
 	//예약 내역
 	@Override
-	public ArrayList<Reservation> selectReservation(int userNo) {
+	public ArrayList<Reservation> selectReservation(Member loginUser) {
 		
-		return memberDao.selectReservation(sqlSession,userNo);
+		return memberDao.selectReservation(sqlSession,loginUser);
 	}
 
 

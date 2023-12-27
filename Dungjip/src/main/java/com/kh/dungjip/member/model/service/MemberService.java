@@ -63,7 +63,9 @@ public interface MemberService {
 	int LastLogoutTime(int userNo);
 
 	//예약 내역
-	ArrayList<Reservation> selectReservation(int userNo);
+	ArrayList<Reservation> selectReservation(Member loginUser);
+
+	
 
 
 

@@ -97,6 +97,8 @@ public class Member {
 	        } else {
 	            return daysAgo + "일 전";
 	        }	    }
+	   
+	 
 	
 	   
 	   

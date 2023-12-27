@@ -83,7 +83,7 @@
 								</tr>
 							</thead>
 							<tbody>
-							<c:forEach var="reservation" items="${rlist }">
+							<c:forEach var="reservation" items="${rlist }" >
 								<tr>
 									<td class="text-center">
 										<h5>NO. 1</h5>
@@ -99,16 +99,16 @@
 												</p>
 												<p>
 													<b># 중개사무소</b> ${reservation.estate.esName }
+													<input type="hidden" id="esNo" value="${reservation.esNo}">
 												</p>
 											</div>
 										</div>
 									</td>	
 									<td>
 									<!-- 여기버튼 누르면 리뷰 작성 창 -->
-									<div class="end">
-									<div class="flex">
-									<a href="#" class="genric-btn primary-border small" onclick="insertMyReview(${rv.playerNo});">작성</a>
-									</div>
+									
+									<a href="#" class="genric-btn primary-border small" onclick="insertEstateReview(this);">작성</a>
+									
 									</td>
 									
 							</c:forEach>
@@ -121,6 +121,16 @@
 		</section>
 
 	</div>
+	
+	
+	<script>
+	function insertEstateReview(el){
+		var esNo = $(el).closest('tr').find('#esNo').val();
+		console.log(esNo);
+		window.location.href = "/dungjip/insert.esre?esNo="+esNo;
+	}
+	
+	</script>
 
 
 	<%@ include file="../common/footer.jsp"%>

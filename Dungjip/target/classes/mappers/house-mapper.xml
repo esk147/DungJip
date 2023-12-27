@@ -87,6 +87,20 @@
     AND O.STATUS = 'Y'
 	</select>
 	
+	<select id="selectHouseModal" resultMap="houseResultSet">
+	SELECT H.HOUSE_NO
+          ,H.HOUSE_PRICE
+          ,H.HOUSE_RENT
+          ,H.HOUSE_SQUARE
+          ,H.HOUSE_STYLE
+          ,H.HOUSE_TYPE
+          ,H.HOUSE_FLOOR
+    FROM OWN O 
+    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+    WHERE O.ES_NO=#{esNo}
+    AND O.STATUS = 'Y'
+	</select>
+	
 	<select id="selectHouseImg" resultMap="houseImgResultSet">
 	SELECT MIN(H.FILE_NO) AS FILE_NO
           ,H.HOUSE_NO
