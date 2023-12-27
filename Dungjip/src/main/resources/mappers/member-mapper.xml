@@ -54,9 +54,7 @@
 		UPDATE MEMBER 
 		SET LASTLOGINTIME= SYSTIMESTAMP
 		WHERE USER_NO = #{userNo}
-		</update>  		
-  		
-  		
+		</update>  		  		
   		
   		<select id="loginMember" parameterType="member" resultMap="memberResultSet">
   			SELECT *
@@ -69,7 +67,7 @@
     		SELECT COUNT(USER_ID) 
     		FROM MEMBER 
     		WHERE USER_ID = #{userId}    	
-    	</select>	
+    	</select>	 		
   		
   		<insert id="insertMember" parameterType="member">
   			INSERT INTO MEMBER (USER_NO
@@ -177,6 +175,12 @@
 			WHERE PHONE = #{phone}
     	</select>
     	
+	  	<select id="ajaxnickname" resultType="_int">
+			SELECT COUNT(USER_NICKNAME)
+			FROM MEMBER
+			WHERE USER_NICKNAME = #{userNickName}	
+  		</select>
+    	
     	<insert id="insertEsMember" parameterType="estate">
     		INSERT INTO ESTATE (ES_NO
     							,USER_NO
@@ -257,6 +261,7 @@
     		WHERE USER_NO = #{userNo}
     	</update>
     	
+
     	<!-- 예약용 resultMap 생성 -->
     	<resultMap type="reservation" id="reservationResultSet">
     		<result column="ES_NO" property="esNo"/>
@@ -282,5 +287,13 @@
 		JOIN TIME T ON R.TIME_NO = T.TIME_NO
 		WHERE R.USER_NO=#{userNo}
     	</select>
+
+    	<update id="fileAjaxMethod">
+    		UPDATE MEMBER
+    		SET ORIGIN_NAME = #{originName}
+    			,CHANGE_NAME = #{changeName}
+    		WHERE USER_NO = #{userNo}	
+    	</update>
+
     	
     </mapper>

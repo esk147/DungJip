@@ -13,12 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.kh.dungjip.enquiry.model.service.EnquiryService;
 import com.kh.dungjip.enquiry.model.vo.Enquiry;
+import com.kh.dungjip.member.model.vo.Member;
 
 @Controller
 public class EnquiryController {
@@ -106,7 +109,25 @@ public class EnquiryController {
 		return enList;
 	}
 	
-	
+	@RequestMapping("/enquiry/delete.bo")
+	public String myQnAdelete(@RequestParam("enquiryNo") int enquiryNo, Model model, HttpSession session) {	
+		
+		int result = enquiryService.myQnAdelete(enquiryNo);
+		
+		System.out.println(enquiryNo);	
+		
+		if(result > 0) {
+			
+			session.setAttribute("alertMsgMsg", "삭제가 완료되었습니다.");
+			
+		}else {
+			
+			session.setAttribute("alertMsgMsg", "다시 시도해주세요.");	
+			
+		}
+		
+		return "redirect:/myQnA.me";
+	}
 	
 	
 	

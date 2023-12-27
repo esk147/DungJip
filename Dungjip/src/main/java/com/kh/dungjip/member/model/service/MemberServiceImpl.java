@@ -89,6 +89,13 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDao.ajaxphoneMethod(sqlSession,phone);
 	}
+	
+	//닉네임 중복 체크
+	@Override
+	public int ajaxnickname(String userNickName) {
+		// TODO Auto-generated method stub
+		return memberDao.ajaxnickname(sqlSession,userNickName);
+	}
 
 	//아이디 찾기
 	@Override
@@ -159,6 +166,15 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDao.LastLogoutTime(sqlSession,userNo);
 	}
+
+	//프로필 사진 수정
+	@Override
+	public int fileAjaxMethod(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.fileAjaxMethod(sqlSession,m);
+	}
+
+	
 
 
 	//예약 내역

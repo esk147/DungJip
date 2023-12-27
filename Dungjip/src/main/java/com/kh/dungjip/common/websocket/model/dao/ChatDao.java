@@ -66,6 +66,11 @@ public class ChatDao {
 		return sqlSession.selectOne("chatMapper.alreadyUsedChatRoomCheck", c);
 	}
 
+	public ArrayList<ChatRoom> findChat(SqlSessionTemplate sqlSession, ChatRoom c) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("chatMapper.findChat", c);
+	}
+
 
 
 

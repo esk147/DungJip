@@ -68,6 +68,13 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberMapper.ajaxphoneMethod", phone);
 	}
+	
+	//닉네임 중복체크
+	public int ajaxnickname(SqlSessionTemplate sqlSession, String userNickName) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.ajaxnickname", userNickName);
+	}
+	
 	//로그인시 현재시간 집어넣기
 	public int updateLastLoginTime(SqlSessionTemplate sqlSession, Member loginUser) {
 		// TODO Auto-generated method stub
@@ -132,11 +139,20 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.userSubscribe", userNo);
 	}
 
+
 	//예약 내역
 	public ArrayList<Reservation> selectReservation(SqlSessionTemplate sqlSession, Member loginUser) {
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectReservation",loginUser);
 	}
+
+	//프로필 사진 수정
+	public int fileAjaxMethod(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.fileAjaxMethod", m);
+	}
+
+	
 
 	
 

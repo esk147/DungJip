@@ -19,8 +19,7 @@
 		<result column="HOUSE_UPLOAD_TIME" property="houseUploadTime" />
 		<result column="HOUSE_ADDRESS" property="houseAddress" />
 		<result column="HOUSE_FLOOR" property="houseFloor" />
-		<result column="HOUSE_BUILDING_FLOOR"
-			property="houseBuildingFloor" />
+		<result column="HOUSE_BUILDING_FLOOR" property="houseBuildingFloor" />
 		<result column="HOUSE_TOILET" property="houseToilet" />
 		<result column="HOUSE_ROOMS" property="houseRooms" />
 		<result column="HOUSE_PARKABLE" property="houseParkAble" />
@@ -29,6 +28,7 @@
 		<result column="HOUSE_DOITNOW" property="houseDoItNow" />
 		<result column="HOUSE_BUILDDATE" property="houseBuildDate" />
 		<result column="HOUSE_ANIMALS" property="houseAnimals" />
+		<result column="HOUSE_NAME" property="houseName" />
 		<result column="STATUS" property="status" />
 	</resultMap>
 	
@@ -47,11 +47,11 @@
 		HOUSE_STYLE,HOUSE_TITLE,HOUSE_DETAILS,HOUSE_TYPE,HOUSE_LATITUDE,
 		HOUSE_LONGITUDE,HOUSE_UPLOAD_TIME,HOUSE_ADDRESS,HOUSE_FLOOR,HOUSE_BUILDING_FLOOR,
 		HOUSE_TOILET, HOUSE_ROOMS, HOUSE_PARKABLE, HOUSE_BALCONY, HOUSE_MAINTAINCOST,
-		HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS)
+		HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS, HOUSE_NAME)
 		values (seq_hno.nextval, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle}
 		, #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude}, #{houseUploadTime}, #{houseAddress}
 		, #{houseFloor}, #{houseBuildingFloor}, #{houseToilet}, #{houseRooms}, #{houseParkAble}, #{houseBalcony}
-		, #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals})
+		, #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals}, #{houseName})
 	</insert>
 	
 	<select id="selectLocations" resultMap="houseResultSet">
@@ -123,6 +123,108 @@
     AND O.STATUS = 'Y'
 	</select>
 	
+	<resultMap type="jjim" id="JjimResultSet">
+		<result column="HOUSE_NO" property="houseNo" />
+		<result column="USER_NO" property="userNo" />
+	</resultMap>	
+	
+	<!-- 찜하기 -->
+	<insert id="insertJjim" parameterType="jjim">
+		INSERT INTO JJIM(HOUSE_NO,USER_NO)
+		VALUES (#{houseNo},#{userNo})
+	</insert>
+	
+	<!-- 찜 데이터 있는지 여부 확인 -->
+	<select id="selectJjim" resultMap="JjimResultSet">
+		SELECT *
+		FROM JJIM
+		WHERE USER_NO = #{userNo}
+		AND HOUSE_NO = #{houseNo}
+	</select>
+	
+	<!-- 찜 데이터 삭제 -->
+	<delete id="deleteJjim" parameterType="jjim">
+		DELETE FROM JJIM
+		WHERE USER_NO = #{userNo}
+		AND HOUSE_NO = #{houseNo}
+	</delete>
+	
+	<!-- 집 상세보기 -->
+	<select id="selectHouseDetail" resultMap="houseResultSet">
+		SELECT HOUSE_NO
+          ,CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>  
+           THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+           ELSE TO_CHAR(HOUSE_PRICE)
+           END AS HOUSE_PRICE
+          ,HOUSE_RENT
+          ,HOUSE_SQUARE
+          ,HOUSE_STYLE
+          ,HOUSE_TITLE
+          ,HOUSE_DETAILS
+          ,HOUSE_TYPE
+          ,HOUSE_LATITUDE
+          ,HOUSE_LONGITUDE
+          ,HOUSE_UPLOAD_TIME
+          ,HOUSE_ADDRESS
+          ,HOUSE_FLOOR
+          ,HOUSE_BUILDING_FLOOR
+          ,HOUSE_TOILET
+          ,HOUSE_ROOMS
+          ,HOUSE_PARKABLE
+          ,HOUSE_BALCONY
+          ,HOUSE_MAINTAINCOST
+          ,HOUSE_DOITNOW
+          ,HOUSE_BUILDDATE
+          ,HOUSE_ANIMALS
+          ,STATUS
+    	FROM HOUSE
+		WHERE HOUSE_NO = #{houseNo}
+	</select>
+	
+	<!-- 상세보기 집 이미지 -->
+	<select id="selectHouseImgDetail" resultMap="houseImgResultSet">
+		SELECT *
+		FROM HOUSE_IMG
+		WHERE HOUSE_NO = #{houseNo}
+		AND STATUS = 'Y'
+	</select>
+	
+	<!-- 비슷한 매물 찾기 list -->
+	<select id="houseLikeList" resultMap="houseResultSet">
+		SELECT HOUSE_NO
+		    ,CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>  
+           	 THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+           	 ELSE TO_CHAR(HOUSE_PRICE)
+           	 END AS HOUSE_PRICE
+		    ,HOUSE_RENT
+		    ,HOUSE_SQUARE
+		    ,HOUSE_TITLE
+		    ,HOUSE_ADDRESS
+		    ,HOUSE_DETAILS
+		    ,HOUSE_TOILET
+		    ,HOUSE_ROOMS
+		    ,HOUSE_ANIMALS
+		    ,HOUSE_PARKABLE
+		FROM HOUSE
+		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND STATUS='Y'
+		ORDER BY HOUSE_NO
+	</select>
+	
+	<!-- 비슷한 매물 찾기 img -->
+	<select id="houseImgLike" resultMap="houseImgResultSet">
+		SELECT MIN(I.FILE_NO) AS FILE_NO,
+	    I.HOUSE_NO,
+	    MIN(I.ORIGIN_NAME) AS ORIGIN_NAME,
+	    MIN(I.CHANGE_NAME) AS CHANGE_NAME,
+	    MIN(I.UPLOAD_DATE) AS UPLOAD_DATE,
+	    MIN(I.STATUS) AS STATUS
+		FROM HOUSE_IMG I
+		JOIN HOUSE H ON (I.HOUSE_NO = H.HOUSE_NO)
+		WHERE TRIM(SUBSTR(H.HOUSE_ADDRESS, INSTR(H.HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		GROUP BY I.HOUSE_NO
+		ORDER BY I.HOUSE_NO
+	</select>
 	<select id="selectHouseMain" parameterType="string" resultMap="houseResultSet">
 		select * from house where house_type = #{type} order by house_price FETCH FIRST 7 ROWS ONLY
 	</select>
@@ -147,5 +249,14 @@
 	    AND H.HOUSE_TYPE=#{type}
 	    AND O.STATUS = 'Y'
 	</select>
+	
+	<select id="memberMypageHousejjimForm" resultMap="houseResultSet">	
+		SELECT H.HOUSE_NO
+		        ,H.HOUSE_TITLE
+		FROM HOUSE H
+		JOIN JJIM J ON J.HOUSE_NO = H.HOUSE_NO	
+		WHERE J.USER_NO = #{userNo}
+	</select>
+	
 
 </mapper>

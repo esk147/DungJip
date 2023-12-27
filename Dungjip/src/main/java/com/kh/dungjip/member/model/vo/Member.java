@@ -92,7 +92,7 @@ public class Member {
 
 	        if (minutesAgo < 60) {
 	            return minutesAgo + "분 전";
-	        } else if (hoursAgo < 24) {
+	        } else if (hoursAgo < 24) {	
 	            return hoursAgo + "시간 전";
 	        } else {
 	            return daysAgo + "일 전";
