@@ -261,11 +261,39 @@
     		WHERE USER_NO = #{userNo}
     	</update>
     	
+
+    	<!-- 예약용 resultMap 생성 -->
+    	<resultMap type="reservation" id="reservationResultSet">
+    		<result column="ES_NO" property="esNo"/>
+			<result column="USER_NO" property="userNo"/>
+			<result column="RESERVATION_DATE" property="reservationDate"/>
+			<result column="TIME_NO" property="timeNo"/>
+			<association property="estate" javaType="estate">
+				<result column="ES_NAME" property="esName"/>
+			</association>
+			<association property="time" javaType="time">
+				<result column="TIME_VALUE" property="timeValue"/>
+			</association>
+    	</resultMap>
+    	
+    	<select id="selectReservation" resultMap="reservationResultSet">
+    	SELECT E.ES_NO
+    	      ,E.ES_NAME
+      	      ,R.USER_NO
+              ,R.RESERVATION_DATE
+              ,T.TIME_VALUE
+		FROM RESERVATION R
+		JOIN ESTATE E ON R.ES_NO = E.ES_NO
+		JOIN TIME T ON R.TIME_NO = T.TIME_NO
+		WHERE R.USER_NO=#{userNo}
+    	</select>
+
     	<update id="fileAjaxMethod">
     		UPDATE MEMBER
     		SET ORIGIN_NAME = #{originName}
     			,CHANGE_NAME = #{changeName}
     		WHERE USER_NO = #{userNo}	
     	</update>
+
     	
     </mapper>

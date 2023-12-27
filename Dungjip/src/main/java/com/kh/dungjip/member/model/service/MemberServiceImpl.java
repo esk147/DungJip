@@ -1,11 +1,14 @@
 package com.kh.dungjip.member.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.dungjip.estate.model.vo.Estate;
+import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.member.model.dao.MemberDao;
 import com.kh.dungjip.member.model.vo.Member;
 
@@ -172,6 +175,14 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	
+
+
+	//예약 내역
+	@Override
+	public ArrayList<Reservation> selectReservation(Member loginUser) {
+		
+		return memberDao.selectReservation(sqlSession,loginUser);
+	}
 
 
 

@@ -3,6 +3,7 @@ package com.kh.dungjip.estate.model.service;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
@@ -37,6 +38,11 @@ public interface EstateService {
 	int selectEstateTwoStar(int esNo);
 	int selectEstateOneStar(int esNo);
 
+
+	//리뷰 작성
+	int insertEstateReview( Map<String, Object> paramMap);
+
+
 	//조회
 	ArrayList<EstateReview> selectEstateReview(Member m);
 
@@ -45,6 +51,7 @@ public interface EstateService {
 
 	//수정
 	int updateReview(int esReNo, int esReScore, String esReContent);
+
 
 
 }

@@ -2,14 +2,17 @@ package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.dungjip.estate.model.dao.EstateDao;
+
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+
 import com.kh.dungjip.member.model.vo.Member;
 
 @Service
@@ -103,6 +106,15 @@ public class EstateServiceImpl implements EstateService {
 	public List<Integer> selectSubscribeEstateList() {
 		return estateDao.selectSubscribeEstateList(sqlSession);
 	}
+
+
+	//리뷰 작성
+	@Override
+	public int insertEstateReview(Map<String, Object> paramMap) {
+
+		return estateDao.insertEstateReview(sqlSession,paramMap);
+	}
+
 
 	//조회
 	@Override

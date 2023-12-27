@@ -215,52 +215,52 @@ public class HouseController {
 
 		}
 	
-	@ResponseBody
-	@RequestMapping("select.house")
-	public Map<String, Object> selectHouse(String type) {
+//	@ResponseBody
+//	@RequestMapping("select.house")
+//	public Map<String, Object> selectHouse(String type) {
 		
 		//타입별 집 리스트
-		ArrayList<House> mainList = houseService.selectHouseMain(type);
-		//타입별 집 이미지 리스트
-		ArrayList<HouseImg> imgList = new ArrayList<>();
-		for(House h : mainList) {
-			HouseImg img = houseService.selectHouseMainThumnail(h.getHouseNo());
-			
-			imgList.add(img);
-		}
-		//구독한 중개인 리스트
-		List<Integer> subscribeUser = estateService.selectSubscribeEstateList();
-		//랜덤 중개인 번호
-		Integer randomUser = pickRandomNumber(subscribeUser);
-		
-		Map<String, Object> map = new HashMap();
-		
-		map.put("type", type);
-		map.put("randomUser", randomUser);
-		//랜덤 중개인 집 리스트
-		ArrayList<House> subscribeHouseList = houseService.selectSubscribeHouseList(map);
-		
-		System.out.println(subscribeHouseList);
-		//랜덤 중개인 랜덤 집 번호
-		Integer randomIndex = pickRandomNumber(subscribeHouseList);
-		
-		System.out.println(randomIndex);
-		//랜덤 중개인 랜덤 집
-		House randomSubscribeHouse = new House();
-		if(randomIndex != null) {
-			randomSubscribeHouse = subscribeHouseList.get(randomIndex);
-		}
-		//랜덤 중개인 랜덤 집 이미지
-		HouseImg subscribeImg = houseService.selectHouseMainThumnail(randomSubscribeHouse.getHouseNo());
-		
-		Map<String, Object> recomendHouse = new HashMap();
-		recomendHouse.put("mainList", mainList);
-		recomendHouse.put("imgList", imgList);
-		recomendHouse.put("randomSubscribeHouse", randomSubscribeHouse);
-		recomendHouse.put("subscribeImg", subscribeImg);
-		
-		return recomendHouse;
-	}
+//		ArrayList<House> mainList = houseService.selectHouseMain(type);
+//		//타입별 집 이미지 리스트
+//		ArrayList<HouseImg> imgList = new ArrayList<>();
+//		for(House h : mainList) {
+//			HouseImg img = houseService.selectHouseMainThumnail(h.getHouseNo());
+//			
+//			imgList.add(img);
+//		}
+//		//구독한 중개인 리스트
+//		List<Integer> subscribeUser = estateService.selectSubscribeEstateList();
+//		//랜덤 중개인 번호
+//		Integer randomUser = pickRandomNumber(subscribeUser);
+//		
+//		Map<String, Object> map = new HashMap();
+//		
+//		map.put("type", type);
+//		map.put("randomUser", randomUser);
+//		//랜덤 중개인 집 리스트
+//		ArrayList<House> subscribeHouseList = houseService.selectSubscribeHouseList(map);
+//		
+//		System.out.println(subscribeHouseList);
+//		//랜덤 중개인 랜덤 집 번호
+//		Integer randomIndex = pickRandomNumber(subscribeHouseList);
+//		
+//		System.out.println(randomIndex);
+//		//랜덤 중개인 랜덤 집
+//		House randomSubscribeHouse = new House();
+//		if(randomIndex != null) {
+//			randomSubscribeHouse = subscribeHouseList.get(randomIndex);
+//		}
+//		//랜덤 중개인 랜덤 집 이미지
+//		HouseImg subscribeImg = houseService.selectHouseMainThumnail(randomSubscribeHouse.getHouseNo());
+//		
+//		Map<String, Object> recomendHouse = new HashMap();
+//		recomendHouse.put("mainList", mainList);
+//		recomendHouse.put("imgList", imgList);
+//		recomendHouse.put("randomSubscribeHouse", randomSubscribeHouse);
+//		recomendHouse.put("subscribeImg", subscribeImg);
+//		
+//		return recomendHouse;
+//	}
 	
 	public static Integer pickRandomNumber(List<Integer> numbers) {
         if (numbers == null || numbers.isEmpty()) {

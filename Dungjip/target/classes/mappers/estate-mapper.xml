@@ -114,14 +114,14 @@
 	<select id="selectEstateReviewCount" resultType="_int">
 	SELECT COUNT(*) COUNT
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	</select>
 	
 	<select id="selectEstateFiveStar" resultType="_int">
 	SELECT COUNT(*)STAR
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	AND ES_RE_SCORE=5
 	</select>
@@ -129,7 +129,7 @@
 		<select id="selectEstateFourStar" resultType="_int">
 	SELECT COUNT(*)STAR
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	AND ES_RE_SCORE=4
 	</select>
@@ -137,7 +137,7 @@
 		<select id="selectEstateThreeStar" resultType="_int">
 	SELECT COUNT(*)STAR
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	AND ES_RE_SCORE=3
 	</select>
@@ -145,7 +145,7 @@
 		<select id="selectEstateTwoStar" resultType="_int">
 	SELECT COUNT(*)STAR
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	AND ES_RE_SCORE=2
 	</select>
@@ -153,7 +153,7 @@
 		<select id="selectEstateOneStar" resultType="_int">
 	SELECT COUNT(*)STAR
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	AND ES_RE_SCORE=1
 	</select>
@@ -164,6 +164,25 @@
 		where subscribe = 'Y'
 	</select>
 	
+
+	<insert id="insertEstateReview" parameterType="estateReview">
+	INSERT INTO ESTATE_REVIEW (ES_RE_NO, 
+							   ES_NO, 
+							   USER_NO, 
+							   ES_RE_SCORE, 
+							   ES_RE_CONTENT, 
+							   ES_RE_TYPE, 
+							   HOUSE_NO)
+				VALUES (SEQ_ERRO.NEXTVAL, 
+				        #{er.esNo},
+				        #{loginUser.userNo}, 
+				        #{er.esReScore}, 
+				        #{er.esReContent}, 
+				        #{er.esReType}, 
+				        4)
+	</insert>
+
+
 	<select id="selectEstateReview" resultMap="estateReviewResultSet" >
 
 		SELECT ES_RE_NO
@@ -199,6 +218,7 @@
 		AND ES_RE_STATUS='Y'  
 	</update>
 	
+
 
 
 </mapper>

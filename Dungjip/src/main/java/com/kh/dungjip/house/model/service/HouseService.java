@@ -60,4 +60,7 @@ public interface HouseService {
 
 	ArrayList<House> selectSubscribeHouseList(Map<String, Object> map);
 
+	//부동산 집 리스트(모달창)
+	ArrayList<House> selectHouseModal(int esNo);
+
 }

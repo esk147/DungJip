@@ -135,4 +135,11 @@ public class HouseServiceImpl implements HouseService{
 		return houseDao.selectSubscribeHouseList(sqlSession, map);
 	}
 
+	//부동산 집 리스트(모달창)
+	@Override
+	public ArrayList<House> selectHouseModal(int esNo) {
+		// TODO Auto-generated method stub
+		return houseDao.selectHouseModal(sqlSession,esNo);
+	}
+
 }
