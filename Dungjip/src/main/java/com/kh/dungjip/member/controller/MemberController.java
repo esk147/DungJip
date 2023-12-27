@@ -82,7 +82,7 @@ public class MemberController {
 		//아이디를 가지고 db에서 일치하는 회원정보 조회 
 		Member beginLoginUser = memberService.loginMember(m);
 		
-		bcryptPasswordEncoder.matches(평문, 암호문)를 이용 (일치하면 true 아니면 false) 
+		//bcryptPasswordEncoder.matches(평문, 암호문)를 이용 (일치하면 true 아니면 false) 
 			
 		if(beginLoginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())) { //성공시
 
