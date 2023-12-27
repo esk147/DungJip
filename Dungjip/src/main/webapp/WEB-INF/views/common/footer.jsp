@@ -7,7 +7,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style>
-
+	.footer-title-line {
+		margin: 0 0 25px;
+	}
+	.input-group-btn {
+		width: 88px;
+		height: 88px;
+	}
+	#emailSubmitBtn {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+	}
+	#emailInput, #contentInput {
+		color: black;
+	}
 </style>
 <title>Document</title>
 </head>
@@ -98,29 +112,20 @@
                         </div>
                         <div class="col-md-3 col-sm-6 wow fadeInRight animated">
                             <div class="single-footer news-letter">
-                                <h4>Stay in touch</h4>
+                                <h4>Direct Message</h4>
                                 <div class="footer-title-line"></div>
-                                <p>Lorem ipsum dolor sit amet, nulla  suscipit similique quisquam molestias. Vel unde, blanditiis.</p>
+                                <p>광고 및 후원 문의를 위한 이메일과 내용을 간단히 작성해주세요.</p>
 
-                                <form>
+                                <form action="sendEmail.do" method="post">
                                     <div class="input-group">
-                                        <input class="form-control" type="text" placeholder="E-mail ... ">
+                                        <input id="emailInput" class="form-control" type="text" placeholder="E-mail ... " name="email">
+                                        <input id="contentInput" class="form-control" type="text" placeholder="content ... " name="body">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-primary subscribe" type="button"><i class="pe-7s-paper-plane pe-2x"></i></button>
+                                            <button id="emailSubmitBtn" class="btn btn-primary subscribe" type="submit"><i class="pe-7s-paper-plane pe-2x"></i></button>
                                         </span>
                                     </div>
                                     <!-- /input-group -->
-                                </form> 
-
-                                <div class="social pull-right"> 
-                                    <ul>
-                                        <li><a class="wow fadeInUp animated" href="https://twitter.com/kimarotec"><i class="fa fa-twitter"></i></a></li>
-                                        <li><a class="wow fadeInUp animated" href="https://www.facebook.com/kimarotec" data-wow-delay="0.2s"><i class="fa fa-facebook"></i></a></li>
-                                        <li><a class="wow fadeInUp animated" href="https://plus.google.com/kimarotec" data-wow-delay="0.3s"><i class="fa fa-google-plus"></i></a></li>
-                                        <li><a class="wow fadeInUp animated" href="https://instagram.com/kimarotec" data-wow-delay="0.4s"><i class="fa fa-instagram"></i></a></li>
-                                        <li><a class="wow fadeInUp animated" href="https://instagram.com/kimarotec" data-wow-delay="0.6s"><i class="fa fa-dribbble"></i></a></li>
-                                    </ul> 
-                                </div>
+                                </form>
                             </div>
                         </div>
 
@@ -132,14 +137,14 @@
                 <div class="container">
                     <div class="row">
                         <div class="pull-left">
-                            <span> (C) <a href="http://www.KimaroTec.com">KimaroTheme</a> , All rights reserved 2016  </span> 
+                            <span> (C) <a href="http://www.KimaroTec.com">KimaroTheme</a> , All rights reserved 2024  </span> 
                         </div> 
                         <div class="bottom-menu pull-right"> 
                             <ul> 
-                                <li><a class="wow fadeInUp animated" href="#" data-wow-delay="0.2s">Home</a></li>
-                                <li><a class="wow fadeInUp animated" href="#" data-wow-delay="0.3s">Property</a></li>
-                                <li><a class="wow fadeInUp animated" href="#" data-wow-delay="0.4s">Faq</a></li>
-                                <li><a class="wow fadeInUp animated" href="#" data-wow-delay="0.6s">Contact</a></li>
+                                <li><a class="wow fadeInUp animated" href="" data-wow-delay="0.2s">Home</a></li>
+                                <li><a class="wow fadeInUp animated" href="" data-wow-delay="0.3s">Property</a></li>
+                                <li><a class="wow fadeInUp animated" href="" data-wow-delay="0.4s">Faq</a></li>
+                                <li><a class="wow fadeInUp animated" href="" data-wow-delay="0.6s">Contact</a></li>
                             </ul> 
                         </div>
                     </div>
