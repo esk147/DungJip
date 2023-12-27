@@ -1,9 +1,13 @@
 package com.kh.dungjip.common.websocket.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,6 +33,22 @@ public class WebsocketController {
 
 	@Autowired
 	private ChatService chatService;
+	
+	private List<String> badWords;// 욕설필터링
+	
+public WebsocketController() {//생성자에서 파일을 읽어온다.
+		
+		try {
+			badWords = Files.lines(Paths.get("C:\\Users\\82103\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+			
+			
+		}
+	}
 
 	@GetMapping("/ask")
 	public String ask(HttpSession session, int estateUserNo, Model m) {
@@ -68,20 +88,7 @@ public class WebsocketController {
 		}
 		ArrayList<ChatRoom> chatList = chatService.chatRoomList(loginUserNo);// 현재 유저가 채팅하고있는 방의 리스트를 가지고온다.
 
-		/*
-		 * List<String> movinArr = new List(); for(ChatRoom cr : chatList) {
-		 * 
-		 * System.out.println("cr,member"); System.out.println(cr.getMembers()); Member
-		 * crM = (Member) cr.getMembers();
-		 * 
-		 * String movings = crM.calculateTimeAgo();
-		 * 
-		 * movinArr.add(movings); } System.out.println(chatList);
-		 * 
-		 */		//Map<String, Object> map = new HashMap();
-		
-	//	map.put("chatList", chatList);
-	//	map.put("movinArr", movinArr);
+
 		m.addAttribute("chatList", chatList);
 
 		return "websocket/ask";
@@ -92,6 +99,16 @@ public class WebsocketController {
 	public ArrayList<ChatMessage> selectChatMsg(int cno, Model m) {
 
 		ArrayList<ChatMessage> chatMsg = chatService.selectChatMsg(cno);
+		
+	for(ChatMessage message : chatMsg) { // ChatMessage vo 클래스에서 chatMsg를 비교한다.
+		String content = message.getContentMessage();// 
+		for(String badWord : badWords) {
+			if(content.contains(badWord)) {
+				message.setContentMessage("부적절한 메시지가 담겨있습니다");
+			}
+		}
+	}    // DB에 욕설이 담겨있는 그자체로 저장을 했는데 다시 채팅방이 로드 될때 db에 저장되어있는 그대로 나와서 필터링 작업을 다시해줍니다
+		
 
 		return chatMsg;
 
@@ -100,15 +117,12 @@ public class WebsocketController {
 	@RequestMapping("/findChat.ch")
 	public ArrayList<ChatRoom> findChat(@RequestParam("findChat") String findChat,
 											@RequestParam("loginUserNo") int loginUserNo) {
-		System.out.println(findChat);
-		System.out.println(loginUserNo);
+
 		
 		ChatRoom c = new ChatRoom(loginUserNo,findChat);
 		
 		ArrayList<ChatRoom> cr = chatService.findChat(c);
 
-		System.out.println(cr);
-		
 		return cr;
 		
 	}
