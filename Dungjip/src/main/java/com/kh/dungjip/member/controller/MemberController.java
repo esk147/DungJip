@@ -188,11 +188,11 @@ public class MemberController {
 			//System.out.println("확인 3"+findPwd);	
 			
 			String newPwd = RandomStringUtils.randomAlphanumeric(10);
-			//String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
+			String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
 			
 			//System.out.println("새로운 비밀번호 확인 "+newPwd);	
 			
-			//m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
+			m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
 			
 			memberService.updateMemberPwd(m);
 			
@@ -226,7 +226,7 @@ public class MemberController {
 		//System.out.println("평문 : "+m.getUserPwd());
 		
 		//비밀번호 암호화
-		//String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
 		
 		//System.out.println("암호문 : "+encPwd );
 		
@@ -276,7 +276,7 @@ public class MemberController {
 			
 		}
 			
-		//m.setUserPwd(encPwd); //암호화된 비번
+		m.setUserPwd(encPwd); //암호화된 비번
 		
 		System.out.println("member log");
 
@@ -314,13 +314,7 @@ public class MemberController {
 	public String memberEsEnroll () {
 		return "member/memberEsEnrollForm";
 	}
-	
-	/*
-	 * //회원가입 (중개인) 다음단계 이동 (부동산 폼)
-	 * 
-	 * @RequestMapping("insertenroll.es") public String memberEsInsertEnroll () {
-	 * return "member/memberEsInsertEnrollForm"; }
-	 */
+
 	
 	
 	//회원등록 (중개인)
@@ -329,7 +323,7 @@ public class MemberController {
 		
 		//System.out.println("평문 : "+m.getUserPwd());
 		//비밀번호 암호화
-		//String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
 		
 		//System.out.println("암호문 : "+encPwd );
 		
@@ -379,7 +373,7 @@ public class MemberController {
 			
 		}
 			
-		//m.setUserPwd(encPwd); //암호화된 비번
+		m.setUserPwd(encPwd); //암호화된 비번
 		
 		int esInsertUser = memberService.esInsertMember(m);
 		
@@ -577,15 +571,6 @@ public class MemberController {
 		
 		return mv;
 	}
-	
-	//프로필 사진 변경
-//	@PostMapping("/changefile")
-//	public String fileajaxmethod (@RequestParam("titleImg") MultipartFile titleImg) {
-//		
-//		String uploadPath = "resources/img/person/";
-//		
-//		return "success";
-//	}
 	
 	
 	//mypage에서 예약내역 페이지로 이동 
