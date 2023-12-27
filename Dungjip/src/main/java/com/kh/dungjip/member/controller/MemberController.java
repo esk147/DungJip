@@ -1,6 +1,7 @@
 package com.kh.dungjip.member.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ import com.kh.dungjip.enquiry.model.vo.Enquiry;
 import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
+
+import com.kh.dungjip.house.model.vo.Reservation;
+
 import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.house.model.service.HouseService;
 import com.kh.dungjip.house.model.vo.House;
@@ -211,11 +215,11 @@ public class MemberController {
 			//System.out.println("확인 3"+findPwd);	
 			
 			String newPwd = RandomStringUtils.randomAlphanumeric(10);
-			//String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
+			String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
 			
 			//System.out.println("새로운 비밀번호 확인 "+newPwd);	
 			
-			//m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
+			m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
 			
 			memberService.updateMemberPwd(m);
 			
@@ -249,7 +253,7 @@ public class MemberController {
 		//System.out.println("평문 : "+m.getUserPwd());
 		
 		//비밀번호 암호화
-		//String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
 		
 		//System.out.println("암호문 : "+encPwd );
 		
@@ -299,7 +303,7 @@ public class MemberController {
 			
 		}
 			
-		//m.setUserPwd(encPwd); //암호화된 비번
+		m.setUserPwd(encPwd); //암호화된 비번
 		
 		System.out.println("member log");
 
@@ -510,7 +514,7 @@ public class MemberController {
 		return "member/memberMypageUpdateForm";
 	}
 
-	
+
 	//회원탈퇴
 	@RequestMapping("mdelete.me")
 	public String memberDelete(String userPwdChk, HttpSession session, Model model) {
@@ -551,8 +555,10 @@ public class MemberController {
 		}
 
 	}
+
 	
 	//비밀번호 수정 
+
 	@RequestMapping("changePwd.me")
 	public String memberPwdUpdate(Member m, Model model, HttpSession session,HttpServletRequest request) {
 		
@@ -588,6 +594,7 @@ public class MemberController {
 		}
 				
 	}
+
 	
 	//회원 정보 수정
 	@RequestMapping("mupdate.me")
@@ -611,6 +618,14 @@ public class MemberController {
 	}
 	
 	//프로필 사진 변경
+	@PostMapping("/changefile")
+	public String fileajaxmethod (@RequestParam("titleImg") MultipartFile titleImg) {
+		
+		String uploadPath = "resources/img/person/";
+		
+		return "success";
+	}
+	
 	@PostMapping("changefile.me")
 	public void fileAjaxMethod (Model model,MultipartFile upfile, HttpSession session) {
 		
@@ -680,7 +695,16 @@ public class MemberController {
 
 	//mypage에서 예약내역 페이지로 이동 
 	@RequestMapping("mReservation.me")
-	public String memberReservationForm () {
+	public String selectReservation (HttpSession session, Model model) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		ArrayList<Reservation> rlist = memberService.selectReservation(loginUser);
+		
+		model.addAttribute("rlist", rlist);
+		
+		System.out.println(rlist);
+		
 		return "member/memberMypageReservationForm";
 	}
 	                                     

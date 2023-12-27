@@ -240,11 +240,9 @@ public class HouseController {
 		//랜덤 중개인 집 리스트
 		ArrayList<House> subscribeHouseList = houseService.selectSubscribeHouseList(map);
 		
-		System.out.println(subscribeHouseList);
 		//랜덤 중개인 랜덤 집 번호
 		Integer randomIndex = pickRandomNumber(subscribeHouseList);
 		
-		System.out.println(randomIndex);
 		//랜덤 중개인 랜덤 집
 		House randomSubscribeHouse = new House();
 		if(randomIndex != null) {

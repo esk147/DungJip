@@ -111,10 +111,12 @@
                 <!-- Additional content can be added here -->
             </div>
             <div id="headerLeft" class="headerLeft" style="margin: 10px 10px;">
+            
                 <ul class="leftmenu" style="list-style: none; margin-top: 20px; padding: 0;">
+                
                     <li><a href="mypageupdate.me" class="menuitem" style="font-size: 15px; color: #929292;">내프로필</a></li>
-                    <li><a href="mReservation.me" class="menuitem" style="font-size: 15px; color: #929292;">예약내역</a></li>            
-                     
+                    <li><a href="mReservation.me" class="menuitem" style="font-size: 15px; color: #929292;">예약내역</a></li>                                  
+         
                     <li class="dropdown">
 			            <a href="#" class="menuitem" style="font-size: 15px; color: #929292;" >리뷰내역</a>
 			            <div class="dropdown-content">
@@ -140,8 +142,8 @@
 			                <a href="myReReviewLike.me">집</a><br>
 			                <a href="myReviewLike.me">중개사</a>			                
 			            </div> 
-                    </li>   
-                                       
+                    </li>
+                       
                     <li><a href="myQnA.me" class="menuitem" style="font-size: 15px; color: #929292;">문의내역</a></li>                                  
                 </ul>
 

@@ -84,6 +84,13 @@ public class EstateDao {
 		return sqlSession.selectList("estateMapper.selectSubscribeEstateList");
 	}
 
+
+	//리뷰 작성
+	public int insertEstateReview(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("estateMapper.insertEstateReview",paramMap);
+	}
+
 	public ArrayList<EstateReview> selectEstateReview(SqlSessionTemplate sqlSession, Member m) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("estateMapper.selectEstateReview", m);
@@ -128,4 +135,8 @@ public class EstateDao {
 	
 	
 	
+
 }
+
+	
+

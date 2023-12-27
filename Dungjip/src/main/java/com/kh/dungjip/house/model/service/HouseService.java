@@ -63,6 +63,8 @@ public interface HouseService {
 	//마이페이지 찜목록에서 찜해제
 	int mypageHjjimdelete(int houseNo);
 
+	//부동산 집 리스트(모달창)
+	ArrayList<House> selectHouseModal(int esNo);
 
 
 }
