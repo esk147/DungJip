@@ -14,7 +14,7 @@
             margin: 0;
             padding: 0;
             background-color: #f4f6f8;
-            color: #333;
+            
         }
         .mypagecontainer { 
             display: flex;
@@ -79,7 +79,7 @@
 		.dropdown:hover .dropdown-content {
 		    display: block;
 		}
-	   
+
 	   
     </style>
 </head>
@@ -112,28 +112,37 @@
             </div>
             <div id="headerLeft" class="headerLeft" style="margin: 10px 10px;">
                 <ul class="leftmenu" style="list-style: none; margin-top: 20px; padding: 0;">
-                    <li><a href="mypageupdate.me" class="menuitem" style="font-size: 15px; color: #303038;">내프로필</a></li>
-                    <li><a href="mReservation.me" class="menuitem" style="font-size: 15px; color: #303038;">예약내역</a></li>            
+                    <li><a href="mypageupdate.me" class="menuitem" style="font-size: 15px; color: #929292;">내프로필</a></li>
+                    <li><a href="mReservation.me" class="menuitem" style="font-size: 15px; color: #929292;">예약내역</a></li>            
                      
                     <li class="dropdown">
-			            <a href="#" class="menuitem" style="font-size: 15px; color: #303038;">리뷰내역</a>
+			            <a href="#" class="menuitem" style="font-size: 15px; color: #929292;" >리뷰내역</a>
 			            <div class="dropdown-content">
 			                <!-- 드롭다운 내용 -->
 			                <a href="myHReview.me">집</a><br>
 			                <a href="myEsReview.me">중개사</a>
 			            </div>
-			        </li>
+			        </li>			 
 			        
                     <li class="dropdown">
-                    	<a href="#" class="menuitem" style="font-size: 15px; color: #303038;">찜내역</a>
-                    	<div class="dropdown-content">
+                    	<a href="#" class="menuitem" style="font-size: 15px; color: #929292;">찜내역</a>
+                    	<div class="dropdown-content">                   	
 			                <!-- 드롭다운 내용 -->
 			                <a href="myHousejjim.me">집</a><br>
-			                <a href="myEsjjim.me">중개사</a>
+			                <a href="myEsjjim.me">중개사</a>			                
 			            </div>                    
                     </li> 
+                       
+                    <li class="dropdown">
+                    	<a href="#" class="menuitem" style="font-size: 15px; color: #929292;">공감</a>
+                    	<div class="dropdown-content">                   	
+			                <!-- 드롭다운 내용 -->
+			                <a href="myReReviewLike.me">집</a><br>
+			                <a href="myReviewLike.me">중개사</a>			                
+			            </div> 
+                    </li>   
                                        
-                    <li><a href="myQnA.me" class="menuitem" style="font-size: 15px; color: #303038;">문의내역</a></li>                                  
+                    <li><a href="myQnA.me" class="menuitem" style="font-size: 15px; color: #929292;">문의내역</a></li>                                  
                 </ul>
 
 
@@ -176,15 +185,9 @@
                         var form = document.querySelector("#profileForm");
                         
                         var formData = new FormData(form);
-                        console.log(fileData);
+                       
            				formData.append('file', inputFile.files[0]);
-                        
-           				console.log(inputFile.files[0]);
-           				
-                        //console.log("fileData ", fileData);
-                        
-                        console.log(formData);
-                        
+                                               
                         switch(num){
                         
                             case 1: $("#titleImg").attr("src", fileData); 
@@ -196,7 +199,6 @@
                                 contentType: false,
                             	data: formData
                             });
-                            	console.log(formData);
                             
                             break;
                         

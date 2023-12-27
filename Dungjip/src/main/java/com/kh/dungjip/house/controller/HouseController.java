@@ -50,7 +50,7 @@ public class HouseController {
 	public String insertHouse(HttpSession session) throws IOException, ParseException {
 
 		Reader reader = new FileReader(
-				"C:\\Users\\tlsal\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
+				"C:\\Users\\user1\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
 
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(reader);
@@ -74,7 +74,7 @@ public class HouseController {
 			Date sqlDate = Date.valueOf(localDateTime.toLocalDate());
 			Date sqlBuildDate = Date.valueOf(localBuildDateTime.toLocalDate());
 			
-					House house = House.builder().housePrice((String) object.get("deposit"))
+					House house = House.builder().housePrice((String)object.get("deposit"))
 											.houseRent(Integer.parseInt(String.valueOf(object.get("rent"))))
 											.houseSquare(Double.parseDouble(String.valueOf(sqrtP.get("p"))))
 											.houseStyle((String)object.get("sales_type"))
@@ -281,4 +281,21 @@ public class HouseController {
         int randomIndex = random.nextInt(numbers.size());
         return randomIndex;
     }
+	
+	//마이페이지에서 집 찜해제
+	@RequestMapping("house/hjjimdelete.me")
+	public String mypageHjjimdelete(@RequestParam("houseNo")int houseNo,Model model,HttpSession session) {
+		
+		int result = houseService.mypageHjjimdelete(houseNo);
+		
+		System.out.println(result);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "목록에서 삭제되었습니다.");
+		}else {
+			session.setAttribute("alertMsg", "다시 시도해주세요.");
+		}
+		
+		return "redirect:/myHousejjim.me";
+	}
 }

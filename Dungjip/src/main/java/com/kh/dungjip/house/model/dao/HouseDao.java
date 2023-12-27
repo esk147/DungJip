@@ -120,4 +120,10 @@ public class HouseDao {
 		return (ArrayList)sqlSession.selectList("houseMapper.houseImgLike",houseAddress);
 	}
 
+	//마이페이지 찜 목록에서 찜 해제
+	public int mypageHjjimdelete(SqlSessionTemplate sqlSession, int houseNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("houseMapper.mypageHjjimdelete",houseNo);
+	}
+
 }

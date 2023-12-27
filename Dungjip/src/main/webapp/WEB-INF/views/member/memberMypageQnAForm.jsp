@@ -73,9 +73,10 @@
 		<section class="main-content"
 			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
 
-			<div class="card" style="width: 93%; margin-bottom: 50px;">
+			<div class="panel-heading">
+                <h3 class="panel-title"><strong>문의내역</strong></h3>
+            </div>
 
-				<h3>문의 내역</h3>
 				<!-- Additional content can be added here -->
 				<ul class="card_row"
 					style="color: #333; list-style: none; padding: 20px 20px 20px 20px;">
@@ -89,7 +90,7 @@
 											style="background: azure; display: flex; justify-content: space-between;">
 											<h4 class="panel-title fqa-title" data-toggle="collapse"
 												data-target="#fqa11${index.count}">${qlist.enquiryTitle}</h4>
-											<a href="enquiry/delete.bo?enquiryNo=${qlist.enquiryNo}" id="deleteBtn" class="btn btn-danger btn-sm" onclick="return confirm('문의사항을 삭제하시겠습니까?');" style="color: red;">삭제</a>																					
+											<a href="enquiry/delete.bo?enquiryNo=${qlist.enquiryNo}" id="deleteBtn" class="bbtn btn-light btn-sm" onclick="return confirm('문의사항을 삭제하시겠습니까?');" style="color: red;">삭제</a>																					
 										</div>
 										<div id="fqa11${index.count}"
 											class="panel-collapse collapse fqa-body">
@@ -126,7 +127,7 @@
 
 
 				</ul>
-			</div>
+	
 		</section>
 	</div>
 	

@@ -69,8 +69,6 @@ public interface MemberService {
 
 	
 
-	
-
 
 
 	

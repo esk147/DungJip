@@ -171,6 +171,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.fileAjaxMethod(sqlSession,m);
 	}
 
+
 	
 
 

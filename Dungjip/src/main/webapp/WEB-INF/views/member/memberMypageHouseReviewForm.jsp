@@ -83,7 +83,7 @@
 			<div class="section" style="width: 93%; margin-bottom: 50px;">
 
 				<div class="panel-heading">
-                    <p><strong style="font-style: italic;">리뷰내역>집</strong></p>
+                     <h3 class="panel-title"><strong>리뷰내역 > 집</strong></h3>
                  </div>
 
 				<div  id="list-type" class="proerty-th-list" style="color: #333; list-style: none; padding: 20px 20px 20px 20px;">
@@ -102,8 +102,8 @@
 			                                     <div class="dot-hr"></div>
 			                                     <!-- 별점을 어떻게 띄울지 생각을 해보자. -->
 			                                     <span class="pull-left"><b>작성된 날짜 : </b>${hlist.reCreateDate}</span>
-			                                     <p style="display: none;">장점 : ${hlist.reAdContent}</p>
-			                                     <p style="display: none;">단점 : ${hlist.reDisContent}</p>
+			                                     <p>장점 : ${hlist.reAdContent}</p>
+			                                     <p>단점 : ${hlist.reDisContent}</p>
 			
 			                                 </div>
 			                             </div>
@@ -300,37 +300,32 @@
 			var lifeScore  = $("input[name=lifeScore]:checked").val();
 			var reAdContent  =$("#reAdContent").val();
 			var reDisContent  =$("#reDisContent").val();
-			
-			
-			 if (confirm("리뷰를 수정하시겠습니까?")) {
-		            // 서버로 수정된 내용 전송
-		            $.ajax({
-		                type: "POST",
-		                url: "updateReReview.es",
-		                data: {
-		                	reReviewNo: reReviewNo,
-		                	interiorScore: interiorScore,
-		                	buildingScore: buildingScore,
-		                	trafficScore: trafficScore,
-		                	safetyScore: safetyScore,
-		                	lifeScore: lifeScore,
-		                	reAdContent: reAdContent,
-		                    reDisContent: reDisContent
-		                },
-		                success: function (result) {
-		                	
-							console.log(result);
-							
-							alert('리뷰 등록이 완료되었습니다.');
-		                },
-		                error: function (error) {
-		                	console.log("오류");
-		                }
-		            });
-		            return true; // 수정 내용 전송
-		        } else {
-		            return false; // 수정 취소
-		        }
+
+            $.ajax({
+                type: "POST",
+                url: "updateReReview.es",
+                data: {
+                	reReviewNo: reReviewNo,
+                	interiorScore: interiorScore,
+                	buildingScore: buildingScore,
+                	trafficScore: trafficScore,
+                	safetyScore: safetyScore,
+                	lifeScore: lifeScore,
+                	reAdContent: reAdContent,
+                    reDisContent: reDisContent
+                },
+                success: function (result) {
+                	
+					console.log(result);
+					
+					alert('리뷰 등록이 완료되었습니다.');
+                },
+                error: function (error) {
+                	console.log("오류");
+                }
+            });
+            return true; // 수정 내용 전송
+		       
 		} 
 		
 	</script>

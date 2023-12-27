@@ -135,4 +135,11 @@ public class HouseServiceImpl implements HouseService{
 		return houseDao.selectSubscribeHouseList(sqlSession, map);
 	}
 
+	//마이페이지 찜 목록에서 찜 해제
+	@Override
+	public int mypageHjjimdelete(int houseNo) {
+		// TODO Auto-generated method stub
+		return houseDao.mypageHjjimdelete(sqlSession, houseNo);
+	}
+
 }

@@ -60,4 +60,9 @@ public interface HouseService {
 
 	ArrayList<House> selectSubscribeHouseList(Map<String, Object> map);
 
+	//마이페이지 찜목록에서 찜해제
+	int mypageHjjimdelete(int houseNo);
+
+
+
 }

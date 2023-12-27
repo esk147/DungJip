@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +25,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.dungjip.common.model.vo.PageInfo;
+import com.kh.dungjip.common.template.Pagination;
 import com.kh.dungjip.enquiry.model.service.EnquiryService;
 import com.kh.dungjip.enquiry.model.vo.Enquiry;
 import com.kh.dungjip.estate.model.service.EstateService;
+import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.house.model.service.HouseService;
@@ -35,6 +39,7 @@ import com.kh.dungjip.house.model.vo.HouseImg;
 import com.kh.dungjip.member.model.service.MemberService;
 import com.kh.dungjip.member.model.vo.Member;
 import com.kh.dungjip.residentReview.model.service.ResidentReviewService;
+import com.kh.dungjip.residentReview.model.vo.ReReLike;
 import com.kh.dungjip.residentReview.model.vo.ResidentReview;
 
 
@@ -774,11 +779,59 @@ public class MemberController {
 		return "member/memberMypageHousejjimForm";
 	}
 	
+	//후순위라서 일딴 연결만
 	@RequestMapping("myEsjjim.me")
-	public String memberMypageEstatejjimForm () {
+	public String memberMypageEstatejjimForm (HttpSession session, Model model) {
+		
 		return "member/memberMypageEstatejjimForm";
 	}
 	
+	//중개사 리뷰 공감 조회
+	@RequestMapping("myReviewLike.me")
+	public String memberMypageReviewLike(@RequestParam(value="currentPage",defaultValue = "1")int currentPage,HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+			
+		 // 중개사 리뷰 총 개수
+	    int ListCount = estateService.selectEstateListCountByMember(m);	   
+
+	    // 한 페이지에서 보여줘야하는 게시글 개수 
+	    int boardLimit = 4;
+	    // 페이징 바 개수 
+	    int pageLimit = 5;
+
+	    PageInfo pi = Pagination.getPageInfo(ListCount, currentPage, pageLimit, boardLimit);		
+		
+		ArrayList<EsReLike> esRelike = estateService.memberMypageReviewLike(m,pi);
+		
+		model.addAttribute("esRelike", esRelike);		
+		model.addAttribute("pi", pi);
+
+		return "member/memberMypageReviewLikeForm";
+	}
 	
+	//거주자 리뷰 공감 조회
+	@RequestMapping("myReReviewLike.me")
+	public String memberMypageReReviewLike(@RequestParam(value="currentPage",defaultValue = "1")int currentPage,HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+
+	    // 거주자 리뷰 총 개수
+	    int ListCount = residentReviewService.selectResidentListCountByMember(m);
+
+	    // 한 페이지에서 보여줘야하는 게시글 개수 
+	    int boardLimit = 5;
+	    // 페이징 바 개수 
+	    int pageLimit = 5;
+
+	    PageInfo pi = Pagination.getPageInfo(ListCount, currentPage, pageLimit, boardLimit);		
+		
+		ArrayList<ReReLike> reRelike = residentReviewService.memberMypageReviewLike(m,pi);
+		
+		model.addAttribute("reRelike", reRelike);
+		model.addAttribute("pi", pi);
+
+		return "member/memberMypageReReviewLikeForm";
+	}
 
 }

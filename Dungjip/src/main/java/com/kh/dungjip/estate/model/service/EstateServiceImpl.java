@@ -7,7 +7,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.dao.EstateDao;
+import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.member.model.vo.Member;
@@ -123,6 +125,28 @@ public class EstateServiceImpl implements EstateService {
 		// TODO Auto-generated method stub
 		return estateDao.updateReview(sqlSession,esReNo,esReScore,esReContent );
 	}
+
+	@Override
+	public ArrayList<EsReLike> memberMypageReviewLike(Member m,PageInfo pi) {
+		// TODO Auto-generated method stub
+		return estateDao.memberMypageReviewLike(sqlSession,m,pi);
+	}
+
+	//중개인리뷰공감페이징
+	@Override
+	public int selectEstateListCountByMember(Member m) {
+		// TODO Auto-generated method stub
+		return estateDao.selectEstateListCountByMember(sqlSession,m);
+	}
+
+	//공감삭제
+	@Override
+	public int myEsReviewDelete(int esReNo) {
+		// TODO Auto-generated method stub
+		return estateDao.myEsReviewDelete(sqlSession,esReNo);
+	}
+
+	
 	
 	
 	

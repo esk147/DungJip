@@ -164,7 +164,7 @@
 		where subscribe = 'Y'
 	</select>
 	
-	<select id="selectEstateReview" resultMap="estateReviewResultSet" >
+	<select id="selectEstateReview" resultMap="EstateReviewResultSet" >
 
 		SELECT ES_RE_NO
 		        ,ER.ES_NO
@@ -199,6 +199,25 @@
 		AND ES_RE_STATUS='Y'  
 	</update>
 	
+	<select id="memberMypageReviewLike" resultMap="EstateReviewResultSet">
+		SELECT ES.ES_RE_NO, ES.USER_NO ,ER.ES_RE_CREATE_DATE,ER.ES_RE_CONTENT 
+		FROM ES_RE_LIKE ES
+		JOIN MEMBER M ON M.USER_NO = ES.USER_NO
+		JOIN ESTATE_REVIEW ER ON ES.ES_RE_NO = ER.ES_RE_NO
+		WHERE ES.USER_NO = #{userNo}
+	</select>
 
+	<select id="selectEstateListCountByMember" resultType="_int">
+		SELECT COUNT(*)	
+		FROM ESTATE_REVIEW
+		WHERE ES_RE_STATUS = 'Y' 	
+	</select>
+	
+	<delete id="myEsReviewDelete">
+		DELETE 
+		FROM ES_RE_LIKE
+		WHERE ES_RE_NO = #{esReNo}	
+	</delete>
+	
 
 </mapper>
