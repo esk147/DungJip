@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.dungjip.common.model.vo.PageInfo;
+import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.member.model.vo.Member;
@@ -105,6 +108,31 @@ public class EstateDao {
 	    params.put("esReContent", esReContent);
 	    return sqlSession.update("estateMapper.updateReview", params);
 	}
+
+	public ArrayList<EsReLike> memberMypageReviewLike(SqlSessionTemplate sqlSession, Member m, PageInfo pi) {
+		// TODO Auto-generated method stub
+		
+		int limit = pi.getBoardLimit();
+		
+		int offset = (pi.getCurrentPage()-1)*limit;
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		return (ArrayList)sqlSession.selectList("estateMapper.memberMypageReviewLike", m,rowBounds);
+	}
+
+	//중개인 리뷰공감 페이징
+	public int selectEstateListCountByMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("estateMapper.selectEstateListCountByMember",m);
+	}
+
+	//공감삭제
+	public int myEsReviewDelete(SqlSessionTemplate sqlSession, int esReNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("estateMapper.myEsReviewDelete", esReNo);
+	}
+
+	
 	
 	
 

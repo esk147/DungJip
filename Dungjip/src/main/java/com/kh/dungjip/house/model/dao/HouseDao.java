@@ -102,10 +102,11 @@ public class HouseDao {
 
 
 	//부동산 집 리스트(모달창)
+	
 	public ArrayList<House> selectHouseModal(SqlSessionTemplate sqlSession, int esNo) {
 	
 		return (ArrayList)sqlSession.selectList("houseMapper.selectHouseModal",esNo);
-
+	}
 	//집 상세보기
 	public House selectHouseDetail(SqlSessionTemplate sqlSession, int houseNo) {
 		return sqlSession.selectOne("houseMapper.selectHouseDetail", houseNo);
@@ -125,6 +126,12 @@ public class HouseDao {
 	public ArrayList<HouseImg> houseImgLike(SqlSessionTemplate sqlSession, String houseAddress) {
 		return (ArrayList)sqlSession.selectList("houseMapper.houseImgLike",houseAddress);
 
+	}
+
+	//마이페이지 찜 목록에서 찜 해제
+	public int mypageHjjimdelete(SqlSessionTemplate sqlSession, int houseNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("houseMapper.mypageHjjimdelete",houseNo);
 	}
 
 }

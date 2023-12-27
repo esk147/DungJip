@@ -82,38 +82,30 @@
 
 			<div class="section" style="width: 93%; margin-bottom: 50px;">
 
-				<!-- <h3>중개사 찜 내역</h3> -->
-				<!-- Additional content can be added here -->
+				<div class="panel-heading">
+	                <h3 class="panel-title"><strong>찜 내역 > 중개사</strong></h3>
+	            </div>
+
 				<div  id="list-type" class="proerty-th-list" style="color: #333; list-style: none; padding: 20px 20px 20px 20px;">
 					
-						<c:if test="${not empty hlist }">
-							<c:forEach items="${hlist}" var="hlist" >
-							<div class="col-md-4 p0">	
-								<div class="box-two proerty-item" style="margin:0;">
-			                         <div >
-			                             <div style="width:100%;">
-			                                
-			                                 <div class="item-entry overflow" style="width:100%;">
-			                                     <h5 style="display: flex;justify-content: space-between;"><a href=""> 집 번호 ${hlist.houseNo}  </a>
-			                                     	<div><a href="#" type="button" id="updateBtn" class="btn btn-light btn-sm" data-target="#updateReview" data-toggle="modal" style="color: blue;"  onclick="a(${hlist.houseNo})">수정</a>																					
-													 	<a href="residentReview/delete.re?reReviewNo=${hlist.reReviewNo }" id="deleteBtn" class="btn btn-light btn-sm" onclick="return confirm('리뷰를 삭제하시겠습니까?');" style="color: red;">삭제</a></div></h5>
-			                                     <div class="dot-hr"></div>
-			                                     <!-- 별점을 어떻게 띄울지 생각을 해보자. -->
-			                                     <span class="pull-left"><b>작성된 날짜 :</b>${hlist.reCreateDate}</span>
-			                                     <p style="display: none;">장점 : ${hlist.reAdContent}</p>
-			                                     <p style="display: none;">단점 : ${hlist.reDisContent}</p>
-			
-			                                 </div>
-			                             </div>
-			                         </div>   
+						<c:if test="${not empty hlike}">
+							<c:forEach items="${hlike}" var="hlike" varStatus="status">
+								<div class="col-md-4" style="margin-top:20px;">
+									 <div class="card mb-3" style="width:100%;height:100%;">
+										  <img class="homeImg" src="${himg[status.index].changeName }" class="card-img-top" alt="..." style="width: 260px;height: 168px;">
+										  <div class="card-body">
+										    <h5 class="card-title" style="width:100%;">${hlike.houseTitle }</h5>
+										    <div style="display: flex;justify-content: end;">
+										    	<a href="house/hjjimdelete.me?houseNo=${hlike.houseNo}" class="btn btn-light btn-sm" style="color: brown;">해제</a>
+										  	</div>
+										  </div>
+									 </div> 
 								</div>
-							</div>	
 							</c:forEach>	
 						</c:if>
-	
-						<c:if test="${empty hlist }">
-							<p>※ 리뷰 내역이 존재하지 않습니다.</p>
-	
+						<c:if test="${empty hlike }">
+							<p>※ 찜 내역이 존재하지 않습니다.</p>
+				
 						</c:if>
 										
 				</div>

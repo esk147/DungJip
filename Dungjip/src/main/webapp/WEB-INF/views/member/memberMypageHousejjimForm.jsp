@@ -80,16 +80,19 @@
 		<section class="main-content"
 			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
 
+			<div class="panel-heading">
+                <h3 class="panel-title"><strong>찜 내역 > 집</strong></h3>
+            </div>
+
 			<c:if test="${not empty hlike}">
 				<c:forEach items="${hlike}" var="hlike" varStatus="status">
-					<div class="col-md-4" >
-						 <div class="card mb-3">
-							  <img class="homeImg" src="${himg[status.index].changeName }" class="card-img-top" alt="...">
+					<div class="col-md-4" style="margin-top:20px;">
+						 <div class="card mb-3" style="width:100%;height:100%;">
+							  <img class="homeImg" src="${himg[status.index].changeName }" class="card-img-top" alt="..." style="width: 260px;height: 168px;">
 							  <div class="card-body">
-							    <h5 class="card-title">${hlike.houseTitle }</h5>
-							    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							    <h5 class="card-title" style="width:100%;">${hlike.houseTitle }</h5>
 							    <div style="display: flex;justify-content: end;">
-							    	<a href="#" class="btn btn-light btn-sm" style="color: brown;">해제</a>
+							    	<a href="house/hjjimdelete.me?houseNo=${hlike.houseNo}" class="btn btn-light btn-sm" style="color: brown;">해제</a>
 							  	</div>
 							  </div>
 						 </div> 

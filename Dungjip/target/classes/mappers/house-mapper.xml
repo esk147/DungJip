@@ -258,5 +258,9 @@
 		WHERE J.USER_NO = #{userNo}
 	</select>
 	
+	<delete id="mypageHjjimdelete" parameterType="_int">
+		DELETE FROM JJIM
+		WHERE HOUSE_NO = #{houseNo}
+	</delete>
 
 </mapper>

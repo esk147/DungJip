@@ -21,8 +21,6 @@
 			}
 		}
 	}
-	
-	//System.out.println("저장된 ID : "+saveId);
 %>    
     
 <!DOCTYPE html>
@@ -54,7 +52,7 @@
         
             <div class="container" style="display: flex; justify-content: center;">
                 <div class="col-md-6">
-                    <div class="box-for overflow" style="width: 600px; height: 600px;">                         
+                    <div class="box-for overflow" style="width: 600px;">                         
                         <div class="col-md-12 col-xs-12 login-blocks">
                             <h2>Login : </h2> 
                             <form action="login.me" method="post">
@@ -89,14 +87,7 @@
                                 </div>
                             </form>
                             <br>
-                            
-                            <h2>Social login :  </h2> 
-                            
-                            <p>
-                            <a class="login-social" href="#"><i class="fa fa-facebook"></i>&nbsp;Facebook</a> 
-                            <a class="login-social" href="#"><i class="fa fa-google-plus"></i>&nbsp;Gmail</a> 
-                            <a class="login-social" href="#"><i class="fa fa-twitter"></i>&nbsp;Twitter</a>  
-                            </p> 
+                          
                             
                         </div>
                         
@@ -106,8 +97,7 @@
             </div>
         </div> 
         
-        <script type="text/javascript">
-        
+        <script>        
         	var msg = "<%=alertMsg%>"; 
         	
         	if(msg != "null") {
@@ -116,26 +106,14 @@
         		
         		<%session.removeAttribute("alertMsg");%>
         	}
-       
-        	$(function() {
-        		//쿠키 아이디 값 가지고 오기 
+        		//쿠키 아이디 값 가지고 오기         		        			        		
         		var saveId= "<%= saveId %>";
-        		
-        		console.log("가져왓니?? : ",saveId);
-        		
+     		        		
         		if(saveId != "") {
-        			console.log("가져온 ID : ",saveId);
         			$("input[name=userId]").val(saveId);
-        			$("input[name=saveId]").attr("checked",true);
-        		}
-        		
-        		
-        		
-        	});
-        
-        
-        	
-        	
+        			$("#saveId").prop("checked",true);
+        		}     		
+       	
         </script>     
 
           <!-- Footer area-->
