@@ -8,21 +8,19 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>늴리리</title>
+    <title>둥집</title>
   <style>
      
      /*버튼 css입니다*/   
 .chat-toggle-button {
     position: fixed;
-    bottom: -25px;
-    right: -15px;
+    bottom: 35px;
+    right: 25px;
     width: 80px;
     height: 80px;
-
     color: #ffffff;
     border-radius: 50%;
     text-align: center;
@@ -30,8 +28,6 @@
     font-size: 24px;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-right: 40px;
-    margin-bottom: 120px;
     float: right;
     z-index: 2000;
 	 box-shadow: 
@@ -111,16 +107,14 @@
             <!-- 버튼 컨테이너 -->
             <div class="button-container" id="button-container">
               <h6><pre id="textToReveal" style="font-family: 'Noto sans KR', sans-serif;">
-
 안녕하세요 
-
+	
 새로운 터전을 구하시는데
-
+	
 도움이 되고자 하는 
-
-DUNGHIP 입니다
-
-
+	
+DUNGJIP 입니다
+	
 무엇을 도와드릴까요?
                 </pre></h6>
                 <button onclick="introduceArea()">홈페이지소개 시켜줘</button>
@@ -128,7 +122,6 @@ DUNGHIP 입니다
                 <button onclick="goEnrollArea()">회원가입 하고 싶어</button>
                 <button onclick="goFindIDPwdArea()">아이디를 잃어버렸어 </button>
                 <button onclick="goSubscribeArea()">구독하고 싶어</button>
-                <button onclick="goHotBoardArea()">닐리리의 핫한 게시물</button>
             </div>
         </div>
         <div class="chat-container" id="introduce" style="display: none;">
@@ -136,21 +129,21 @@ DUNGHIP 입니다
             <div class="button-container" id="button-container-introduce">
                <h6> <pre id="text2" style="font-family: 'Noto sans KR', sans-serif;">
 
-저희 홈페이지는 여행가고 싶은 분들을 위한 
+저희 홈페이지는 집을 구하고 싶은 사람,
 
-기본적인 서울 소개 홈페이지 입니다
+집을 판매하고 싶은 사람을 위한
 
-주말에 간단하게 나들이 가고싶은데
+집 중개 서비스 홈페이지 입니다
 
-어딜 갈지 모르는 당신에게 
+이 집이 어떤지 알고 싶은데
 
-서울의 방방곳곳 숨어있는 명소를 
+직접 방문하긴 어려운 사람들을 위해
 
-간단하게 소개시켜드리거나 
+실제로 거주했던 사용자들의 실제 리뷰를 통해 
 
-간단한 게임을 통해 여행지를 추천해드리는
+더욱 확실한 정보들을 전달해드리거나 
 
-사이트입니다.
+집을 올려서 판매할 수 있는 사이트입니다.
  
                                 </pre></h6>
              
@@ -164,15 +157,15 @@ DUNGHIP 입니다
             <div class="button-container" id="button-container-introduce">
 <h6> <pre id="text4" style="font-family: 'Noto sans KR', sans-serif;">
 
-닐리리는 구독을 신청하시면
+둥집은 구독을 신청하시면
 
-보다 재밌게 여행지를 고를수있게
+구독한 중개인들을 위해
 
-간단한 게임을 구현해놨습니다
+우선 추천 서비스로
 
-더구나 한달에 한번씩 레터를 보내
+구독한 중개인의 매물들을
 
-닐리리가 추천한 여행지를 소개해드립니다
+둥집의 메인페이지에 우선 추천 해드립니다.
 
 </pre></h6>
                
@@ -180,13 +173,13 @@ DUNGHIP 입니다
             </div>
         </div>
 <!--@@@@@@@@@@@@@@@@@@@@@회원가입@@@@@@@@@@@@@@@@@@@@@@@@@-->
-<c:if test="${not empty loginMember}">
+<c:if test="${not empty loginUser}">
         <div class="chat-container" id="goEnrollForm" style="display: none;">
 
             <div class="button-container" id="button-container-introduce">
 <h6> <pre id="text3" style="font-family: 'Noto sans KR', sans-serif;">
 
-NILILI의 멤버가 되고싶으시다구요?
+DUNGJIP의 멤버가 되고싶으시다구요?
 
 제가 바로 회원가입 버튼을 만들어 오겠습니다
 
@@ -214,20 +207,20 @@ NILILI의 멤버가 되고싶으시다구요?
             <div class="button-container" id="button-container-introduce">
 <h6> <pre id="text3" style="font-family: 'Noto sans KR', sans-serif;">
 
-NILILI의 멤버가 되고싶으시다구요?
+DUNGJIP의 멤버가 되고싶으시다구요?
 
 요청을 듣고 제가 밑에 회원가입 버튼을 만들어왔습니다 
 
-어서 닐리리의 든든한 친구가 되어주세요!
+어서 둥집의 든든한 친구가 되어주세요!
 
 </pre></h6>
-           <a href="http://localhost:8888/semi/enrollForm.mb"><button>회원가입</button></a>     
+           <a href="enrollType.me"><button>회원가입</button></a>     
                 <button onclick="toggleChat()" id="backsite2">이전 목록으로</button>
             </div>
         </div>
 
 <!--@@@@@@@@@@@@@@@@@@@@@아디비번찾기@@@@@@@@@@@@@@@@@@@@@@@@@-->
-<c:if test="${not empty loginMember}">
+<c:if test="${not empty loginUser}">
 <div class="chat-container" id="goFindPwdForm" style="display: none;">
 
             <div class="button-container" id="button-container-introduce">
@@ -261,10 +254,11 @@ NILILI의 멤버가 되고싶으시다구요?
 
 어서 찾으시고 로그인 하신다음에
 
-NILILI를 즐겨주세요!
+DUNGJIP을 즐겨주세요!
 
 </pre></h6>
-               <a href="http://localhost:8888/semi/views/member/find_Id_Pwd.jsp"><button id="">ID PW 찾기</button></a> 
+               <a href="findIdCheck"><button id="">ID 찾기</button></a>
+               <a href="findPwdCheck"><button id="">PW 찾기</button></a>
                 <button onclick="toggleChat()" id="backsite4">이전 목록으로</button>
             </div>
         </div>
@@ -275,10 +269,10 @@ NILILI를 즐겨주세요!
 
             <div class="button-container" id="button-container-introduce">
             <c:choose>
-            <c:when test="${empty loginMember}">
+            <c:when test="${empty loginUser}">
 <h6> <pre id="text6" style="font-family: 'Noto sans KR', sans-serif;">
 
-닐리리의 매력에 더욱더 빠지고 싶으신가요?
+둥집의 매력에 더욱더 빠지고 싶으신가요?
 
 제가 바로 구독버튼을 만들어오겠습니다
 
@@ -296,10 +290,10 @@ NILILI를 즐겨주세요!
 	
                
 </c:when>
-<c:when test="${loginMember.memberSubscribe eq 'N'}">
+<c:when test="${loginUser.userType eq '중개인' and loginUser.subscribe eq 'N'}">
 <h6> <pre id="text6" style="font-family: 'Noto sans KR', sans-serif;">
 
-닐리리의 매력에 더욱더 빠지고 싶으신가요?
+둥집의 매력에 더욱더 빠지고 싶으신가요?
 
 제가 바로 구독버튼을 만들어오겠습니다
 
@@ -310,7 +304,7 @@ NILILI를 즐겨주세요!
 </pre></h6>
 
 
- 			<button id="">구독하기</button>
+ 			<button onclick="location.href='subscribe.sb'">구독하기</button>
 
 
 </c:when>
@@ -318,7 +312,7 @@ NILILI를 즐겨주세요!
 
 <h6> <pre id="text6" style="font-family: 'Noto sans KR', sans-serif;">
 
-닐리리의 매력에 더욱더 빠지고 싶으신가요?
+둥집의 매력에 더욱더 빠지고 싶으신가요?
 
 제가 바로 구독버튼을 만들어오겠습니다
 
@@ -328,45 +322,15 @@ NILILI를 즐겨주세요!
 
 이미 구독을 하신 상태이십니다!!
 
-마음껏 닐리리를 즐겨주세요!
+마음껏 둥집을 즐겨주세요!
 
 </pre></h6>
 
-
-
-
-
 </c:otherwise>
-
-
-
-
                 </c:choose>
                 <button onclick="toggleChat()" id="backsite5">이전 목록으로</button>
             </div>
         </div>       
-
-
-        <div class="chat-container" id="goHotBoardForm" style="display: none;">
-
-            <div class="button-container" id="button-container-introduce">
-<h6> <pre id="text7" style="font-family: 'Noto sans KR', sans-serif;">
-
-닐리리의 핫한 게시물이 궁금하시다구요?
-
-밑에 버튼을 만들어 놨으니 한번 보러가실까요?
-
-오늘의 핫한 게시물 TOP10을 소개합니다!! 
-
-</pre></h6>
-               <a href="${contextPath}/hot.bo?currentPage=1"><button>오늘의 핫한 게시물은?</button></a> 
-                <button onclick="toggleChat()" id="backsite6">이전 목록으로</button>
-            </div>
-        </div>
-
-
-
-
     </div>
 
 <!-- 새롭게 창이 열리게 해놓아 경우마다 div를 주었습니다 -->
@@ -502,19 +466,7 @@ NILILI를 즐겨주세요!
             text6.each(function () {
                 revealText($(this));
             });
-        }  
-        //여섯번째 옵션인 핫게시물 옵션입니다
-        function goHotBoardArea() {
-            var chatContainer = $("#chat-container");
-            var goHotBoardForm = $("#goHotBoardForm");
-            var text7 = $("#text7");
-
-            chatContainer.css("display", "none");
-            goHotBoardForm.css("display", "block");
-            text7.each(function () {
-                revealText($(this));
-            });
-        } 
+        }
 		//일일히 문자를 타이핑 하듯이 나열해주는 함수입니다.
         function revealText(element) {
             var text = element.html();
