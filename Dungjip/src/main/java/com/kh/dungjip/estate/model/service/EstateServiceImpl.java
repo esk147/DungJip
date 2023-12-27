@@ -1,15 +1,21 @@
 package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.dao.EstateDao;
+
+import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+
 import com.kh.dungjip.member.model.vo.Member;
 
 @Service
@@ -104,5 +110,57 @@ public class EstateServiceImpl implements EstateService {
 		return estateDao.selectSubscribeEstateList(sqlSession);
 	}
 
+
+	//리뷰 작성
+	@Override
+	public int insertEstateReview(Map<String, Object> paramMap) {
+
+		return estateDao.insertEstateReview(sqlSession,paramMap);
+	}
+
+
+	//조회
+	@Override
+	public ArrayList<EstateReview> selectEstateReview(Member m) {
+		// TODO Auto-generated method stub
+		return estateDao.selectEstateReview(sqlSession,m);
+	}
+
+	//삭제
+	@Override
+	public int esReviewDelete(int esReNo) {
+		// TODO Auto-generated method stub
+		return estateDao.esReviewDelete(sqlSession,esReNo);
+	}
+
+	@Override
+	public int updateReview(int esReNo, int esReScore, String esReContent) {
+		// TODO Auto-generated method stub
+		return estateDao.updateReview(sqlSession,esReNo,esReScore,esReContent );
+	}
+
+	@Override
+	public ArrayList<EsReLike> memberMypageReviewLike(Member m,PageInfo pi) {
+		// TODO Auto-generated method stub
+		return estateDao.memberMypageReviewLike(sqlSession,m,pi);
+	}
+
+	//중개인리뷰공감페이징
+	@Override
+	public int selectEstateListCountByMember(Member m) {
+		// TODO Auto-generated method stub
+		return estateDao.selectEstateListCountByMember(sqlSession,m);
+	}
+
+	//공감삭제
+	@Override
+	public int myEsReviewDelete(int esReNo) {
+		// TODO Auto-generated method stub
+		return estateDao.myEsReviewDelete(sqlSession,esReNo);
+	}
+
+	
+	
+	
 	
 }

@@ -305,6 +305,7 @@
                                         <fieldset >
                                             <div class="row">
                                                 <div class="col-xs-12">  
+                                                    <input class="button btn largesearch-btn" value="예약하기" type="submit">
                                                     <input class="button btn largesearch-btn" value="상담하기" type="submit">
                                                 </div>  
                                             </div>

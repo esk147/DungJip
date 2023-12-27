@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.house.model.vo.House;
+import com.kh.dungjip.house.model.vo.Jjim;
 import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.member.model.vo.Member;
 
 @Repository
 public class HouseDao {
@@ -28,11 +30,28 @@ public class HouseDao {
 		return list;
 	}
 
+	//찜하기
+	public int insertJjim(SqlSessionTemplate sqlSession, Jjim jj) {
+		return sqlSession.insert("houseMapper.insertJjim",jj);
+		
+	}
+
+	//찜데이터확인
+	public Jjim selectJjim(SqlSessionTemplate sqlSession, Jjim jj) {
+		return sqlSession.selectOne("houseMapper.selectJjim",jj);
+	}
+
+	//찜취소
+	public int deleteJjim(SqlSessionTemplate sqlSession, Jjim jj) {
+		return sqlSession.delete("houseMapper.deleteJjim",jj);
+	}
+	
 	public ArrayList<HouseImg> selectHouseThumnail(SqlSessionTemplate sqlSession) {
 		ArrayList<HouseImg> hImgList = (ArrayList) sqlSession.selectList("houseMapper.selectHouseThumnail");
 		return hImgList;
 	}
 
+		
 	//부동산 집 리스트
 	public ArrayList<House> selectHouseList(SqlSessionTemplate sqlSession, int esNo, PageInfo pi) {
 		
@@ -67,8 +86,52 @@ public class HouseDao {
 		return sqlSession.selectOne("houseMapper.selectHouseMainThumnail", houseNo);
 	}
 
+	public ArrayList<House> memberMypageHousejjimForm(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("houseMapper.memberMypageHousejjimForm",m);
+	}
+
+	public HouseImg memberMypageHousejjimImg(SqlSessionTemplate sqlSession, int houseNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("houseMapper.selectHouseMainThumnail",houseNo);
+	}	
+
 	public ArrayList<House> selectSubscribeHouseList(SqlSessionTemplate sqlSession, Map<String, Object> map) {
 		return (ArrayList) sqlSession.selectList("houseMapper.selectSubscribeHouseList", map);
+	}
+
+
+	//부동산 집 리스트(모달창)
+	
+	public ArrayList<House> selectHouseModal(SqlSessionTemplate sqlSession, int esNo) {
+	
+		return (ArrayList)sqlSession.selectList("houseMapper.selectHouseModal",esNo);
+	}
+	//집 상세보기
+	public House selectHouseDetail(SqlSessionTemplate sqlSession, int houseNo) {
+		return sqlSession.selectOne("houseMapper.selectHouseDetail", houseNo);
+	}
+
+	//상세보기 집 이미지
+	public ArrayList<HouseImg> selectHouseImgDetail(SqlSessionTemplate sqlSession, int houseNo) {
+		return (ArrayList)sqlSession.selectList("houseMapper.selectHouseImgDetail", houseNo);
+	}
+
+	//비슷한 매물 찾기 list
+	public ArrayList<House> houseLikeList(SqlSessionTemplate sqlSession, String houseAddress) {
+		return (ArrayList)sqlSession.selectList("houseMapper.houseLikeList",houseAddress);
+	}
+
+	//비슷한 매물 찾기 img
+	public ArrayList<HouseImg> houseImgLike(SqlSessionTemplate sqlSession, String houseAddress) {
+		return (ArrayList)sqlSession.selectList("houseMapper.houseImgLike",houseAddress);
+
+	}
+
+	//마이페이지 찜 목록에서 찜 해제
+	public int mypageHjjimdelete(SqlSessionTemplate sqlSession, int houseNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("houseMapper.mypageHjjimdelete",houseNo);
 	}
 
 }

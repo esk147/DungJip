@@ -1,8 +1,12 @@
 package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
+import java.util.Map;
+
+import com.kh.dungjip.common.model.vo.PageInfo;
+import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.member.model.vo.Member;
@@ -35,6 +39,31 @@ public interface EstateService {
 	int selectEstateThreeStar(int esNo);
 	int selectEstateTwoStar(int esNo);
 	int selectEstateOneStar(int esNo);
+
+
+	//리뷰 작성
+	int insertEstateReview( Map<String, Object> paramMap);
+
+
+	//조회
+	ArrayList<EstateReview> selectEstateReview(Member m);
+
+	//삭제
+	int esReviewDelete(int esReNo);
+
+	//수정
+	int updateReview(int esReNo, int esReScore, String esReContent);
+
+
+	//중개사리뷰공감
+	ArrayList<EsReLike> memberMypageReviewLike(Member m, PageInfo pi);
+
+	//중개사리뷰공감페이징
+	int selectEstateListCountByMember(Member m);
+
+	//공감삭제
+	int myEsReviewDelete(int esReNo);
+
 
 
 

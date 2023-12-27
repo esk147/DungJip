@@ -79,6 +79,8 @@ public class Member {
 	        } else {
 	            return daysAgo + "일 전";
 	        }	    }
+	   
+	 
 	
 	   
 		public Member(int userNo, String userType, String userId, String userPwd, String userName, String userNickName,

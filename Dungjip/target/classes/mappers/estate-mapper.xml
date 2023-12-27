@@ -26,8 +26,6 @@
 	</resultMap>
 	
 	<select id="selectEatateList" parameterType="_int" resultMap="estateResultSet" >
-
-	
 	SELECT E.ES_NO
       ,E.ES_NAME
       ,M.CHANGE_NAME
@@ -116,14 +114,14 @@
 	<select id="selectEstateReviewCount" resultType="_int">
 	SELECT COUNT(*) COUNT
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	</select>
 	
 	<select id="selectEstateFiveStar" resultType="_int">
 	SELECT COUNT(*)STAR
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	AND ES_RE_SCORE=5
 	</select>
@@ -131,7 +129,7 @@
 		<select id="selectEstateFourStar" resultType="_int">
 	SELECT COUNT(*)STAR
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	AND ES_RE_SCORE=4
 	</select>
@@ -139,7 +137,7 @@
 		<select id="selectEstateThreeStar" resultType="_int">
 	SELECT COUNT(*)STAR
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	AND ES_RE_SCORE=3
 	</select>
@@ -147,7 +145,7 @@
 		<select id="selectEstateTwoStar" resultType="_int">
 	SELECT COUNT(*)STAR
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	AND ES_RE_SCORE=2
 	</select>
@@ -155,7 +153,7 @@
 		<select id="selectEstateOneStar" resultType="_int">
 	SELECT COUNT(*)STAR
 	FROM ESTATE_REVIEW
-	WHERE ES_NO=${esNo}
+	WHERE ES_NO=#{esNo}
 	AND ES_RE_STATUS='Y'
 	AND ES_RE_SCORE=1
 	</select>
@@ -165,6 +163,78 @@
 		join member m using (user_no)
 		where subscribe = 'Y'
 	</select>
+	
 
+	
 
+	<insert id="insertEstateReview" parameterType="estateReview">
+		INSERT INTO ESTATE_REVIEW (ES_RE_NO, 
+								   ES_NO, 
+								   USER_NO, 
+								   ES_RE_SCORE, 
+								   ES_RE_CONTENT, 
+								   ES_RE_TYPE, 
+								   HOUSE_NO)
+					VALUES (SEQ_ERRO.NEXTVAL, 
+					        #{er.esNo},
+					        #{loginUser.userNo}, 
+					        #{er.esReScore}, 
+					        #{er.esReContent}, 
+					        #{er.esReType}, 
+					        4)
+	</insert>
+
+	<select id="selectEstateReview" resultMap="EstateReviewResultSet" >
+		SELECT ES_RE_NO
+		        ,ER.ES_NO
+		        ,ER.USER_NO
+		        ,ES_RE_SCORE
+		        ,ES_RE_CONTENT
+		        ,ES_RE_CREATE_DATE
+		        ,ES_RE_TYPE
+		        ,ES_RE_STATUS
+		        ,ER.HOUSE_NO
+		FROM ESTATE_REVIEW ER
+		JOIN ESTATE E ON ER.ES_NO  = E.ES_NO
+		JOIN HOUSE H ON ER.HOUSE_NO = H.HOUSE_NO
+		WHERE ER.USER_NO = #{userNo}
+		AND ES_RE_STATUS='Y'	
+	</select>
+	
+	<delete id="esReviewDelete" parameterType="_int">		
+		UPDATE ESTATE_REVIEW
+		SET ES_RE_STATUS = 'N'
+		WHERE ES_RE_STATUS = 'Y'
+		AND ES_RE_NO = #{esReNo}
+	</delete>
+	
+	<update id="updateReview">
+		UPDATE ESTATE_REVIEW
+		SET ES_RE_SCORE = #{esReScore}
+		    ,ES_RE_CONTENT = #{esReContent}
+		    ,ES_RE_CREATE_DATE = SYSDATE
+		WHERE ES_RE_NO = #{esReNo}
+		AND ES_RE_STATUS='Y'  
+	</update>
+	
+	<select id="memberMypageReviewLike" resultMap="EstateReviewResultSet">
+		SELECT ES.ES_RE_NO, ES.USER_NO ,ER.ES_RE_CREATE_DATE,ER.ES_RE_CONTENT 
+		FROM ES_RE_LIKE ES
+		JOIN MEMBER M ON M.USER_NO = ES.USER_NO
+		JOIN ESTATE_REVIEW ER ON ES.ES_RE_NO = ER.ES_RE_NO
+		WHERE ES.USER_NO = #{userNo}
+	</select>
+
+	<select id="selectEstateListCountByMember" resultType="_int">
+		SELECT COUNT(*)	
+		FROM ESTATE_REVIEW
+		WHERE ES_RE_STATUS = 'Y' 	
+	</select>
+	
+	<delete id="myEsReviewDelete">
+		DELETE 
+		FROM ES_RE_LIKE
+		WHERE ES_RE_NO = #{esReNo}	
+	</delete>
+	
 </mapper>
