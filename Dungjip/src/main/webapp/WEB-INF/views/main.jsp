@@ -89,18 +89,42 @@
             flex: none;
             width: 313px;
             margin-right: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: none;
             padding: 16px;
             background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .scroll-button {
-            cursor: pointer;
-            padding: 8px;
-            background-color: #f4f4f4;
-            border: none;
-            font-size: 16px;
+        #left-btn {
+            width: 50px;
+		    height: 50px;
+		    border: 0px;
+		    position: absolute;
+		    top: 54%;
+		    transform: translateY(-50%);
+		    z-index: 1;
+		    opacity: 0.35;
+		    transition: opacity 100ms ease-in-out 0s;
+		    background: url(resources/img/icons/prev.svg) center center / cover no-repeat;
+		    left: 15px;
+        }
+        #right-btn {
+        	width: 50px;
+		    height: 50px;
+		    border: 0px;
+		    position: absolute;
+		    top: 54%;
+		    transform: translateY(-50%);
+		    z-index: 1;
+		    opacity: 0.35;
+		    transition: opacity 100ms ease-in-out 0s;
+		    background: url(resources/img/icons/next.svg) center center / cover no-repeat;
+		    right: 15px;
+        }
+        #left-btn:hover {
+			opacity: 0.8;
+        }
+        
+        #right-btn:hover {
+			opacity: 0.8;
         }
 
       .card img {
@@ -260,13 +284,13 @@
     </script>
     
     <div class="main-content">
-		<button class="scroll-button" onclick="scroll(-200)">&lt;</button>
+		<button id="left-btn" class="scroll-button" onclick="scroll(-200)"></button>
 			<div class="card-container" id="cardContainer">
 
 		      
 	      </div>
       
-		<button class="scroll-button" onclick="scroll(200)">&gt;</button>
+		<button id="right-btn" class="scroll-button" onclick="scroll(200)"></button>
     </div>
      <script>
 	    let isDown = false;
@@ -281,7 +305,7 @@
 	
 	    document.querySelectorAll('.scroll-button').forEach(button => {
 	        button.addEventListener('click', (e) => {
-	            const direction = button.innerText === '>' ? 1 : -1;
+	            const direction = button.id === 'right-btn' ? 1 : -1;
 	            scroll(direction * 200); // Scroll distance for each click
 	        });
 	    });
