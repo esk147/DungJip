@@ -35,25 +35,7 @@ public class Member {
     private boolean active;
     
 
-	public Member(int userNo, String userType, String userId, String userPwd, String userName, String userNickName,
-			String age, String gender, String email, String phone, String address, String status,String originName, String changeName) {
-		super();
-		this.userNo = userNo;
-		this.userType = userType;
-		this.userId = userId;
-		this.userPwd = userPwd;
-		this.userName = userName;
-		this.userNickName = userNickName;
-		this.age = age;
-		this.gender = gender;
-		this.email = email;
-		this.phone = phone;
-		this.address = address;
-		this.status = status;
-		this.originName = originName;
-		this.changeName= changeName;
-	}
-    
+
 	   public boolean isActive() {
 	        // If both lastLoginTime and lastLogoutTime are null, user has never logged in
 	        if (lastLoginTime == null && lastLogoutTime == null) {
@@ -92,14 +74,34 @@ public class Member {
 
 	        if (minutesAgo < 60) {
 	            return minutesAgo + "분 전";
-	        } else if (hoursAgo < 24) {
+	        } else if (hoursAgo < 24) {	
 	            return hoursAgo + "시간 전";
 	        } else {
 	            return daysAgo + "일 전";
 	        }	    }
+	   
+	 
 	
 	   
-	   
+		public Member(int userNo, String userType, String userId, String userPwd, String userName, String userNickName,
+				String age, String gender, String email, String phone, String address, String status,String originName, String changeName) {
+			super();
+			this.userNo = userNo;
+			this.userType = userType;
+			this.userId = userId;
+			this.userPwd = userPwd;
+			this.userName = userName;
+			this.userNickName = userNickName;
+			this.age = age;
+			this.gender = gender;
+			this.email = email;
+			this.phone = phone;
+			this.address = address;
+			this.status = status;
+			this.originName = originName;
+			this.changeName= changeName;
+		}
+	    
 	   
 	   
 	

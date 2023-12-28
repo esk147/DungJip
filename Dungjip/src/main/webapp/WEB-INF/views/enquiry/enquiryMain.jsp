@@ -72,7 +72,7 @@ input[type="text"], input[type="email"], select, textarea {
 	background-color: #f4f4f4;
 }
 
-.nav-item {
+.nav-item2 {
 	padding: 10px 50px; /* Adjust the padding as necessary */
 	margin: 0 10px; /* Space between items */
 	border: 1px solid #ddd; /* Border color */
@@ -81,12 +81,12 @@ input[type="text"], input[type="email"], select, textarea {
 	cursor: pointer;
 }
 
-.nav-item.active {
+.nav-item2.active {
 	background-color: #000; /* Active item background color */
 	color: #fff; /* Active item text color */
 }
 
-.nav-item:hover{
+.nav-item2:hover{
     background-color: #000;
     color: #fff;
 }
@@ -134,10 +134,10 @@ input[type="text"], input[type="email"], select, textarea {
 	<br><br>
 		<div align="center">
 			<c:if test="${loginUser.userType == '관리자' }">
-				<a href="enList.en" class="nav-item" style="width:180px;">1:1문의 내역</a>
+				<a href="enList.en" class="nav-item2" style="width:180px;">1:1문의 내역</a>
 			</c:if>	
-				<a href="enquiry.en" class="nav-item active" style="width:180px;">1:1문의</a>
-				<a href="#" class="nav-item" style="width:180px;" onclick="navigateToNotice(event)">공지사항</a>
+				<a href="enquiry.en" class="nav-item2 active" style="width:180px;">1:1문의</a>
+				<a href="#" class="nav-item2" style="width:180px;" onclick="navigateToNotice(event)">공지사항</a>
 		</div>
 	<c:choose>
 		<c:when test="${loginUser == null }">

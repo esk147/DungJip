@@ -46,9 +46,38 @@
              #num {
             color: #D27E04;
              }
+             
+             #type{
+             display: flex;
+             align-items: center;
+             justify-content: space-between;
+             }
+             
+             #realtype{
+            
+    		 padding: 6px;
+    		 border-radius: 50px;
+    		 background-color:rgb(255, 236, 235);
+    		 color:rgb(250, 78, 62);
+             }
+             
+             .profile{
+             width: 35px;
+    		 height: 35px;
+    		 border-radius: 50%;
+             }
+             
+             .d-flex{
+             display: flex;
+    		 align-items: center;
+    		 justify-content: flex-start;
+             }
+             
+             
 
         </style>
          <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+         
     </head>
     <body>
 	<%@ include file="../common/header.jsp"%>
@@ -89,7 +118,7 @@
 
                                         <div class="clear">
                                             <div class="col-xs-4 col-sm-4 dealer-face">
-                                               <img src="resources/img/person/${e.member.changeName}" class="img-circle" >
+                                               <img src="${e.member.changeName}" class="img-circle" >
                                             </div>
                                             <div class="col-xs-8 col-sm-8 ">
                                                 <h3 class="dealer-name">
@@ -276,6 +305,7 @@
                                         <fieldset >
                                             <div class="row">
                                                 <div class="col-xs-12">  
+                                                    <input class="button btn largesearch-btn" value="예약하기" type="submit">
                                                     <input class="button btn largesearch-btn" value="상담하기" type="submit">
                                                 </div>  
                                             </div>
@@ -360,7 +390,7 @@
                                                             <h5>둥집 가입일</h5>
                                                         </td>
                                                         <td>
-                                                            <h5>${e.enrollDate }</h5>
+                                                            <h5>${e.enrollDate } </h5>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -545,6 +575,7 @@
                                             
                                         </div>
                                     </div>
+                                    
                                     <div class="tab-pane fade active" id="review" role="tabpanel" aria-labelledby="review-tab" style="width: 850px;">
                                         <div class="row">
                                             <div class="col-lg">
@@ -555,93 +586,144 @@
                 
                                                             <h3 style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
                                                             
-                                                            <h1 style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;">4.0</h1>
+                                                            <h1 style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
                                                             
-                                                            <h5 style="text-align: center;">(03 Reviews)</h5>
+                                                            <h5 style="text-align: center;"></h5>
                                                         </div>
                                                     </div>
                                                     <div class="col-6" style="flex:0.3">
-                                                        <div class="rating_list" style="margin-top:25px;">
-                                                            <h5 style="text-align: left;">Based on 3 Reviews</h5>
-                                                            <ul class="list" style="padding: 0;">
-                                                                <li><a href="#" id="num">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                                         class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                                                <li><a href="#" id="num">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                                         class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                                                <li><a href="#" id="num">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                                         class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                                                <li><a href="#" id="num">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                                         class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                                                <li><a href="#" id="num">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                                         class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                                            </ul>
-                                                        </div>
+                                                        <div class="rating_list" style="margin-top:25px;" id="count">
+                                                            <h5 style="text-align: left;"></h5>
+														<ul class="list" style="padding: 0;">
+													
+															<li id="5star"><a href="#" id="num">5 Star <i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><i
+																	class="fa fa-star"></i> <span></span>
+															</a></li>
+														
+														
+															<li id="4star"><a href="#" id="num">4 Star <i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><span></span>
+															</a></li>
+														
+															<li id="3star"><a href="#" id="num">3 Star <i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><i
+																	class="fa fa-star"></i> <span></span></a></li>
+																
+																	
+															<li id="2star"><a href="#" id="num">2 Star <i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><span></span></a></li>
+														
+															<li id="1star"><a href="#" id="num">1 Star <i
+																	class="fa fa-star"></i><span></span>
+															</a></li>
+														
+											
+														</ul>
+													</div>
                                                     </div>
                                                 </div>
+                                                
+                                                <div id="reviewContainer">
                                                 <div class="review_list" style="width: 1100px;">
-                                                    <div class="review_item">
-                                                        <div class="media">
-                                                            <div class="d-flex">
-                                                                <img src="resources/img/product/review-1.png" alt="">
-                                                            </div>
-                                                            <div class="media-body">
-                                                                <h4>Blake Ruiz</h4>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                            </div>
-                                                        </div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                            commodo</p>
-                                                    </div>
-                                                    <div class="review_item">
-                                                        <div class="media">
-                                                            <div class="d-flex">
-                                                                <img src="resources/img/product/review-2.png" alt="">
-                                                            </div>
-                                                            <div class="media-body">
-                                                                <h4>Blake Ruiz</h4>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                            </div>
-                                                        </div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                            commodo</p>
-                                                    </div>
-                                                    <div class="review_item">
-                                                        <div class="media">
-                                                            <div class="d-flex">
-                                                                <img src="resources/img/product/review-3.png" alt="">
-                                                            </div>
-                                                            <div class="media-body">
-                                                                <h4>Blake Ruiz</h4>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                            </div>
-                                                        </div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                            commodo</p>
-                                                    </div>
+                                                    <!-- 리뷰내용 -->
                                                 </div>
+                                            </div>
                                             </div>
                                             
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </section>
                            
+                                    <script>
+                                    function selectEstateReview(){
+                                    	console.log(${e.esNo});
+                                    	
+                                    	$.ajax({
+                                    		url : "estate.re",
+                                    		data: {esNo: "${e.esNo}"},
+                                    		success: function(result){
+	
+                                    			var avg = (result.sum /result.count).toFixed(2);
+                                    			
+												for(var i=0; i<result.erlist.length; i++){
+
+													console.log(i);
+                                    				var stars = "";
+                                    				
+                                    				for(var j=0; j<result.erlist[i].esReScore; j++){
+                                    					
+                                    					stars += "<i class='fa fa-star'></i> ";
+                                    				}
+                                    				
+                                    				console.log("별 확인");
+                                    				console.log(stars);
+                                    				console.log(result.erlist[i].esReScore);
+                                    				
+                                    				var reviewItem = $("<div class='review_item'>" +
+                                    						"<div class='media'>" +
+                            		        		        "<div class='d-flex'>" +
+                            		        		        "<img class='profile' src='"+result.erlist[i].member.changeName+"' alt=''>"+
+                            		        		        "<h5 style='padding-left: 10px;'>" + result.erlist[i].member.userNickName + "</h5>" +
+                            		        		        "</div>" +
+                            		        		        "<div class='media-body'>" +
+                            		        		        "<span>" + result.erlist[i].esReCreateDate + "</span>" +
+                            		        		        "<div id='type'>" +
+                            		        		        "<b>" + result.erlist[i].house.houseTitle + "</b>" +
+                            		        		        "<h6 id='realtype'>"+result.erlist[i].esReType +"</h6>" +
+                            		        		        "</div>" + 
+                            		        		        stars +
+                            		        		        "</div>" +
+                            		        		        "</div>" +
+                            		        		        "<p>" + result.erlist[i].esReContent + "</p>" +
+                            		        		        "</div>" + 
+                            		        		        "<hr>");
+                                    				 $(".review_list").append(reviewItem);
+											console.log(result);
+											console.log(result.erlist[i].member.userNickName);
+											console.log("---------사진---------");
+											console.log(result.erlist[i].member.changeName);
+											console.log(result.erlist[i].esReCreateDate);
+											console.log(result.erlist[i].house.houseTitle);
+											console.log(result.erlist[i].esReType);
+											console.log(result.erlist[i].esReScore);
+											console.log(stars);
+											console.log(result.erlist[i].esReContent);
+											
+                                    		} 
+											
+											$(".box_total h5").text("("+result.count+" Reviews)");
+									    	$("#count h5").text("Based on "+result.count+" Reviews");
+									        $(".box_total h1").text(avg);
+									        $("#5star span").text(result.fiveStar+"개");
+		                                    $("#4star span").text(result.fourStar+"개");
+		                                    $("#3star span").text(result.threeStar+"개");
+		                                    $("#2star span").text(result.twoStar+"개");
+		                                    $("#1star span").text(result.oneStar+"개");
+									        
+									        
+									    
+									        
+									      
+                                
+                                    		},error : function(){
+                                    			console.log("리뷰 통신 오류");
+                                    		}
+                                    	});
+                                    }
+                                    
+                                    $(function(){
+                                    	selectEstateReview();
+                                    });
+                                    
+                                    
+                                    </script>
+                                    
      <div id="map" style="width:1000px;height:500px; "></div>
                                         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9d3f1c90fc1cea85b8bb8303f360c81&libraries=services,clusterer,drawing"></script>
 			
@@ -685,6 +767,8 @@
               
             });
         </script>
+        
+     
      
 			<script>
 			

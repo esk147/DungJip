@@ -1,6 +1,9 @@
 package com.kh.dungjip.member.model.service;
 
+import java.util.ArrayList;
+
 import com.kh.dungjip.estate.model.vo.Estate;
+import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.member.model.vo.Member;
 
 public interface MemberService {
@@ -32,6 +35,9 @@ public interface MemberService {
 
 	//번호 중복체크 (임대인/임차인)
 	int ajaxphoneMethod(String phone);
+	
+	//닉네임 중복 체크
+	int ajaxnickname(String userNickName);
 
 	//아이디 찾기
 	Member memberFindId(Member m);
@@ -59,7 +65,20 @@ public interface MemberService {
 	
 	int LastLogoutTime(int userNo);
 
+
+	//예약 내역
+	ArrayList<Reservation> selectReservation(Member loginUser);
+
 	
+
+
+
+	//프로필 사진 수정
+	int fileAjaxMethod(Member m);
+
+	
+
+
 
 
 

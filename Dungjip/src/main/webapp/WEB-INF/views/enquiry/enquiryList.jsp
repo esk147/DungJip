@@ -24,7 +24,7 @@
 			margin: 20px 0;
 		}
 		
-		.nav-item {
+		.nav-item2 {
 			padding: 10px 50px; /* Adjust the padding as necessary */
 			margin: 0 10px; /* Space between items */
 			border: 1px solid #ddd; /* Border color */
@@ -33,12 +33,12 @@
 			color:#000;
 		}
 		
-		.nav-item.active {
+		.nav-item2.active {
 			background-color: #000; /* Active item background color */
 			color: #fff; /* Active item text color */
 		}
 		
-		.nav-item:hover{
+		.nav-item2:hover{
 		    background-color: #000;
 		    color: #fff;
 		}    

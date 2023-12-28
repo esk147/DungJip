@@ -78,7 +78,7 @@
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">빌라</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">오피스텔</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">집내놓기</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="insert.house">집내놓기</a></li>
 	                    </ul>
 	                </div>  
 	                  
