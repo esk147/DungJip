@@ -301,19 +301,20 @@
                                                 </div>  
                                             </div>
                                         </fieldset>
-
+<script type="text/javascript">
+console.log("유저번호 : "+'${e.member.userNo}');
+</script>
                                         <fieldset >
                                             <div class="row">
                                                 <div class="col-xs-12">  
                                                     <input class="button btn largesearch-btn" value="예약하기" type="submit">
-                                                    <input class="button btn largesearch-btn" value="상담하기" type="submit">
+                                                    <input class="button btn largesearch-btn" value="상담하기" type="button" onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'">
                                                 </div>  
                                             </div>
                                         </fieldset>                                     
-                                    </form>
                                 </div>
                             </div>
-
+                                    </form>
                         </aside>
                     </div>
                     <div class="col-md-8 single-property-content prp-style-1 " style="width: 1100px;"> 

@@ -3,6 +3,7 @@ package com.kh.dungjip.common.websocket.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.dungjip.common.report.model.vo.ReportEstate;
 import com.kh.dungjip.common.websocket.model.vo.ChatMessage;
 import com.kh.dungjip.common.websocket.model.vo.ChatRoom;
 import com.kh.dungjip.common.websocket.model.vo.JoinChat;
@@ -26,6 +27,8 @@ public interface ChatService {
 	int alreadyUsedChatRoomCheck(JoinChat c);
 
 	ArrayList<ChatRoom> findChat(ChatRoom c);
+
+	int updateReportEstate(ReportEstate reportEstate);
 
 	
 }

@@ -252,7 +252,7 @@ main header h3 {
 
 #chat .me .triangle {
 	border-color: transparent transparent #6fbced transparent;
-	margin-left: 1000px;
+	margin-left: 972px;
 }
 
 main footer {
@@ -418,6 +418,7 @@ button.clickBtn2{
 									<!-- 각 채팅방의 멤버에 대해 루프를 돌면서 userName을 표시 -->
 										<div id="${member.userName }">
 											<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userName}</h2>
+											<input type="hidden" name="eno" value="${member.userNo }">
 										</div>
 										<c:choose>
 											<c:when test="${member.active}">
@@ -451,18 +452,22 @@ button.clickBtn2{
 			<img id="userProfileImage" src="기본 이미지 경로" alt="사용자 프로필" style="width: 50px; height: 50px;"/>
 				<div>
 					<h2 id="otherUser"></h2>
-				
 					<button onclick="connect();">연결</button>
 					<button onclick="disconnect();">종료</button>
-
 					<h3>부동산 소개 들어갈 자리입니다</h3>
-
 				</div>
 			</div>
 			<div style="margin-right:0px;">
+			<script type="text/javascript">
+			console.log('${loginUser}');
+			</script>
+			<c:if test="${loginUser.userType eq '임차인'}">
 		<button class="chat-toggle-button" onclick="toggleChat();">신고</button>
+			</c:if>
 			</div>
+
 			</header>
+
 			<ul id="chat">
 
 
@@ -476,12 +481,9 @@ button.clickBtn2{
 				</label> <input type="file" id="inputFile" style="display: none;" /> <a
 					href="#" id="send" onclick="send();">Send</a>
 			</footer>
-
 		</main>
-
 	</div>
 </div>
-  
  <div class="chat-body">
         <!-- 챗봇 대화창 컨테이너 -->
         <div class="chat-container" id="chat-container">
@@ -496,20 +498,20 @@ button.clickBtn2{
 
 제출해주세요 ! 
 
-둥집의 관리자가 실시간으로 모니터 중이니 
+둥집의 매니저들이 실시간으로 모니터 중이니 
 
 빠르게 해결을 하겠습니다 !
 
 이용에 불편을 끼쳐 죄송합니다.
                 </pre></h6>
-                <button class="reportBtn" name="" value="">과대광고를 합니다.</button>
-                <button class="reportBtn" name="" value="">허위매물 의심이 됩니다.</button>
-                <button class="reportBtn" name="" value="">매물 주소와 등록된 사진이 다릅니다.</button>
-                <button class="reportBtn" name="" value="">매물의 용도,구조,옵션 등 정보가 다릅니다.</button>
-                <button class="reportBtn" name="" value="">욕설을 하였습니다.</button>
+                <button class="reportBtn" name="" value="과대광고를 합니다.">과대광고를 합니다.</button>
+                <button class="reportBtn" name="" value="허위매물이 의심 됩니다.">허위매물 의심이 됩니다.</button>
+                <button class="reportBtn" name="" value="매물 주소와 등록된 사진이 다릅니다.">매물 주소와 등록된 사진이 다릅니다.</button>
+                <button class="reportBtn" name="" value="매물의 용도,구조,옵션 등 정보가 다릅니다.">매물의 용도,구조,옵션 등 정보가 다릅니다.</button>
+                <button class="reportBtn" name="" value="부적절한 언어를 사용하였습니다.">부적절한 언어를 사용하였습니다.</button>
                 <button onclick="goHotBoardArea()">직접입력</button>
                 <div id="hrDiv"></div>
-                  <button id="sub" name="" value="">제출하기</button>
+                 <button id="subBtn" >제출하기</button>
             </div>
         </div>
         <div class="chat-container" id="goHotBoardForm" style="display: none;">
@@ -522,11 +524,15 @@ button.clickBtn2{
 밑에 신고란을 만들어 두었으니 
 
 자세하게 적어주세요 !
+
+둥집 매니저들이 빠르게 확인하고 
+
+불편사항을 해결해드리겠습니다
 </pre></h6>
 <legend>신고 사유
-<textarea name="" id="" cols="55" rows="10" style="resize: none;"></textarea>
+<textarea name="" id="reportReason" cols="55" rows="10" style="resize: none;"></textarea>
 </legend>
-               <button>제출하기</button> 
+               <button id="subBtn2">제출하기</button> 
                 <button onclick="toggleChat()" id="backsite6">이전 목록으로</button>
             </div>
         </div>
@@ -537,14 +543,80 @@ button.clickBtn2{
 
 
 <script>
+$("#subBtn").click(function(){
+	
+	var reportReason = $(".clickBtn2").val();
+	$.ajax({
+		
+		url : "../websocket/report.ch",
+		type : "post",
+		data : {
+			userNo : ${loginUser.userNo},
+			chatRoomNo : chatRoomNo,
+			estateNo : estateNo,
+			reportReason : reportReason
+			
+		},
+		success : function(result){
+			alert("신고가 정상적으로 제출되었습니다");
+			 $(".chat-container").css("display", "none");
+			 $("#main-content").removeClass("blur-effect");
+		},
+		error : function(){
+			
+			
+			
+		}
+	});
+	
 
-$(document).ready(function(){
+	
+	
+});
+
+$("#subBtn2").click(function(){
+	
+	var reportReason = $("#reportReason").val();
+	$.ajax({
+		
+		url : "../websocket/report.ch",
+		type : "post",
+		data : {
+			estateNo : estateNo,
+			loginUserNo : ${loginUser.userNo},
+			chatRoomNo : chatRoomNo,
+			reportReason : reportReason
+			
+		},
+		success : function(result){
+			
+			alert("신고가 정상적으로 접수 되었습니다.");
+			 $(".chat-container").css("display", "none");
+			 $("#main-content").removeClass("blur-effect");
+			
+		},
+		error : function(){
+			
+			
+			
+		}
+	});
+	
+});
+
+
+
+$(document).ready(function(){ //신고하기 버튼 누르면 나오는 버튼 항목중에서 그 버튼을 클릭시 색깔이 바뀌게
 	  $('.reportBtn').click(function(){
 	    // 모든 버튼에서 'active' 클래스 제거
 	    $('.reportBtn').removeClass('clickBtn2');
 
 	    // 클릭한 버튼에만 'active' 클래스 추가
 	    $(this).addClass('clickBtn2');
+	    
+	    
+	    
+	    
 	  });
 	});
 
@@ -590,19 +662,6 @@ function toggleChat() {
     	  
     }
     
-
-//첫번째 옵션인 홈페이지 소개 함수입니다
-
-//두번째 옵션인 구독소개 함수입니다
-
-
-//세번째 옵션인 회원가입 함수입니다
-
-//네번째 옵션인 아디 찾기 옵션입니다
-
-//다섯번째 옵션인 구독하기 옵션입니다
-
-//여섯번째 옵션인 핫게시물 옵션입니다
 function goHotBoardArea() {
     var chatContainer = $("#chat-container");
     var goHotBoardForm = $("#goHotBoardForm");
@@ -818,7 +877,7 @@ window.onload = function() {
 		    // 채팅방 리스트에서 해당 방을 클릭하면 클릭된 채팅방이 
 		    //클릭된걸 알게 해주는 css 요소
 		    currentChatRoomNo = $(this).find("input[name='cno']").val();
-		    
+		    estateNo = $(this).find("input[name='eno']").val();
 		    
 		   console.log(currentChatRoomNo);
 		   //lastElementChild.children[1].id

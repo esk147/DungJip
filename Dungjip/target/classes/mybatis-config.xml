@@ -38,5 +38,9 @@
 		<typeAlias type="com.kh.dungjip.house.model.vo.Reservation" alias="reservation"/>
 		
 		<typeAlias type="com.kh.dungjip.house.model.vo.Time" alias="time"/>
+		
+		<typeAlias type="com.kh.dungjip.common.report.model.vo.ReportEstate" alias="reportEstate"/>
+		
 	</typeAliases>
+		
 </configuration>

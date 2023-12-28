@@ -22,6 +22,7 @@
 		<result column="ES_INTRO" property="esIntro"/>
 		<association property="member" javaType="member">
         	<result column="CHANGE_NAME" property="changeName"/>
+        	<result column="USER_NO" property="userNo"/>
 		</association>
 	</resultMap>
 	
@@ -50,6 +51,7 @@
            ,E.ES_CONTENT
            ,E.ENROLLDATE
            ,M.CHANGE_NAME
+           ,M.USER_NO
            ,E.ES_INTRO
 	FROM ESTATE E
     JOIN MEMBER M ON E.USER_NO=M.USER_NO
