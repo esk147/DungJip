@@ -61,48 +61,48 @@
                         </div>
                         <div class="col-md-3 col-sm-6 wow fadeInRight animated">
                             <div class="single-footer">
-                                <h4>Last News</h4>
+                                <h4>advertisements</h4>
                                 <div class="footer-title-line"></div>
                                 <ul class="footer-blog">
                                     <li>
                                         <div class="col-md-3 col-sm-4 col-xs-4 blg-thumb p0">
                                             <a href="single.html">
-                                                <img src="assets/img/demo/small-proerty-2.jpg">
+                                                <img src="resources/img/icons/kh.png">
                                             </a>
-                                            <span class="blg-date">12-12-2016</span>
+                                            <span class="blg-date">12-12-2023</span>
 
                                         </div>
                                         <div class="col-md-8  col-sm-8 col-xs-8  blg-entry">
-                                            <h6> <a href="single.html">Add news functions </a></h6> 
-                                            <p style="line-height: 17px; padding: 8px 2px;">Lorem ipsum dolor sit amet, nulla ...</p>
+                                            <h6> <a href="">Kh 강남점 </a></h6> 
+                                            <p style="line-height: 17px; padding: 8px 2px;">절찬리 홍보중</p>
                                         </div>
                                     </li> 
 
                                     <li>
                                         <div class="col-md-3 col-sm-4 col-xs-4 blg-thumb p0">
                                             <a href="single.html">
-                                                <img src="assets/img/demo/small-proerty-2.jpg">
+                                                <img src="resources/img/icons/kh.png">
                                             </a>
-                                            <span class="blg-date">12-12-2016</span>
+                                            <span class="blg-date">12-24-2023</span>
 
                                         </div>
                                         <div class="col-md-8  col-sm-8 col-xs-8  blg-entry">
-                                            <h6> <a href="single.html">Add news functions </a></h6> 
-                                            <p style="line-height: 17px; padding: 8px 2px;">Lorem ipsum dolor sit amet, nulla ...</p>
+                                            <h6> <a href="">Kh 당산점 </a></h6> 
+                                            <p style="line-height: 17px; padding: 8px 2px;">절찬리 홍보중22</p>
                                         </div>
                                     </li> 
 
                                     <li>
                                         <div class="col-md-3 col-sm-4 col-xs-4 blg-thumb p0">
                                             <a href="single.html">
-                                                <img src="assets/img/demo/small-proerty-2.jpg">
+                                                <img src="resources/img/icons/kh.png">
                                             </a>
-                                            <span class="blg-date">12-12-2016</span>
+                                            <span class="blg-date">01-02-2024</span>
 
                                         </div>
                                         <div class="col-md-8  col-sm-8 col-xs-8  blg-entry">
-                                            <h6> <a href="single.html">Add news functions </a></h6> 
-                                            <p style="line-height: 17px; padding: 8px 2px;">Lorem ipsum dolor sit amet, nulla ...</p>
+                                            <h6> <a href="">Kh 종로점 </a></h6> 
+                                            <p style="line-height: 17px; padding: 8px 2px;">절찬리 홍보중33</p>
                                         </div>
                                     </li> 
 
@@ -137,7 +137,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="pull-left">
-                            <span> (C) <a href="http://www.KimaroTec.com">KimaroTheme</a> , All rights reserved 2024  </span> 
+                            <span> (C) <a href="http://www.KimaroTec.com">회심의 한방</a> , All rights reserved 2024  </span> 
                         </div> 
                         <div class="bottom-menu pull-right"> 
                             <ul> 
