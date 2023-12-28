@@ -59,6 +59,10 @@ public interface MemberService {
 	
 	int LastLogoutTime(int userNo);
 
+	Member findSubscribeUser(int userNo);
+
+	int noSubscribe(int userNo);
+
 	
 
 

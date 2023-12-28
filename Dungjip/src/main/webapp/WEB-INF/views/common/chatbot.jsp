@@ -39,14 +39,12 @@
 /*버튼 호버시 변하는 css입니다*/
 
         .chat-toggle-button:hover {
-            background-color: #D83B44;
+            background-color: #cca427;
         }
 
         /* 챗봇몸체 */
         .chat-body {
-          
-         
-            max-height: 400px;
+        	max-height: 400px;
             overflow-y: auto;
         }
 
@@ -68,7 +66,7 @@
             margin: 10px 0;
             border: none;
             border-radius: 10px;
-            background-color: #9A0A0A;
+            background-color: #cca427;
             color: white;
             cursor: pointer;
             font-size: 15px;
@@ -81,7 +79,6 @@
             width: 500px;
             right: 0;
             float: right;
-            
             z-index: 1500;
             margin-right: 20px;
         }
@@ -122,6 +119,7 @@ DUNGJIP 입니다
                 <button onclick="goEnrollArea()">회원가입 하고 싶어</button>
                 <button onclick="goFindIDPwdArea()">아이디를 잃어버렸어 </button>
                 <button onclick="goSubscribeArea()">구독하고 싶어</button>
+                <button onclick="noSubscribeArea()">구독해지하고 싶어</button>
             </div>
         </div>
         <div class="chat-container" id="introduce" style="display: none;">
@@ -297,7 +295,7 @@ DUNGJIP을 즐겨주세요!
 
 제가 바로 구독버튼을 만들어오겠습니다
 
-밑에 생긴 구독버튼을 클릭 하셔서 닐리리의
+밑에 생긴 구독버튼을 클릭 하셔서 둥집의
 
 프리미엄 서비스를 즐겨 주세요!
 
@@ -331,6 +329,82 @@ DUNGJIP을 즐겨주세요!
                 <button onclick="toggleChat()" id="backsite5">이전 목록으로</button>
             </div>
         </div>       
+        
+        
+        <div class="chat-container" id="noSubscribeForm" style="display: none;">
+
+            <div class="button-container" id="button-container-introduce">
+            <c:choose>
+            <c:when test="${empty loginUser}">
+<h6> <pre id="text" style="font-family: 'Noto sans KR', sans-serif;">
+
+더 이상 둥집을 구독하시지 않으실건가요?
+
+... 바로 구독 해지 버튼을 만들어 오겠습니다
+
+...zzzzZZzzzZZ
+
+...zzzzZZzzzZZ
+
+아직 로그인을 안하셨네요!
+
+로그인을 하셔야지만 구독을 해지하실 수 있으세요! 
+
+로그인 먼저 진행 하시고 다시 저를 찾아와주세요!
+
+</pre></h6>
+	
+               
+</c:when>
+<c:when test="${loginUser.userType eq '중개인' and loginUser.subscribe eq 'Y'}">
+<h6> <pre id="text" style="font-family: 'Noto sans KR', sans-serif;">
+
+더 이상 둥집을 구독하시지 않으실건가요?
+
+... 바로 구독 해지 버튼을 만들어 오겠습니다
+
+밑에 생긴 구독 해지 버튼을 클릭 하셔서
+
+구독을 해지하실 수 있습니다.
+
+해지하는 순간부터 구독자 서비스를 이용할 수 없으니
+
+이 점 유의하시길 바랍니다!
+
+</pre></h6>
+
+
+ 			<button onclick="noSubscribe()">구독해지하기</button>
+
+
+</c:when>
+<c:otherwise>
+
+<h6> <pre id="text" style="font-family: 'Noto sans KR', sans-serif;">
+
+더 이상 둥집을 구독하시지 않으실건가요?
+
+... 바로 구독 해지 버튼을 만들어 오겠습니다
+
+.........
+...zzzzZZzzzZZzzzzZZZZ
+.........
+
+회원님이 중개인이 아니시거나
+
+이미 구독이 해지된 상태이십니다!!
+
+마음껏 둥집을 즐겨주세요!
+
+</pre></h6>
+
+</c:otherwise>
+                </c:choose>
+                <button onclick="toggleChat()" id="backSite">이전 목록으로</button>
+            </div>
+        </div>       
+        
+        
     </div>
 
 <!-- 새롭게 창이 열리게 해놓아 경우마다 div를 주었습니다 -->
@@ -368,10 +442,10 @@ DUNGJIP을 즐겨주세요!
         $("#chatContainer").css("display", "block");
         });
         
-        $("#backsite6").click(function(){
+        $("#backSite").click(function(){
 
-           $("#goHotBoardForm").css("display", "none");
-           $("#chatContainer").css("display", "block");
+            $("#noSubscribeForm").css("display", "none");
+            $("#chatContainer").css("display", "block");
             });
 
 
@@ -379,7 +453,7 @@ DUNGJIP을 즐겨주세요!
         function toggleChat() {
             var chatContainer = $("#chat-container");
             var openChat = $("#openChat");
-            var textToReveal = $("#textToReveal, #textToReveal-open");
+            var textToReveal = $("#textToReveal");
             var chatBody = $(".chat-body");
 
             var introduce = $("#introduce");
@@ -397,10 +471,7 @@ DUNGJIP을 즐겨주세요!
                 });
             } else {//열려있을때는 한번더 클릭하여 없에기 
             	  $(".chat-container").css("display", "none");
-            	
-           
-            	  
-            }
+            	}
             	  
             }
             
@@ -467,17 +538,31 @@ DUNGJIP을 즐겨주세요!
                 revealText($(this));
             });
         }
+      //여섯번째 옵션인 구독하기 옵션입니다
+        function noSubscribeArea() {
+            var chatContainer = $("#chat-container");
+            var noSubscribeForm = $("#noSubscribeForm");
+            var text = $("#text");
+
+            chatContainer.css("display", "none");
+            noSubscribeForm.css("display", "block");
+            text.each(function () {
+                revealText($(this));
+            });
+        }
 		//일일히 문자를 타이핑 하듯이 나열해주는 함수입니다.
         function revealText(element) {
+			var timer = 0;
             var text = element.html();
             element.html("");//처음에는 빈문자열로 시작합니다
             var index = 0;//시작할 인덱스입니다
-            var timer = setInterval(function () {
+            timer = setInterval(function () {
                 element.html(element.html() + text.charAt(index));//빈문자열부터 시작해서 인덱스를 하나하나씩 올려주며 작성한 글들을 뽑습니다
                 index++;
                 if (index === text.length) {//모든 글자가 다 출력 되면 시간이 멈춘다
-                    clearInterval(timer);//
-                
+                    clearInterval(timer);
+                } else if(index !== text.length && element.css("display") === 'none') {
+                	element.html(text);
                 }
             }, 30);//30ms로 설정 아마 0.03초
         }
@@ -506,6 +591,34 @@ DUNGJIP을 즐겨주세요!
 		클릭된 요소의 부모 중에서 .chat-container 또는 .chat-toggle-button 클래스를 가진 요소가 없을 경우를 나타냅니다. 
 		이 경우, 클릭된 요소가 채팅 창 또는 토글 버튼 영역 외부에 있다는 의미이며, 이때 채팅 창을 숨기는 동작을 수행합니다.
 		 */
+		 
+		 function noSubscribe(){
+    	  var userNo = "${loginUser.userNo}";
+    	  console.log(userNo);
+    	 	  if(confirm("정말로 해지하시겠습니까?")){
+    	 		 $.ajax({
+    	 			 url: 'subscribe.no',
+    	 			 data: {
+    	 				 userNo: userNo
+    	 			 },
+    	 			 success: function(result){
+    	 				 if(result === 1){
+    	 					 alert('해지 성공');
+    	 				 } else {
+    	 					 alert('해지 실패');
+    	 				 }
+    	 			 },
+    	 			 error: function(){
+    	 				 alert('해지 실패');
+    	 			 },
+    	 			 complete: function(){
+    	 				 location.replace('/dungjip');
+    	 			 }
+    	 		 })
+    	 	 } else {
+    	 		 alert("구독 해지가 취소되었습니다.");
+    	 	 }
+      	 }
     </script>
         
 </body>

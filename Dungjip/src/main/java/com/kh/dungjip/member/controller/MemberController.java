@@ -1,7 +1,5 @@
 package com.kh.dungjip.member.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.io.File;
 
 import java.io.IOException;
@@ -12,7 +10,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -583,9 +579,30 @@ public class MemberController {
 
 	@ResponseBody
 	@RequestMapping("subscribe.pay")
-	public int userSubscribe(int userNo) {
+	public int userSubscribe(int userNo, HttpSession session) {
 		
 		int result = memberService.userSubscribe(userNo);
+		
+		if(result > 0) {
+			Member m = memberService.findSubscribeUser(userNo);
+			
+			session.setAttribute("loginUser", m);
+		}
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("subscribe.no")
+	public int noSubscribe(int userNo, HttpSession session) {
+		
+		int result = memberService.noSubscribe(userNo);
+		
+		if(result > 0) {
+			Member m = memberService.findSubscribeUser(userNo);
+			
+			session.setAttribute("loginUser", m);
+		}
 		
 		return result;
 	}

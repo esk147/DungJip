@@ -130,6 +130,16 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.userSubscribe", userNo);
 	}
 
+	public Member findSubscribeUser(SqlSessionTemplate sqlSession, int userNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.findSubscribeUser", userNo);
+	}
+
+	public int noSubscribe(SqlSessionTemplate sqlSession, int userNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.noSubscribe", userNo);
+	}
+
 	
 
 
