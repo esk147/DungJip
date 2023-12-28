@@ -137,7 +137,7 @@ input[type="text"], input[type="email"], select, textarea {
 				<a href="enList.en" class="nav-item" style="width:180px;">1:1문의 내역</a>
 			</c:if>	
 				<a href="enquiry.en" class="nav-item active" style="width:180px;">1:1문의</a>
-				<a href="#" class="nav-item">공지사항</a>
+				<a href="#" class="nav-item" style="width:180px;" onclick="navigateToNotice(event)">공지사항</a>
 		</div>
 	<c:choose>
 		<c:when test="${loginUser == null }">
@@ -184,6 +184,15 @@ input[type="text"], input[type="email"], select, textarea {
 		</div>	
 			</c:otherwise>
 			</c:choose>
+	<script>
+    function navigateToNotice(event) {
+        // 공지사항 페이지로 이동
+        window.location.href = "/dungjip/notice/list";
+
+        // 기본 동작 막기
+        event.preventDefault();
+    }
+</script>		
 	<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

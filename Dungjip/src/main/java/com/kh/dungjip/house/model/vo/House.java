@@ -18,6 +18,7 @@ public class House {
 	private int houseRent;
 	private Double houseSquare;
 	private String houseStyle;
+	private String houseName;
 	private String houseTitle;
 	private String houseDetails;
 	private String houseType;
@@ -33,7 +34,7 @@ public class House {
 	private String houseBalcony;
 	private int houseMaintainCost;
 	private String houseDoItNow;
-	private Date houseBuildDate;
+	private String houseBuildDate;
 	private String houseAnimals;
 	private String status;
 }

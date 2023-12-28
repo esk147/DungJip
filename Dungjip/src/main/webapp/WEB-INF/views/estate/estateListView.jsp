@@ -32,7 +32,9 @@
 </head>
 <body class="bg-secondary">
     <%@ include file="../common/header.jsp" %>
-    <h2>유저 관리</h2>
+    <h2>중개인 관리</h2>
+    <button class="btn btn-primary" onclick="redirectToMemberList()">유저 관리</button>
+    <button class="btn btn-primary" onclick="redirectToReportList()">신고 관리</button>
     <c:forEach var="estate" items="${estateList}">
         <div class="accordion">
             <div class="accordion-header" onclick="toggleAccordion(${estate.esNo})">
@@ -114,6 +116,16 @@
 		            	alert("에러");
 		            }
 		        });
+		    }
+		    
+		    function redirectToMemberList() {
+		        // 중개인 관리 페이지로 이동
+		        window.location.href = "http://localhost:9999/dungjip/admin/list";
+		    }
+		    
+		    function redirectToReportList() {
+		        // 중개인 관리 페이지로 이동
+		        window.location.href = "http://localhost:9999/dungjip/admin/reportList";
 		    }
 	</script>
 	<jsp:include page="../common/footer.jsp" />

@@ -38,6 +38,7 @@ public class HouseEnrollController {
 
     @PostMapping("/enroll")
     public String enrollHouse(House house, @RequestParam("files") MultipartFile[] files) {
+    	System.out.println(house);
       int houseNo = houseEnrollService.enrollHouse(house); // 매물 정보 저장
 
       // 파일 저장 경로를 지정합니다.

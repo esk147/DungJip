@@ -88,7 +88,7 @@ public class HouseController {
 											.houseBalcony((String)object.get("balcony"))
 											.houseMaintainCost(Integer.parseInt(String.valueOf(object.get("maintain_cost"))))
 											.houseDoItNow((String)object.get("doItNow"))
-											.houseBuildDate(sqlBuildDate)
+//											.houseBuildDate(sqlBuildDate)
 											.houseAnimals((String)object.get("animals"))
 											.build();
 			
@@ -156,24 +156,24 @@ public class HouseController {
 		return mv;
 	}
 	
-	@ResponseBody
-	@RequestMapping("select.house")
-	public ArrayList<House> selectHouse(String type) {
-		ArrayList<House> mainList = houseService.selectHouseMain(type);
-		
-		ArrayList<HouseImg> imgList = new ArrayList<>();
-		for(House h : mainList) {
-			HouseImg img = houseService.selectHouseMainThumnail(h.getHouseNo());
-			
-			imgList.add(img);
-		}
-		
-		ArrayList<Estate> subscribeUser = estateService.selectSubscribeEstateList();
-		
-		System.out.println(subscribeUser);
-		
-		return mainList;
-	}
+//	@ResponseBody
+//	@RequestMapping("select.house")
+//	public ArrayList<House> selectHouse(String type) {
+//		ArrayList<House> mainList = houseService.selectHouseMain(type);
+//		
+//		ArrayList<HouseImg> imgList = new ArrayList<>();
+//		for(House h : mainList) {
+//			HouseImg img = houseService.selectHouseMainThumnail(h.getHouseNo());
+//			
+//			imgList.add(img);
+//		}
+//		
+//		ArrayList<Estate> subscribeUser = estateService.selectSubscribeEstateList();
+//		
+//		System.out.println(subscribeUser);
+//		
+//		return mainList;
+//	}
 }
 
 
