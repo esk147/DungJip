@@ -78,14 +78,18 @@
                 <p>${notice.noticeContent}</p>
                 <p>작성일 : ${notice.enrollDate}</p>
                 <p>조회수: <span id="count-${notice.noticeNo}">${notice.count}</span></p>
-                <button onclick="openUpdateModal(${notice.noticeNo})">수정하기</button>
-                <button onclick="confirmDelete(${notice.noticeNo})">삭제하기</button>
+                <c:if test="${loginUser.userType == '관리자'}">
+                    <button onclick="openUpdateModal(${notice.noticeNo})">수정하기</button>
+                    <button onclick="confirmDelete(${notice.noticeNo})">삭제하기</button>
+                </c:if>
             </div>
         </div>
     </c:forEach>
 
 	<!-- 글 작성 버튼 -->
-    <button onclick="openModal()">글 작성</button>
+    <c:if test="${loginUser.userType == '관리자'}">
+        <button onclick="openModal()">글 작성</button>
+    </c:if>
     
     <!-- 모달 창 -->
 	<div id="myModal" class="modal">
