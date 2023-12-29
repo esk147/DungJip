@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.dungjip.common.report.model.vo.ReportEstate;
 import com.kh.dungjip.common.websocket.model.service.ChatService;
 import com.kh.dungjip.common.websocket.model.vo.ChatMessage;
 import com.kh.dungjip.common.websocket.model.vo.ChatRoom;
@@ -86,6 +85,7 @@ public WebsocketController() {//생성자에서 파일을 읽어온다.
 				}
 			}
 		}
+		
 		ArrayList<ChatRoom> chatList = chatService.chatRoomList(loginUserNo);// 현재 유저가 채팅하고있는 방의 리스트를 가지고온다.
 
 
@@ -126,6 +126,20 @@ public WebsocketController() {//생성자에서 파일을 읽어온다.
 		return cr;
 		
 	}
+	@ResponseBody
+	@PostMapping("/report.ch")
+	public int reportEstate(int userNo, int chatRoomNo, int estateNo, String reportReason ) {
+		
+		ReportEstate reportEstate = new ReportEstate(userNo,chatRoomNo,estateNo,reportReason);
+
+		 int result=  chatService.updateReportEstate(reportEstate); 
+		
+		return result;
+		
+		
+	}
+	
+	
 	
 
 }
