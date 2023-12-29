@@ -164,5 +164,22 @@
 		where subscribe = 'Y'
 	</select>
 
+	<select id="selectEstateEmoCount" resultType="_int">
+		SELECT COUNT(*) EMO
+		FROM ES_RE_LIKE
+		WHERE ES_RE_NO=#{esReNo}
+	</select>
+	
+	<select id="selectReviewLikeCount" resultType="_int">
+		select * from ES_RE_LIKE where es_re_no = #{esReNo} and user_no = #{userNo}
+	</select>
+	
+	<delete id="decreaseCount">
+		delete from ES_RE_LIKE where es_re_no = #{esReNo} and user_no = #{userNo}
+	</delete>
+	
+	<insert id="increaseEsReLikeCount">
+		insert into ES_RE_LIKE values(#{esReNo}, #{userNo})
+	</insert>
 
 </mapper>

@@ -2,6 +2,7 @@ package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +103,52 @@ public class EstateServiceImpl implements EstateService {
 	@Override
 	public List<Integer> selectSubscribeEstateList() {
 		return estateDao.selectSubscribeEstateList(sqlSession);
+	}
+
+	@Override
+	public int selectEstateEmoCount(int esReNo) {
+		// TODO Auto-generated method stub
+		return estateDao.selectEstateEmoCount(sqlSession, esReNo);
+	}
+
+	@Override
+	public int selectReviewLikeCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return estateDao.selectReviewLikeCount(sqlSession, map);
+	}
+
+	@Override
+	public int decreaseCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int result = estateDao.decreaseCount(sqlSession, map);
+		
+		int count = 0;
+		
+		String esReNoString = map.get("esReNo").toString();
+		int esReNo = Integer.parseInt(esReNoString);
+
+		if(result > 0) {
+			count = estateDao.selectEstateEmoCount(sqlSession, esReNo);
+		}
+		
+		return count;
+	}
+
+	@Override
+	public int increaseEsReLikeCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int result = estateDao.increaseEsReLikeCount(sqlSession, map);
+		
+		String esReNoString = map.get("esReNo").toString();
+		int esReNo = Integer.parseInt(esReNoString);
+		
+		int count = 0;
+		
+		if(result > 0) {
+			count = estateDao.selectEstateEmoCount(sqlSession, esReNo);
+		}
+		
+		return count;
 	}
 
 	

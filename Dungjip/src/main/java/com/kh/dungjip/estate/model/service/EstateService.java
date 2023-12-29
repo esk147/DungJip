@@ -2,6 +2,7 @@ package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
@@ -35,6 +36,14 @@ public interface EstateService {
 	int selectEstateThreeStar(int esNo);
 	int selectEstateTwoStar(int esNo);
 	int selectEstateOneStar(int esNo);
+
+	int selectEstateEmoCount(int esReNo);
+
+	int selectReviewLikeCount(Map<String, Object> map);
+
+	int decreaseCount(Map<String, Object> map);
+
+	int increaseEsReLikeCount(Map<String, Object> map);
 
 
 
