@@ -1,11 +1,14 @@
 package com.kh.dungjip.member.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.dungjip.estate.model.vo.Estate;
+import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.member.model.dao.MemberDao;
 import com.kh.dungjip.member.model.vo.Member;
 
@@ -86,6 +89,13 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDao.ajaxphoneMethod(sqlSession,phone);
 	}
+	
+	//닉네임 중복 체크
+	@Override
+	public int ajaxnickname(String userNickName) {
+		// TODO Auto-generated method stub
+		return memberDao.ajaxnickname(sqlSession,userNickName);
+	}
 
 	//아이디 찾기
 	@Override
@@ -155,6 +165,24 @@ public class MemberServiceImpl implements MemberService{
 	public int LastLogoutTime(int userNo) {//로그아웃 할떄의 시간
 		// TODO Auto-generated method stub
 		return memberDao.LastLogoutTime(sqlSession,userNo);
+	}
+
+	//프로필 사진 수정
+	@Override
+	public int fileAjaxMethod(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.fileAjaxMethod(sqlSession,m);
+	}
+
+
+	
+
+
+	//예약 내역
+	@Override
+	public ArrayList<Reservation> selectReservation(Member loginUser) {
+		
+		return memberDao.selectReservation(sqlSession,loginUser);
 	}
 
 

@@ -4,6 +4,7 @@ import com.kh.dungjip.estate.model.vo.Estate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

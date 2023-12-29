@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.dungjip.common.report.model.vo.ReportEstate;
 import com.kh.dungjip.common.websocket.model.dao.ChatDao;
 import com.kh.dungjip.common.websocket.model.vo.ChatMessage;
 import com.kh.dungjip.common.websocket.model.vo.ChatRoom;
@@ -70,6 +71,12 @@ public class ChatServiceImpl implements ChatService {
 	public ArrayList<ChatRoom> findChat(ChatRoom c) {// 검색으로 채팅방 찾기
 		
 		return chatDao.findChat(sqlSession,c);
+	}
+	@Override
+	public int updateReportEstate(ReportEstate reportEstate) {//채팅중 신고
+		
+		
+		return chatDao.updateReportEstate(sqlSession,reportEstate);
 	}
 
 	

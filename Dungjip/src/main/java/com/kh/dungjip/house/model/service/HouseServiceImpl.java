@@ -12,6 +12,7 @@ import com.kh.dungjip.house.model.dao.HouseDao;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.Jjim;
 import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -118,6 +119,18 @@ public class HouseServiceImpl implements HouseService{
 	}
 
 	@Override
+	public ArrayList<House> memberMypageHousejjimForm(Member m) {
+		// TODO Auto-generated method stub
+		return houseDao.memberMypageHousejjimForm(sqlSession,m);
+	}
+
+	@Override
+	public HouseImg memberMypageHousejjimImg(int houseNo) {
+		// TODO Auto-generated method stub
+		return houseDao.memberMypageHousejjimImg(sqlSession,houseNo);
+	}
+
+
 	public ArrayList<House> selectSubscribeHouseList(Map<String, Object> map) {
 		return houseDao.selectSubscribeHouseList(sqlSession, map);
 	}
@@ -126,6 +139,20 @@ public class HouseServiceImpl implements HouseService{
 	@Override
 	public int selectHouseLikeCount(String houseAddress) {
 		return houseDao.selectHouseLikeCount(sqlSession, houseAddress);
+	}
+
+	//마이페이지 찜 목록에서 찜 해제
+	@Override
+	public int mypageHjjimdelete(int houseNo) {
+		// TODO Auto-generated method stub
+		return houseDao.mypageHjjimdelete(sqlSession, houseNo);
+	}	
+
+	//부동산 집 리스트(모달창)
+	@Override
+	public ArrayList<House> selectHouseModal(int esNo) {
+		// TODO Auto-generated method stub
+		return houseDao.selectHouseModal(sqlSession,esNo);
 	}
 
 }

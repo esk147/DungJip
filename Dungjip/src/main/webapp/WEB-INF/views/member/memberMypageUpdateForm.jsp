@@ -92,14 +92,32 @@
 	                   	 	<input type="text" class="form-control" id="userName" name="userName" placeholder="NAME" value="${loginUser.userName}" >
 	                   	</div>	
 	                   	
-	                   	<hr> 
+	                   	<hr id="hrElement"> 
 	                   	
 	                   	<div>
-	                   		<span class="item_text userNickName">닉네임</span>
-	                   	 	<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="NICKNAME" value="${loginUser.userNickName}" >
+	                   		<span class="item_text userNickName"  id="userNickNameLabel">닉네임</span>
+	                   	 	<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="NICKNAME" value="${loginUser.userNickName}">
 	                   	</div>	
 	                   	
-	                   	<hr> 
+	                   	
+	                   	<!-- 중개인 일때는 닉네임 필요 없으니 중개인 페이지 들어갈땐 닉네임 div 숨김 -->
+	                   	<script>
+		                    const userType = '${loginUser.userType}'; // userType 값 가져오기
+		                    
+		                    const userNickNameLabel = document.getElementById('userNickNameLabel');
+		                    const userNickNameInput = document.getElementById('userNickName');
+		                    const hrElement = document.getElementById('hrElement');
+	
+		                    if (userType === '중개인') {
+		                        userNickNameLabel.style.display = 'none'; // 라벨 숨김 처리
+		                        userNickNameInput.style.display = 'none'; // 입력창 숨김 처리
+		                        hrElement.remove(); // hr 태그를 삭제
+		                    }
+						</script>
+	                   
+	                   
+	                   
+	                   	<hr>
 	                   	
 	                   	<div>
 		                   	<span class="item_text age">나이</span>

@@ -292,12 +292,6 @@
 											</tbody>
 										</table>
 									</div>
-
-
-
-
-
-
 								</div>
 								<div class="tab-pane fade" id="contact" role="tabpanel"
 									aria-labelledby="contact-tab" style="width: 850px;">
