@@ -50,6 +50,14 @@
     		<result column="CHANGE_NAME" property="changeName"/>
       </resultMap>
       
+      <resultMap type="reportEstate" id="reportResultSet">      
+      	<result column="REPORT_NO" property="reportNo"/>
+      	<result column="USER_NO" property="userNo"/>
+      	<result column="CHATROOM_NO" property="chatroomNo"/>
+      	<result column="ES_NO" property="esNo"/>
+      	<result column="REPORT_REASON" property="reportReason"/>
+      </resultMap>
+      
       <select id="alreadyUsedChatRoomCheck" parameterType="joinchat" resultType="_int">
       SELECT COUNT(*)
 		FROM (
@@ -160,6 +168,19 @@
 			,'Y')
 			
 	</insert>
+
+	<select id="selectReportList">
+		SELECT REPORT_NO
+			  ,USER_NO
+			  ,USER_NAME
+		      ,CHATROOM_NO
+		      ,
+		      ,ES_NO
+		      ,REPORT_REASON
+		FROM REPORT_REASON
+		ORDER BY REPORT_NO
+	</select>
+
 
 
     </mapper>

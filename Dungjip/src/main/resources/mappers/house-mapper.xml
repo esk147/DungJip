@@ -81,13 +81,13 @@
         HOUSE_NO, HOUSE_PRICE, HOUSE_RENT, HOUSE_SQUARE, HOUSE_STYLE, HOUSE_TITLE,
         HOUSE_DETAILS, HOUSE_TYPE, HOUSE_LATITUDE, HOUSE_LONGITUDE,
         HOUSE_ADDRESS, HOUSE_FLOOR, HOUSE_BUILDING_FLOOR, HOUSE_TOILET, HOUSE_ROOMS, HOUSE_PARKABLE, HOUSE_BALCONY,
-        HOUSE_MAINTAINCOST, HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS, HOUSE_NAME
+        HOUSE_MAINTAINCOST, HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS, HOUSE_NAME, USER_NO
     )
     VALUES (
         #{houseNo}, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle},
         #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude},
         #{houseAddress}, #{houseFloor}, #{houseBuildingFloor}, #{houseToilet}, #{houseRooms}, #{houseParkAble}, #{houseBalcony},
-        #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals}, #{houseName}
+        #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals}, #{houseName}, #{userNo}
     )
 </insert>
     
