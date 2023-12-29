@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.dungjip.estate.model.dao.EstateDao;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
 
 @Service
@@ -102,6 +103,12 @@ public class EstateServiceImpl implements EstateService {
 	@Override
 	public List<Integer> selectSubscribeEstateList() {
 		return estateDao.selectSubscribeEstateList(sqlSession);
+	}
+
+	//예약 시간 select
+	@Override
+	public ArrayList<Time> selectTime() {
+		return estateDao.selectTime(sqlSession);
 	}
 
 	

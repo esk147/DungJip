@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
 
 public interface EstateService {
@@ -35,6 +36,9 @@ public interface EstateService {
 	int selectEstateThreeStar(int esNo);
 	int selectEstateTwoStar(int esNo);
 	int selectEstateOneStar(int esNo);
+
+	//예약 시간 select
+	ArrayList<Time> selectTime();
 
 
 

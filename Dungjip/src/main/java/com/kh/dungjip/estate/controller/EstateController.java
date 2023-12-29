@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +22,7 @@ import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.house.model.service.HouseService;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
 
 
@@ -38,28 +40,23 @@ public class EstateController {
 	//부동산 상세페이지
 	@GetMapping("detail.es")
 	public String estateDetail(int esNo,Model model) {
-		
 	
 		int result = estateService.increaseCount(esNo);
 		
+		//예약 시간 select
+		ArrayList<Time> time = estateService.selectTime();
+		model.addAttribute("time", time);
+		System.out.println("시간"+time);
 		
 		if(result>0) {
 			
 			Estate e = estateService.estateDetail(esNo);
 			System.out.println(e);
 			model.addAttribute("e",e);
-			
-		
-			
-			
-	
-	
 		}else {
 			model.addAttribute("errorMsg", "부동산 상제 정보 조회 실패");
 			return "common/errorPage";
 		}
-		
-		
 		return "estate/estateDetail";
 		
 	}
@@ -142,6 +139,16 @@ public class EstateController {
 		return map;
 	}
 	
+	//예약기능
+	@RequestMapping("insertReservation.re")
+	public String insertReservation(String selectCal
+								   ,int selectTime
+								   ,int selectEsNo
+								   ,int selectUserNo) {
+		
+	
+		return "estate/estateDetail";
+	}	
 
 	
 	

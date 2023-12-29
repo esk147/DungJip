@@ -165,7 +165,7 @@ input[type="text"], input[type="email"], select, textarea {
 			<form id="insertForm" method="post" action="insert.en" enctype="multipart/form-data">
 				<input type="hidden" name="userNo" id="userNo" value="${loginUser.userNo}">
 				<p align="center" style="font-size: 16px;">
-					둥집에 궁금하신 점을 문의해주세요. <br> 문의내용과 답변은 <a>'마이페이지 문의내역'</a> 에서 확인 하실 수 있습니다. </p>
+					둥집에 궁금하신 점을 문의해주세요. <br> 문의내용과 답변은 <a href="mReservation.me">'마이페이지 문의내역'</a> 에서 확인 하실 수 있습니다. </p>
 				
 				<br> 
 				<label for="">문의 유형</label> 

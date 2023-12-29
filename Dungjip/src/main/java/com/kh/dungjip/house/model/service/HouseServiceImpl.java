@@ -97,8 +97,8 @@ public class HouseServiceImpl implements HouseService{
 
 	//비슷한 매물 찾기 list
 	@Override
-	public ArrayList<House> houseLikeList(String houseAddress) {
-		return houseDao.houseLikeList(sqlSession,houseAddress);
+	public ArrayList<House> houseLikeList(String houseAddress,PageInfo pi) {
+		return houseDao.houseLikeList(sqlSession,houseAddress,pi);
 	}
 
 	//비슷한 매물 찾기 img
@@ -120,6 +120,12 @@ public class HouseServiceImpl implements HouseService{
 	@Override
 	public ArrayList<House> selectSubscribeHouseList(Map<String, Object> map) {
 		return houseDao.selectSubscribeHouseList(sqlSession, map);
+	}
+
+	//비슷한 매물 전체 개수
+	@Override
+	public int selectHouseLikeCount(String houseAddress) {
+		return houseDao.selectHouseLikeCount(sqlSession, houseAddress);
 	}
 
 }

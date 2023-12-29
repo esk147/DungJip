@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.house.model.vo.Time;
 
 @Repository
 public class EstateDao {
@@ -76,6 +77,11 @@ public class EstateDao {
 
 	public List<Integer> selectSubscribeEstateList(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectList("estateMapper.selectSubscribeEstateList");
+	}
+
+	//예약 시간 select
+	public ArrayList<Time> selectTime(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("estateMapper.selectTime");
 	}
 
 	

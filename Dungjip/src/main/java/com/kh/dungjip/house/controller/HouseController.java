@@ -30,6 +30,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
 import com.kh.dungjip.member.model.vo.Member;
+import com.kh.dungjip.common.model.vo.PageInfo;
+import com.kh.dungjip.common.template.Pagination;
 import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.house.model.service.HouseService;
@@ -93,7 +95,7 @@ public class HouseController {
 											.houseBalcony((String)object.get("balcony"))
 											.houseMaintainCost(Integer.parseInt(String.valueOf(object.get("maintain_cost"))))
 											.houseDoItNow((String)object.get("doItNow"))
-											.houseBuildDate(sqlBuildDate)
+//											.houseBuildDate(sqlBuildDate)
 											.houseAnimals((String)object.get("animals"))
 											.houseName((String)object.get("name"))
 											.build();
@@ -131,10 +133,12 @@ public class HouseController {
 	@RequestMapping("detail.ho")
 	public String houseDetail(HttpSession session, int houseNo, String houseAddress, Model model) {
 
+		Member member = new Member();
 		// 부동산 목록 조회해서 보여주기
 		ArrayList<Estate> elist = estateService.selectEstateList(houseNo);
 		model.addAttribute("elist", elist);
-
+		model.addAttribute("member", member);
+		
 		//집 상세보기
 		House house = houseService.selectHouseDetail(houseNo);
 		model.addAttribute("house", house);
@@ -168,6 +172,59 @@ public class HouseController {
 		return mv;
 	}
 
+	// 찜하기
+	@RequestMapping("insertJjim.de")
+	public ModelAndView insertJjim(Jjim jj, HttpSession session, ModelAndView mv) {
+		int result = houseService.insertJjim(jj);
+		if (result > 0) {
+			session.setAttribute("alertMsg", "찜하기 성공");
+			mv.setViewName("redirect:detail.ho?houseNo=" + jj.getHouseNo());
+		} else {
+			session.setAttribute("alertMsg", "찜하기 실패");
+			mv.setViewName("redirect:detail.ho");
+	}
+		return mv;
+	}
+	
+	// 찜취소
+	@RequestMapping("deleteJjim.de")
+	public String deleteJjim(Jjim jj, HttpSession session) {
+		int result = houseService.deleteJjim(jj);
+		if (result > 0) {
+			session.setAttribute("alertMsg", "찜 취소 성공");
+			return "redirect:detail.ho?houseNo=" + jj.getHouseNo();
+		} else {
+			session.setAttribute("alertMsg", "찜 취소 실패");
+			return "redirect:detail.ho?houseNo=" + jj.getHouseNo();
+		}
+	}
+	
+	//비슷한 매물 찾기
+	@ResponseBody
+	@RequestMapping(value="houseLikeList.ho",produces="application/json; charset=UTF-8")
+	public Map<String, Object> houseLikeList(String houseAddress,
+			@RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
+		
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+		//전체 집 개수
+		int listCount = houseService.selectHouseLikeCount(houseAddress);
+		int pageLimit = 10;
+		int boardLimit = 8;
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		resultMap.put("pi", pi);
+		
+		//집 list
+		ArrayList<House> houseLike = houseService.houseLikeList(houseAddress,pi);
+		resultMap.put("houseLike", houseLike);
+
+		//집 img
+		ArrayList<HouseImg> houseImgLike = houseService.houseImgLike(houseAddress);
+		resultMap.put("houseImgLike", houseImgLike);
+
+		return resultMap;
+
+	}	
 	
 	@ResponseBody
 	@RequestMapping("select.house")

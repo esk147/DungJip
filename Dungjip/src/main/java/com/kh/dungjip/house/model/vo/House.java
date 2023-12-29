@@ -33,7 +33,7 @@ public class House {
 	private String houseBalcony;
 	private int houseMaintainCost;
 	private String houseDoItNow;
-	private Date houseBuildDate;
+	private String houseBuildDate;
 	private String houseAnimals;
 	private String houseName;
 	private String status;

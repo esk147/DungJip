@@ -32,5 +32,10 @@
 		<typeAlias type="com.kh.dungjip.estate.model.vo.EstateReview" alias="estateReview"/>
 	
 		<typeAlias type="com.kh.dungjip.estate.model.vo.Own" alias="own"/>
+		
+		<typeAlias type="com.kh.dungjip.house.model.vo.Time" alias="time" /> 
+		
+		<typeAlias type="com.kh.dungjip.house.model.vo.Reservation" alias="reservation" /> 
+		
 	</typeAliases>
 </configuration>
