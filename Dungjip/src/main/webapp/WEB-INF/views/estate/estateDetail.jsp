@@ -73,6 +73,25 @@
     		 justify-content: flex-start;
              }
              
+             .good{
+             width: 20px;
+             }
+             
+             .emo{
+             display:flex;
+             align-items: center;
+             justify-content: flex-end;
+             }
+             
+             .likecount{
+             padding-left: 3px;
+             }
+             
+        	.like-btn.liked img {
+            filter: sepia(100);
+        	}
+
+             
              
 
         </style>
@@ -305,6 +324,7 @@
                                         <fieldset >
                                             <div class="row">
                                                 <div class="col-xs-12">  
+                                                    <input class="button btn largesearch-btn" value="예약하기" type="submit">
                                                     <input class="button btn largesearch-btn" value="상담하기" type="submit">
                                                 </div>  
                                             </div>
@@ -483,8 +503,6 @@
                                                             });
 
                                                             function loadPage(currentPage) {
-                                                                console.log("-----------------------------");
-                                                                console.log(currentPage);
                                                                 $.ajax({
                                                                     url: "houseList.ho",
                                                                     data: {
@@ -506,9 +524,6 @@
 																    var html = '';
 																    
 																    var himg = "${himglist}";
-																    console.log("-----------------------------------");
-																    console.log(hlist);
-																    console.log("이미지:"+himglist);
 																    for (var i = 0; i < hlist.length; i++) {
 																        var house = hlist[i];
 																        var img = himglist[i].changeName; // 이미지 경로
@@ -628,8 +643,14 @@
                                                 <div id="reviewContainer">
                                                 <div class="review_list" style="width: 1100px;">
                                                     <!-- 리뷰내용 -->
-                                                </div>
+                                               
+                                               
+                                               
+                                               
+                                               <hr>
                                             </div>
+                                            
+                                            
                                             </div>
                                             
                                         </div>
@@ -638,32 +659,73 @@
                                 </div>
                             </div>
                         </section>
+                           <script>
+   							 function toggleLike(element) {
+
+   								 console.log("toggleLike element 로그");
+   								 console.log(element);
+
+       							var likeButton = element;
+								var userNo = "${loginUser.userNo}";
+ 								var esReNo = element.id;
+ 								
+ 								console.log(esReNo);
+ 								console.log(userNo);
+ 								
+       							  $.ajax({
+       								 url: "estate.like",
+       								 data: {
+       									 esReNo: esReNo,
+       									 userNo: userNo
+       								 },
+       								 success: function(result){
+       									 var idName = "likeCount"+result.esReNo;
+       									 var likeCount = document.getElementById(idName);
+       									 console.log(result);
+       									 console.log(likeCount);
+       									 likeCount.textContent = result.emoCount;
+       									 
+       									 if(result.result === 1){
+       		        						likeButton.classList.remove('liked');
+       									 } else {
+        		        					likeButton.classList.add('liked');
+       									 }
+       								 },
+       								 error: function(){
+       									 console.log("통통신신에에러러");
+       								 }
+       							 }) 
+
+        						// 클릭 토글
+   								 }
+   							 
+							</script>
                            
+                      
                                     <script>
                                     function selectEstateReview(){
-                                    	console.log(${e.esNo});
                                     	
                                     	$.ajax({
                                     		url : "estate.re",
-                                    		data: {esNo: "${e.esNo}"},
+                                    		data: {esNo: "${e.esNo}",
+                                    			   userNo: "${loginUser.userNo}"
+                                    				},
                                     		success: function(result){
 	
                                     			var avg = (result.sum /result.count).toFixed(2);
                                     			
 												for(var i=0; i<result.erlist.length; i++){
 
-													console.log(i);
+													console.log("결과");
+													console.log(result);
                                     				var stars = "";
                                     				
                                     				for(var j=0; j<result.erlist[i].esReScore; j++){
                                     					
                                     					stars += "<i class='fa fa-star'></i> ";
                                     				}
-                                    				
-                                    				console.log("별 확인");
-                                    				console.log(stars);
-                                    				console.log(result.erlist[i].esReScore);
-                                    				
+                               
+                                                    
                                     				var reviewItem = $("<div class='review_item'>" +
                                     						"<div class='media'>" +
                             		        		        "<div class='d-flex'>" +
@@ -680,20 +742,11 @@
                             		        		        "</div>" +
                             		        		        "</div>" +
                             		        		        "<p>" + result.erlist[i].esReContent + "</p>" +
-                            		        		        "</div>" + 
-                            		        		        "<hr>");
+                            		        		        '<div class="emo"><span class="' + (result.reviewBooleans[i] === 1 ? "like-btn liked" : "like-btn") + '" onclick="toggleLike(this)" id="'+result.erlist[i].esReNo+'"><img class="good" src="resources/img/good.svg"> </span> <h6 id="likeCount'+result.erlist[i].esReNo+'" class="likecount">'+
+                            		        		        result.erNums[i]+'</h6>'+
+                            		        		        "</div>" 
+                            		        		        );
                                     				 $(".review_list").append(reviewItem);
-											console.log(result);
-											console.log(result.erlist[i].member.userNickName);
-											console.log("---------사진---------");
-											console.log(result.erlist[i].member.changeName);
-											console.log(result.erlist[i].esReCreateDate);
-											console.log(result.erlist[i].house.houseTitle);
-											console.log(result.erlist[i].esReType);
-											console.log(result.erlist[i].esReScore);
-											console.log(stars);
-											console.log(result.erlist[i].esReContent);
-											
                                     		} 
 											
 											$(".box_total h5").text("("+result.count+" Reviews)");
