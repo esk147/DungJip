@@ -692,7 +692,7 @@ label small{
 .navbar-default .navbar-nav > li > a{
     color: #929292;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: bold;
     text-transform: capitalize;
     position: relative;
 

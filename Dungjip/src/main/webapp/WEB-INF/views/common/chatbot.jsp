@@ -86,8 +86,6 @@
         .chat-container.visible {
             display: block;
         }
-        
-          *{font-family: 'Noto sans KR', sans-serif;}
           
         
 

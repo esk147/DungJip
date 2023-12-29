@@ -12,7 +12,10 @@
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Frank+Ruhl+Libre:wght@500;700&family=Montserrat+Alternates:wght@500&display=swap" rel="stylesheet">
      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/dungjip/resources/assets/css/normalize.css">
         <link rel="stylesheet" href="/dungjip/resources/assets/css/font-awesome.min.css">
@@ -37,6 +40,12 @@
   </head>
   
   <style>
+  *{
+  	font-family: 'Caveat', cursive;
+  	font-family: 'Frank Ruhl Libre', serif;
+	font-family: 'Montserrat Alternates', sans-serif;
+	font-weight: bold;
+  }
   	.navbar-brand p {
   		padding: 0.5em 0 0;
   	}
@@ -94,7 +103,7 @@
 	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="logout.me?userNo=${loginUser.userNo}"' data-wow-delay="0.4s">Logout</button>
 	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="enquiry.en"' data-wow-delay="0.5s">QnA</button>
 	                    </div>
-	                    <ul class="main-nav nav navbar-nav navbar-right">
+	                    <ul class="main-nav nav navbar-nav navbar-right" id="nav-menu-login">
                  
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">빌라</a></li>
@@ -157,9 +166,18 @@
         var type = "${type}";
         // Get all the menu items
         var menuItems = document.querySelectorAll('#nav-menu li a');
+        var menuItemsLogin = document.querySelectorAll('#nav-menu-login li a');
 
         // Add click event to all menu items
         menuItems.forEach(function(item) {
+            if(type === item.text){
+            	item.classList.add('active');
+            } else {
+            	item.classList.remove('active');
+            }
+        });
+        
+        menuItemsLogin.forEach(function(item) {
             if(type === item.text){
             	item.classList.add('active');
             } else {

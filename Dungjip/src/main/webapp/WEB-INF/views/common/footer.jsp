@@ -97,7 +97,7 @@
                                             <a href="single.html">
                                                 <img src="resources/img/icons/kh.png">
                                             </a>
-                                            <span class="blg-date">01-02-2024</span>
+                                            <span class="blg-date">01-12-2024</span>
 
                                         </div>
                                         <div class="col-md-8  col-sm-8 col-xs-8  blg-entry">
@@ -105,8 +105,6 @@
                                             <p style="line-height: 17px; padding: 8px 2px;">절찬리 홍보중33</p>
                                         </div>
                                     </li> 
-
-
                                 </ul>
                             </div>
                         </div>
