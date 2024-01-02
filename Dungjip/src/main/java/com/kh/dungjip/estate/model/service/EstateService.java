@@ -2,6 +2,7 @@ package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public interface EstateService {
 
 
 	//조회
-	ArrayList<EstateReview> selectEstateReview(Member m);
+	ArrayList<EstateReview> selectEstateReview(Member m,PageInfo pi);
 
 	//삭제
 	int esReviewDelete(int esReNo);
@@ -63,6 +64,23 @@ public interface EstateService {
 
 	//공감삭제
 	int myEsReviewDelete(int esReNo);
+
+	//마이페이지 중개사 리뷰 페이징
+	int selectListCount();
+
+	//마이페이지 매물내역
+	int selectEstate(int esNo);
+
+	int getEsNo(int userNo);
+
+	//신고내역 페이징
+	int selectReportEstateListCount();
+
+	//마이페이지 중개사무소 정보수정
+	ArrayList<Estate> mypageEstateUpdate(Member m);
+
+	//중개인 매물내역 삭제 
+	int myEstateHouseDelete(int houseNo);
 
 
 

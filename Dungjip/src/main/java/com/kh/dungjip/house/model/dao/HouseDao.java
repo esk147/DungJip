@@ -8,8 +8,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.dungjip.common.model.vo.PageInfo;
+import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.Jjim;
+import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.house.model.vo.HouseImg;
 import com.kh.dungjip.member.model.vo.Member;
 
@@ -86,9 +88,16 @@ public class HouseDao {
 		return sqlSession.selectOne("houseMapper.selectHouseMainThumnail", houseNo);
 	}
 
-	public ArrayList<House> memberMypageHousejjimForm(SqlSessionTemplate sqlSession, Member m) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("houseMapper.memberMypageHousejjimForm",m);
+	public ArrayList<House> memberMypageHousejjimForm(SqlSessionTemplate sqlSession, Member m,PageInfo pi) {
+		
+		//몇개를 보여줄지
+		int limit = pi.getBoardLimit();
+		//몇개를 건너뛸지
+		int offset = (pi.getCurrentPage()-1)* limit;		
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		return (ArrayList)sqlSession.selectList("houseMapper.memberMypageHousejjimForm",m,rowBounds);
 	}
 
 	public HouseImg memberMypageHousejjimImg(SqlSessionTemplate sqlSession, int houseNo) {
@@ -133,5 +142,31 @@ public class HouseDao {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("houseMapper.mypageHjjimdelete",houseNo);
 	}
+
+	//마이페이지 집 찜 페이징
+	public int selectListCount(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("houseMapper.selectListCount");
+	}
+
+	public ArrayList<House> memberMypageEstateHouseList(SqlSessionTemplate sqlSession, Integer esNo, PageInfo pi) {
+		
+		//몇개를 보여줄지
+		int limit = pi.getBoardLimit();
+		//몇개를 건너뛸지
+		int offset = (pi.getCurrentPage()-1)* limit;		
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		return (ArrayList)sqlSession.selectList("houseMapper.memberMypageEstateHouseList", esNo, rowBounds);
+	}
+
+	//마이페이지 매물내역 페이징
+	public int selectEsHouseListCount(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("houseMapper.selectEsHouseListCount");
+	}
+
+
 
 }

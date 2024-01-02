@@ -118,7 +118,7 @@
 											<li class="nav-item"><a class="nav-link" href="">관리자 페이지</a></li>
 										</c:when>
 										<c:when test="${loginUser.userType == '중개인'}">
-											<li class="nav-item"><a class="nav-link" href="myPage.me">중개인 페이지</a></li>
+											<li class="nav-item"><a class="nav-link" href="myEsPage.me">중개인 페이지</a></li>
 										</c:when>
 										<c:otherwise>
 											<!-- 기본적으로는 마이 페이지가 나타나도록 설정 -->

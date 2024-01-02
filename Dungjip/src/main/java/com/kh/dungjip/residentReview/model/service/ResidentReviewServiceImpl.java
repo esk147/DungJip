@@ -24,9 +24,9 @@ public class ResidentReviewServiceImpl implements ResidentReviewService{
 	
 	//조회
 	@Override
-	public ArrayList<ResidentReview> selectResidentReview(Member m) {
+	public ArrayList<ResidentReview> selectResidentReview(Member m,PageInfo pi) {
 		// TODO Auto-generated method stub
-		return residentReviewDao.selectResidentReview(sqlSession,m);
+		return residentReviewDao.selectResidentReview(sqlSession,m,pi);
 	}
 
 	//삭제
@@ -64,6 +64,13 @@ public class ResidentReviewServiceImpl implements ResidentReviewService{
 	public int myReReviewDelete(int reReviewNo) {
 		// TODO Auto-generated method stub
 		return residentReviewDao.myReReviewDelete(sqlSession,reReviewNo);
+	}
+
+	//마이페이지 집리뷰 페이징
+	@Override
+	public int selectListCount() {
+		// TODO Auto-generated method stub
+		return residentReviewDao.selectListCount(sqlSession);
 	}
 
 

@@ -29,7 +29,11 @@
 		<result column="HOUSE_BUILDDATE" property="houseBuildDate" />
 		<result column="HOUSE_ANIMALS" property="houseAnimals" />
 		<result column="HOUSE_NAME" property="houseName" />
+		<result column="USER_NO" property="userNo" />
 		<result column="STATUS" property="status" />
+		<association property="member" javaType="member">
+			<result column="USER_NAME" property="userName"/>
+		</association>
 	</resultMap>
 	
 	<resultMap type="houseImg" id="houseImgResultSet">
@@ -262,5 +266,43 @@
 		DELETE FROM JJIM
 		WHERE HOUSE_NO = #{houseNo}
 	</delete>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)	
+		FROM HOUSE
+		WHERE STATUS = 'Y' 			
+	</select>
+	
+	<select id="selectEsHouseListCount" resultType="_int">
+		SELECT COUNT(*)	count
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		JOIN OWN O ON O.HOUSE_NO = H.HOUSE_NO
+	</select>
+	
+	<select id="memberMypageEstateHouseList" resultMap="houseResultSet">
+		SELECT H.HOUSE_NO 
+	        ,H.HOUSE_PRICE
+	        ,H.HOUSE_SQUARE
+	        ,H.HOUSE_RENT
+	        ,H.HOUSE_STYLE
+	        ,H.HOUSE_TITLE
+	        ,H.HOUSE_TYPE
+	        ,H.HOUSE_ADDRESS
+	        ,H.HOUSE_TOILET
+	        ,H.HOUSE_ROOMS
+	        ,H.HOUSE_PARKABLE
+	        ,H.HOUSE_NAME
+	        ,H.USER_NO
+	        ,M.USER_NAME
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		JOIN OWN O ON O.HOUSE_NO = H.HOUSE_NO
+		WHERE O.es_no = #{esNo}
+		AND O.STATUS = 'Y'
+	</select>
 
+	<select id="membermypageEsReservation" >
+	
+	</select>
 </mapper>
