@@ -9,10 +9,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>DungJip Header</title>
-
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
+
      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/dungjip/resources/assets/css/normalize.css">
         <link rel="stylesheet" href="/dungjip/resources/assets/css/font-awesome.min.css">
@@ -79,7 +78,7 @@
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">빌라</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">오피스텔</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="insert.house">집내놓기</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">집내놓기</a></li>
 	                    </ul>
 	                </div>  
 	                  
@@ -115,7 +114,7 @@
 								<ul class="dropdown-menu">
 									<c:choose>
 										<c:when test="${loginUser.userType == '관리자'}">
-											<li class="nav-item"><a class="nav-link" href="">관리자 페이지</a></li>
+											<li class="nav-item"><a class="nav-link" href="http://localhost:9999/dungjip/admin/list">관리자 페이지</a></li>
 										</c:when>
 										<c:when test="${loginUser.userType == '중개인'}">
 											<li class="nav-item"><a class="nav-link" href="myEsPage.me">중개인 페이지</a></li>

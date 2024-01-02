@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.dungjip.common.report.model.vo.ReportEstate;
 import com.kh.dungjip.common.websocket.model.vo.ChatMessage;
 import com.kh.dungjip.common.websocket.model.vo.ChatRoom;
 import com.kh.dungjip.common.websocket.model.vo.JoinChat;
@@ -24,11 +25,12 @@ public class ChatDao {
 		  for (ChatRoom chatRoom : chatRooms) {
 		        if (chatRoom.getMembers() != null) {
 		            for (Member member : chatRoom.getMembers()) {
-		                // Calculate the active status using the isActive method
-		                boolean activeStatus = member.isActive();
-		                String timeAgo = member.calculateTimeAgo();
-		                // Set the active field of the Member object
-		                member.setActive(activeStatus);
+		               
+		            	boolean activeStatus = member.isActive();
+		              
+		            	String timeAgo = member.calculateTimeAgo();
+		              
+		            	member.setActive(activeStatus);
 		            }
 		        }
 		    }
@@ -69,6 +71,11 @@ public class ChatDao {
 	public ArrayList<ChatRoom> findChat(SqlSessionTemplate sqlSession, ChatRoom c) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("chatMapper.findChat", c);
+	}
+
+	public int updateReportEstate(SqlSessionTemplate sqlSession, ReportEstate reportEstate) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("chatMapper.updateReportEsate", reportEstate);
 	}
 
 

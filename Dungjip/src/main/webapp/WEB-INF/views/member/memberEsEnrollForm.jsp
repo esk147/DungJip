@@ -109,6 +109,7 @@
 				<div class="form-section">
 					<label for="userName">이름(중개사) *</label> 
  					<input type="text" class="form-control" id="userName" name="userName" placeholder="이름" required>				
+
 				</div>			
 	
 				<div class="form-section">

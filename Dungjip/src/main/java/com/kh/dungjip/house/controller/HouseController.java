@@ -93,7 +93,7 @@ public class HouseController {
 											.houseBalcony((String)object.get("balcony"))
 											.houseMaintainCost(Integer.parseInt(String.valueOf(object.get("maintain_cost"))))
 											.houseDoItNow((String)object.get("doItNow"))
-											.houseBuildDate(sqlBuildDate)
+//											.houseBuildDate(sqlBuildDate)
 											.houseAnimals((String)object.get("animals"))
 											.houseName((String)object.get("name"))
 											.build();
@@ -296,4 +296,5 @@ public class HouseController {
 		
 		return "redirect:/myHousejjim.me";
 	}
+
 }

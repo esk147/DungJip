@@ -3,18 +3,18 @@ package com.kh.dungjip.common.websocket.server;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLDecoder;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
-
-import org.apache.ibatis.reflection.SystemMetaObject;
+import java.util.stream.Collectors;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +34,28 @@ import lombok.extern.slf4j.Slf4j;
 public class WebsocketAskServer extends TextWebSocketHandler {
 
 	@Autowired
-	private ChatService chatService;
+	private ChatService chatService;//서비스(채팅과 관련된 데이터베이스 작업용
 
-	private Map<Integer, Set<WebSocketSession>> roomSessions = new ConcurrentHashMap<>();// 채팅방,사용자의 세션 id
+	
+	private List<String> badWords;// 메시지 필터링에 적합하지 않은 단어 목록입니다.
+	
+	public WebsocketAskServer() {//파일에서 부적절한 단어 목록을 읽어 badWords에 저장합니다.
+		
+		try {
+			badWords = Files.lines(Paths.get("C:\\Users\\82103\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private Map<Integer, Set<WebSocketSession>> roomSessions = new ConcurrentHashMap<>();//채팅방 ID를 WebSocket 세션 세트와 연결하는 맵
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+
+	
 		URI uri = session.getUri();// 파라미터로 보내준 uri 해체작업
 		if (uri != null) {
 			String query = uri.getQuery();
@@ -50,13 +66,14 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 				int chatRoomNo = Integer.parseInt(chatRoomNoStr);
 
 				roomSessions.computeIfAbsent(chatRoomNo, k -> new CopyOnWriteArraySet<>()).add(session);// 만들어놓은 맵에 추가
-				System.out.println("세션에 추가된 방번호 " + chatRoomNo);
+	
 			}
 		}
 	}
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {// 텍스트 보내는 메소드
+	
 		// Current time
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddEEEE HH:mm:ss");
@@ -67,21 +84,25 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 		int userNo = ((Member) (session.getAttributes().get("loginUser"))).getUserNo();
 		String userName = ((Member) (session.getAttributes().get("loginUser"))).getUserName();
 
-		String text = message.getPayload();
-		// System.out.println(text);
-
-		// 받아온 거 해체작업
+		String text = message.getPayload();		// 받아온 거 해체작업
 		JSONParser parser = new JSONParser();
 		JSONObject jsonObj = (JSONObject) parser.parse(text);
 
 		String preCno = (String) jsonObj.get("cno");
 		int chatRoomNo = Integer.parseInt(preCno);
 		String contentMessage = (String) jsonObj.get("message");
-
 		ChatMessage c = new ChatMessage(contentMessage, chatRoomNo, userNo, userName);
-
 		int result = chatService.updateChatRoomMsg(c); // 메세지 전송
-
+		//관리자가 잘 알아볼수있게 미리 사용자의 대화를 db에 저장을 해두고 
+		// 이후에 욕설필터링을 통하여 관리하기
+		for(String word : badWords) {//위에서 받아온 badWords에서 반복문으로 사용자가 보낸 메세지가 담겨있는지 확인
+			if(contentMessage.contains(word)) {
+				
+					contentMessage="부적절한 메시지가 담겨있습니다";
+						
+					//return;
+			}
+		}
 		JSONObject jobj = new JSONObject();// 메세지 사용자에게 보내기
 
 		jobj.put("userName", userName);

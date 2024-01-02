@@ -22,7 +22,7 @@ public class EstateDao {
 	//부동산 리스트
 	public ArrayList<Estate> selectEstateList(SqlSessionTemplate sqlSession,int houseNo) {
 		
-		return (ArrayList)sqlSession.selectList("estateMapper.selectEatateList",houseNo);
+		return (ArrayList)sqlSession.selectList("estateMapper.selectEstateList",houseNo);
 	}
 
 	//조회수 증가

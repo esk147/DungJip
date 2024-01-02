@@ -323,7 +323,7 @@ public class MemberController {
 	//회원등록 (중개인)
 	@PostMapping("esinsert.me")	
 	public String esInsertMember(Member m, Model model, HttpSession session, MultipartFile upfile) {
-		
+
 		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
 		
 		//첨부파일 
@@ -370,9 +370,10 @@ public class MemberController {
 			m.setChangeName(defaultImagePath);
 			
 		}
+
 		
 		m.setUserPwd(encPwd); //암호화된 비번			
-		
+
 		int esInsertUser = memberService.esInsertMember(m);
 		
 		if(esInsertUser > 0) { //성공 시 

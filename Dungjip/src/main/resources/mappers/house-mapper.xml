@@ -77,6 +77,29 @@
 		GROUP BY HOUSE_NO
 	</select>
 	
+<insert id="enrollHouse" parameterType="house">
+    <selectKey keyProperty="houseNo" resultType="_int" order="BEFORE">
+        SELECT SEQ_HNO.NEXTVAL FROM DUAL
+    </selectKey>
+    INSERT INTO HOUSE (
+        HOUSE_NO, HOUSE_PRICE, HOUSE_RENT, HOUSE_SQUARE, HOUSE_STYLE, HOUSE_TITLE,
+        HOUSE_DETAILS, HOUSE_TYPE, HOUSE_LATITUDE, HOUSE_LONGITUDE,
+        HOUSE_ADDRESS, HOUSE_FLOOR, HOUSE_BUILDING_FLOOR, HOUSE_TOILET, HOUSE_ROOMS, HOUSE_PARKABLE, HOUSE_BALCONY,
+        HOUSE_MAINTAINCOST, HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS, HOUSE_NAME
+    )
+    VALUES (
+        #{houseNo}, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle},
+        #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude},
+        #{houseAddress}, #{houseFloor}, #{houseBuildingFloor}, #{houseToilet}, #{houseRooms}, #{houseParkAble}, #{houseBalcony},
+        #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals}, #{houseName}
+    )
+</insert>
+    
+	<insert id="enrollHouseImg" parameterType="houseImg">
+		INSERT INTO HOUSE_IMG (FILE_NO, HOUSE_NO, ORIGIN_NAME, CHANGE_NAME)
+		VALUES (SEQ_HINO.NEXTVAL, #{houseNo}, #{originName}, #{changeName})
+    </insert>
+
 	<select id="selectHouseList" resultMap="houseResultSet">
 	SELECT H.HOUSE_NO
           ,H.HOUSE_PRICE

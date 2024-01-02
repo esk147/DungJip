@@ -5,7 +5,7 @@
     
     <mapper namespace="chatMapper">
     
-    <resultMap id="chatRoomWithMembersMap" type="ChatRoom">
+<resultMap id="chatRoomWithMembersMap" type="ChatRoom">
     <id column="CHATROOM_NO" property="chatRoomNo"/>
     <result column="CHATROOM_NAME" property="chatRoomName"/>
     <result column="CHATROOM_CREATE" property="chatRoomCreate"/>
@@ -19,7 +19,6 @@
     </collection>
 </resultMap>
     
-    
     <resultMap type="chatRoom" id="selectRoom">
 	    <result column="CHATROOM_NO" property="chatRoomNo"/>
 	    <result column="USER_NO" property="userNo"/>
@@ -27,7 +26,6 @@
 	    <result column="CHATROOM_CREATE" property="chatRoomCreate"/>
 	    <result column="STATUS" property="status"/>
     </resultMap>    
-  
 
   		<resultMap type="member" id="memberResultSet">
   			<result column="USER_NO" property="userNo" />
@@ -160,6 +158,21 @@
 			,'Y')
 			
 	</insert>
+
+	<insert id="updateReportEsate">
+	INSERT INTO REPORT_ESTATE(REPORT_NO
+							  ,USER_NO
+							  ,CHATROOM_NO
+							  ,ESTATE_NO
+							  ,REPORT_REASON)
+	VALUES(SEQ_REPORTNO.NEXTVAL
+		  ,#{userNo}
+		  ,#{chatRoomNo}
+		  ,#{estateNo}
+		  ,#{reportReason}
+	)
+	</insert>
+
 
 
     </mapper>
