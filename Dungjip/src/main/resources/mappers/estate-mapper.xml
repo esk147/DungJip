@@ -16,7 +16,6 @@
 		<result column="ES_REGISTER_NUM" property="esRegisterNum"/>
 		<result column="ES_ADDRESS" property="esAddress"/>
 		<result column="ES_CONTENT" property="esContent"/>
-		
 		<result column="ES_COUNT" property="esCount"/>
 		<result column="ES_Status" property="esStatus"/>
 		<result column="ENROLLDATE" property="enrollDate"/>
