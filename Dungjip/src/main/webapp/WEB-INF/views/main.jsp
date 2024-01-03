@@ -401,8 +401,6 @@
 		        />
 		        <p>광고 공간</p>
 		      </div>
-
-		      
 	      </div>
       
 		<button class="scroll-button" onclick="scroll(200)">&gt;</button>

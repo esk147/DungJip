@@ -140,6 +140,34 @@ public WebsocketController() {//생성자에서 파일을 읽어온다.
 		
 	}
 	
+	@ResponseBody
+	@GetMapping("/deleteChatRoom.ch")
+	public int deleteChatRoom (int chatNo) {
+		
+	int result1	=chatService.deleteJoinChatRoom(chatNo);
+	
+	
+
+	if(result1>0) {
+	int result2 = chatService.deleteChatMsg(chatNo);
+	
+	if(result2>0) {
+		
+	int result3 =	chatService.deleteChatRoom(chatNo);
+
+	System.out.println("성공따리"+result3);
+	
+	}
+	
+	}
+	
+
+	
+	return 0;
+	}
+	
+	
+	
 	
 	
 

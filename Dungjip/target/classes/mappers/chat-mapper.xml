@@ -204,6 +204,23 @@
 		  ,#{reportReason}
 	)
 	</insert>
+	
+	<delete id="deleteJoinChatRoom">
+	DELETE FROM JOINCHAT
+    WHERE CHATROOM_NO =#{chatNo}
+	</delete>
+	
+	<delete id="deleteChatMsg">
+	DELETE FROM CHATMESSAGE
+    WHERE CHATROOM_NO=#{chatNo}
+	
+	</delete>
+	
+	<delete id="deleteChatRoom">
+	DELETE FROM CHATROOM
+	WHERE CHATROOM_NO = #{chatNo}
+	</delete>
+	
 
 	<select id="selectReportList" resultMap="reportResultSet">
 	    SELECT RE.REPORT_NO, RE.USER_NO, RE.CHATROOM_NO, RE.ES_NO ESTATE_NO, RE.REPORT_REASON,
