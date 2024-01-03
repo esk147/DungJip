@@ -310,7 +310,7 @@
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*)	
 		FROM HOUSE
-		WHERE STATUS = 'Y' 			
+		WHERE STATUS = 'Y' 		
 	</select>
 	
 	<select id="selectEsHouseListCount" resultType="_int">
@@ -342,7 +342,29 @@
 		AND O.STATUS = 'Y'
 	</select>
 
-	<select id="membermypageEsReservation" >
-	
+	<select id="mypageImdaHouseListCount" resultType="_int">
+		SELECT COUNT(*)	count
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
 	</select>
+	
+	<select id="mypageImdaHouseList" resultMap="houseResultSet">
+		SELECT H.HOUSE_NO 
+		    ,H.HOUSE_PRICE
+		    ,H.HOUSE_SQUARE
+		    ,H.HOUSE_RENT
+		    ,H.HOUSE_STYLE
+		    ,H.HOUSE_TITLE
+		    ,H.HOUSE_TYPE
+		    ,H.HOUSE_ADDRESS
+		    ,H.HOUSE_TOILET
+		    ,H.HOUSE_ROOMS
+		    ,H.HOUSE_PARKABLE
+		    ,H.HOUSE_NAME
+		    ,H.USER_NO
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		WHERE M.USER_NO = #{userNo}
+	</select>
+	
 </mapper>

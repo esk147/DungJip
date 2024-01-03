@@ -80,6 +80,12 @@ public interface HouseService {
 	//마이페이지 중개인 매물내역 페이징
 	int selectEsHouseListCount();
 
+	//마이페이지 임대인 매물내역
+	ArrayList<House> mypageImdaHouseList(PageInfo pi, Member m);
+
+	//마이페이지 임대인 매물내역 
+	int mypageImdaHouseListCount();
+
 
 
 }
