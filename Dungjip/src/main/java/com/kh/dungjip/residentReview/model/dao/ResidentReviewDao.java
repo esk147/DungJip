@@ -16,9 +16,16 @@ import com.kh.dungjip.residentReview.model.vo.ResidentReview;
 @Repository
 public class ResidentReviewDao {
 
-	public ArrayList<ResidentReview> selectResidentReview(SqlSessionTemplate sqlSession, Member m) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("residentReviewMapper.selectResidentReview",m);
+	public ArrayList<ResidentReview> selectResidentReview(SqlSessionTemplate sqlSession, Member m,PageInfo pi) {
+		
+		//몇개를 보여줄지
+		int limit = pi.getBoardLimit();
+		//몇개를 건너뛸지
+		int offset = (pi.getCurrentPage()-1)* limit;		
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+	
+		return (ArrayList)sqlSession.selectList("residentReviewMapper.selectResidentReview",m,rowBounds);
 	}
 
 	public int esReviewDelete(SqlSessionTemplate sqlSession, int reReviewNo) {
@@ -66,6 +73,12 @@ public class ResidentReviewDao {
 	public int myReReviewDelete(SqlSessionTemplate sqlSession, int reReviewNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("residentReviewMapper.myReReviewDelete", reReviewNo);
+	}
+
+	//마이페이지 집 리뷰 페이징
+	public int selectListCount(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("residentReviewMapper.selectListCount", sqlSession);
 	}
 
 

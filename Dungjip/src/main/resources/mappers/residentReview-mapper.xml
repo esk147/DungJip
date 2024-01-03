@@ -28,7 +28,6 @@
 		SELECT RE_REVIEW_NO
 				,RR.USER_NO
 				,RR.HOUSE_NO
-				,RR.KEYWORD_NO 
 				,INTERIOR_SCORE
 				,BUILDING_SCORE
 				,TRAFFIC_SCORE
@@ -42,7 +41,6 @@
 				,RR.STATUS
 		FROM RESIDENT_REVIEW RR
 		JOIN MEMBER M ON RR.USER_NO = M.USER_NO
-		JOIN KEYWORD K ON RR.KEYWORD_NO = K.KEYWORD_NO
 		JOIN HOUSE H ON RR.HOUSE_NO = H.HOUSE_NO
 		WHERE RR.USER_NO = #{userNo}
 		AND RR.STATUS='Y'	
@@ -72,7 +70,6 @@
 		SELECT RE.RE_REVIEW_NO
 				, RE.USER_NO
 				, RR.HOUSE_NO
-				, RR.KEYWORD_NO
 				, RR.RE_AD_CONTENT
 				, RR.RE_DIS_CONTENT
 				, RR.RE_CREATE_DATE
@@ -93,5 +90,11 @@
 		FROM RE_RE_LIKE
 		WHERE RE_REVIEW_NO = #{reReNo}		
 	</delete>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*) 
+  	  	FROM RESIDENT_REVIEW 
+  	  	WHERE STATUS = 'Y'
+	</select>
 
 </mapper>

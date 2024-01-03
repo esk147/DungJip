@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.kh.dungjip.common.model.vo.PageInfo;
+import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.Jjim;
+import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.house.model.vo.HouseImg;
 import com.kh.dungjip.member.model.vo.Member;
 
@@ -53,7 +55,7 @@ public interface HouseService {
 	HouseImg selectHouseMainThumnail(int houseNo);
 
 	//조회
-	ArrayList<House> memberMypageHousejjimForm(Member m);
+	ArrayList<House> memberMypageHousejjimForm(Member m,PageInfo pi);
 	
 	//집사진 조회
 	HouseImg memberMypageHousejjimImg(int houseNo);
@@ -65,6 +67,16 @@ public interface HouseService {
 
 	//부동산 집 리스트(모달창)
 	ArrayList<House> selectHouseModal(int esNo);
+
+	//마이페이지 집 찜 페이징
+	int selectListCount();
+
+	//마이페이지 중개인 매물내역
+	ArrayList<House> memberMypageEstateHouseList(Integer esNo, PageInfo pi);
+
+	//마이페이지 중개인 매물내역 페이징
+	int selectEsHouseListCount();
+
 
 
 }

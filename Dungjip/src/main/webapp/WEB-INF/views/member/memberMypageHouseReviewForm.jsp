@@ -96,7 +96,7 @@
 			                             <div style="width:100%;">
 			                                
 			                                 <div class="item-entry overflow" style="width:100%;">
-			                                     <h5 style="display: flex;justify-content: space-between;"><a href=""> 집 번호 ${hlist.houseNo}  </a>
+			                                     <h5 style="display: flex;justify-content: space-between;"><a href=""> # ${hlist.houseNo}  </a>
 			                                     	<div><a href="#" type="button" id="updateBtn" class="btn btn-light btn-sm" data-target="#updateReReview" data-toggle="modal" style="color: blue;"  onclick="a(${hlist.reReviewNo})">수정</a>																					
 													 	<a href="residentReview/delete.re?reReviewNo=${hlist.reReviewNo }" id="deleteBtn" class="btn btn-light btn-sm" onclick="return confirm('리뷰를 삭제하시겠습니까?');" style="color: red;">삭제</a></div></h5>
 			                                     <div class="dot-hr"></div>
@@ -119,7 +119,26 @@
 						</c:if>
 										
 				</div>
-			</div>
+				
+				<footer style="width: 450px;">
+				   <!--------------------------------------- 페이징 처리 ------------------------------------->
+				   <div class="pull-right" >
+			            <div class="pagination">
+			                <ul>
+			                	 <c:if test="${pi.currentPage ne 1 }">
+			                   <li><a href="myHReview.me?currentPage=${pi.currentPage-1}">Prev</a></li>
+			                </c:if>   
+			                <c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">  
+			                   <li><a href="myHReview.me?currentPage=${p}">${p}</a></li>
+			                </c:forEach>   
+			                <c:if test="${pi.currentPage ne pi.maxPage }"> 
+			                     <li><a href="myHReview.me?currentPage=${pi.currentPage+1}">Next</a></li>
+			                	  </c:if>
+			                </ul>
+			            </div>
+			       </div> 
+		       	</footer>					
+			</div>			
 		</section>
 	</div>
 	

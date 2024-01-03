@@ -147,8 +147,7 @@ public class EstateController {
 	}
 	
 
-	//부동산 리뷰
-	
+	//부동산 리뷰	
 	@GetMapping("insert.esre")
 	public String boardEnrollForm(int esNo, HttpSession session, Model model) {
 		
@@ -272,8 +271,6 @@ public class EstateController {
 		
 		int result = estateService.myEsReviewDelete(esReNo);
 		
-		System.out.println("번호 넘어오나" + esReNo);
-		
 		if(result > 0) {
 			
 			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
@@ -287,7 +284,18 @@ public class EstateController {
 		return "redirect:/myReviewLike.me";
 	}
 	
-
+	@RequestMapping("esHdelete.li")
+	public String myEstateHouseDelete(@RequestParam("houseNo")int houseNo,Model model, HttpSession session) {
+		
+		int result = estateService.myEstateHouseDelete(houseNo);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
+		}else {
+			session.setAttribute("alertMsg", "다시 시도해주세요.");
+		}
+		return"redirect:/esHouse.li";
+	}
 	
 	
 }

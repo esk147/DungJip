@@ -10,7 +10,7 @@ import com.kh.dungjip.residentReview.model.vo.ResidentReview;
 public interface ResidentReviewService {
 
 	//조회
-	ArrayList<ResidentReview> selectResidentReview(Member m);
+	ArrayList<ResidentReview> selectResidentReview(Member m,PageInfo pi);
 	
 	//삭제
 	int esReviewDelete(int reReviewNo);
@@ -27,6 +27,9 @@ public interface ResidentReviewService {
 
 	//공감삭제
 	int myReReviewDelete(int reReviewNo);
+
+	//마이페이지 집 리뷰 페이징
+	int selectListCount();
 
 
 }
