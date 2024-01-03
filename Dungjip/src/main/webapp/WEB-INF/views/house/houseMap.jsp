@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zigbang Map Page Replica</title>
+    <title>DungJip</title>
     <style>
         * {
             box-sizing: border-box;
@@ -142,16 +142,28 @@
             min-width: 180px;
             margin-right: 10px;
         }
-
-        .footer {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
         
         .listing {
         	cursor:pointer;
+        }
+        
+        .home-text-div {
+        	display: flex;
+        	flex-direction: column;
+        }
+        
+        .home-price-span {
+        	font-size: 20px;
+        }
+        
+        .home-title-p {
+        	display : -webkit-box;
+			overflow: hidden;
+		 	text-overflow: ellipsis;
+		  	-webkit-line-clamp: 1;
+		  	-webkit-box-orient: vertical;
+		    padding: 0px 0px;
+		    margin: 0;
         }
     </style>
 </head>
@@ -555,7 +567,17 @@
         <c:forEach var="home" items="${lList}" varStatus="status">
             <div class="listing" id="${home.houseNo }" onclick="detailHouse(this)">
                 <img class="homeImg" src="${hImgList[status.index].changeName }" alt="Placeholder for real estate image">
-                <p>${home.houseTitle }</p>
+                <div class="home-text-div">
+	                <span>${home.houseName }</span>
+	                <c:if test="${home.houseStyle eq '월세' }">
+	                	<span class="home-price-span">월세 ${home.housePrice } / ${home.houseRent }</span>
+	                </c:if>
+	                <c:if test="${home.houseStyle eq '전세' }">
+	                	<span class="home-price-span">전세 ${home.housePrice }</span>
+	                </c:if>
+	                <p>${home.houseFloor }층, ${home.houseSquare }평, 관리비 ${home.houseMaintainCost }만</p>
+	                <p class="home-title-p">${home.houseTitle }</p>
+                </div>
             </div>
         </c:forEach>
         </div>

@@ -11,6 +11,9 @@
 <title>DungJip Header</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Frank+Ruhl+Libre:wght@500;700&family=Montserrat+Alternates:wght@500&display=swap" rel="stylesheet">
 
      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/dungjip/resources/assets/css/normalize.css">
@@ -36,6 +39,12 @@
   </head>
   
   <style>
+  *{
+  	font-family: 'Caveat', cursive;
+  	font-family: 'Frank Ruhl Libre', serif;
+	font-family: 'Montserrat Alternates', sans-serif;
+	font-weight: bold;
+  }
   	.navbar-brand p {
   		padding: 0.5em 0 0;
   	}
@@ -78,7 +87,7 @@
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">빌라</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">오피스텔</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">집내놓기</a></li>
+	                        
 	                    </ul>
 	                </div>  
 	                  
@@ -98,7 +107,7 @@
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">빌라</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">오피스텔</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">집내놓기</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" onclick="redirectToEnrollForm()">집내놓기</a></li>
 	                       
 	                        <li class="dropdown ymm-sw" data-wow-delay="0.1s">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">
@@ -168,6 +177,12 @@
             }
         });
     </script>
+    
+    <script>
+	    function redirectToEnrollForm() {
+	        window.location.href = "/dungjip/house/enrollForm";
+	    }
+	</script>
   
         <script src="/dungjip/resources/assets/js/modernizr-2.6.2.min.js"></script>
 

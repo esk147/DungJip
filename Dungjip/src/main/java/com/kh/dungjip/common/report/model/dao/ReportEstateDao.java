@@ -20,9 +20,18 @@ public class ReportEstateDao {
 		return sqlSession.selectList("chatMapper.selectReportList");
 	}
 
-	public List<ChatMessage> selectChatHistory(SqlSessionTemplate sqlSession, int chatRoomNo) {
-		
-		return sqlSession.selectList("chatMapper.selectChatHistory", chatRoomNo);
+    public List<ChatMessage> selectChatHistory(SqlSessionTemplate sqlSession, int chatRoomNo) {
+        return sqlSession.selectList("chatMapper.selectChatHistory", chatRoomNo);
+    }
+
+	public void increaseMemberCount(SqlSessionTemplate sqlSession, int chatRoomNo) {
+		// TODO Auto-generated method stub
+		sqlSession.update("chatMapper.increaseMemberCount", chatRoomNo);
+	}
+
+	public void updateReportStatus(SqlSessionTemplate sqlSession, int chatRoomNo) {
+		// TODO Auto-generated method stub
+		sqlSession.update("chatMapper.updateReportStatus", chatRoomNo);
 	}
 
 	//신고내역 리스트
@@ -36,6 +45,5 @@ public class ReportEstateDao {
 		
 		return (ArrayList)sqlSession.selectList("estateMapper.memberMypageReportEstateList", m, rowBounds);
 	}
-	
 
 }

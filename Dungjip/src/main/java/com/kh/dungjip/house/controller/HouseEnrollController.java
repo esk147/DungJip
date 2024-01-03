@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import com.kh.dungjip.house.model.dao.HouseEnrollDao;
 import com.kh.dungjip.house.model.service.HouseEnrollService;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.member.model.vo.Member;
 
 @Controller
 @RequestMapping("/house")
@@ -37,48 +39,51 @@ public class HouseEnrollController {
     }
 
     @PostMapping("/enroll")
-    public String enrollHouse(House house, @RequestParam("files") MultipartFile[] files) {
-    	System.out.println(house);
-      int houseNo = houseEnrollService.enrollHouse(house); // 매물 정보 저장
-
-      // 파일 저장 경로를 지정합니다.
-      String uploadPath = "src/main/webapp/resources/houseimg/";
-
-      if (files != null && files.length > 0) {
-        // 파일 처리 로직
-        int fileCount = Math.min(files.length, 4); // 첨부 파일은 최대 4개까지 처리
-        for (int i = 0; i < fileCount; i++) {
-          MultipartFile file = files[i];
-          if (!file.isEmpty()) {
-            String originName = file.getOriginalFilename();
-            String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
-            int ranNum = (int) (Math.random() * 90000 + 10000);
-            String ext = originName.substring(originName.lastIndexOf("."));
-            String changeName = currentTime + ranNum + ext;
-
-            try {
-              // 경로를 포함한 전체 파일 경로를 구성합니다.
-              File dir = new File(uploadPath);
-              if (!dir.exists()) {
-                dir.mkdirs(); // 디렉토리가 없다면 생성합니다.
-              }
-              File uploadFile = new File(dir, changeName);
-              file.transferTo(uploadFile);
-
-              // HouseImg 객체 생성 및 정보 저장
-              HouseImg houseImg = new HouseImg();
-              houseImg.setHouseNo(houseNo);
-              houseImg.setOriginName(originName);
-              houseImg.setChangeName(changeName);
-              houseEnrollService.enrollHouseImg(houseImg);
-            } catch (Exception e) {
-              e.printStackTrace();
-              // 파일 저장 실패 처리
-            }
-          }
-        }
-      }
-
-      return "redirect:/house/enrollForm"; 
+    public String enrollHouse(House house, @RequestParam("files") MultipartFile[] files, HttpSession session) {
+    	
+    	Member loginUser = (Member)session.getAttribute("loginUser");
+    	int userNo = loginUser.getUserNo();
+    	house.setUserNo(userNo);
+    	System.out.println("userNo : " + userNo);
+	    int houseNo = houseEnrollService.enrollHouse(house); // 매물 정보 저장
+	    // 파일 저장 경로를 지정합니다.
+	    String uploadPath = "src/main/webapp/resources/houseimg/";
+	
+	    if (files != null && files.length > 0) {
+	      // 파일 처리 로직
+	      int fileCount = Math.min(files.length, 4); // 첨부 파일은 최대 4개까지 처리
+	      for (int i = 0; i < fileCount; i++) {
+	        MultipartFile file = files[i];
+	        if (!file.isEmpty()) {
+	          String originName = file.getOriginalFilename();
+	          String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
+	          int ranNum = (int) (Math.random() * 90000 + 10000);
+	          String ext = originName.substring(originName.lastIndexOf("."));
+	          String changeName = currentTime + ranNum + ext;
+	
+	          try {
+	            // 경로를 포함한 전체 파일 경로를 구성합니다.
+	            File dir = new File(uploadPath);
+	            if (!dir.exists()) {
+	              dir.mkdirs(); // 디렉토리가 없다면 생성합니다.
+	            }
+	            File uploadFile = new File(dir, changeName);
+	            file.transferTo(uploadFile); 
+	            // HouseImg 객체 생성 및 정보 저장
+	            HouseImg houseImg = new HouseImg();
+	            houseImg.setHouseNo(houseNo);
+	            houseImg.setOriginName(originName);
+	            houseImg.setChangeName(changeName);
+	            houseEnrollService.enrollHouseImg(houseImg);
+	          } catch (Exception e) {
+	            e.printStackTrace();
+	            // 파일 저장 실패 처리
+	          }
+	        }
+	      }
+	    }
+	    
+	    return "redirect:/house/enrollForm"; 
+	
     }
   }
