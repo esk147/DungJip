@@ -356,7 +356,7 @@ public class MemberController {
 		
 		//System.out.println("평문 : "+m.getUserPwd());
 		//비밀번호 암호화
-		//String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
 		
 		//System.out.println("암호문 : "+encPwd );
 		
@@ -406,7 +406,7 @@ public class MemberController {
 			
 		}
 			
-		//m.setUserPwd(encPwd); //암호화된 비번
+		m.setUserPwd(encPwd); //암호화된 비번
 		
 		int esInsertUser = memberService.esInsertMember(m);
 		
