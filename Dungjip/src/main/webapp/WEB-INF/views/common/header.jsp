@@ -12,7 +12,6 @@
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Frank+Ruhl+Libre:wght@500;700&family=Montserrat+Alternates:wght@500&display=swap" rel="stylesheet">
@@ -70,7 +69,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/dungjip"><img src="" alt=""><p>DungJip</p></a>
+                    <a class="navbar-brand" href="/dungjip"><img src="" alt=""><h2 style="margin-top: 5px;">DungJip</h2></a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -88,7 +87,7 @@
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">빌라</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">오피스텔</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">집내놓기</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">매물등록</a></li>
 	                    </ul>
 	                </div>  
 	                  
@@ -108,7 +107,7 @@
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">빌라</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">오피스텔</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">집내놓기</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">매물등록</a></li>
 	                       
 	                        <li class="dropdown ymm-sw" data-wow-delay="0.1s">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">

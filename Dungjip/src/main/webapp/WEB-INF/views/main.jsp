@@ -73,6 +73,10 @@
         border: none;
         cursor: pointer;
       }
+      
+      .recommend-div{
+      	margin-left: 40px;
+      }
 
       .main-content {
         display: flex;
@@ -161,7 +165,24 @@
             border-radius: 10px;
             font-weight: 800;
         }
+        
+        .recommend-span{
+        	font-size: 20px;
+        }
 
+		.list-title {
+			display : -webkit-box;
+			overflow: hidden;
+		 	text-overflow: ellipsis;
+		  	-webkit-line-clamp: 1;
+		  	-webkit-box-orient: vertical;
+		    padding: 0px 0px;
+		    margin: 0;
+		}
+		#userBoldName {
+			color: #cca427;
+			font-weight: 800;
+		}
     </style>
 </head>
 <body>
@@ -248,12 +269,28 @@
 	    			       '<img class="house-image" src="' + subscribeImg.changeName + '" style="display: block; width: 100%;"/>' +
 	    			       '<img class="premium" src="resources/img/icons/premiumMark.svg" style="width:50px; height:50px; position: absolute; top: -10px; left: -15px; z-index: 2;"/>' +
 	    			       '</div>' +
-	    			       '<p>' + randomSubscribeHouse.houseTitle + '</p>' +
-	    			       '</div>';
+	    			       '<p>' + randomSubscribeHouse.houseName + '</p>';
+	    			       if(randomSubscribeHouse.houseStyle == '월세'){
+	    			    	   str += '<span class="recommend-span">월세 ' + randomSubscribeHouse.housePrice + '/' + randomSubscribeHouse.houseRent + '</span>';
+	    			       } else {
+	    			    	   str += '<span class="recommend-span">전세 ' + randomSubscribeHouse.housePrice + '</span>';
+	    			       }
+	    			       str += '<p>' + randomSubscribeHouse.houseFloor + '층, ' + randomSubscribeHouse.houseSquare + '평, 관리비 '+ randomSubscribeHouse.houseMaintainCost+'만</p>' +
+	    			       		  '<p class="list-title">' + randomSubscribeHouse.houseTitle + '</p>' +
+   								  '</div>';
     				}
     				
     				for(var i = 0; i < mainList.length; i++){
-    					str += '<div class="card" id="'+mainList[i].houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;"> <img src="'+imgList[i].changeName+'"/> <p>'+mainList[i].houseTitle+'</p></div>';
+    					str += '<div class="card" id="'+mainList[i].houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;">' + 
+    						   '<img src="'+imgList[i].changeName+'"/> <p>'+mainList[i].houseName+'</p>';
+    					if(mainList[i].houseStyle == '월세'){
+	    			    	   str += '<span class="recommend-span">월세 ' + mainList[i].housePrice + '/' + mainList[i].houseRent + '</span>';
+	    			       } else {
+	    			    	   str += '<span class="recommend-span">전세 ' + mainList[i].housePrice + '</span>';
+	    			       }
+    						str += '<p>' + mainList[i].houseFloor + '층, ' + mainList[i].houseSquare + '평, 관리비 '+ mainList[i].houseMaintainCost+'만</p>' +
+    							   '<p class="list-title">' + mainList[i].houseTitle + '</p>' +
+    							   '</div>';
     				}
     				
     				$("#cardContainer").append(str);
@@ -282,6 +319,17 @@
             }
     	}
     </script>
+    
+    <div class="recommend-div">
+    	<c:choose>
+			<c:when test="${loginUser == null }">
+	    		<h2>이런 매물들을 추천드려요!</h2>
+	    	</c:when>
+	    	<c:otherwise>
+	    		<h2><b id="userBoldName">${loginUser.userName }</b>님의 지역 주변 매물들을 추천드려요!</h2>
+	    	</c:otherwise>
+    	</c:choose>
+    </div>
     
     <div class="main-content">
 		<button id="left-btn" class="scroll-button" onclick="scroll(-200)"></button>
