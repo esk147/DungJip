@@ -48,7 +48,7 @@ public interface HouseService {
 	 ArrayList<HouseImg> selectHouseImgDetail(int houseNo);
 
 	 //비슷한 매물 찾기 list
-	ArrayList<House> houseLikeList(String houseAddress);
+	ArrayList<House> houseLikeList(String houseAddress,PageInfo pi);
 
 	//비슷한 매물 찾기 img
 	ArrayList<HouseImg> houseImgLike(String houseAddress);
@@ -61,6 +61,9 @@ public interface HouseService {
 	HouseImg memberMypageHousejjimImg(int houseNo);
 
 	ArrayList<House> selectSubscribeHouseList(Map<String, Object> map);
+
+	//비슷한 매물 전체 개수
+	int selectHouseLikeCount(String houseAddress);
 
 	//마이페이지 찜목록에서 찜해제
 	int mypageHjjimdelete(int houseNo);

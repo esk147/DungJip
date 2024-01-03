@@ -14,6 +14,8 @@ import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.house.model.vo.ReservationNew;
+import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
 
 @Repository
@@ -85,6 +87,10 @@ public class EstateDao {
 		return sqlSession.selectList("estateMapper.selectSubscribeEstateList");
 	}
 
+	//예약 시간 select
+	public ArrayList<Time> selectTime(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("estateMapper.selectTime");
+	}
 
 	//리뷰 작성
 	public int insertEstateReview(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
@@ -140,6 +146,11 @@ public class EstateDao {
 		return sqlSession.delete("estateMapper.myEsReviewDelete", esReNo);
 	}
 
+	//예약기능
+	public int insertReservation(SqlSessionTemplate sqlSession, ReservationNew reservation) {
+		return sqlSession.insert("estateMapper.insertReservation", reservation);
+	}
+	
 	//마이페이지 중개인 리뷰 페이징
 	public int selectListCount(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
@@ -174,11 +185,8 @@ public class EstateDao {
 		return sqlSession.update("estateMapper.myEstateHouseDelete", houseNo);
 	}
 
-	
-	
-	
-
+	//예약 날짜 눌렀을때 데이터 있는지 확인
+	public ArrayList<ReservationNew> selectReservationList(SqlSessionTemplate sqlSession, ReservationNew reservation) {
+		return (ArrayList)sqlSession.selectList("estateMapper.selectReservationList",reservation);
+	}
 }
-
-	
-

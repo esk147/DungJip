@@ -127,8 +127,16 @@ public class HouseDao {
 	}
 
 	//비슷한 매물 찾기 list
-	public ArrayList<House> houseLikeList(SqlSessionTemplate sqlSession, String houseAddress) {
-		return (ArrayList)sqlSession.selectList("houseMapper.houseLikeList",houseAddress);
+	public ArrayList<House> houseLikeList(SqlSessionTemplate sqlSession, String houseAddress,PageInfo pi) {
+		//몇개씩 보여줄지
+		int limit = pi.getBoardLimit();
+		
+		//몇개씩 건너뛸지
+		int offset = (pi.getCurrentPage()-1) * limit;
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+				
+		return (ArrayList)sqlSession.selectList("houseMapper.houseLikeList",houseAddress,rowBounds);
 	}
 
 	//비슷한 매물 찾기 img
@@ -143,6 +151,11 @@ public class HouseDao {
 		return sqlSession.delete("houseMapper.mypageHjjimdelete",houseNo);
 	}
 
+	//비슷한 매물 전체 개수
+	public int selectHouseLikeCount(SqlSessionTemplate sqlSession, String houseAddress) {
+		return sqlSession.selectOne("houseMapper.selectHouseLikeCount",houseAddress);
+	}
+	
 	//마이페이지 집 찜 페이징
 	public int selectListCount(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
@@ -166,7 +179,5 @@ public class HouseDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("houseMapper.selectEsHouseListCount");
 	}
-
-
 
 }

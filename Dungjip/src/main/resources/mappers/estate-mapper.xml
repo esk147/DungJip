@@ -187,7 +187,27 @@
 		join member m using (user_no)
 		where subscribe = 'Y'
 	</select>
-
+	
+	<!-- 댓글용 resultMap -->
+	<resultMap type="reservation" id="reservationResultSet">
+		<result column="RESERVATION_NO" property="reservationNo"/>
+		<result column="ES_NO" property="esNo"/>
+		<result column="USER_NO" property="userNo"/>
+		<result column="RESERVATION_DATE" property="reservationDate"/>
+		<result column="TIME_NO" property="timeNo"/>
+	</resultMap>
+	
+	<resultMap type="time" id="timeResultSet">
+       	<result column="TIME_NO" property="timeNo"/>
+       	<result column="TIME_VALUE" property="timeValue"/>
+	</resultMap>	
+	
+	
+	<select id="selectTime" resultMap="timeResultSet">
+		SELECT *
+		FROM TIME
+	</select>
+	
 	<insert id="insertEstateReview" parameterType="estateReview">
 		INSERT INTO ESTATE_REVIEW (ES_RE_NO, 
 								   ES_NO, 
@@ -257,6 +277,31 @@
 		FROM ES_RE_LIKE
 		WHERE ES_RE_NO = #{esReNo}	
 	</delete>
+	
+	<!-- 예약하기 -->
+	<insert id="insertReservation">
+		INSERT INTO RESERVATION 
+		VALUES(SEQ_RES.NEXTVAL
+			  ,#{selectEsNo}
+			  ,#{selectUserNo}
+			  ,#{clickedYMD}
+			  ,#{selectTime})
+	</insert>
+	
+	<resultMap type="reservationNew" id="reservationNewResultSet">
+      	<result column="RESERVATION_NO" property="reservationNo"/>
+      	<result column="ES_NO" property="selectEsNo"/>
+      	<result column="USER_NO" property="selectUserNo"/>
+      	<result column="RESERVATION_DATE" property="clickedYMD"/>
+      	<result column="TIME_NO" property="selectTime"/>
+	</resultMap>	
+	
+	<!-- 예약있는지 확인 -->
+	<select id="selectReservationList" resultMap="reservationNewResultSet">
+		SELECT * FROM RESERVATION
+		WHERE ES_NO = #{selectEsNo}
+		AND RESERVATION_DATE = TO_DATE(#{clickedYMD},'YYYYMMDD')
+	</select>
 
 	<select id="selectEstate" resultType="_int">
 		SELECT *

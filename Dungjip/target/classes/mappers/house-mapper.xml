@@ -232,6 +232,7 @@
 		    ,HOUSE_ROOMS
 		    ,HOUSE_ANIMALS
 		    ,HOUSE_PARKABLE
+		    ,HOUSE_STYLE
 		FROM HOUSE
 		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
 		AND STATUS='Y'
@@ -252,6 +253,7 @@
 		GROUP BY I.HOUSE_NO
 		ORDER BY I.HOUSE_NO
 	</select>
+	
 	<select id="selectHouseMain" parameterType="string" resultMap="houseResultSet">
 		select * from house where house_type = #{type} order by house_price FETCH FIRST 7 ROWS ONLY
 	</select>
@@ -277,6 +279,14 @@
 	    AND O.STATUS = 'Y'
 	</select>
 	
+	<!-- 비슷한 매물 전체 개수 -->
+	<select id="selectHouseLikeCount" parameterType="string" resultType="_int">
+		SELECT count(*) COUNT
+		FROM HOUSE 
+		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND STATUS='Y'
+	</select>
+
 	<select id="memberMypageHousejjimForm" resultMap="houseResultSet">	
 		SELECT H.HOUSE_NO
 		        ,H.HOUSE_TITLE

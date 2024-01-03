@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.dao.EstateDao;
-import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.house.model.vo.ReservationNew;
+import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
+import com.kh.dungjip.estate.model.vo.EsReLike;
 
 @Service
 public class EstateServiceImpl implements EstateService {
@@ -109,6 +111,12 @@ public class EstateServiceImpl implements EstateService {
 		return estateDao.selectSubscribeEstateList(sqlSession);
 	}
 
+	//예약 시간 select
+	@Override
+	public ArrayList<Time> selectTime() {
+		return estateDao.selectTime(sqlSession);
+	}
+
 
 	//리뷰 작성
 	@Override
@@ -158,6 +166,18 @@ public class EstateServiceImpl implements EstateService {
 		return estateDao.myEsReviewDelete(sqlSession,esReNo);
 	}
 
+	//예약기능
+	@Override
+	public int insertReservation(ReservationNew reservation) {
+		return estateDao.insertReservation(sqlSession,reservation);
+	}
+
+	//예약 날짜 눌렀을때 데이터 있는지 확인
+	@Override
+	public ArrayList<ReservationNew> selectReservationList(ReservationNew reservation) {
+		return estateDao.selectReservationList(sqlSession,reservation);
+	}
+
 	//마이페이지 중개인 리뷰 페이징
 	@Override
 	public int selectListCount() {
@@ -198,9 +218,4 @@ public class EstateServiceImpl implements EstateService {
 		// TODO Auto-generated method stub
 		return estateDao.myEstateHouseDelete(sqlSession,houseNo);
 	}
-
-	
-	
-	
-	
 }
