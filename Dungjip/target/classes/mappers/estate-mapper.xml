@@ -270,7 +270,6 @@
 	<select id="selectReportEstateListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM REPORT_ESTATE
-		WHERE USER_NO = #{userNo}
 	</select>
 	
 	

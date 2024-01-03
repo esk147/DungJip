@@ -71,8 +71,8 @@
             	<!-- 로그인 전  -->
 	                <div class="collapse navbar-collapse yamm" id="navigation">
 	                    <div class="button navbar-right" id="right-navi">
-	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="login.be"' data-wow-delay="0.4s">Login</button>
-	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="enquiry.en"' data-wow-delay="0.5s">QnA</button>
+	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="/dungjip/login.be"' data-wow-delay="0.4s">Login</button>
+	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right" id="nav-menu">
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
@@ -91,7 +91,7 @@
 
 	                    <div class="button navbar-right" id="right-navi">
 	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="logout.me?userNo=${loginUser.userNo}"' data-wow-delay="0.4s">Logout</button>
-	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="enquiry.en"' data-wow-delay="0.5s">QnA</button>
+	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right">
                  
@@ -119,10 +119,12 @@
 										<c:when test="${loginUser.userType == '중개인'}">
 											<li class="nav-item"><a class="nav-link" href="myEsPage.me">중개인 페이지</a></li>
 										</c:when>
-										<c:otherwise>
-											<!-- 기본적으로는 마이 페이지가 나타나도록 설정 -->
+										<c:when test="${loginUser.userType == '임차인'}">
 											<li class="nav-item"><a class="nav-link" href="myPage.me">마이 페이지</a></li>
-										</c:otherwise>
+										</c:when>
+										<c:when test="${loginUser.userType == '임대인'}">
+											<li class="nav-item"><a class="nav-link" href="myImdaPage.me">임차인 페이지</a></li>
+										</c:when>										
 									</c:choose>
 								</ul>
 							</li>
@@ -148,7 +150,7 @@
         <script>
         	function clickVilla(e){
 				var villa = e.text;
-				location.href="villa.map?type="+villa;
+				location.href="/dungjip/villa.map?type="+villa;
         	}
         </script>
         

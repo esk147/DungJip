@@ -114,16 +114,7 @@
 								<td>
 								
 								  <!-- 예약 내역의 esReNo가 비어있는지 여부 확인 -->
-				                    <a href="#" class="genric-btn primary-border small" onclick="insertEstateReview(this);">작성</a>
-						            <%-- <c:choose>
-						                <c:when test="${empty reservation.estateReview.esReNo}">
-						                    <!-- esReNo가 비어있으면 리뷰가 작성되지 않은 상태 -->
-						                </c:when>
-						                <c:otherwise>
-						                    <!-- esReNo가 존재하면 이미 리뷰를 작성한 상태 -->
-						                    <a href="#" class="genric-btn primary-border small" disabled>작성완료</a>
-						                </c:otherwise>
-						            </c:choose> --%>
+				                    <a href="#" class="genric-btn primary-border small" onclick="insertEstateReview(this);">작성</a>						         
 								
 								</td>
 								
@@ -137,17 +128,6 @@
 		</section> 
 
 	</div>
-	
-	
-	<script>
-	function insertEstateReview(el){
-		var esNo = $(el).closest('tr').find('#esNo').val();
-		console.log(esNo);
-		window.location.href = "/dungjip/insert.esre?esNo="+esNo;
-	}
-	
-	</script>
-
 
 	<%@ include file="../common/footer.jsp"%>
 

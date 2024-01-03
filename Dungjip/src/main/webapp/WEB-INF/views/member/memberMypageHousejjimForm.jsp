@@ -63,7 +63,7 @@
 		
 		.list .form-check {
 		  display: inline-block;
-		  margin-right: 10px; /* 각 요소 사이의 간격을 조정할 수 있습니다. */
+		  margin-right: 10px;
 		}
 		
         
@@ -73,7 +73,7 @@
 
 	<%@ include file="../common/header.jsp" %>
 
-	<div class="container" style="display: flex; width: 67%;">
+	<div class="container" style="display: flex; width: 1192px;">
 
 		<!-- 마이페이지 메뉴바 --> 
 		<c:choose>
@@ -111,25 +111,31 @@
 					</div>
 				</c:forEach>	
 			</c:if>
-					
-			 <!--------------------------------------- 페이징 처리 ------------------------------------->
-			   <div class="pull-right" >
-		            <div class="pagination" >
-		                <ul>
-		                	 <c:if test="${pi.currentPage ne 1 }">
-		                   <li><a href="myHousejjim.me?currentPage=${pi.currentPage-1}">Prev</a></li>
-		                </c:if>   
-		                <c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">  
-		                   <li><a href="myHousejjim.me?currentPage=${p}">${p}</a></li>
-		                </c:forEach>   
-		                <c:if test="${pi.currentPage ne pi.maxPage }"> 
-		                     <li><a href="myHousejjim.me?currentPage=${pi.currentPage+1}">Next</a></li>
-		                	  </c:if>
-		                </ul>
-		            </div>
-		       </div> 
-		   </section>    
+
+			<footer style="width: 500px;">
+				<!--------------------------------------- 페이징 처리 ------------------------------------->
+				<div class="pull-right">
+					<div class="pagination">
+						<ul>
+							<c:if test="${pi.currentPage ne 1 }">
+								<li><a
+									href="myHousejjim.me?currentPage=${pi.currentPage-1}">Prev</a></li>
+							</c:if>
+							<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">
+								<li><a href="myHousejjim.me?currentPage=${p}">${p}</a></li>
+							</c:forEach>
+							<c:if test="${pi.currentPage ne pi.maxPage }">
+								<li><a
+									href="myHousejjim.me?currentPage=${pi.currentPage+1}">Next</a></li>
+							</c:if>
+						</ul>
+					</div>
+				</div>
+			</footer>
+
+		</section>    
 	</div>
+	
 
 	<%@ include file="../common/footer.jsp" %>
       

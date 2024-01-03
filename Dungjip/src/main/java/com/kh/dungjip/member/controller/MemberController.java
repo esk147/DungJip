@@ -561,13 +561,24 @@ public class MemberController {
 			session.setAttribute("loginUser", loginUser); //조회한 데이터 세션에 갱신
 			session.setAttribute("alertMsg", "정보 수정이 완료되었습니다.");
 			
-			mv.setViewName("redirect:/myPage.me");
+			mv.setViewName("redirect:/myPage.me"); //임차인
+			
+		 if ("중개인".equals(loginUser.getUserType())) {
+	            mv.setViewName("redirect:/myEsPage.me");
+	        } else if ("임대인".equals(loginUser.getUserType())) {
+	            mv.setViewName("redirect:/myImdaPage.me");
+	        } else {
+	            mv.setViewName("redirect:/myPage.me");
+	        }
+			
+			
 		} else { //수정 실패
 			
 			mv.addObject("errorMsg", "회원 정보 수정 실패").setViewName("common/errorPage");
 		}
 		
 		return mv;
+		
 	}
 	
 	@RequestMapping("esupdate.me")
@@ -965,11 +976,47 @@ public class MemberController {
 		
 		ArrayList<Reservation> relist = memberService.membermypageEsReservation(esNo);
 		
-		System.out.println(relist);
-		
 		model.addAttribute("relist",relist);
 		
 		return "member/memberEspageReservation";
+	}
+	
+	//임대인 페이지 이동 
+	@RequestMapping("myImdaPage.me")
+	public String mypageImdaPage() {
+		return "member/memberMypageImdaForm";
+	}
+	
+	//임대인 매물내역
+	@RequestMapping("imdaHouse.li")
+	public String mypageImdaHouseList(@RequestParam(value="currentPage",defaultValue = "1")int currentPage,HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		int listCount = houseService.mypageImdaHouseListCount();		
+		//한 페이지에서 보여줘야하는 게시글 개수 
+		int boardLimit = 3;
+		//페이징 바 개수 (pageLimit)
+		int pageLimit = 3;								
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<House> imdalike = houseService.mypageImdaHouseList(pi,m);
+		
+		ArrayList<HouseImg> imdaimg = new ArrayList<>();		
+		
+		for( House i : imdalike ) {
+			
+			HouseImg j = houseService.memberMypageHousejjimImg(i.getHouseNo());			
+			
+			imdaimg.add(j); //하나씩 뽑은 j를 himg에 담아주기
+		}		
+		
+		model.addAttribute("imdalike", imdalike);				
+		model.addAttribute("imdaimg", imdaimg);
+		model.addAttribute("pi", pi);
+		
+		return "member/memberMypageImdaHouseList";
 	}
 	
 }

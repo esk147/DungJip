@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%> 
 <%@ page import="java.text.SimpleDateFormat" %>  
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -78,12 +78,15 @@
 
 		<!-- 마이페이지 메뉴바 --> 
 		<c:choose>
-	    <c:when test="${loginUser.userType eq '임차인' || loginUser.userType eq '임대인'}">
-	        <%@ include file="memberMypagemenubar.jsp" %>
-	    </c:when>
-	    <c:when test="${loginUser.userType eq '중개인'}">
-	        <%@ include file="memberMypageEsmenubar.jsp" %>
-	    </c:when>
+		    <c:when test="${loginUser.userType eq '임차인' }">
+		        <%@ include file="memberMypagemenubar.jsp" %>
+		    </c:when>
+		    <c:when test="${loginUser.userType eq '중개인'}">
+		        <%@ include file="memberMypageEsmenubar.jsp" %>
+		    </c:when>
+		    <c:when test="${loginUser.userType eq '임대인'}">
+		        <%@ include file="memberMypageImdamenubar.jsp" %>
+		    </c:when>
 	    </c:choose>  
 
 		<section class="main-content"
@@ -96,24 +99,41 @@
             <!-------------------------------------------- 중개사 리뷰공감 ------------------------------------->	 
 			<section id="comments"> 			
 	          <c:if test="${not empty esRelike }"> 
-	          	<c:forEach items="${esRelike}" var="esRelike" >
+	          	<c:forEach items="${esRelike}" var="esRelike" varStatus="status" >
 	          
 					<div class="row comment" style="margin:0; margin-top:15px;">		                
 		                               
 		                <div class="col-sm-9 col-md-10" style=" border-bottom: inset;">
 		                	
 		                	<div style="display: flex;justify-content: space-between;">
-		                    	<h6 class="text-uppercase"># ${esRelike.esReNo }</h6><a href="estate/esRedelete.me?esReNo=${esRelike.esReNo}" onclick="return confirm('공감을 취소하시겠습니까?');" style="color:darkblue;">공감취소</a>
+		                    	<h6 class="text-uppercase"># ${esRelike.esReNo}</h6><a href="estate/esRedelete.me?esReNo=${esRelike.esReNo}" onclick="return confirm('공감을 취소하시겠습니까?');" style="color:darkblue;">공감취소</a>
 		                    </div>
 		                    
-		                    <p class="posted" id="posted"><i class="fa fa-clock-o" ></i>${esRelike.esReCreateDate } </p>
-		                    <p>${esRelike.esReContent }</p>
-		                    		                   
+		                    <p class="posted" id="posted"><i class="fa fa-clock-o" id="date">
+		                    
+		                    <c:choose>
+		                    	<c:when test="${fn:length(esRelike.esReCreateDate) > 10 }">
+		                    		${fn:substring(esRelike.esReCreateDate,0,10) }		                    		
+		                    	</c:when>	
+		                    	<c:otherwise>
+		                    		${esRelike.esReCreateDate}
+		                    	</c:otherwise>
+		                    </c:choose>	
+		                    
+		                    </i></p>
+		                    <p>${esRelike.esReContent}</p>
 		                </div>
-		                
 		            </div>
+				   <script>
+					   var esReCreateDate = "${esRelike.esReCreateDate}";
+					   console.log(esReCreateDate);
+				       if(esReCreateDate.length > 10){
+				       	esReCreateDate = esReCreateDate.substr(0, 10);
+				       }
+				       $("#date").text(esReCreateDate);
+				   </script>			            
 	            </c:forEach>
-	          </c:if>				          
+	          </c:if>		
 	        </section>  
 
 	      
@@ -143,7 +163,6 @@
 	<form action="esRedelete.me" method="post">
     	<input type ="hidden">
     </form>
-
 
 	<%@ include file="../common/footer.jsp" %> 
      
