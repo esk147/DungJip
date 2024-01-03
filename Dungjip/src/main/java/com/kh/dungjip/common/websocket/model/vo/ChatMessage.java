@@ -16,6 +16,7 @@ private String userName;
 private String sendMessageTime;
 private String readMessage;
 private String status;
+
 public ChatMessage(String contentMessage, int chatRoomNo, int userNo, String userName) {
 	super();
 	this.contentMessage = contentMessage;

@@ -29,4 +29,5 @@ private Member estate;  // 부동산 정보를 담는 Member 객체
 		this.estateNo = estateNo;
 		this.reportReason = reportReason;
 	}
+
 }

@@ -13,8 +13,11 @@ public interface ReportEstateService {
 	List<ReportEstate> selectReportList();
 
 	List<ChatMessage> selectChatHistory(int chatRoomNo);
-	
+
+	void increaseMemberCount(int chatRoomNo);
+
+	void updateReportStatus(int chatRoomNo);
+
 	//신고내역 리스트
 	ArrayList<ReportEstate> memberMypageReportEstateList(Member m, PageInfo pi);
-
 }

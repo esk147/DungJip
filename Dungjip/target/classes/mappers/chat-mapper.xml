@@ -48,6 +48,38 @@
     		<result column="CHANGE_NAME" property="changeName"/>
       </resultMap>
       
+		<resultMap type="reportEstate" id="reportResultSet">      
+		    <result column="REPORT_NO" property="reportNo"/>
+		    <result column="USER_NO" property="userNo"/>
+		    <result column="CHATROOM_NO" property="chatRoomNo"/>
+		    <result column="ESTATE_NO" property="estateNo"/>
+		    <result column="REPORT_REASON" property="reportReason"/>
+		    
+		    <!-- USER_NO를 사용하여 Member 정보 가져오기 -->
+		    <association property="user" javaType="member">
+		        <result column="USER_NO" property="userNo"/>
+		        <result column="USER_NAME" property="userName"/>
+		        <!-- 필요에 따라 추가 필드를 매핑 -->
+		    </association>
+
+		    <!-- ESTATE_NO를 사용하여 Member 정보 가져오기 -->
+		    <association property="estate" javaType="member">
+		        <result column="ESTATE_NO" property="userNo"/>
+		        <result column="ESTATE_NAME" property="userName"/>
+		        <!-- 필요에 따라 추가 필드를 매핑 -->
+		    </association>
+		    
+		</resultMap>
+		
+		<resultMap type="chatMessage" id="chatResultSet">
+			<result column="CONTENT_MESSAGE" property="contentMessage"/>
+			<result column="CHATROOM_NO" property="chatroomNo"/>
+			<result column="USER_NO" property="userNo"/>
+			<result column="USER_NAME" property="userName"/>
+			<result column="SENDMESSAGE_TIME" property="sendMessageTime"/>
+			<result column="READMESSAGE" property="readMessage"/>
+		</resultMap>
+      
       <select id="alreadyUsedChatRoomCheck" parameterType="joinchat" resultType="_int">
       SELECT COUNT(*)
 		FROM (
@@ -163,7 +195,7 @@
 	INSERT INTO REPORT_ESTATE(REPORT_NO
 							  ,USER_NO
 							  ,CHATROOM_NO
-							  ,ESTATE_NO
+							  ,ES_NO
 							  ,REPORT_REASON)
 	VALUES(SEQ_REPORTNO.NEXTVAL
 		  ,#{userNo}
@@ -189,6 +221,41 @@
 	WHERE CHATROOM_NO = #{chatNo}
 	</delete>
 	
+
+	<select id="selectReportList" resultMap="reportResultSet">
+	    SELECT RE.REPORT_NO, RE.USER_NO, RE.CHATROOM_NO, RE.ES_NO ESTATE_NO, RE.REPORT_REASON,
+	           U.USER_NAME AS USER_NAME,
+	           E.USER_NAME AS ESTATE_NAME
+	    FROM REPORT_ESTATE RE
+	    LEFT JOIN MEMBER U ON RE.USER_NO = U.USER_NO
+	    LEFT JOIN MEMBER E ON RE.ES_NO = E.USER_NO
+	    WHERE RE.STATUS = 'Y'
+	    ORDER BY RE.REPORT_NO
+	</select>
+
+	<select id="selectChatHistory" resultMap="chatResultSet">
+        SELECT USER_NAME, CONTENT_MESSAGE, SENDMESSAGE_TIME
+        FROM CHATMESSAGE CM
+        JOIN MEMBER M ON CM.USER_NO = M.USER_NO
+        WHERE CM.CHATROOM_NO = #{chatRoomNo}
+        ORDER BY SENDMESSAGE_TIME ASC
+	</select>
+	
+	<update id="increaseMemberCount">
+    	UPDATE MEMBER
+    	SET REPORT_COUNT = REPORT_COUNT + 1
+    	WHERE USER_NO = (
+        	SELECT ES_NO
+        	FROM REPORT_ESTATE
+        	WHERE CHATROOM_NO = #{chatRoomNo}
+    	)
+	</update>
+	
+	<update id="updateReportStatus">
+    	UPDATE REPORT_ESTATE
+    	SET STATUS = 'N'
+    	WHERE CHATROOM_NO = #{chatRoomNo}
+	</update>
 
 
 

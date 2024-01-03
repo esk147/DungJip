@@ -6,6 +6,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.common.report.model.dao.ReportEstateDao;
@@ -34,11 +35,24 @@ public class ReportEstateServiceImpl implements ReportEstateService {
 		return reportEstateDao.selectChatHistory(sqlSession, chatRoomNo);
 	}
 
+	@Override
+	@Transactional
+	public void increaseMemberCount(int chatRoomNo) {
+		// TODO Auto-generated method stub
+		reportEstateDao.increaseMemberCount(sqlSession, chatRoomNo);
+	}
+
+	@Override
+	@Transactional
+	public void updateReportStatus(int chatRoomNo) {
+		// TODO Auto-generated method stub
+		reportEstateDao.updateReportStatus(sqlSession, chatRoomNo);
+	}
+
 	//신고내역 리스트
 	@Override
 	public ArrayList<ReportEstate> memberMypageReportEstateList(Member m, PageInfo pi) {
 		// TODO Auto-generated method stub
 		return reportEstateDao.memberMypageReportEstateList(sqlSession,m,pi);
 	}
-
 }
