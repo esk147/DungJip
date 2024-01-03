@@ -196,7 +196,6 @@
             <div class="clear" id="${estate.esNo }" onclick="detailEstate(this)">
                 <div class="col-xs-4 col-sm-4 dealer-face">
                     <img src="${estate.member.changeName}" class="img-circle" >
-               
                 </div>
                 <div class="col-xs-8 col-sm-8">
                     <h3 class="dealer-name">

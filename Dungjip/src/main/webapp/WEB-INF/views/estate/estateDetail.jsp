@@ -179,20 +179,16 @@
 							<div class="panel-body search-widget">
 								<div style="background-color: #fff;">
 									<c:forEach var="time" items="${time}">
-										<button class="timeStyle" id="${time.timeNo}"
-											name="${time.timeNo}" onclick="check(this);">${time.timeValue}</button>
+										<button class="timeStyle" id="time${time.timeNo}" name="${time.timeNo}" onclick="check(this);">${time.timeValue}</button>
 									</c:forEach>
 								</div>
 								<fieldset>
 									<div class="row">
 										<div class="col-xs-12">
 											<input type="hidden" value="${e.esNo}" id="selectEsNo">
-											<input type="hidden" value="${loginUser.userNo}"
-												id="selectUserNo"> <input onclick="reservation();"
-												class="button btn largesearch-btn" value="예약하기"
-												type="submit"> <input
-												class="button btn largesearch-btn" value="상담하기"
-												type="submit">
+											<input type="hidden" value="${loginUser.userNo}" id="selectUserNo">
+											<input onclick="reservation();" class="button btn largesearch-btn" value="예약하기" type="submit">
+											<input class="button btn largesearch-btn" value="상담하기" type="submit">
 										</div>
 									</div>
 								</fieldset>
@@ -724,7 +720,6 @@
 		        var clickedDate; 
 		        var clickedYMD;				
 				
-				
 	            function buildCalendar(){
 	              var row = null
 	              var cnt = 0;
@@ -733,7 +728,6 @@
 	              calendarTableTitle.innerHTML = today.getFullYear()+"년"+(today.getMonth()+1)+"월";
 	              var firstDate = new Date(today.getFullYear(), today.getMonth(), 1);
 	              var lastDate = new Date(today.getFullYear(), today.getMonth()+1, 0);
-	            
 				
 	              console.log(calendarTableTitle);
 	              if(firstDate == null){
@@ -765,7 +759,30 @@
 		                    clickedDate = this.getAttribute('id');
 		                    clickedDate = clickedDate >= 10 ? clickedDate : '0' + clickedDate;
 		                    clickedMonth = clickedMonth >= 10 ? clickedMonth : '0' + clickedMonth;
-		                    clickedYMD = clickedYear + "-" + clickedMonth + "-" + clickedDate;
+		                    clickedYMD = clickedYear + clickedMonth + clickedDate;
+		                    console.log(clickedYMD);
+		                    var selectEsNo = document.getElementById("selectEsNo").value;
+		                    console.log("===채현===")
+		                    console.log(selectEsNo)
+		                    $.ajax({
+		                        url: "selectReservationList.re",
+		                        data: {
+		                        	selectEsNo: selectEsNo,
+		                            clickedYMD: clickedYMD
+		                        },
+		                        success: function(result) {
+		                        	if(result.length>0){
+			                        	for (var i = 0;i < result.length; i++){
+			                        		var time = "time"+result[i].selectTime;
+				                        	var disDiv = document.getElementById(time);
+				                        	disDiv.disabled = true;
+			                        	}
+		                        	}
+		                        },
+		                        error: function() {
+		                            console.log("통신오류");
+		                        }
+		                    });
 	                }
 	                cell.addEventListener('click', cal);
 	                
@@ -795,14 +812,12 @@
 	                today = new Date(today.getFullYear(), today.getMonth()+1, today.getDate());
 	                buildCalendar();
 	            }
-        	
+    		
         	<!-- 시간 -->
         	//시간 체크 표시
     		function check(e){
-    			
+        		console.log(e.disabled);
     			var checked = document.querySelector(".check");
-    			
-    			
     			if(checked){
     				checked.classList.remove('check');
     			}
@@ -820,55 +835,55 @@
         		    e.srcElement.classList.add('selected');
     		}
 			
+        	//예약 insert
         	function reservation(){
-        		var selectTime = document.querySelector(".check").id; //날짜
+        		var selectTime = document.querySelector(".check").name; //시간
         		var selectEsNo = document.getElementById("selectEsNo").value; //부동산 번호
-        		var selectUserNo = document.getElementById('selectUserNo').value; //부동산 번호
-        		
-        		
-        		console.log(selectCal);
+        		var selectUserNo = document.getElementById('selectUserNo').value; //유저 번호
         		console.log(selectTime);
-        		console.log(selectEsNo);
-        		console.log(selectUserNo);
-        		
-        		
-          		let f = document.createElement('form');
-        		
-        		let selected;
-        		selected = document.createElement('input');
-        		selected.setAttribute('type','hidden'); 
-        		selected.setAttribute('name','clickedYMD');
-        		selected.setAttribute('value',clickedYMD); //달력
-        		
-        		let caled;
-        		caled = document.createElement('input');
-        		caled.setAttribute('type','hidden'); 
-        		caled.setAttribute('name','selectTime');
-        		caled.setAttribute('value',selectTime); //시간
-        		
-        		let esNoed;
-        		esNoed = document.createElement('input');
-        		esNoed.setAttribute('type','hidden'); 
-        		esNoed.setAttribute('name','selectEsNo');
-        		esNoed.setAttribute('value',selectEsNo); //부동산 번호
-        		
-        		let userNoed;
-        		userNoed = document.createElement('input');
-        		userNoed.setAttribute('type','hidden'); 
-        		userNoed.setAttribute('name','selectUserNo');
-        		userNoed.setAttribute('value',selectUserNo); //유저 정보
-        		
-        		
-        		f.appendChild(selected);
-        		f.appendChild(caled);
-        		f.appendChild(esNoed);
-        		f.appendChild(userNoed);
-        		f.setAttribute('method', 'post');
-        		f.setAttribute('action', 'insertReservation.re');
-        		document.body.appendChild(f);
-        		
-        		//f.submit(); 
+        		if(selectUserNo == 0){
+        			alert("로그인 후 예약 가능합니다.")
+        		}else{
+	          		let f = document.createElement('form');
+	        		
+	        		let selected;
+	        		selected = document.createElement('input');
+	        		selected.setAttribute('type','hidden'); 
+	        		selected.setAttribute('name','clickedYMD');
+	        		selected.setAttribute('value',clickedYMD); //달력
+	        		
+	        		let caled;
+	        		caled = document.createElement('input');
+	        		caled.setAttribute('type','hidden'); 
+	        		caled.setAttribute('name','selectTime');
+	        		caled.setAttribute('value',selectTime); //시간
+	        		
+	        		let esNoed;
+	        		esNoed = document.createElement('input');
+	        		esNoed.setAttribute('type','hidden'); 
+	        		esNoed.setAttribute('name','selectEsNo');
+	        		esNoed.setAttribute('value',selectEsNo); //부동산 번호
+	        		
+	        		let userNoed;
+	        		userNoed = document.createElement('input');
+	        		userNoed.setAttribute('type','hidden'); 
+	        		userNoed.setAttribute('name','selectUserNo');
+	        		userNoed.setAttribute('value',selectUserNo); //유저 정보
+	        		
+	        		f.appendChild(selected);
+	        		f.appendChild(caled);
+	        		f.appendChild(esNoed);
+	        		f.appendChild(userNoed);
+	        		f.setAttribute('method', 'post');
+	        		f.setAttribute('action', 'insertReservation.re');
+	        		document.body.appendChild(f);
+	
+	        		f.submit(); 
+        		}
         	}
+        	
+        	
+        	
         	</script>
 
 	<%@ include file="../common/footer.jsp"%>

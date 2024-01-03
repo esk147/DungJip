@@ -1,5 +1,9 @@
 package com.kh.dungjip.estate.controller;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +30,7 @@ import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
 import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.house.model.vo.Reservation;
+import com.kh.dungjip.house.model.vo.ReservationNew;
 import com.kh.dungjip.member.model.service.MemberService;
 import com.kh.dungjip.member.model.vo.Member;
 
@@ -47,14 +52,11 @@ public class EstateController {
 	//부동산 상세페이지
 	@GetMapping("detail.es")
 	public String estateDetail(int esNo,Model model) {
-	
 		int result = estateService.increaseCount(esNo);
 		
 		//예약 시간 select
 		ArrayList<Time> time = estateService.selectTime();
 		model.addAttribute("time", time);
-		System.out.println("------------------부동산");
-		System.out.println(result);
 		
 		if(result>0) {
 			
@@ -66,7 +68,6 @@ public class EstateController {
 			return "common/errorPage";
 		}
 		return "estate/estateDetail";
-		
 	}
 	
 	//부동산이 갖고 있는 집 리스트
@@ -149,17 +150,33 @@ public class EstateController {
 	
 	//예약기능
 	@RequestMapping("insertReservation.re")
-	public String insertReservation(String selectCal
-								   ,int selectTime
-								   ,int selectEsNo
-								   ,int selectUserNo) {
+	public String insertReservation(ReservationNew reservation,HttpSession session) {
 		
+		System.out.println("컨트롤러 들어오세요");
+		
+		int result = estateService.insertReservation(reservation);
+		int esNo = reservation.getSelectEsNo();
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "예약 등록이 되었습니다.");
+		}else {
+			session.setAttribute("alertMsg", "예약 등록 실패하였습니다."+"관리자에게 문의하세요.");
+		}
+		
+		return "redirect:/detail.es?esNo="+esNo;
+	}
 	
-		return "estate/estateDetail";
-	}	
-
+	//예약 날짜 눌렀을때 데이터 있는지 확인
+	@ResponseBody
+	@RequestMapping(value="selectReservationList.re",produces="application/json; charset=UTF-8")
+	public ArrayList<ReservationNew> selectReservationList(ReservationNew reservation){
+		ArrayList<ReservationNew> reservationNew = estateService.selectReservationList(reservation);
+		
+		return reservationNew;
+	}
+	
+	
 	//부동산 리뷰
-	
 	@GetMapping("insert.esre")
 	public String boardEnrollForm(int esNo, HttpSession session, Model model) {
 		

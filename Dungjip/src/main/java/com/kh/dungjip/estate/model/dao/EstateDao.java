@@ -13,6 +13,7 @@ import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.house.model.vo.ReservationNew;
 import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
 
@@ -137,11 +138,13 @@ public class EstateDao {
 		return sqlSession.delete("estateMapper.myEsReviewDelete", esReNo);
 	}
 
-	
-	
-	
+	//예약기능
+	public int insertReservation(SqlSessionTemplate sqlSession, ReservationNew reservation) {
+		return sqlSession.insert("estateMapper.insertReservation", reservation);
+	}
 
+	//예약 날짜 눌렀을때 데이터 있는지 확인
+	public ArrayList<ReservationNew> selectReservationList(SqlSessionTemplate sqlSession, ReservationNew reservation) {
+		return (ArrayList)sqlSession.selectList("estateMapper.selectReservationList",reservation);
+	}
 }
-
-	
-

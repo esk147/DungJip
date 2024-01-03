@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.house.model.vo.ReservationNew;
 import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
 import java.util.List;
@@ -70,6 +71,12 @@ public interface EstateService {
 
 	//공감삭제
 	int myEsReviewDelete(int esReNo);
+
+	//예약기능
+	int insertReservation(ReservationNew reservation);
+
+	//예약 날짜 눌렀을때 데이터 있는지 확인
+	ArrayList<ReservationNew> selectReservationList(ReservationNew reservation);
 
 
 

@@ -41,6 +41,9 @@
 		
 		<typeAlias type="com.kh.dungjip.common.report.model.vo.ReportEstate" alias="reportEstate"/>
 		
+		<!-- 예약하기 new -->
+		<typeAlias type="com.kh.dungjip.house.model.vo.ReservationNew" alias="reservationNew" />
+		
 	</typeAliases>
 		
 </configuration>

@@ -278,4 +278,29 @@
 		FROM ES_RE_LIKE
 		WHERE ES_RE_NO = #{esReNo}	
 	</delete>
+	
+	<!-- 예약하기 -->
+	<insert id="insertReservation">
+		INSERT INTO RESERVATION 
+		VALUES(SEQ_RES.NEXTVAL
+			  ,#{selectEsNo}
+			  ,#{selectUserNo}
+			  ,#{clickedYMD}
+			  ,#{selectTime})
+	</insert>
+	
+	<resultMap type="reservationNew" id="reservationNewResultSet">
+      	<result column="RESERVATION_NO" property="reservationNo"/>
+      	<result column="ES_NO" property="selectEsNo"/>
+      	<result column="USER_NO" property="selectUserNo"/>
+      	<result column="RESERVATION_DATE" property="clickedYMD"/>
+      	<result column="TIME_NO" property="selectTime"/>
+	</resultMap>	
+	
+	<!-- 예약있는지 확인 -->
+	<select id="selectReservationList" resultMap="reservationNewResultSet">
+		SELECT * FROM RESERVATION
+		WHERE ES_NO = #{selectEsNo}
+		AND RESERVATION_DATE = TO_DATE(#{clickedYMD},'YYYYMMDD')
+	</select>
 </mapper>
