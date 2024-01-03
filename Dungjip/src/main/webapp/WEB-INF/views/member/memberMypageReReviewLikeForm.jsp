@@ -75,8 +75,15 @@
 
 	<div class="container" style="display: flex; width: 67%;">
 
-		<!-- 마이페이지 메뉴바 -->
-		<%@ include file="memberMypagemenubar.jsp"%>
+		<!-- 마이페이지 메뉴바 --> 
+		<c:choose>
+	    <c:when test="${loginUser.userType eq '임차인' || loginUser.userType eq '임대인'}">
+	        <%@ include file="memberMypagemenubar.jsp" %>
+	    </c:when>
+	    <c:when test="${loginUser.userType eq '중개인'}">
+	        <%@ include file="memberMypageEsmenubar.jsp" %>
+	    </c:when>
+	    </c:choose>  
 
 		<section class="main-content"
 			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
@@ -107,6 +114,7 @@
 	          </c:if>	          
 	        </section>  	        	       
          
+         	<footer style="width: 450px;">
 			<!--------------------------------------- 페이징 처리 ------------------------------------->
 			   <div class="pull-right">
                    <div class="pagination">
@@ -123,6 +131,7 @@
                        </ul>
                    </div>
                </div>
+			</footer>
 				
 		</section>
 	</div>

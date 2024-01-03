@@ -65,60 +65,76 @@
 
 	<div class="container" style="display: flex; width: 67%;">
 
-		<!-- 마이페이지 메뉴바 -->
-		<%@ include file="memberMypagemenubar.jsp"%>
+		<!-- 마이페이지 메뉴바 --> 
+		<c:choose>
+	    <c:when test="${loginUser.userType eq '임차인' || loginUser.userType eq '임대인'}">
+	        <%@ include file="memberMypagemenubar.jsp" %>
+	    </c:when>
+	    <c:when test="${loginUser.userType eq '중개인'}">
+	        <%@ include file="memberMypageEsmenubar.jsp" %>
+	    </c:when>
+	    </c:choose>  
 
-
-		<section class="main-content"
-			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
-			<div class="container section_gap_top_75">
-				<div class="cart_inner">
-					<div class="table-responsive">
-						<table class="table">
-							<thead>
-								<tr class="text-center">
-									<th scope="col" style="width:10%;">#</th>
-									<th scope="col">예약 상세정보</th>
-									<th scope="col" style="width:15%;">리뷰</th>
-								</tr>
-							</thead>
-							<tbody>
-							<c:forEach var="reservation" items="${rlist }" >
-								<tr>
-									<td class="text-center">
-										<h5>NO. 1</h5>
-									</td>
-									<td>
-										<div class="media">
-											<div class="d-flex"></div>
-											<div class="media-body">
-												<p>
-													<b># 일시</b>
-													<fmt:formatDate value="${rervation.reservationDate}" pattern="yyyy년 MM월 dd일" /> 
-													${reservation.time.timeValue }
-												</p>
-												<p>
-													<b># 중개사무소</b> ${reservation.estate.esName }
-													<input type="hidden" id="esNo" value="${reservation.esNo}">
-												</p>
-											</div>
+		<section class="main-content" style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">				
+		        
+			<div class="cart_inner">
+			
+				<div class="table-responsive" style="margin-top:20px;">
+					<table class="table">
+						<thead>
+							<tr class="text-center">
+								<th scope="col" style="width:10%;">NO</th>
+								<th scope="col">예약 상세정보</th>
+								<th scope="col" style="width:15%;">리뷰</th>
+							</tr>
+						</thead>
+						<tbody>
+						<c:forEach var="reservation" items="${rlist }" >
+							<tr>
+								<td class="text-center" >
+									<h5>NO. ${reservation.reservationNo }</h5>
+								</td>
+								<td>
+									<div class="media">
+										<div class="d-flex"></div>
+										<div class="media-body">
+											<p>
+												<b><i class="fa fa-clock-o" ></i> </b>
+												<fmt:formatDate value="${rervation.reservationDate}" pattern="yyyy년 MM월 dd일" /> 
+												${reservation.time.timeValue }
+											</p>
+											<p>
+												<b>중개사 : </b> ${reservation.estate.esName }
+												<input type="hidden" id="esNo" value="${reservation.esNo}">
+											</p>
 										</div>
-									</td>	
-									<td>
-									<!-- 여기버튼 누르면 리뷰 작성 창 -->
+									</div>
+								</td>
 									
-									<a href="#" class="genric-btn primary-border small" onclick="insertEstateReview(this);">작성</a>
-									
-									</td>
-									
-							</c:forEach>
-							</tbody>
-						</table>
-					</div>
+								<td>
+								
+								  <!-- 예약 내역의 esReNo가 비어있는지 여부 확인 -->
+				                    <a href="#" class="genric-btn primary-border small" onclick="insertEstateReview(this);">작성</a>
+						            <%-- <c:choose>
+						                <c:when test="${empty reservation.estateReview.esReNo}">
+						                    <!-- esReNo가 비어있으면 리뷰가 작성되지 않은 상태 -->
+						                </c:when>
+						                <c:otherwise>
+						                    <!-- esReNo가 존재하면 이미 리뷰를 작성한 상태 -->
+						                    <a href="#" class="genric-btn primary-border small" disabled>작성완료</a>
+						                </c:otherwise>
+						            </c:choose> --%>
+								
+								</td>
+								
+								
+						</c:forEach>
+						</tbody>
+					</table>
 				</div>
 			</div>
 			
-		</section>
+		</section> 
 
 	</div>
 	

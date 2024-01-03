@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Reservation {
 
+	private int reservationNo;
 	private int esNo;
 	private int userNo;
 	private Date reservationDate;
