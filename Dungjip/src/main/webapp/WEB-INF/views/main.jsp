@@ -73,6 +73,10 @@
         border: none;
         cursor: pointer;
       }
+      
+      .recommend-div{
+      	margin-left: 40px;
+      }
 
       .main-content {
         display: flex;
@@ -89,18 +93,42 @@
             flex: none;
             width: 313px;
             margin-right: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: none;
             padding: 16px;
             background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .scroll-button {
-            cursor: pointer;
-            padding: 8px;
-            background-color: #f4f4f4;
-            border: none;
-            font-size: 16px;
+        #left-btn {
+            width: 50px;
+		    height: 50px;
+		    border: 0px;
+		    position: absolute;
+		    top: 54%;
+		    transform: translateY(-50%);
+		    z-index: 1;
+		    opacity: 0.35;
+		    transition: opacity 100ms ease-in-out 0s;
+		    background: url(resources/img/icons/prev.svg) center center / cover no-repeat;
+		    left: 15px;
+        }
+        #right-btn {
+        	width: 50px;
+		    height: 50px;
+		    border: 0px;
+		    position: absolute;
+		    top: 54%;
+		    transform: translateY(-50%);
+		    z-index: 1;
+		    opacity: 0.35;
+		    transition: opacity 100ms ease-in-out 0s;
+		    background: url(resources/img/icons/next.svg) center center / cover no-repeat;
+		    right: 15px;
+        }
+        #left-btn:hover {
+			opacity: 0.8;
+        }
+        
+        #right-btn:hover {
+			opacity: 0.8;
         }
 
       .card img {
@@ -137,7 +165,24 @@
             border-radius: 10px;
             font-weight: 800;
         }
+        
+        .recommend-span{
+        	font-size: 20px;
+        }
 
+		.list-title {
+			display : -webkit-box;
+			overflow: hidden;
+		 	text-overflow: ellipsis;
+		  	-webkit-line-clamp: 1;
+		  	-webkit-box-orient: vertical;
+		    padding: 0px 0px;
+		    margin: 0;
+		}
+		#userBoldName {
+			color: #cca427;
+			font-weight: 800;
+		}
     </style>
 </head>
 <body>
@@ -219,11 +264,33 @@
     				const subscribeImg = result.subscribeImg;
     				
     				if(subscribeImg){
-	    				str += '<div class="card" id="'+randomSubscribeHouse.houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;"> <img src="'+subscribeImg.changeName+'"/> <p>'+randomSubscribeHouse.houseTitle+'</p></div>';    					
+	    				str += '<div class="card" id="' + randomSubscribeHouse.houseNo + '" onclick="detailHouse(this)" style="cursor:pointer; position: relative;">' +
+	    			       '<div style="position: relative;">' +
+	    			       '<img class="house-image" src="' + subscribeImg.changeName + '" style="display: block; width: 100%;"/>' +
+	    			       '<img class="premium" src="resources/img/icons/premiumMark.svg" style="width:50px; height:50px; position: absolute; top: -10px; left: -15px; z-index: 2;"/>' +
+	    			       '</div>' +
+	    			       '<p>' + randomSubscribeHouse.houseName + '</p>';
+	    			       if(randomSubscribeHouse.houseStyle == '월세'){
+	    			    	   str += '<span class="recommend-span">월세 ' + randomSubscribeHouse.housePrice + '/' + randomSubscribeHouse.houseRent + '</span>';
+	    			       } else {
+	    			    	   str += '<span class="recommend-span">전세 ' + randomSubscribeHouse.housePrice + '</span>';
+	    			       }
+	    			       str += '<p>' + randomSubscribeHouse.houseFloor + '층, ' + randomSubscribeHouse.houseSquare + '평, 관리비 '+ randomSubscribeHouse.houseMaintainCost+'만</p>' +
+	    			       		  '<p class="list-title">' + randomSubscribeHouse.houseTitle + '</p>' +
+   								  '</div>';
     				}
     				
     				for(var i = 0; i < mainList.length; i++){
-    					str += '<div class="card" id="'+mainList[i].houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;"> <img src="'+imgList[i].changeName+'"/> <p>'+mainList[i].houseTitle+'</p></div>';
+    					str += '<div class="card" id="'+mainList[i].houseNo+'" onclick="detailHouse(this)" style="cursor:pointer;">' + 
+    						   '<img src="'+imgList[i].changeName+'"/> <p>'+mainList[i].houseName+'</p>';
+    					if(mainList[i].houseStyle == '월세'){
+	    			    	   str += '<span class="recommend-span">월세 ' + mainList[i].housePrice + '/' + mainList[i].houseRent + '</span>';
+	    			       } else {
+	    			    	   str += '<span class="recommend-span">전세 ' + mainList[i].housePrice + '</span>';
+	    			       }
+    						str += '<p>' + mainList[i].houseFloor + '층, ' + mainList[i].houseSquare + '평, 관리비 '+ mainList[i].houseMaintainCost+'만</p>' +
+    							   '<p class="list-title">' + mainList[i].houseTitle + '</p>' +
+    							   '</div>';
     				}
     				
     				$("#cardContainer").append(str);
@@ -253,159 +320,24 @@
     	}
     </script>
     
+    <div class="recommend-div">
+    	<c:choose>
+			<c:when test="${loginUser == null }">
+	    		<h2>이런 매물들을 추천드려요!</h2>
+	    	</c:when>
+	    	<c:otherwise>
+	    		<h2><b id="userBoldName">${loginUser.userName }</b>님의 지역 주변 매물들을 추천드려요!</h2>
+	    	</c:otherwise>
+    	</c:choose>
+    </div>
+    
     <div class="main-content">
-		<button class="scroll-button" onclick="scroll(-200)">&lt;</button>
+		<button id="left-btn" class="scroll-button" onclick="scroll(-200)"></button>
 			<div class="card-container" id="cardContainer">
 
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/280x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <button>
-		          <a href="websocket/ask?estateUserNo=1"><!-- 각 부동산의 사용자 순번을 넣을거다 --><!-- 부동산 상세페이지가 아직 구현이 안돼서 해두었습니다 -->
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		      </a>
-		      </button>
-		        <p>채팅 임시 확인 버튼</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-		      <div class="card">
-		        <img
-		          src="https://placehold.co/200x200"
-		          alt="Placeholder image representing an advertisement"
-		        />
-		        <p>광고 공간</p>
-		      </div>
-
-		      
 	      </div>
       
-		<button class="scroll-button" onclick="scroll(200)">&gt;</button>
+		<button id="right-btn" class="scroll-button" onclick="scroll(200)"></button>
     </div>
      <script>
 	    let isDown = false;
@@ -420,7 +352,7 @@
 	
 	    document.querySelectorAll('.scroll-button').forEach(button => {
 	        button.addEventListener('click', (e) => {
-	            const direction = button.innerText === '>' ? 1 : -1;
+	            const direction = button.id === 'right-btn' ? 1 : -1;
 	            scroll(direction * 200); // Scroll distance for each click
 	        });
 	    });

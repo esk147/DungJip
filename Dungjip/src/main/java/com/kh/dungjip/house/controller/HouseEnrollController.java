@@ -34,7 +34,7 @@ public class HouseEnrollController {
 	
     @GetMapping("/enrollForm")
     public String enrollForm() {
-
+    	
         return "house/enrollHouseForm";
     }
 
