@@ -16,7 +16,6 @@
 		<result column="ES_REGISTER_NUM" property="esRegisterNum"/>
 		<result column="ES_ADDRESS" property="esAddress"/>
 		<result column="ES_CONTENT" property="esContent"/>
-		
 		<result column="ES_COUNT" property="esCount"/>
 		<result column="ES_Status" property="esStatus"/>
 		<result column="ENROLLDATE" property="enrollDate"/>
@@ -195,7 +194,7 @@
 								   USER_NO, 
 								   ES_RE_SCORE, 
 								   ES_RE_CONTENT, 
-								   ES_RE_TYPE 
+								   ES_RE_TYPE, 
 								   HOUSE_NO)
 					VALUES (SEQ_ERRO.NEXTVAL, 
 					        #{er.esNo},
@@ -278,7 +277,7 @@
 	<resultMap type="reportEstate" id="reportEstateResultSet">
 		<result column="REPORT_NO" property="reportNo"/>
 		<result column="USER_NO" property="userNo"/>
-		<result column="CHATROOM_NO" property="chatroomNo"/>
+		<result column="CHATROOM_NO" property="chatRoomNo"/>
 		<result column="ESTATE_NO" property="estateNo"/>
 		<result column="REPORT_REASON" property="reportReason"/>
 	</resultMap>	

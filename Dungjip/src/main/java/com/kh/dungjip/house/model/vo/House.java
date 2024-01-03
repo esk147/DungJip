@@ -20,7 +20,6 @@ public class House {
 	private int houseRent;
 	private Double houseSquare;
 	private String houseStyle;
-	private String houseName;
 	private String houseTitle;
 	private String houseDetails;
 	private String houseType;
