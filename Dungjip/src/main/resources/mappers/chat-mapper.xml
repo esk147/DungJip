@@ -172,6 +172,23 @@
 		  ,#{reportReason}
 	)
 	</insert>
+	
+	<delete id="deleteJoinChatRoom">
+	DELETE FROM JOINCHAT
+    WHERE CHATROOM_NO =#{chatNo}
+	</delete>
+	
+	<delete id="deleteChatMsg">
+	DELETE FROM CHATMESSAGE
+    WHERE CHATROOM_NO=#{chatNo}
+	
+	</delete>
+	
+	<delete id="deleteChatRoom">
+	DELETE FROM CHATROOM
+	WHERE CHATROOM_NO = #{chatNo}
+	</delete>
+	
 
 
 
