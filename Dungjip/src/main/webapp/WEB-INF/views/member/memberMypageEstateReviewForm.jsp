@@ -122,6 +122,25 @@
 						</c:if>
 										
 				</div>
+				
+				<footer style="width: 450px;">
+				 <!--------------------------------------- 페이징 처리 ------------------------------------->
+				   <div class="pull-right" >
+			            <div class="pagination">
+			                <ul>
+			                	 <c:if test="${pi.currentPage ne 1 }">
+			                   <li><a href="myEsReview.me?currentPage=${pi.currentPage-1}">Prev</a></li>
+			                </c:if>   
+			                <c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">  
+			                   <li><a href="myEsReview.me?currentPage=${p}">${p}</a></li>
+			                </c:forEach>   
+			                <c:if test="${pi.currentPage ne pi.maxPage }"> 
+			                     <li><a href="myEsReview.me?currentPage=${pi.currentPage+1}">Next</a></li>
+			                	  </c:if>
+			                </ul>
+			            </div>
+			       </div> 				
+				</footer>
 			</div>
 		</section>
 	</div>

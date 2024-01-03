@@ -12,9 +12,6 @@ import java.util.Map;
 
 import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.vo.EsReLike;
-import com.kh.dungjip.estate.model.vo.Estate;
-import com.kh.dungjip.estate.model.vo.EstateReview;
-import com.kh.dungjip.member.model.vo.Member;
 
 public interface EstateService {
 
@@ -54,7 +51,7 @@ public interface EstateService {
 
 
 	//조회
-	ArrayList<EstateReview> selectEstateReview(Member m);
+	ArrayList<EstateReview> selectEstateReview(Member m,PageInfo pi);
 
 	//삭제
 	int esReviewDelete(int esReNo);
@@ -78,7 +75,21 @@ public interface EstateService {
 	//예약 날짜 눌렀을때 데이터 있는지 확인
 	ArrayList<ReservationNew> selectReservationList(ReservationNew reservation);
 
+	//마이페이지 중개사 리뷰 페이징
+	int selectListCount();
 
+	//마이페이지 매물내역
+	int selectEstate(int esNo);
 
+	int getEsNo(int userNo);
+
+	//신고내역 페이징
+	int selectReportEstateListCount();
+
+	//마이페이지 중개사무소 정보수정
+	ArrayList<Estate> mypageEstateUpdate(Member m);
+
+	//중개인 매물내역 삭제 
+	int myEstateHouseDelete(int houseNo);
 
 }

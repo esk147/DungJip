@@ -16,7 +16,6 @@
 		<result column="ES_REGISTER_NUM" property="esRegisterNum"/>
 		<result column="ES_ADDRESS" property="esAddress"/>
 		<result column="ES_CONTENT" property="esContent"/>
-		
 		<result column="ES_COUNT" property="esCount"/>
 		<result column="ES_Status" property="esStatus"/>
 		<result column="ENROLLDATE" property="enrollDate"/>
@@ -208,7 +207,7 @@
 		SELECT *
 		FROM TIME
 	</select>
-
+	
 	<insert id="insertEstateReview" parameterType="estateReview">
 		INSERT INTO ESTATE_REVIEW (ES_RE_NO, 
 								   ES_NO, 
@@ -223,7 +222,7 @@
 					        #{er.esReScore}, 
 					        #{er.esReContent}, 
 					        #{er.esReType}, 
-					        4)
+					        10)
 	</insert>
 
 	<select id="selectEstateReview" resultMap="EstateReviewResultSet" >
@@ -303,4 +302,60 @@
 		WHERE ES_NO = #{selectEsNo}
 		AND RESERVATION_DATE = TO_DATE(#{clickedYMD},'YYYYMMDD')
 	</select>
+
+	<select id="selectEstate" resultType="_int">
+		SELECT *
+		FROM ESTATE	
+	</select>
+	
+	<select id="getEsNo" resultType="_int" parameterType="_int">
+		select es_no from estate where user_no = #{userNo}
+	</select>
+	
+	<select id="selectReportEstateListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM REPORT_ESTATE
+		WHERE USER_NO = #{userNo}
+	</select>
+	
+	
+	<resultMap type="reportEstate" id="reportEstateResultSet">
+		<result column="REPORT_NO" property="reportNo"/>
+		<result column="USER_NO" property="userNo"/>
+		<result column="CHATROOM_NO" property="chatRoomNo"/>
+		<result column="ESTATE_NO" property="estateNo"/>
+		<result column="REPORT_REASON" property="reportReason"/>
+	</resultMap>	
+	
+	<select id="memberMypageReportEstateList" resultMap="reportEstateResultSet">
+		SELECT RE.REPORT_NO 
+			,RE.USER_NO
+			,RE.CHATROOM_NO 
+			,RE.ESTATE_NO 
+			,RE.REPORT_REASON 
+		FROM REPORT_ESTATE RE       
+		JOIN MEMBER M ON M.USER_NO = RE.USER_NO
+        JOIN CHATROOM C ON C.CHATROOM_NO = RE.CHATROOM_NO
+        WHERE RE.USER_NO = #{userNo}
+	</select>
+	
+	<select id="mypageEstateUpdate" resultMap="estateResultSet">
+		SELECT ES_NO
+			,ES_NAME
+			,ES_CEO
+			,ES_PHONE
+			,ES_ADDRESS
+			,ES_CONTENT
+			,ES_INTRO
+		FROM ESTATE	E
+		JOIN MEMBER M ON M.USER_NO  = E.USER_NO
+		WHERE E.USER_NO = #{userNo}
+	</select>
+	
+	<update id="myEstateHouseDelete">
+		UPDATE OWN 
+		SET STATUS = 'N'
+		WHERE STATUS = 'Y'
+		AND HOUSE_NO = #{houseNo}
+	</update>
 </mapper>

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,7 @@ import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.house.model.vo.ReservationNew;
 import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
-
 import com.kh.dungjip.estate.model.vo.EsReLike;
-import com.kh.dungjip.estate.model.vo.Estate;
-import com.kh.dungjip.estate.model.vo.EstateReview;
-
-import com.kh.dungjip.member.model.vo.Member;
 
 @Service
 public class EstateServiceImpl implements EstateService {
@@ -132,9 +128,9 @@ public class EstateServiceImpl implements EstateService {
 
 	//조회
 	@Override
-	public ArrayList<EstateReview> selectEstateReview(Member m) {
-		// TODO Auto-generated method stub
-		return estateDao.selectEstateReview(sqlSession,m);
+	public ArrayList<EstateReview> selectEstateReview(Member m,PageInfo pi) {
+		
+		return estateDao.selectEstateReview(sqlSession,m,pi);
 	}
 
 	//삭제
@@ -182,9 +178,44 @@ public class EstateServiceImpl implements EstateService {
 		return estateDao.selectReservationList(sqlSession,reservation);
 	}
 
+	//마이페이지 중개인 리뷰 페이징
+	@Override
+	public int selectListCount() {
+		// TODO Auto-generated method stub
+		return estateDao.selectListCount(sqlSession);
+	}
 
-	
-	
-	
-	
+	//마이페이지 매물내역 
+	@Override
+	public int selectEstate(int esNo) {
+		// TODO Auto-generated method stub
+		return estateDao.selectEstate(sqlSession,esNo);
+	}
+
+	@Override
+	public int getEsNo(int userNo) {
+		// TODO Auto-generated method stub
+		return estateDao.getEsNo(sqlSession, userNo);
+	}
+
+	//신고내역 페이징 카운트
+	@Override
+	public int selectReportEstateListCount() {
+		// TODO Auto-generated method stub
+		return estateDao.selectReportEstateListCount(sqlSession);
+	}
+
+	//마이페이지 중개사무소 정보수정
+	@Override
+	public ArrayList<Estate> mypageEstateUpdate(Member m) {
+		// TODO Auto-generated method stub
+		return estateDao.mypageEstateUpdate(sqlSession,m);
+	}
+
+	//중개인 매물내역 삭제
+	@Override
+	public int myEstateHouseDelete(int houseNo) {
+		// TODO Auto-generated method stub
+		return estateDao.myEstateHouseDelete(sqlSession,houseNo);
+	}
 }

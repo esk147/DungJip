@@ -78,7 +78,26 @@ public class ChatServiceImpl implements ChatService {
 		
 		return chatDao.updateReportEstate(sqlSession,reportEstate);
 	}
+	@Override
+	public int deleteJoinChatRoom(int chatNo) {
+		
+		return chatDao.deleteJoinChatRoom(sqlSession,chatNo);
+	}
+	@Override
+	public int deleteChatMsg(int chatNo) {
 
+		
+		return chatDao.delteChatMsg(sqlSession,chatNo);
+	}
+
+	@Override
+	public int deleteChatRoom(int chatNo) {
+		// TODO Auto-generated method stub
+		return chatDao.deleteChatRoom(sqlSession, chatNo);
+	}
+
+
+	
 	
 
 }

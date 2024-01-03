@@ -1,3 +1,4 @@
+
 package com.kh.dungjip.common.websocket.controller;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class WebsocketController {
 public WebsocketController() {//생성자에서 파일을 읽어온다.
 		
 		try {
-			badWords = Files.lines(Paths.get("C:\\Users\\82103\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
+			badWords = Files.lines(Paths.get("C:\\Users\\dhgl1\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
 		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -138,6 +139,34 @@ public WebsocketController() {//생성자에서 파일을 읽어온다.
 		
 		
 	}
+	
+	@ResponseBody
+	@GetMapping("/deleteChatRoom.ch")
+	public int deleteChatRoom (int chatNo) {
+		
+	int result1	=chatService.deleteJoinChatRoom(chatNo);
+	
+	
+
+	if(result1>0) {
+	int result2 = chatService.deleteChatMsg(chatNo);
+	
+	if(result2>0) {
+		
+	int result3 =	chatService.deleteChatRoom(chatNo);
+
+	System.out.println("성공따리"+result3);
+	
+	}
+	
+	}
+	
+
+	
+	return 0;
+	}
+	
+	
 	
 	
 	

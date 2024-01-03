@@ -20,46 +20,44 @@
 
 </head>
 <style>
-   * {
-            box-sizing: border-box;
-            font-family: 'Noto Sans KR', sans-serif;
-        }
+* {
+	box-sizing: border-box;
+	font-family: 'Noto Sans KR', sans-serif;
+}
 
-        body {
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+body {
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
 
-        #container {
-            width: 100%;
-            max-width: 1600px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            display: flex;
-            border-radius: 8px;
-            	 box-shadow: 
-        0px 0px 40px rgba(50, 50, 93, 0.25),
-        0px 30px 60px rgba(0, 0, 0, 0.3),
-        0px -2px 10px rgba(10, 37, 64, 0.35) inset;
-        }
+#container {
+	width: 100%;
+	max-width: 1600px;
+	background: #fff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	display: flex;
+	border-radius: 8px;
+	box-shadow: 0px 0px 40px rgba(50, 50, 93, 0.25), 0px 30px 60px
+		rgba(0, 0, 0, 0.3), 0px -2px 10px rgba(10, 37, 64, 0.35) inset;
+}
 
-        aside {
-            width: 30%;
-            background-color: #3b3e49;
-            color: white;
-            overflow-y: auto;
-        }
+aside {
+	width: 30%;
+	background-color: #3b3e49;
+	color: white;
+	overflow-y: auto;
+}
 
-        main {
-            width: 70%;
-            overflow-y: auto;
-        }
+main {
+	width: 70%;
+	overflow-y: auto;
+}
 
 aside header {
 	padding: 30px 20px;
@@ -298,199 +296,249 @@ aside ul::-webkit-scrollbar-track {
 
 .active {
 	background-color: #5e616a;
-	/* or any color you prefer for the active state */
 }
 
-.custom-menu {
-  display: none;
-  position: absolute;
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 8px 0;
+.chat-toggle-button:hover {
+	background-color: #cca427;
 }
 
-.custom-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* 챗봇몸체 */
+.chat-body {
+	max-height: 400px;
+	overflow-y: auto;
 }
 
-.custom-menu ul li {
-  padding: 8px 12px;
-  cursor: pointer;
+/* 버튼 박스(챗봇이 열리면 버튼들의 css입니다) */
+.button-container {
+	font-size: 24px;
+	margin: 20px;
+	padding: 20px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+		rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px
+		-2px 6px 0px inset;
+	border-radius: 20px;
+	background-color: #f9f9f9;
+	font-weight: bolder;
 }
 
-.custom-menu ul li:hover {
-  background: #f0f0f0;
+/* 버튼 CSS */
+.button-container button {
+	width: 100%;
+	padding: 10px;
+	margin: 10px 0;
+	border: none;
+	border-radius: 10px;
+	background-color: #cca427;
+	color: white;
+	cursor: pointer;
+	font-size: 15px;
 }
 
-    .chat-toggle-button:hover {
-            background-color: #cca427;
-        }
+.chat-container {
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 500px;
+	z-index: 1500;
+	margin-right: 20px;
+}
 
-        /* 챗봇몸체 */
-        .chat-body {
-          
-         
-            max-height: 400px;
-            overflow-y: auto;
-        }
+.chat-container.visible {
+	display: block;
+}
 
-        /* 버튼 박스(챗봇이 열리면 버튼들의 css입니다) */
-        .button-container {
-            font-size: 24px;
-            margin: 20px;
-            padding: 20px;
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-            border-radius: 20px;
-            background-color: #f9f9f9;
-            font-weight: bolder;
-        }
+* {
+	font-family: 'Noto sans KR', sans-serif;
+}
 
-        /* 버튼 CSS */
-        .button-container button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 10px;
-            background-color: #cca427;
-            color: white;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        .chat-container {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 500px;
-    z-index: 1500;
-    margin-right: 20px;
-        }
-
-        .chat-container.visible {
-            display: block;
-        }
-        
-          *{font-family: 'Noto sans KR', sans-serif;}
-          
 .blur-effect {
-        filter: blur(8px); /* Adjust the blur level as needed */
-    }
+	filter: blur(8px); /* Adjust the blur level as needed */
+}
 
-button.clickBtn2{
+button.clickBtn2 {
 	background-color: red;
 }
 
-#hrDiv{
+#hrDiv {
 	background-color: gray;
 	height: 3px;
 	width: 100%;
 	margin: 20px 0;
 }
+
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	background: #DCE775;
+	font-family: 'Merriweather', serif;
+}
+
+h1 {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	padding: 1em;
+	font-size: 2em;
+	letter-spacing: .3em;
+	color: #FFFFFF;
+	text-align: center;
+	border-top: 2px solid #E6EE9C;
+	border-bottom: 2px solid #E6EE9C;
+}
+
+.contextmenu {
+	display: none;
+	position: absolute;
+	width: 200px;
+	margin: 0;
+	padding: 0;
+	background: #FFFFFF;
+	border-radius: 5px;
+	list-style: none;
+	box-shadow: 0 15px 35px rgba(50, 50, 90, 0.1), 0 5px 15px
+		rgba(0, 0, 0, 0.07);
+	overflow: hidden;
+	z-index: 999999;
+}
+
+.contextmenu li {
+	border-left: 3px solid transparent;
+	transition: ease .2s;
+}
+
+.contextmenu li a {
+	display: block;
+	padding: 10px;
+	color: #B0BEC5;
+	text-decoration: none;
+	transition: ease .2s;
+}
+
+.contextmenu li:hover {
+	background: #CE93D8;
+	border-left: 3px solid #9C27B0;
+}
+
+.contextmenu li:hover a {
+	color: #FFFFFF;
+}
 </style>
 
 <body>
-<%-- <%@ include file="../common/chatbot.jsp"%> --%>
-<div id="main-content" style="width:80%;">
-	<div id="container">
+	<%-- <%@ include file="../common/chatbot.jsp"%> --%>
+	<div id="main-content" style="width: 80%;">
+		<div id="container">
 
-		<aside>
-			<header>
-				<input id="findChat" type="text" placeholder="search" name="findChat">
-				<script type="text/javascript">
+			<aside>
+				<header>
+					<input id="findChat" type="text" placeholder="search"
+						name="findChat">
+					<script type="text/javascript">
 			
 				</script>
-				
-			</header>
-			<ul id="findChatList">
-				<c:choose>
-					<c:when test="${not empty chatList}">
-						<c:forEach items="${chatList}" var="chatRoom">
-							<li onclick="whatEvent(this);">
-									<c:forEach items="${chatRoom.members}" var="member">
-							   <img id="${member.changeName }"src="../${member.changeName }" alt="" style="width:50px; height:50px;">
-								<div>
-									<input type="hidden" name="cno" value="${chatRoom.chatRoomNo}">
-									<!-- 각 채팅방의 멤버에 대해 루프를 돌면서 userName을 표시 -->
-										<div id="${member.userName }">
-											<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userName}</h2>
-											<input type="hidden" name="eno" value="${member.userNo }">
-										</div>
-										<c:choose>
-											<c:when test="${member.active}">
-												<h3>
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="status green"></span>
-													현재 활동중
-												</h3>
-											</c:when>
 
-											<c:otherwise>
-												<h3 id="logoutTime">
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="status orange"></span>
-													<span>${member.calculateTimeAgo()}</span>
-												</h3>
-											</c:otherwise>
-										</c:choose>
-								</div>
-									</c:forEach>
-							</li>
-						</c:forEach>
-					</c:when>
-					<c:otherwise>
-						<h2 align="center">채팅방이 존재 하지 않습니다</h2>
-					</c:otherwise>
-				</c:choose>
-			</ul>
-		</aside>
-		<main>
-			<header style="display:flex;justify-content:space-between;">
-			<div style="display:flex;">
-			<img id="userProfileImage" src="기본 이미지 경로" alt="사용자 프로필" style="width: 50px; height: 50px;"/>
-				<div>
-					<h2 id="otherUser"></h2>
-					<button onclick="connect();">연결</button>
-					<button onclick="disconnect();">종료</button>
-					<h3>부동산 소개 들어갈 자리입니다</h3>
-				</div>
-			</div>
-			<div style="margin-right:0px;">
-			<script type="text/javascript">
+				</header>
+				<ul id="findChatList">
+					<c:choose>
+						<c:when test="${not empty chatList}">
+							<c:forEach items="${chatList}" var="chatRoom">
+								<li onclick="whatEvent(this);"><c:forEach
+										items="${chatRoom.members}" var="member">
+										<img id="${member.changeName }" src="../${member.changeName }"
+											alt="" style="width: 50px; height: 50px;">
+										<div>
+											<input type="hidden" name="cno"
+												value="${chatRoom.chatRoomNo}">
+											<!-- 각 채팅방의 멤버에 대해 루프를 돌면서 userName을 표시 -->
+											<div id="${member.userName }">
+												<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userName}</h2>
+												<input type="hidden" name="eno" value="${member.userNo }">
+											</div>
+											<c:choose>
+												<c:when test="${member.active}">
+													<h3>
+														&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="status green"></span>
+														현재 활동중
+													</h3>
+												</c:when>
+
+												<c:otherwise>
+													<h3 id="logoutTime">
+														&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="status orange"></span>
+														<span>${member.calculateTimeAgo()}</span>
+													</h3>
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</c:forEach></li>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<h2 align="center">채팅방이 존재 하지 않습니다</h2>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</aside>
+			<main>
+				<header style="display: flex; justify-content: space-between;">
+					<div style="display: flex;">
+						<img id="userProfileImage" src="기본 이미지 경로" alt="사용자 프로필"
+							style="width: 50px; height: 50px;" />
+						<div>
+							<h2 id="otherUser"></h2>
+							<button onclick="connect();">연결</button>
+							<button onclick="disconnect();">종료</button>
+							<h3>부동산 소개 들어갈 자리입니다</h3>
+						</div>
+					</div>
+					<div style="margin-right: 0px;">
+						<script type="text/javascript">
 			console.log('${loginUser}');
 			</script>
-			<c:if test="${loginUser.userType eq '임차인'}">
-		<button class="chat-toggle-button" onclick="toggleChat();">신고</button>
-			</c:if>
-			</div>
+						<c:if test="${loginUser.userType eq '임차인'}">
+							<button class="chat-toggle-button" onclick="toggleChat();">신고</button>
+						</c:if>
+					</div>
 
-			</header>
+				</header>
 
-			<ul id="chat">
+				<ul id="chat">
 
 
-			</ul>
-			<footer>
-				<span id="currentTyping"></span>
-				<textarea placeholder="Type your message" id="sendChat"></textarea>
-				<label for="inputFile"> <img
-					src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png"
-					alt="">
-				</label> <input type="file" id="inputFile" style="display: none;" /> <a
-					href="#" id="send" onclick="send();">Send</a>
-			</footer>
-		</main>
+				</ul>
+				<footer>
+					<span id="currentTyping"></span>
+					<textarea placeholder="Type your message" id="sendChat"></textarea>
+					<label for="inputFile"> <img
+						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png"
+						alt="">
+					</label> <input type="file" id="inputFile" style="display: none;" /> <a
+						href="#" id="send" onclick="send();">Send</a>
+				</footer>
+			</main>
+		</div>
 	</div>
-</div>
- <div class="chat-body">
-        <!-- 챗봇 대화창 컨테이너 -->
-        <div class="chat-container" id="chat-container">
-            <!-- 챗봇 헤더 -->
-            <!-- 버튼 컨테이너 -->
-            <div class="button-container" id="button-container">
-              <h6><pre id="textToReveal" style="font-family: 'Noto sans KR', sans-serif;">
+	<div class="chat-body">
+		<!-- 챗봇 대화창 컨테이너 -->
+		<div class="chat-container" id="chat-container">
+			<!-- 챗봇 헤더 -->
+			<!-- 버튼 컨테이너 -->
+			<div class="button-container" id="button-container">
+				<h6>
+					<pre id="textToReveal"
+						style="font-family: 'Noto sans KR', sans-serif;">
 
 공인중개사와의 상담이 불만족 하셨나요?
 
@@ -503,21 +551,28 @@ button.clickBtn2{
 빠르게 해결을 하겠습니다 !
 
 이용에 불편을 끼쳐 죄송합니다.
-                </pre></h6>
-                <button class="reportBtn" name="" value="과대광고를 합니다.">과대광고를 합니다.</button>
-                <button class="reportBtn" name="" value="허위매물이 의심 됩니다.">허위매물 의심이 됩니다.</button>
-                <button class="reportBtn" name="" value="매물 주소와 등록된 사진이 다릅니다.">매물 주소와 등록된 사진이 다릅니다.</button>
-                <button class="reportBtn" name="" value="매물의 용도,구조,옵션 등 정보가 다릅니다.">매물의 용도,구조,옵션 등 정보가 다릅니다.</button>
-                <button class="reportBtn" name="" value="부적절한 언어를 사용하였습니다.">부적절한 언어를 사용하였습니다.</button>
-                <button onclick="goHotBoardArea()">직접입력</button>
-                <div id="hrDiv"></div>
-                 <button id="subBtn" >제출하기</button>
-            </div>
-        </div>
-        <div class="chat-container" id="goHotBoardForm" style="display: none;">
+                </pre>
+				</h6>
+				<button class="reportBtn" name="" value="과대광고를 합니다.">과대광고를
+					합니다.</button>
+				<button class="reportBtn" name="" value="허위매물이 의심 됩니다.">허위매물
+					의심이 됩니다.</button>
+				<button class="reportBtn" name="" value="매물 주소와 등록된 사진이 다릅니다.">매물
+					주소와 등록된 사진이 다릅니다.</button>
+				<button class="reportBtn" name="" value="매물의 용도,구조,옵션 등 정보가 다릅니다.">매물의
+					용도,구조,옵션 등 정보가 다릅니다.</button>
+				<button class="reportBtn" name="" value="부적절한 언어를 사용하였습니다.">부적절한
+					언어를 사용하였습니다.</button>
+				<button onclick="goHotBoardArea()">직접입력</button>
+				<div id="hrDiv"></div>
+				<button id="subBtn">제출하기</button>
+			</div>
+		</div>
+		<div class="chat-container" id="goHotBoardForm" style="display: none;">
 
-            <div class="button-container" id="button-container-introduce">
-<h6> <pre id="text7" style="font-family: 'Noto sans KR', sans-serif;">
+			<div class="button-container" id="button-container-introduce">
+				<h6>
+					<pre id="text7" style="font-family: 'Noto sans KR', sans-serif;">
 
 이 이외의 기타 항목이 있으신가요?
 
@@ -528,16 +583,23 @@ button.clickBtn2{
 둥집 매니저들이 빠르게 확인하고 
 
 불편사항을 해결해드리겠습니다
-</pre></h6>
-<legend>신고 사유
-<textarea name="" id="reportReason" cols="55" rows="10" style="resize: none;"></textarea>
-</legend>
-               <button id="subBtn2">제출하기</button> 
-                <button onclick="toggleChat()" id="backsite6">이전 목록으로</button>
-            </div>
-        </div>
-    </div>
+</pre>
+				</h6>
+				<legend>
+					신고 사유
+					<textarea name="" id="reportReason" cols="55" rows="10"
+						style="resize: none;"></textarea>
+				</legend>
+				<button id="subBtn2">제출하기</button>
+				<button onclick="toggleChat()" id="backsite6">이전 목록으로</button>
+			</div>
+		</div>
+	</div>
 
+
+	<ul class="contextmenu">
+		<li><a id="deleteChatRoom">삭제하기</a></li>
+	</ul>
 
 </body>
 
@@ -568,12 +630,7 @@ $("#subBtn").click(function(){
 			
 		}
 	});
-	
-
-	
-	
 });
-
 $("#subBtn2").click(function(){
 	
 	var reportReason = $("#reportReason").val();
@@ -613,16 +670,8 @@ $(document).ready(function(){ //신고하기 버튼 누르면 나오는 버튼 �
 
 	    // 클릭한 버튼에만 'active' 클래스 추가
 	    $(this).addClass('clickBtn2');
-	    
-	    
-	    
-	    
 	  });
 	});
-
-
-
-
 $("#backsite6").click(function(){
 
    $("#goHotBoardForm").css("display", "none");
@@ -1036,33 +1085,81 @@ window.onload = function() {
 		$("#sendChat").val("");
 	}
 		
-		$(document).ready(function() {
-			  // 우클릭 이벤트 설정
-			  $(document).on("contextmenu", function(e) {
-			    // 컨텍스트 메뉴를 표시할 위치 설정
-			    $(".custom-menu").css({
-			      top: e.pageY + "px",
-			      left: e.pageX + "px",
-			      display: "block"
-			    });
-			    
-			    // 기본 우클릭 메뉴가 나타나지 않도록 함
-			    return false;
-			  });
-			  
-			  // 다른 곳을 클릭하면 컨텍스트 메뉴를 숨김
-			  $(document).on("click", function() {
-			    $(".custom-menu").hide();
-			  });
-			  
-			  // 컨텍스트 메뉴의 항목을 클릭할 때의 동작 설정
-			  $(".custom-menu ul li").on("click", function() {
-			    // 여기에 각 항목을 클릭했을 때의 동작을 넣으세요.
-			    // 예를 들어, 클릭한 항목에 따라 다른 동작을 수행하거나 함수를 호출할 수 있어요.
-			    console.log("선택된 메뉴:", $(this).text());
-			  });
-			});
+		$(document).ready(function(){
+		    // 'aside' 내의 'li' 요소에 대해서만 컨텍스트 메뉴를 표시:
+		    $('aside').on('contextmenu', 'li', function(e){
+		        var winWidth = $(document).width();
+		        var winHeight = $(document).height();
+		        var posX = e.pageX;
+		        var posY = e.pageY;
+		        var menuWidth = $(".contextmenu").width();
+		        var menuHeight = $(".contextmenu").height();
+		        var secMargin = 10;
+
+		        // 메뉴 위치 계산 및 조정
+		        if(posX + menuWidth + secMargin >= winWidth
+		            && posY + menuHeight + secMargin >= winHeight){
+		            posLeft = posX - menuWidth - secMargin + "px";
+		            posTop = posY - menuHeight - secMargin + "px";
+		        }
+		        else if(posX + menuWidth + secMargin >= winWidth){
+		            posLeft = posX - menuWidth - secMargin + "px";
+		            posTop = posY + secMargin + "px";
+		        }
+		        else if(posY + menuHeight + secMargin >= winHeight){
+		            posLeft = posX + secMargin + "px";
+		            posTop = posY - menuHeight - secMargin + "px";
+		        }
+		        else {
+		            posLeft = posX + secMargin + "px";
+		            posTop = posY + secMargin + "px";
+		        }
+
+		        // 컨텍스트 메뉴 위치 조정 및 표시:
+		        $(".contextmenu").css({
+		            "left": posLeft,
+		            "top": posTop
+		        }).show();
+		        
+		        var chatNo = this.children[1].children[0].value;						        
+		         $("#deleteChatRoom").click(function(){
+		        	
+		         	$.ajax({
+		        	
+		        		url : "../websocket/deleteChatRoom.ch",
+		        		type : "get",
+		        		data : {
+		        			chatNo : chatNo
+		        		},
+		        		success: function(result){
+		        			location.reload();
+		        		},
+		        		error : function(){
+		        			console.log("에러띠");
+		        			
+		        		}
+		        	}) 
+		          });
+		        
+		        // 브라우저 기본 컨텍스트 메뉴 방지.
+		        return false;
+		    });
+
+		    $(document).contextmenu(function(e){
+		        if (!$(e.target).closest('aside li').length) {
+		            // 'aside li' 외부에서 우클릭한 경우 기본 컨텍스트 메뉴 허용
+		            return false;
+		        }
+		        // 'aside li'에서 우클릭한 경우 기본 컨텍스트 메뉴 방지
+		        return false;
+		    });
+
 		
+		    // 문서의 어느 곳이든 클릭 시 컨텍스트 메뉴 숨기기:
+		    $(document).click(function(){
+		        $(".contextmenu").hide();
+		    });
+		});
 		
 		
 	     </script>

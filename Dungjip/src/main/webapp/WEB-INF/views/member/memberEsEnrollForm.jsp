@@ -107,11 +107,10 @@
 				</div>
 		
 				<div class="form-section">
-					<label for="userName">이름 *</label> 
+					<label for="userName">이름(중개사) *</label> 
  					<input type="text" class="form-control" id="userName" name="userName" placeholder="이름" required>				
-				</div>
-			
-			ㅁ
+
+				</div>			
 	
 				<div class="form-section">
 					<label for="email">이메일 *</label>  
