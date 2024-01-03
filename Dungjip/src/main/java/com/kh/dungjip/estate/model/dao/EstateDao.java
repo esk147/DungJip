@@ -87,6 +87,36 @@ public class EstateDao {
 		return sqlSession.selectList("estateMapper.selectSubscribeEstateList");
 	}
 
+	public int selectEstateEmoCount(SqlSessionTemplate sqlSession, int esReNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("estateMapper.selectEstateEmoCount", esReNo);
+	}
+
+	public int selectReviewLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int count = 0;
+		try {
+			count = sqlSession.selectOne("estateMapper.selectReviewLikeCount", map);
+			
+			if(count > 0) {
+				count = 1;
+			}
+		} catch(Exception e) {
+			count = 0;
+		}
+		return count;
+	}
+
+	public int decreaseCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("estateMapper.decreaseCount", map);
+	}
+
+	public int increaseEsReLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("estateMapper.increaseEsReLikeCount", map);
+	}
+
 	//예약 시간 select
 	public ArrayList<Time> selectTime(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("estateMapper.selectTime");

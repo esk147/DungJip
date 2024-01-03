@@ -241,6 +241,7 @@ public class HouseController {
 		}
 		//구독한 중개인 리스트
 		List<Integer> subscribeUser = estateService.selectSubscribeEstateList();
+		
 		//랜덤 중개인 번호
 		Integer randomUser = pickRandomNumber(subscribeUser);
 		

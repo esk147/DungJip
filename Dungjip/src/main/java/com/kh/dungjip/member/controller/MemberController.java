@@ -11,7 +11,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -114,7 +113,7 @@ public class MemberController {
 		if(beginLoginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())) { //성공시
 
 
-			int SuccessLoginTime =	memberService.updateLastLoginTime(beginLoginUser);//현재 시간 추가 
+			memberService.updateLastLoginTime(beginLoginUser);//현재 시간 추가 
 			
 			//굳이 if문 추가안함 
 			//현재시간이 추가안되었다고 로그인을 막아버리는 예외가 있으면 안된다고 판단
@@ -133,7 +132,7 @@ public class MemberController {
 	@RequestMapping("logout.me")
 	public String loginMember(@RequestParam ("userNo") int userNo,HttpSession session) {//로그아웃 버튼에 파라미터 영역으로 userNo를 보내주었습니다.
 		
-		int logoutTime = memberService.LastLogoutTime(userNo);
+		memberService.LastLogoutTime(userNo);
 		
 		//세션에 담겨있는 logoutUser정보 지우기 
 		session.removeAttribute("loginUser");
@@ -370,7 +369,6 @@ public class MemberController {
 			m.setChangeName(defaultImagePath);
 			
 		}
-
 		
 		m.setUserPwd(encPwd); //암호화된 비번			
 
@@ -578,6 +576,7 @@ public class MemberController {
 		if(result > 0) {
 			
 			Member loginUser = memberService.loginMember(m);
+			session.setAttribute("loginUser", loginUser); //조회한 데이터 세션에 갱신
 			session.setAttribute("alertMsg", "정보 수정이 완료되었습니다.");			
 			mv.setViewName("redirect:/mypageEsUpdate.me");
 		}else {
@@ -619,7 +618,7 @@ public class MemberController {
 		}
 		
 		//전달된 파일이 있다면 해당 정보 DB에 전달하기 
-		int result = memberService.fileAjaxMethod(m);
+		memberService.fileAjaxMethod(m);
 	
 	}
 	
@@ -675,9 +674,30 @@ public class MemberController {
 
 	@ResponseBody
 	@RequestMapping("subscribe.pay")
-	public int userSubscribe(int userNo) {
+	public int userSubscribe(int userNo, HttpSession session) {
 		
 		int result = memberService.userSubscribe(userNo);
+		
+		if(result > 0) {
+			Member m = memberService.findSubscribeUser(userNo);
+			
+			session.setAttribute("loginUser", m);
+		}
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("subscribe.no")
+	public int noSubscribe(int userNo, HttpSession session) {
+		
+		int result = memberService.noSubscribe(userNo);
+		
+		if(result > 0) {
+			Member m = memberService.findSubscribeUser(userNo);
+			
+			session.setAttribute("loginUser", m);
+		}
 		
 		return result;
 	}

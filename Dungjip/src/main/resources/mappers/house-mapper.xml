@@ -63,7 +63,9 @@
 	</select>
 	
 	<select id="selectHouse" parameterType="string" resultMap="houseResultSet">
-		select * from house where house_type = #{type} order by house_no
+		select house_no, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+           THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+           ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, house_rent, house_title, house_style, house_square, house_latitude, house_longitude, house_floor, house_maintaincost, house_name, house_type from house where house_type = #{type} order by house_no
 	</select>
 	
 	<select id="selectHouseThumnail" resultMap="houseImgResultSet">
@@ -255,7 +257,10 @@
 	</select>
 	
 	<select id="selectHouseMain" parameterType="string" resultMap="houseResultSet">
-		select * from house where house_type = #{type} order by house_price FETCH FIRST 7 ROWS ONLY
+		select house_no, house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+           THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+           ELSE TO_CHAR(HOUSE_PRICE)
+           END AS HOUSE_PRICE, house_rent, house_square, house_floor, house_maintaincost, house_title, house_style from house where house_type = #{type} order by house_price FETCH FIRST 7 ROWS ONLY
 	</select>
 	
 	<select id="selectHouseMainThumnail" parameterType="_int" resultMap="houseImgResultSet">
@@ -271,7 +276,9 @@
 	</select>
 	
 	<select id="selectSubscribeHouseList" resultMap="houseResultSet">
-		SELECT H.*
+		SELECT H.house_no, H.house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+           THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+           ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, H.house_price, H.house_rent, H.house_square, H.house_floor, H.house_maintaincost, H.house_title, H.house_style
 	    FROM OWN O
 	    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
 	    WHERE O.ES_NO=#{randomUser}

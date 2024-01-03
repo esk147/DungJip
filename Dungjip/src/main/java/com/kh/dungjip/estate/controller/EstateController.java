@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -111,10 +112,23 @@ public class EstateController {
 	//부동산 리뷰 리스트
 	@ResponseBody
 	@RequestMapping(value="estate.re",produces="application/json; charset=UTF-8")
-	public Map<String, Object> selectEstateReviewList(int esNo){
+	public Map<String, Object> selectEstateReviewList(int esNo, int userNo){
 		
 		ArrayList<EstateReview>erlist = estateService.selectEstateReviewList(esNo);
-		
+		List<Integer> erNums = new ArrayList<>();
+		List<Integer> reviewBooleans = new ArrayList<>();
+		for(EstateReview er : erlist) {
+			int num = estateService.selectEstateEmoCount(er.getEsReNo());
+			
+			Map<String, Object> numMap = new HashMap<>();
+			numMap.put("esReNo", er.getEsReNo());
+			numMap.put("userNo", userNo);
+			
+			int result = estateService.selectReviewLikeCount(numMap);
+			
+			erNums.add(num);
+			reviewBooleans.add(result);
+		}
 		//리뷰 총점
 		int sum = estateService.selectEstateReviewSum(esNo);
 		
@@ -139,6 +153,8 @@ public class EstateController {
 		map.put("threeStar", threeStar);
 		map.put("twoStar", twoStar);
 		map.put("oneStar", oneStar);
+		map.put("erNums", erNums);
+		map.put("reviewBooleans", reviewBooleans);
 		
 		
 		System.out.println("------리뷰 리스트-----------");
@@ -146,6 +162,45 @@ public class EstateController {
 		
 		
 		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("estate.like")
+	public Map<String, Object> selectReviewLikeCount(String esReNo, String userNo){
+
+		System.out.println("리뷰 번호, 유저 번호");
+		System.out.println(esReNo);
+		System.out.println(userNo);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("esReNo", esReNo);
+		map.put("userNo", userNo);
+		
+		int count = estateService.selectReviewLikeCount(map);
+		System.out.println("카운터는 1이여야함 제발");
+		System.out.println(count);
+		int result = 0;
+		
+		int bool = 0;
+		
+		if(count > 0) {
+			result = estateService.decreaseCount(map);
+			//TODO 공감 해제 값 변수에 넣어서 맵에 넣고 전달
+			bool = 1;
+		} else {
+			result = estateService.increaseEsReLikeCount(map);
+			//TODO 공감 클릭 값 변수에 넣어서 맵에 넣고 전달
+			bool = 2;
+		}
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		resultMap.put("emoCount", result);
+		resultMap.put("result", bool);
+		resultMap.put("esReNo", esReNo);
+		
+		
+		return resultMap;
 	}
 	
 	//예약기능
@@ -245,11 +300,6 @@ public class EstateController {
 
 	    return response;
 	}
-
-
-	
-	
-
 
 	//삭제
 	@RequestMapping("/estate/delete.es")
