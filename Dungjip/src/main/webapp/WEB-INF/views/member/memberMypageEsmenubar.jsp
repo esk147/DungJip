@@ -112,30 +112,32 @@
             
                 <ul class="leftmenu" style="list-style: none; margin-top: 20px; padding: 0;">
                 
-                    <li><a href="mypageupdate.me" class="menuitem" style="font-size: 15px; color: #929292;">내프로필</a></li>
-                    <li><a href="mReservation.me" class="menuitem" style="font-size: 15px; color: #929292;">예약내역</a></li>                                  
-         
                     <li class="dropdown">
-			            <a href="#" class="menuitem" style="font-size: 15px; color: #929292;" >리뷰내역</a>
-			            <div class="dropdown-content" style="background: white;">
+                    	<a href="#" class="menuitem" style="font-size: 15px; color: #929292;">프로필 수정</a>
+                    	<div class="dropdown-content" style="background: white;">                   	
 			                <!-- 드롭다운 내용 -->
-			                <a href="myHReview.me">집</a><br>
-			                <a href="myEsReview.me">중개사</a>
-			            </div>
-			        </li>			 
-			        
-                    <li class="dropdown" style="background: white;">
-                    	<a href="#" class="menuitem" style="font-size: 15px; color: #929292;">찜내역</a>
-                    	<div class="dropdown-content">                   	
-			                <!-- 드롭다운 내용 -->
-			                <a href="myHousejjim.me">집</a><br>
-			                <a href="myEsjjim.me">중개사</a>			                
-			            </div>                    
+			                <a href="mypageupdate.me">내 정보 수정</a><br>			                
+			                <a href="mypageEsUpdate.me">중개사무소 정보 수정</a>			                
+			            </div>                    	
+                    </li>
+                    
+                    <li><form action="esHouse.li" method="post">
+                    	<input type="hidden" value="${esNo}" name="esNo">
+                    	<button type="submit" class="menuitem" style="font-size: 15px;color: #929292;background: white;font-weight: bold;padding: 0;">매물내역</button>
+                    	</form>
+                    </li>  
+                    
+                    <li><form action="reser.es" method="post">
+                    	<input type="hidden" value="${esNo}" name="esNo">
+                    	<button type="submit" class="menuitem" style="font-size: 15px;color: #929292;background: white;font-weight: bold;padding: 0;">예약내역</button>
+                    	</form>
                     </li> 
+                                                    
+                    <li><a href="myHousejjim.me" class="menuitem" style="font-size: 15px; color: #929292;">찜내역</a></li> 
                        
-                    <li class="dropdown" style="background: white;">
-                    	<a href="#" class="menuitem" style="font-size: 15px; color: #929292;">공감</a>
-                    	<div class="dropdown-content">                   	
+                    <li class="dropdown">
+                    	<a href="#" class="menuitem" style="font-size: 15px; color: #929292;">리뷰공감</a>
+                    	<div class="dropdown-content" style="background: white;">                   	
 			                <!-- 드롭다운 내용 -->
 			                <a href="myReReviewLike.me">집</a><br>
 			                <a href="myReviewLike.me">중개사</a>			                
@@ -143,7 +145,7 @@
                     </li>
                        
                     <li><a href="myQnA.me" class="menuitem" style="font-size: 15px; color: #929292;">문의내역</a></li> 
-                    <li><a href="reportList_es" class="menuitem" style="font-size: 15px; color: #929292;">신고내역</a></li>                                 
+                                                   
                 </ul>
 
 

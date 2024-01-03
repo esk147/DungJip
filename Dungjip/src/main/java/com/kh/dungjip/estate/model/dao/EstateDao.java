@@ -1,6 +1,7 @@
 package com.kh.dungjip.estate.model.dao;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class EstateDao {
 	//부동산 리스트
 	public ArrayList<Estate> selectEstateList(SqlSessionTemplate sqlSession,int houseNo) {
 		
-		return (ArrayList)sqlSession.selectList("estateMapper.selectEstateList",houseNo);
+		return (ArrayList)sqlSession.selectList("estateMapper.selectEatateList",houseNo);
 	}
 
 	//조회수 증가
@@ -91,9 +92,16 @@ public class EstateDao {
 		return sqlSession.insert("estateMapper.insertEstateReview",paramMap);
 	}
 
-	public ArrayList<EstateReview> selectEstateReview(SqlSessionTemplate sqlSession, Member m) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("estateMapper.selectEstateReview", m);
+	public ArrayList<EstateReview> selectEstateReview(SqlSessionTemplate sqlSession, Member m,PageInfo pi) {
+
+		//몇개를 보여줄지
+		int limit = pi.getBoardLimit();
+		//몇개를 건너뛸지
+		int offset = (pi.getCurrentPage()-1)* limit;		
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		return (ArrayList)sqlSession.selectList("estateMapper.selectEstateReview", m,rowBounds);
 	}
 
 	public int esReviewDelete(SqlSessionTemplate sqlSession, int esReNo) {
@@ -130,6 +138,40 @@ public class EstateDao {
 	public int myEsReviewDelete(SqlSessionTemplate sqlSession, int esReNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("estateMapper.myEsReviewDelete", esReNo);
+	}
+
+	//마이페이지 중개인 리뷰 페이징
+	public int selectListCount(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("estateMapper.selectEstateListCountByMember", sqlSession);
+	}
+
+	public int selectEstate(SqlSessionTemplate sqlSession, int esNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("estateMapper.selectEstate", esNo);
+	}
+
+	public int getEsNo(SqlSessionTemplate sqlSession, int userNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("estateMapper.getEsNo", userNo);
+	}
+
+	//신고내역 페이징 카운트
+	public int selectReportEstateListCount(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("estateMapper.selectReportEstateListCount");
+	}
+
+	//마이페이지 중개사무소 정보수정
+	public ArrayList<Estate> mypageEstateUpdate(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("estateMapper.mypageEstateUpdate", m);
+	}
+
+	//중개인 매물내역 삭제
+	public int myEstateHouseDelete(SqlSessionTemplate sqlSession, int houseNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("estateMapper.myEstateHouseDelete", houseNo);
 	}
 
 	

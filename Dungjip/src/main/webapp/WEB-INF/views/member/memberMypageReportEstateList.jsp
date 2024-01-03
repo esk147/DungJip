@@ -1,17 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%> 
-<%@ page import="java.text.SimpleDateFormat" %>  
-
+    pageEncoding="UTF-8"%>
+<%@page import="com.kh.dungjip.member.model.vo.Member"%>    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공감</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>하우스 리뷰내역</title>
     <style>
         .card{
-           box-shadow: 1px 1px 7px 0;
+           box-shadow: 0 0 5px 0;
            border: none;
            border-radius: 12px 12px 12px 12px;
            
@@ -67,6 +65,7 @@
 		  display: inline-block;
 		  margin-right: 10px; /* 각 요소 사이의 간격을 조정할 수 있습니다. */
 		}
+		
         
     </style>
 </head>
@@ -90,62 +89,58 @@
 			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
 
 			<div class="panel-heading">
-                <h3 class="panel-title"><strong>공감 > 중개사</strong></h3>
-            </div>
-            
-            <!-------------------------------------------- 중개사 리뷰공감 ------------------------------------->	 
-			<section id="comments"> 			
-	          <c:if test="${not empty esRelike }"> 
-	          	<c:forEach items="${esRelike}" var="esRelike" >
-	          
-					<div class="row comment" style="margin:0; margin-top:15px;">		                
-		                               
-		                <div class="col-sm-9 col-md-10" style=" border-bottom: inset;">
-		                	
-		                	<div style="display: flex;justify-content: space-between;">
-		                    	<h6 class="text-uppercase"># ${esRelike.esReNo }</h6><a href="estate/esRedelete.me?esReNo=${esRelike.esReNo}" onclick="return confirm('공감을 취소하시겠습니까?');" style="color:darkblue;">공감취소</a>
-		                    </div>
-		                    
-		                    <p class="posted" id="posted"><i class="fa fa-clock-o" ></i>${esRelike.esReCreateDate } </p>
-		                    <p>${esRelike.esReContent }</p>
-		                    		                   
-		                </div>
-		                
-		            </div>
-	            </c:forEach>
-	          </c:if>				          
-	        </section>  
+			
+                <h3 class="panel-title"><strong>신고내역</strong></h3>           
 
-	      
-	        
-	        <footer style="width: 450px;">
-			   <!--------------------------------------- 페이징 처리 ------------------------------------->
+				 <div class="section additional-details">
+				 
+					 <c:if test="${not empty repolist }">
+						 <c:forEach items="${repolist}" var="repolist" >
+						 
+							<h4 class="s-property-title"># ${repolist.reportNo}</h4>
+							
+			                 <ul class="additional-details-list clearfix">
+			                     <li>
+			                         <span class="col-xs-6 col-sm-4 col-md-4 add-d-title">신고한 중개사 번호</span>
+			                         <span class="col-xs-6 col-sm-8 col-md-8 add-d-entry">${repolist.estateNo}</span>
+			
+			                     <li>
+			                         <span class="col-xs-6 col-sm-4 col-md-4 add-d-title">신고 사유</span>
+			                         <span class="col-xs-6 col-sm-8 col-md-8 add-d-entry">${repolist.reportReason }</span>
+			                     </li>
+			
+			                 </ul>
+			                 
+			             </c:forEach>  			             
+		             </c:if>
+		             
+		             <hr>
+		              
+	             </div> 
+             
+             </div>
+	
+			 <!--------------------------------------- 페이징 처리 ------------------------------------->
 			   <div class="pull-right" >
-		            <div class="pagination">
+		            <div class="pagination" >
 		                <ul>
 		                	 <c:if test="${pi.currentPage ne 1 }">
-		                   <li><a href="myReviewLike.me?currentPage=${pi.currentPage-1}">Prev</a></li>
+		                   <li><a href="myHousejjim.me?currentPage=${pi.currentPage-1}">Prev</a></li>
 		                </c:if>   
 		                <c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">  
-		                   <li><a href="myReviewLike.me?currentPage=${p}">${p}</a></li>
+		                   <li><a href="myHousejjim.me?currentPage=${p}">${p}</a></li>
 		                </c:forEach>   
 		                <c:if test="${pi.currentPage ne pi.maxPage }"> 
-		                     <li><a href="myReviewLike.me?currentPage=${pi.currentPage+1}">Next</a></li>
+		                     <li><a href="myHousejjim.me?currentPage=${pi.currentPage+1}">Next</a></li>
 		                	  </c:if>
 		                </ul>
 		            </div>
 		       </div> 
-        	</footer>
-                               
-		</section>
+		   </section>    
 	</div>
 
-	<form action="esRedelete.me" method="post">
-    	<input type ="hidden">
-    </form>
-
-
-	<%@ include file="../common/footer.jsp" %> 
+	<%@ include file="../common/footer.jsp" %>
+      
      
      
 </body>

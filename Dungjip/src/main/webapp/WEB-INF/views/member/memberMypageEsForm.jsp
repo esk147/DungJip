@@ -88,7 +88,7 @@
 
     <div class="container" style="display: flex; width: 67%;">
           
-            <%@ include file="memberMypagemenubar.jsp" %>
+        <%@ include file="memberMypageEsmenubar.jsp" %>
             
         <section class="main-content" style="width:100%; margin: 70px 0 70px 50px; margin-left:4%;">
           
@@ -106,9 +106,9 @@
                     <hr id="hrElement" >
                     <li id="userNickNameContainer">
                     	<img alt="" src="resources/img/icons/nickname1828439.png" style="width: 16px;">
-                        <span class="item_text nickname" style="margin-left:12px;">${loginUser.userNickName }</span>                         
-                    </li>
-                                       
+                        <span class="item_text nickname" style="margin-left:12px;">${loginUser.userNickName }</span>                        
+                    </li>                    
+                    
                     <hr>
                   
                     <li>
@@ -126,42 +126,37 @@
                 </ul>
             </div>
             <div class="card" style="width: 93%; margin-bottom:50px;">
-                <a href="mReservation.me" style="width: 100%;"><h3>예약내역 <img src="resources/img/icons/rightarrow271228.png" alt="" style="width: 15px; float:right;"></h3></a>
+                <h3>매물내역 <img src="resources/img/icons/rightarrow271228.png" alt="" style="width: 15px; float:right;"></h3>
                 <!-- Additional content can be added here -->
                 <ul class="card_row" style="color: #333; list-style: none; padding: 0 20px 20px 20px;">
-                
-                    <c:if test="${not empty rrlist }">         
-	                    <c:forEach items="${rrlist}" var="reservation" varStatus="loops">
-	                    	<c:if test="${loops.index < 3}"><!-- 최대 4개까지만 표시 -->
-			                    <li>
-			                    	<img alt="" src="" style="width: 16px;">
-			                        <div class="media-body">
-										<p>
-											<b><i class="fa fa-clock-o" ></i> </b>
-											<fmt:formatDate value="${rervation.reservationDate}" pattern="yyyy년 MM월 dd일" /> 
-											${reservation.time.timeValue }
-										</p>
-										<p>
-											<b>중개사 : </b> ${reservation.estate.esName }
-											<input type="hidden" id="esNo" value="${reservation.esNo}">
-			                       			 <button onclick="window.location.href='mReservation.me'" class="btn_edit">상세보기</button>    
-										</p>
-									</div>
-			                    </li>
-			                    <hr>
-		                    </c:if>
-	   					</c:forEach>
-	   				</c:if>		   					
-	   				<c:if test="${empty rrlist }">
-						<p>※ 문의 내역이 존재하지 않습니다.</p>
-	
-					</c:if>
+                    <li>
+                    	<img alt="" src="" style="width: 16px;">
+                        <span class="item_text name" style="margin-left:12px;">이름</span>
+                        <button class="btn_edit">실명수정</button>    
+                    </li>
+                    <hr>
+                    <li>
+                    	<img alt="" src="" style="width: 16px;">
+                        <span class="item_text nickname" style="margin-left:12px;">닉네임</span>
+                        <button class="btn_edit">수정</button>    
+                    </li>
+                    <hr>
+                    <li>
+                    	<img alt="" src="" style="width: 16px;">
+                        <span class="item_text phone" style="margin-left:12px;">전화번호</span>
+                        <button class="btn_edit">수정</button>    
+                    </li>
+                    <hr>
+                    <li>
+                    	<img alt="" src="" style="width: 16px;">
+                        <span class="item_text email" style="margin-left:12px;">이메일</span>
+                        <button class="btn_edit">수정</button>    
+                    </li>
     
                 </ul>
             </div>
             
-            <!---------------------------  날릴까 말까 고민 중 ------------------------->
-            <!-- <div class="card" style="width: 93%; margin-bottom:50px;">
+           <!--  <div class="card" style="width: 93%; margin-bottom:50px;">
                 <h3>리뷰내역</h3>
                 Additional content can be added here
                 <ul class="card_row" style="color: #333; list-style: none; padding: 0 20px 20px 20px;">
@@ -179,28 +174,35 @@
                     </li>                   
     
                 </ul>
-            </div>
+            </div> -->
             
-            <div class="card" style="width: 93%; margin-bottom:50px;">
-			    <h3>찜내역 </h3>
-			    Additional content can be added here
+            <%-- <div class="card" style="width: 93%; margin-bottom:50px;">
+			    <h3>찜내역</h3>
+			    <!-- Additional content can be added here -->
 			    <ul class="card_row" style="color: #333; list-style: none;padding: 0 20px 20px 20px;">
-			         <li>
-                    	<img alt="" src="" style="width: 16px;">
-                        <span class="item_text name" style="margin-left:12px;">집</span>                        
-                        <button class="btn_edit" onclick="window.location.href='myHousejjim.me'">상세보기</button>  
-                        
-                    </li>
-                    <hr>
-                    <li>
-                    	<img alt="" src="" style="width: 16px;">
-                        <span class="item_text nickname" style="margin-left:12px;">중개사</span>
-                        <button class="btn_edit" onclick="window.location.href='myEsjjim.me'">상세보기</button>    
-                    </li>                
+			        <c:if test="${not empty hlike}">
+			            <c:forEach items="${hlike}" var="house" varStatus="status">
+			                <c:if test="${status.index < 3}">
+			                    <div class="col-md-4" style="margin-top:20px;">
+			                        <div class="card mb-3" style="width:100%;height:100%;">
+			                            <img class="homeImg" src="${himg[status.index].changeName}" class="card-img-top" alt="House Image" style="width: 260px;height: 168px;">
+			                            <div class="card-body">
+			                                <h5 class="card-title" style="width:100%;">${house.houseTitle}</h5>
+			                                <div style="display: flex;justify-content: end;">
+			                                    <a href="house/hjjimdelete.me?houseNo=${house.houseNo}" class="btn btn-light btn-sm" style="color: brown;">찜 해제</a>
+			                                </div>
+			                            </div>
+			                        </div> 
+			                    </div>
+			                </c:if>
+			            </c:forEach> 
+			        </c:if> 
+          
 			    </ul>
-			</div>
+			</div> --%>
+
             
-            <div class="card" style="width: 93%; margin-bottom:50px;">
+            <!-- <div class="card" style="width: 93%; margin-bottom:50px;">
                 <h3>공감 </h3>
                 Additional content can be added here
                 <ul class="card_row" style="color: #333; list-style: none;padding: 0 20px 20px 20px;">
@@ -221,7 +223,7 @@
                        
             <%-- <div class="card" style="width: 93%;  margin-bottom:50px;">
                 <a href="myQnA.me" style="width: 100%;"><h3>문의내역 <img src="resources/img/icons/rightarrow271228.png" alt="" style="width: 15px; float:right;"></h3></a>
-            
+                <!-- Additional content can be added here -->
                 <ul class="card_row" style="color: #333; list-style: none;padding: 0 20px 20px 20px;">
 	               
 	                <c:if test="${not empty qlist }">         
@@ -237,16 +239,16 @@
 	   					</c:forEach>
 	   				</c:if>		   					
 	   				<c:if test="${empty qlist }">
-						<p>※ 문의 내역이 존재하지 않습니다.</p>	
-					</c:if> 
-					                   
+						<p>※ 문의 내역이 존재하지 않습니다.</p>
+	
+					</c:if>
+                    
                 </ul>
-           </div> --%>
-                                
-     </section>
-     
-     </div>
-            
+                </div> --%>
+                
+            </div>
+            <!-- Additional toggles can be added here -->
+        </section>
  
  
 	<!---------------------- 마스킹처리 ----------------------------> 

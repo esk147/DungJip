@@ -9,7 +9,7 @@
     <title>하우스 리뷰내역</title>
     <style>
         .card{
-           box-shadow: 1px 1px 7px 0;
+           box-shadow: 0 0 5px 0;
            border: none;
            border-radius: 12px 12px 12px 12px;
            
@@ -65,6 +65,7 @@
 		  display: inline-block;
 		  margin-right: 10px; /* 각 요소 사이의 간격을 조정할 수 있습니다. */
 		}
+		
         
     </style>
 </head>
@@ -74,8 +75,15 @@
 
 	<div class="container" style="display: flex; width: 67%;">
 
-		<!-- 마이페이지 메뉴바 -->
-		<%@ include file="memberMypagemenubar.jsp"%>
+		<!-- 마이페이지 메뉴바 --> 
+		<c:choose>
+	    <c:when test="${loginUser.userType eq '임차인' || loginUser.userType eq '임대인'}">
+	        <%@ include file="memberMypagemenubar.jsp" %>
+	    </c:when>
+	    <c:when test="${loginUser.userType eq '중개인'}">
+	        <%@ include file="memberMypageEsmenubar.jsp" %>
+	    </c:when>
+	    </c:choose>  
 
 		<section class="main-content"
 			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
@@ -87,8 +95,12 @@
 			<c:if test="${not empty hlike}">
 				<c:forEach items="${hlike}" var="hlike" varStatus="status">
 					<div class="col-md-4" style="margin-top:20px;">
-						 <div class="card mb-3" style="width:100%;height:100%;">
-							  <img class="homeImg" src="${himg[status.index].changeName }" class="card-img-top" alt="..." style="width: 260px;height: 168px;">
+						 <div class="card mb-3" style="width:250px;height:270px;">
+							 	<div>
+								 	<a href="${contextPath}/detail.ho?houseNo=${hlike.houseNo}" style="display:contents;">
+									  <img class="homeImg" src="${himg[status.index].changeName }" class="card-img-top" alt="..." style="width: 260px;height: 168px;border-radius: 10px 10px 10px 0;">
+									</a>
+								</div> 
 							  <div class="card-body">
 							    <h5 class="card-title" style="width:100%;">${hlike.houseTitle }</h5>
 							    <div style="display: flex;justify-content: end;">
@@ -99,12 +111,24 @@
 					</div>
 				</c:forEach>	
 			</c:if>
-			<c:if test="${empty hlike }">
-				<p>※ 찜 내역이 존재하지 않습니다.</p>
-	
-			</c:if>			
-			
-		</section>
+					
+			 <!--------------------------------------- 페이징 처리 ------------------------------------->
+			   <div class="pull-right" >
+		            <div class="pagination" >
+		                <ul>
+		                	 <c:if test="${pi.currentPage ne 1 }">
+		                   <li><a href="myHousejjim.me?currentPage=${pi.currentPage-1}">Prev</a></li>
+		                </c:if>   
+		                <c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">  
+		                   <li><a href="myHousejjim.me?currentPage=${p}">${p}</a></li>
+		                </c:forEach>   
+		                <c:if test="${pi.currentPage ne pi.maxPage }"> 
+		                     <li><a href="myHousejjim.me?currentPage=${pi.currentPage+1}">Next</a></li>
+		                	  </c:if>
+		                </ul>
+		            </div>
+		       </div> 
+		   </section>    
 	</div>
 
 	<%@ include file="../common/footer.jsp" %>

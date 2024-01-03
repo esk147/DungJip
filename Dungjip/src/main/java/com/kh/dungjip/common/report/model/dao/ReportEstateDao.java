@@ -1,12 +1,16 @@
 package com.kh.dungjip.common.report.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.common.report.model.vo.ReportEstate;
 import com.kh.dungjip.common.websocket.model.vo.ChatMessage;
+import com.kh.dungjip.member.model.vo.Member;
 
 @Repository
 public class ReportEstateDao {
@@ -30,5 +34,16 @@ public class ReportEstateDao {
 		sqlSession.update("chatMapper.updateReportStatus", chatRoomNo);
 	}
 
+	//신고내역 리스트
+	public ArrayList<ReportEstate> memberMypageReportEstateList(SqlSessionTemplate sqlSession, Member m, PageInfo pi) {
+		
+		int limit = pi.getBoardLimit();
+		
+		int offset = (pi.getCurrentPage()-1)*limit;
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		return (ArrayList)sqlSession.selectList("estateMapper.memberMypageReportEstateList", m, rowBounds);
+	}
 
 }
