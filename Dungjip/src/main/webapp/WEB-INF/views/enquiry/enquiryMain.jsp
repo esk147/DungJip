@@ -137,7 +137,7 @@ input[type="text"], input[type="email"], select, textarea {
 				<a href="enList.en" class="nav-item2" style="width:180px;">1:1문의 내역</a>
 			</c:if>	
 				<a href="enquiry.en" class="nav-item2 active" style="width:180px;">1:1문의</a>
-				<a href="#" class="nav-item2">공지사항</a>
+				<a href="#" class="nav-item2" style="width:180px;" onclick="navigateToNotice(event)">공지사항</a>
 		</div>
 	<c:choose>
 		<c:when test="${loginUser == null }">
@@ -165,7 +165,7 @@ input[type="text"], input[type="email"], select, textarea {
 			<form id="insertForm" method="post" action="insert.en" enctype="multipart/form-data">
 				<input type="hidden" name="userNo" id="userNo" value="${loginUser.userNo}">
 				<p align="center" style="font-size: 16px;">
-					둥집에 궁금하신 점을 문의해주세요. <br> 문의내용과 답변은 <a>'마이페이지 문의내역'</a> 에서 확인 하실 수 있습니다. </p>
+					둥집에 궁금하신 점을 문의해주세요. <br> 문의내용과 답변은 <a href="mReservation.me">'마이페이지 문의내역'</a> 에서 확인 하실 수 있습니다. </p>
 				
 				<br> 
 				<label for="">문의 유형</label> 
@@ -184,6 +184,15 @@ input[type="text"], input[type="email"], select, textarea {
 		</div>	
 			</c:otherwise>
 			</c:choose>
+	<script>
+    function navigateToNotice(event) {
+        // 공지사항 페이지로 이동
+        window.location.href = "/dungjip/notice/list";
+
+        // 기본 동작 막기
+        event.preventDefault();
+    }
+</script>		
 	<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

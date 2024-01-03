@@ -1,13 +1,16 @@
 package com.kh.dungjip.member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.vo.Estate;
+import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.member.model.vo.Member;
 
 @Repository
@@ -66,6 +69,13 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberMapper.ajaxphoneMethod", phone);
 	}
+	
+	//닉네임 중복체크
+	public int ajaxnickname(SqlSessionTemplate sqlSession, String userNickName) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.ajaxnickname", userNickName);
+	}
+	
 	//로그인시 현재시간 집어넣기
 	public int updateLastLoginTime(SqlSessionTemplate sqlSession, Member loginUser) {
 		// TODO Auto-generated method stub
@@ -140,12 +150,39 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.noSubscribe", userNo);
 	}
 
-	
+	//예약 내역
+	public ArrayList<Reservation> selectReservation(SqlSessionTemplate sqlSession, Member loginUser) {				
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectReservation",loginUser);
+	}
 
+	//프로필 사진 수정
+	public int fileAjaxMethod(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.fileAjaxMethod", m);
+	}
 
-	
-	
-	
+	//마이페이지 예약내역 페이징
+	public int selectListCount(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectListCount", sqlSession);
+	}
 
+	//마이페이지 예약내역 4개 리스트 띄울 용도
+	public ArrayList<Reservation> selectReservationList(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("memberMapper.selectReservation", m);
+	}
 
+	public int mypageEstateUpdate(SqlSessionTemplate sqlSession, Estate elist) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.mypageEstateUpdate", elist);
+	}
+
+	//중개인 예약내역
+	public ArrayList<Reservation> membermypageEsReservation(SqlSessionTemplate sqlSession, Integer esNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("memberMapper.membermypageEsReservation",esNo);
+	}
+	
 }

@@ -9,12 +9,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>DungJip Header</title>
-
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Frank+Ruhl+Libre:wght@500;700&family=Montserrat+Alternates:wght@500&display=swap" rel="stylesheet">
+
      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/dungjip/resources/assets/css/normalize.css">
         <link rel="stylesheet" href="/dungjip/resources/assets/css/font-awesome.min.css">
@@ -124,9 +124,10 @@
 									<c:choose>
 										<c:when test="${loginUser.userType == '관리자'}">
 											<li class="nav-item"><a class="nav-link" href="admin/list">관리자 페이지</a></li>
+
 										</c:when>
 										<c:when test="${loginUser.userType == '중개인'}">
-											<li class="nav-item"><a class="nav-link" href="myPage.me">중개인 페이지</a></li>
+											<li class="nav-item"><a class="nav-link" href="myEsPage.me">중개인 페이지</a></li>
 										</c:when>
 										<c:otherwise>
 											<!-- 기본적으로는 마이 페이지가 나타나도록 설정 -->

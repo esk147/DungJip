@@ -142,7 +142,7 @@
 		<div align="center">
 			<a href="enList.en" class="nav-item2 active" style="width:180px;">1:1문의 내역</a>
 			<a href="enquiry.en" class="nav-item2" style="width:180px;">1:1문의</a>
-			<a href="#" class="nav-item2">공지사항</a>
+			<div class="nav-item2" style="width:180px; cursor: pointer;" onclick="navigateToNotice()">공지사항</div>
 		</div>
         <div class="content-area recent-property" style="background-color: #FCFCFC; padding-bottom: 55px;">
             <div class="container">    
@@ -226,23 +226,13 @@
 						}
 				});
 			}
+		    function navigateToNotice() {
+		        // 공지사항 페이지로 이동
+		        window.location.href = "/dungjip/notice/list";
+		    }
+			
        </script>
 
        <%@ include file="../common/footer.jsp" %>
     </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

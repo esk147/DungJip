@@ -335,7 +335,6 @@
 		<button id="left-btn" class="scroll-button" onclick="scroll(-200)"></button>
 			<div class="card-container" id="cardContainer">
 
-		      
 	      </div>
       
 		<button id="right-btn" class="scroll-button" onclick="scroll(200)"></button>

@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.dungjip.common.model.vo.PageInfo;
+import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.house.model.dao.HouseDao;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.Jjim;
+import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -97,8 +100,8 @@ public class HouseServiceImpl implements HouseService{
 
 	//비슷한 매물 찾기 list
 	@Override
-	public ArrayList<House> houseLikeList(String houseAddress) {
-		return houseDao.houseLikeList(sqlSession,houseAddress);
+	public ArrayList<House> houseLikeList(String houseAddress,PageInfo pi) {
+		return houseDao.houseLikeList(sqlSession,houseAddress,pi);
 	}
 
 	//비슷한 매물 찾기 img
@@ -118,8 +121,65 @@ public class HouseServiceImpl implements HouseService{
 	}
 
 	@Override
+	public ArrayList<House> memberMypageHousejjimForm(Member m,PageInfo pi) {
+		// TODO Auto-generated method stub
+		return houseDao.memberMypageHousejjimForm(sqlSession,m,pi);
+	}
+
+	@Override
+	public HouseImg memberMypageHousejjimImg(int houseNo) {
+		// TODO Auto-generated method stub
+		return houseDao.memberMypageHousejjimImg(sqlSession,houseNo);
+	}
+
+
 	public ArrayList<House> selectSubscribeHouseList(Map<String, Object> map) {
 		return houseDao.selectSubscribeHouseList(sqlSession, map);
 	}
+
+	//비슷한 매물 전체 개수
+	@Override
+	public int selectHouseLikeCount(String houseAddress) {
+		return houseDao.selectHouseLikeCount(sqlSession, houseAddress);
+	}
+
+	//마이페이지 찜 목록에서 찜 해제
+	@Override
+	public int mypageHjjimdelete(int houseNo) {
+		// TODO Auto-generated method stub
+		return houseDao.mypageHjjimdelete(sqlSession, houseNo);
+	}	
+
+	//부동산 집 리스트(모달창)
+	@Override
+	public ArrayList<House> selectHouseModal(int esNo) {
+		// TODO Auto-generated method stub
+		return houseDao.selectHouseModal(sqlSession,esNo);
+	}
+
+	//마이페이지 집 찜 페이징
+	@Override
+	public int selectListCount() {
+		// TODO Auto-generated method stub
+		return houseDao.selectListCount(sqlSession);
+	}
+
+	//마이페이지 중개인 매물내역
+	@Override
+	public ArrayList<House> memberMypageEstateHouseList(Integer esNo, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return houseDao.memberMypageEstateHouseList(sqlSession,esNo,pi);
+	}
+
+	//마이페이지 중개인 매물내역 카운트
+	@Override
+	public int selectEsHouseListCount() {
+		// TODO Auto-generated method stub
+		return houseDao.selectEsHouseListCount(sqlSession);
+	}
+
+
+
+
 
 }

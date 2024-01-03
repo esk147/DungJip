@@ -65,8 +65,15 @@
 
     <div class="container" style="display: flex; width: 67%;">
     
-    <!-- 마이페이지 메뉴바 -->      
-    <%@ include file="memberMypagemenubar.jsp" %>
+	<!-- 마이페이지 메뉴바 --> 
+	<c:choose>
+    <c:when test="${loginUser.userType eq '임차인' || loginUser.userType eq '임대인'}">
+        <%@ include file="memberMypagemenubar.jsp" %>
+    </c:when>
+    <c:when test="${loginUser.userType eq '중개인'}">
+        <%@ include file="memberMypageEsmenubar.jsp" %>
+    </c:when>
+    </c:choose>     
         
         <!-------------------------------- 회원 정보 수정하기-------------------------------->    
         <section class="main-content" style="width:100%; margin: 70px 0 70px 50px; margin-left:4%;">
@@ -92,14 +99,32 @@
 	                   	 	<input type="text" class="form-control" id="userName" name="userName" placeholder="NAME" value="${loginUser.userName}" >
 	                   	</div>	
 	                   	
-	                   	<hr> 
+	                   	<hr id="hrElement"> 
 	                   	
 	                   	<div>
-	                   		<span class="item_text userNickName">닉네임</span>
-	                   	 	<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="NICKNAME" value="${loginUser.userNickName}" >
+	                   		<span class="item_text userNickName"  id="userNickNameLabel">닉네임</span>
+	                   	 	<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="NICKNAME" value="${loginUser.userNickName}">
 	                   	</div>	
 	                   	
-	                   	<hr> 
+	                   	
+	                   	<!-- 중개인 일때는 닉네임 필요 없으니 중개인 페이지 들어갈땐 닉네임 div 숨김 -->
+	                   	<script>
+		                    const userType = '${loginUser.userType}'; // userType 값 가져오기
+		                    
+		                    const userNickNameLabel = document.getElementById('userNickNameLabel');
+		                    const userNickNameInput = document.getElementById('userNickName');
+		                    const hrElement = document.getElementById('hrElement');
+	
+		                    if (userType === '중개인') {
+		                        userNickNameLabel.style.display = 'none'; // 라벨 숨김 처리
+		                        userNickNameInput.style.display = 'none'; // 입력창 숨김 처리
+		                        hrElement.remove(); // hr 태그를 삭제
+		                    }
+						</script>
+	                   
+	                   
+	                   
+	                   	<hr>
 	                   	
 	                   	<div>
 		                   	<span class="item_text age">나이</span>
@@ -179,15 +204,15 @@
 			      <div class="modal-body" style="padding: 25px;">
 			      	<div class="modal-body context" style="margin-bottom: 25px;">
 						<div class="text-left"><h5><a>현재 비밀번호</a></h5>
-							<input type="password" id="userPassword" name="userPassword" placeholder="현재 비밀번호" style="border: 1px solid #DADADA;">
+							<input type="password" id="userPassword" name="userPassword" placeholder="현재 비밀번호" style="border: 1px solid #DADADA;" autocomplete="current-password">
 						</div>
 						<br>
 						<div class="text-left"><h5><a>새로운 비밀번호</a></h5>
-							<input type="password" id="userNewPassword" name="userNewPassword" placeholder="새로운 비밀번호 (6~15자리 영문 및 숫자 조합)" style="border: 1px solid #DADADA;">
+							<input type="password" id="userNewPassword" name="userNewPassword" placeholder="새로운 비밀번호 (6~15자리 영문 및 숫자 조합)" style="border: 1px solid #DADADA;" autocomplete="current-password">
 						</div>
 						<br>
 						<div class="text-left"><h5><a>새로운 비밀번호 확인</a></h5>
-							<input type="password" id="userNewPasswordChk" name="userNewPasswordChk" placeholder="새로운 비밀번호 (6~15자리 영문 및 숫자 조합)" style="border: 1px solid #DADADA;">
+							<input type="password" id="userNewPasswordChk" name="userNewPasswordChk" placeholder="새로운 비밀번호 (6~15자리 영문 및 숫자 조합)" style="border: 1px solid #DADADA;" autocomplete="current-password">
 						</div>
 						
 					</div>	        
@@ -247,7 +272,7 @@
 								
 								<div class="form-group password">
 									<div class="text-left"><h5><b>해당 계정 비밀번호 확인</b></h5></div>
-					                <input type="password" class="form-control" id="userPwdChk" name="userPwdChk" placeholder="비밀번호 작성하세요">
+					                <input type="password" class="form-control" id="userPwdChk" name="userPwdChk" placeholder="비밀번호를 작성하세요" autocomplete="current-password">
 					                <span class="placeholder"></span>
 				            	</div>  
 								
