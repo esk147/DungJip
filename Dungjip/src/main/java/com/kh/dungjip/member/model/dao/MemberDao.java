@@ -140,6 +140,15 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.userSubscribe", userNo);
 	}
 
+	public Member findSubscribeUser(SqlSessionTemplate sqlSession, int userNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.findSubscribeUser", userNo);
+	}
+
+	public int noSubscribe(SqlSessionTemplate sqlSession, int userNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.noSubscribe", userNo);
+	}
 
 	//예약 내역
 	public ArrayList<Reservation> selectReservation(SqlSessionTemplate sqlSession, Member loginUser) {				
@@ -175,15 +184,5 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("memberMapper.membermypageEsReservation",esNo);
 	}
-
 	
-
-	
-
-
-	
-	
-	
-
-
 }

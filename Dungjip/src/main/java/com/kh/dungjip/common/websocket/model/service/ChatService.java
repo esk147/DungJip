@@ -30,5 +30,11 @@ public interface ChatService {
 
 	int updateReportEstate(ReportEstate reportEstate);
 
+	int deleteJoinChatRoom(int chatNo);
+
+	int deleteChatRoom(int chatNo);
+
+	int deleteChatMsg(int chatNo);
+
 	
 }

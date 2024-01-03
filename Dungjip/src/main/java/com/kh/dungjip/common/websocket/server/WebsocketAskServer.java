@@ -3,6 +3,7 @@ package com.kh.dungjip.common.websocket.server;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,6 +16,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Collectors;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,7 +124,26 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 			}
 		}
 	}
-
+	/*
+	 * @Override protected void handleBinaryMessage(WebSocketSession session,
+	 * BinaryMessage message) { System.out.println("왔냐??"); ByteBuffer byteBuffer =
+	 * message.getPayload(); // 바이너리 데이터 추출 및 처리 System.out.println(byteBuffer); //
+	 * 예: 파일로 저장, 변환 등
+	 * 
+	 * URI uri = session.getUri(); if (uri != null) { String query = uri.getQuery();
+	 * Map<String, String> queryParams = parseQuery(query);
+	 * 
+	 * String chatRoomNoStr = queryParams.get("chatRoomNo"); if (chatRoomNoStr !=
+	 * null) { int chatRoomNo = Integer.parseInt(chatRoomNoStr); // 바이너리 데이터를 해당
+	 * 채팅방의 다른 참가자들에게 전송 Set<WebSocketSession> sessionsInRoom =
+	 * roomSessions.get(chatRoomNo); if (sessionsInRoom != null) {
+	 * System.out.println("히히2"); for (WebSocketSession s : sessionsInRoom) { if
+	 * (s.equals(session)) { // 메시지를 보낸 사용자 제외 try { System.out.println("히히3");
+	 * s.sendMessage(new BinaryMessage(byteBuffer)); } catch (IOException e) { //
+	 * TODO Auto-generated catch block e.printStackTrace(); } // 바이너리 메시지 전송 } } } }
+	 * } }
+	 */
+	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 

@@ -1,6 +1,7 @@
 package com.kh.dungjip.house.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
@@ -8,11 +9,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.dungjip.common.model.vo.PageInfo;
-import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.house.model.vo.House;
-import com.kh.dungjip.house.model.vo.Jjim;
-import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.house.model.vo.HouseImg;
+import com.kh.dungjip.house.model.vo.Jjim;
 import com.kh.dungjip.member.model.vo.Member;
 
 @Repository
@@ -127,8 +126,16 @@ public class HouseDao {
 	}
 
 	//비슷한 매물 찾기 list
-	public ArrayList<House> houseLikeList(SqlSessionTemplate sqlSession, String houseAddress) {
-		return (ArrayList)sqlSession.selectList("houseMapper.houseLikeList",houseAddress);
+	public ArrayList<House> houseLikeList(SqlSessionTemplate sqlSession, String houseAddress,PageInfo pi) {
+		//몇개씩 보여줄지
+		int limit = pi.getBoardLimit();
+		
+		//몇개씩 건너뛸지
+		int offset = (pi.getCurrentPage()-1) * limit;
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+				
+		return (ArrayList)sqlSession.selectList("houseMapper.houseLikeList",houseAddress,rowBounds);
 	}
 
 	//비슷한 매물 찾기 img
@@ -143,6 +150,11 @@ public class HouseDao {
 		return sqlSession.delete("houseMapper.mypageHjjimdelete",houseNo);
 	}
 
+	//비슷한 매물 전체 개수
+	public int selectHouseLikeCount(SqlSessionTemplate sqlSession, String houseAddress) {
+		return sqlSession.selectOne("houseMapper.selectHouseLikeCount",houseAddress);
+	}
+	
 	//마이페이지 집 찜 페이징
 	public int selectListCount(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
@@ -167,6 +179,23 @@ public class HouseDao {
 		return sqlSession.selectOne("houseMapper.selectEsHouseListCount");
 	}
 
-
+	//마이페이지 임대인 매물내역 페이징
+	public int mypageImdaHouseListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("houseMapper.mypageImdaHouseListCount");
+	}
+	
+	//마이페이지 임대인 매물내역
+	public ArrayList<House> mypageImdaHouseList(SqlSessionTemplate sqlSession,PageInfo pi, Member m) {
+		
+		//몇개를 보여줄지
+		int limit = pi.getBoardLimit();
+		//몇개를 건너뛸지
+		int offset = (pi.getCurrentPage()-1)* limit;		
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		
+		return (ArrayList)sqlSession.selectList("houseMapper.mypageImdaHouseList", m,rowBounds);
+	}
 
 }

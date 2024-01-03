@@ -67,12 +67,15 @@
     
 	<!-- 마이페이지 메뉴바 --> 
 	<c:choose>
-    <c:when test="${loginUser.userType eq '임차인' || loginUser.userType eq '임대인'}">
-        <%@ include file="memberMypagemenubar.jsp" %>
-    </c:when>
-    <c:when test="${loginUser.userType eq '중개인'}">
-        <%@ include file="memberMypageEsmenubar.jsp" %>
-    </c:when>
+	    <c:when test="${loginUser.userType eq '임차인' }">
+	        <%@ include file="memberMypagemenubar.jsp" %>
+	    </c:when>
+	    <c:when test="${loginUser.userType eq '중개인'}">
+	        <%@ include file="memberMypageEsmenubar.jsp" %>
+	    </c:when>
+	    <c:when test="${loginUser.userType eq '임대인'}">
+	        <%@ include file="memberMypageImdamenubar.jsp" %>
+	    </c:when>
     </c:choose>     
         
         <!-------------------------------- 회원 정보 수정하기-------------------------------->    
