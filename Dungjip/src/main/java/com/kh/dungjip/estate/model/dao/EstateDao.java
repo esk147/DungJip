@@ -219,4 +219,10 @@ public class EstateDao {
 	public ArrayList<ReservationNew> selectReservationList(SqlSessionTemplate sqlSession, ReservationNew reservation) {
 		return (ArrayList)sqlSession.selectList("estateMapper.selectReservationList",reservation);
 	}
+
+	//중개인 페이지
+	public ArrayList<Estate> myEspage(SqlSessionTemplate sqlSession,Member m) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("estateMapper.myEspage",m);
+	}
 }

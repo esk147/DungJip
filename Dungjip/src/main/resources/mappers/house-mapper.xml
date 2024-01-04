@@ -257,10 +257,24 @@
 	</select>
 	
 	<select id="selectHouseMain" parameterType="string" resultMap="houseResultSet">
-		select house_no, house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
-           THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
-           ELSE TO_CHAR(HOUSE_PRICE)
-           END AS HOUSE_PRICE, house_rent, house_square, house_floor, house_maintaincost, house_title, house_style from house where house_type = #{type} order by house_price FETCH FIRST 7 ROWS ONLY
+		SELECT * FROM (
+		    SELECT house_no, 
+		           house_name, 
+		           CASE 
+		               WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5 THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+		               ELSE TO_CHAR(HOUSE_PRICE)
+		           END AS HOUSE_PRICE, 
+		           house_rent, 
+		           house_square, 
+		           house_floor, 
+		           house_maintaincost, 
+		           house_title, 
+		           house_style 
+		    FROM house 
+		    WHERE house_type = #{type}
+		    ORDER BY house_no
+		) 
+		WHERE ROWNUM <![CDATA[ <= 7 ]]>
 	</select>
 	
 	<select id="selectHouseMainThumnail" parameterType="_int" resultMap="houseImgResultSet">
@@ -365,6 +379,14 @@
 		FROM HOUSE H
 		JOIN MEMBER M ON M.USER_NO = H.USER_NO
 		WHERE M.USER_NO = #{userNo}
+		AND H.STATUS='Y'
 	</select>
+	
+	<update id="myImdaHouseDelete">
+		UPDATE HOUSE
+		SET STATUS = 'N'
+		WHERE STATUS = 'Y'
+		AND HOUSE_NO = #{houseNo}
+	</update>
 	
 </mapper>

@@ -84,4 +84,5 @@ public interface MemberService {
 	//중개인 예약내역
 	ArrayList<Reservation> membermypageEsReservation(Integer esNo);
 
+
 }

@@ -100,4 +100,7 @@ public interface EstateService {
 	//중개인 매물내역 삭제 
 	int myEstateHouseDelete(int houseNo);
 
+	//중개인페이지
+	ArrayList<Estate> myEspage(Member m);
+
 }

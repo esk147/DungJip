@@ -86,7 +86,7 @@
 		        <%@ include file="memberMypageImdamenubar.jsp" %>
 		    </c:when>
 	    </c:choose>
-
+	    
 		<section class="main-content"
 			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
 
@@ -95,7 +95,7 @@
 				<div  id="list-type" class="proerty-th-list" style="color: #333; list-style: none; padding: 20px 20px 20px 20px;">
 					                           
                         <c:if test="${not empty hlike}">
-							<c:forEach items="${hlike}" var="hlike" varStatus="status">
+							<c:forEach items="${hlike}" var="hlike" varStatus="status" >
 	                     		<div class="col-md-4 p0">
 		                            <div class="box-two proerty-item">
 		                                <div class="item-thumb">
@@ -122,29 +122,30 @@
 						</c:if>                                										
 				</div>
 
+			</div>
 				<footer style="width: 500px;">
 					<!--------------------------------------- 페이징 처리 ------------------------------------->
 					<div class="pull-right">
 						<div class="pagination">
 							<ul>
 								<c:if test="${pi.currentPage ne 1 }">
-									<li><a href="esHouse.li?currentPage=${pi.currentPage-1}">Prev</a></li>
+									<li><a
+										href="esHouse.li?currentPage=${pi.currentPage-1}&esNo=${esNo}">Prev</a></li>
 								</c:if>
 								<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">
-									<li><a href="esHouse.li?currentPage=${p}">${p}</a></li>
+									<li><a href="esHouse.li?currentPage=${p}&esNo=${esNo}">${p}</a></li>
 								</c:forEach>
 								<c:if test="${pi.currentPage ne pi.maxPage }">
-									<li><a href="esHouse.li?currentPage=${pi.currentPage+1}">Next</a></li>
+									<li><a
+										href="esHouse.li?currentPage=${pi.currentPage+1}&esNo=${esNo}">Next</a></li>
 								</c:if>
 							</ul>
 						</div>
 					</div>
 				</footer>
-			</div>
+			
 		</section>
 	</div>
-
-
 
 	<!-- delete -->
 	<form action="esHdelete.li" method="post">
