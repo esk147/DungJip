@@ -44,7 +44,7 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 	public WebsocketAskServer() {//파일에서 부적절한 단어 목록을 읽어 badWords에 저장합니다.
 		
 		try {
-			badWords = Files.lines(Paths.get("C:\\Users\\82103\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
+			badWords = Files.lines(Paths.get("C:\\Users\\dhgl1\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
 		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -68,10 +68,8 @@
 	    /* 드롭다운 내용을 숨김 */
 		.dropdown-content {
 		    display: none;
-		    position: absolute;
-		    background-color: #f9f9f9;
+		    position: relative;
 		    min-width: 160px;
-		    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 		    z-index: 1;
 		}
 		
@@ -119,14 +117,14 @@
          
                     <li class="dropdown">
 			            <a href="#" class="menuitem" style="font-size: 15px; color: #929292;" >리뷰내역</a>
-			            <div class="dropdown-content">
+			            <div class="dropdown-content" style="background: white;">
 			                <!-- 드롭다운 내용 -->
 			                <a href="myHReview.me">집</a><br>
 			                <a href="myEsReview.me">중개사</a>
 			            </div>
 			        </li>			 
 			        
-                    <li class="dropdown">
+                    <li class="dropdown" style="background: white;">
                     	<a href="#" class="menuitem" style="font-size: 15px; color: #929292;">찜내역</a>
                     	<div class="dropdown-content">                   	
 			                <!-- 드롭다운 내용 -->
@@ -135,7 +133,7 @@
 			            </div>                    
                     </li> 
                        
-                    <li class="dropdown">
+                    <li class="dropdown" style="background: white;">
                     	<a href="#" class="menuitem" style="font-size: 15px; color: #929292;">공감</a>
                     	<div class="dropdown-content">                   	
 			                <!-- 드롭다운 내용 -->
@@ -144,7 +142,8 @@
 			            </div> 
                     </li>
                        
-                    <li><a href="myQnA.me" class="menuitem" style="font-size: 15px; color: #929292;">문의내역</a></li>                                  
+                    <li><a href="myQnA.me" class="menuitem" style="font-size: 15px; color: #929292;">문의내역</a></li> 
+                    <li><a href="reportList_es" class="menuitem" style="font-size: 15px; color: #929292;">신고내역</a></li>                                 
                 </ul>
 
 

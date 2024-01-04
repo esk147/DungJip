@@ -118,7 +118,7 @@
 			</div>
 		</section>
 	</div>
-	<script>
+	<script> 
 	function insertEstateReview(el){
 		var esNo = $(el).closest('tr').find('#esNo').val();
 		var beforeRTime = $(el).closest('tr').find('#rTime').val();

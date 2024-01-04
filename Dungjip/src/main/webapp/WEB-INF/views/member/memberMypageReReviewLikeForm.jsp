@@ -75,8 +75,18 @@
 
 	<div class="container" style="display: flex; width: 67%;">
 
-		<!-- 마이페이지 메뉴바 -->
-		<%@ include file="memberMypagemenubar.jsp"%>
+		<!-- 마이페이지 메뉴바 --> 
+		<c:choose>
+		    <c:when test="${loginUser.userType eq '임차인' }">
+		        <%@ include file="memberMypagemenubar.jsp" %>
+		    </c:when>
+		    <c:when test="${loginUser.userType eq '중개인'}">
+		        <%@ include file="memberMypageEsmenubar.jsp" %>
+		    </c:when>
+		    <c:when test="${loginUser.userType eq '임대인'}">
+		        <%@ include file="memberMypageImdamenubar.jsp" %>
+		    </c:when>
+	    </c:choose>  
 
 		<section class="main-content"
 			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
@@ -107,22 +117,24 @@
 	          </c:if>	          
 	        </section>  	        	       
          
+         	<footer style="width: 450px;">
 			<!--------------------------------------- 페이징 처리 ------------------------------------->
 			   <div class="pull-right">
                    <div class="pagination">
                        <ul>
                        	 <c:if test="${pi.currentPage ne 1 }">
-	                         <li><a href="myReviewLike.me?currentPage=${pi.currentPage-1}">Prev</a></li>
+	                         <li><a href="myHReview.me?currentPage=${pi.currentPage-1}">Prev</a></li>
 	                      </c:if>   
 	                      <c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">  
-	                         <li><a href="myReviewLike.me?currentPage=${p}">${p}</a></li>
+	                         <li><a href="myHReview.me?currentPage=${p}">${p}</a></li>
 	                      </c:forEach>   
 	                      <c:if test="${pi.currentPage ne pi.maxPage }"> 
-	                           <li><a href="myReviewLike.me?currentPage=${pi.currentPage+1}">Next</a></li>
+	                           <li><a href="myHReview.me?currentPage=${pi.currentPage+1}">Next</a></li>
                        	  </c:if>
                        </ul>
                    </div>
                </div>
+			</footer>
 				
 		</section>
 	</div>

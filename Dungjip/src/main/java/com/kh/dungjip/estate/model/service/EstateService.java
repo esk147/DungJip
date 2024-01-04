@@ -1,15 +1,17 @@
 package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Map;
 
-import com.kh.dungjip.common.model.vo.PageInfo;
-import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.house.model.vo.ReservationNew;
+import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
+
+import com.kh.dungjip.common.model.vo.PageInfo;
+import com.kh.dungjip.estate.model.vo.EsReLike;
 
 public interface EstateService {
 
@@ -40,13 +42,24 @@ public interface EstateService {
 	int selectEstateTwoStar(int esNo);
 	int selectEstateOneStar(int esNo);
 
+	int selectEstateEmoCount(int esReNo);
+
+	int selectReviewLikeCount(Map<String, Object> map);
+
+	int decreaseCount(Map<String, Object> map);
+
+	int increaseEsReLikeCount(Map<String, Object> map);
+
+	//예약 시간 select
+	ArrayList<Time> selectTime();
+
 
 	//리뷰 작성
 	int insertEstateReview( Map<String, Object> paramMap);
 
 
 	//조회
-	ArrayList<EstateReview> selectEstateReview(Member m);
+	ArrayList<EstateReview> selectEstateReview(Member m,PageInfo pi);
 
 	//삭제
 	int esReviewDelete(int esReNo);
@@ -64,7 +77,27 @@ public interface EstateService {
 	//공감삭제
 	int myEsReviewDelete(int esReNo);
 
+	//예약기능
+	int insertReservation(ReservationNew reservation);
 
+	//예약 날짜 눌렀을때 데이터 있는지 확인
+	ArrayList<ReservationNew> selectReservationList(ReservationNew reservation);
 
+	//마이페이지 중개사 리뷰 페이징
+	int selectListCount();
+
+	//마이페이지 매물내역
+	int selectEstate(int esNo);
+
+	int getEsNo(int userNo);
+
+	//신고내역 페이징
+	int selectReportEstateListCount();
+
+	//마이페이지 중개사무소 정보수정
+	ArrayList<Estate> mypageEstateUpdate(Member m);
+
+	//중개인 매물내역 삭제 
+	int myEstateHouseDelete(int houseNo);
 
 }

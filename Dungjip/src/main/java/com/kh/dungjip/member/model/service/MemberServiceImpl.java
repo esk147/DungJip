@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.member.model.dao.MemberDao;
@@ -24,9 +25,6 @@ public class MemberServiceImpl implements MemberService{
 	//로그인 처리 
 	@Override
 	public Member loginMember(Member m) {
-		// TODO Auto-generated method stub
-		Member loginMember = memberDao.loginMember(sqlSession, m);
-		//System.out.println("serviceimple " + loginMember);
 		return memberDao.loginMember(sqlSession, m);
 	}
 	
@@ -174,15 +172,45 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.fileAjaxMethod(sqlSession,m);
 	}
 
-
-	
-
-
 	//예약 내역
 	@Override
 	public ArrayList<Reservation> selectReservation(Member loginUser) {
 		
 		return memberDao.selectReservation(sqlSession,loginUser);
+	}
+
+	//마이페이지 예약내역 4개 리스트 띄울 용도
+	@Override
+	public ArrayList<Reservation> selectReservationList(Member m) {
+		// TODO Auto-generated method stub
+		return memberDao.selectReservationList(sqlSession,m);
+	}
+
+	//중개사무소 정보수정
+	@Override
+	public int mypageEstateUpdate(Estate elist) {
+		// TODO Auto-generated method stub
+		return memberDao.mypageEstateUpdate(sqlSession,elist);
+	}
+
+	//중개인 예약내역
+	@Override
+	public ArrayList<Reservation> membermypageEsReservation(Integer esNo) {
+		// TODO Auto-generated method stub
+		return memberDao.membermypageEsReservation(sqlSession,esNo);
+	}
+
+	@Override
+	public Member findSubscribeUser(int userNo) {
+		// TODO Auto-generated method stub
+		return memberDao.findSubscribeUser(sqlSession, userNo);
+	}
+
+
+	@Override
+	public int noSubscribe(int userNo) {
+		// TODO Auto-generated method stub
+		return memberDao.noSubscribe(sqlSession, userNo);
 	}
 
 

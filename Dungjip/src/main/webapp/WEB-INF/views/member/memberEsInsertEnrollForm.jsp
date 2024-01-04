@@ -120,6 +120,7 @@
                     <span class="placeholder"></span>
                 </div>         	
 				
+				<!-------------------------- 주소창 띄우는 작업  ------------------------->
 				<script type="text/javascript">
 				
 	               	    window.onload = function(){
@@ -142,9 +143,35 @@
                  
                  <div class="form-section">
 					<label for="esContent">중개사 소개</label> 
-					<input type="text" class="form-control" id="esContent" name="esContent" placeholder="중개사를 짧게 소개해주세요.">
-					
-				</div>	
+					<input type="text" class="form-control" id="esContent" name="esContent" placeholder="중개사를 소개해주세요.">					
+				 </div>	
+				 
+				 <div class="form-section">
+					<label for="esIntro">한 줄 소개</label> 
+					<input type="text" class="form-control" id="esIntro" name="esIntro" placeholder="한 줄로 중개사를 소개해보세요.">					
+				 </div>	
+                 
+                 <!---------------------------- 1000byte 넘을 시 타이핑 되지 않도록 설정 ----------------------->
+                 <script type="text/javascript">
+					    $(".form-control").keyup(function(e) {
+					        var content = $(this).val();
+					        
+					        // 글자수 세기
+					        if(content.length == 0 || content == "") {
+					            $(".comment_length").text('0');
+					        } else {
+					            $(".comment_length").text(content.length);
+					        }
+					        
+					        if (content.length > 500) {
+					            // 500자를 넘었을 때 알림창 띄우기
+					            alert("500자 이내로 입력해주세요.");
+					            
+					            // 500자를 넘어가면 타이핑 되지 않도록 처리
+					            $(this).val(content.substring(0, 500));
+					        }
+					    });
+					</script>
                  
                                   	
 				<div align="center">

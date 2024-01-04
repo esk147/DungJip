@@ -39,6 +39,7 @@
     		<result column="ES_ADDRESS" property="esAddress"/>
     		<result column="ES_CONTENT" property="esContent"/>
     		<result column="ES_IMAGE" property="esImage"/>
+    		<result column="ES_INTRO" property="esIntro"/>
     		<result column="ES_COUNT" property="esCount"/>
     		<result column="ES_STATUS" property="esStatus"/>
 		
@@ -190,7 +191,8 @@
 								,ES_NUM
 								,ES_REGISTER_NUM
 								,ES_ADDRESS
-								,ES_CONTENT)
+								,ES_CONTENT
+								,ES_INTRO)
 			VALUES(SEQ_ENO.NEXTVAL
 					,#{userNo}
 					,#{esName}
@@ -199,7 +201,8 @@
 					,#{esNum}
 					,#{esRegisterNum}
 					,#{esAddress}
-					,#{esContent}) 		  	    	
+					,#{esContent}
+					,#{esIntro}) 		  	    	
     	</insert>	
     	
     	<select id="userNum" resultType="_int">
@@ -261,13 +264,26 @@
     		WHERE USER_NO = #{userNo}
     	</update>
     	
+    	<select id="findSubscribeUser" resultMap="memberResultSet">
+  			SELECT *
+			FROM MEMBER
+			WHERE USER_NO = #{userNo}
+ 			AND STATUS = 'Y'
+  		</select>
+  		
+  		<update id="noSubscribe">
+    		UPDATE MEMBER
+    		SET SUBSCRIBE = 'N'
+    		WHERE USER_NO = #{userNo}
+    	</update>
 
     	<!-- 예약용 resultMap 생성 -->
     	<resultMap type="reservation" id="reservationResultSet">
     		<result column="ES_NO" property="esNo"/>
 			<result column="USER_NO" property="userNo"/>
+			<result column="RESERVATION_NO" property="reservationNo"/>
 			<result column="RESERVATION_DATE" property="reservationDate"/>
-			<result column="TIME_NO" property="timeNo"/>
+			<result column="TIME_NO" property="timeNo"/>		
 			<association property="estate" javaType="estate">
 				<result column="ES_NAME" property="esName"/>
 			</association>
@@ -280,6 +296,7 @@
     	SELECT E.ES_NO
     	      ,E.ES_NAME
       	      ,R.USER_NO
+      	      ,R.RESERVATION_NO
               ,R.RESERVATION_DATE
               ,T.TIME_VALUE
 		FROM RESERVATION R
@@ -288,12 +305,35 @@
 		WHERE R.USER_NO=#{userNo}
     	</select>
 
-    	<update id="fileAjaxMethod">
+    	<update id="fileAjaxMethod" >
     		UPDATE MEMBER
     		SET ORIGIN_NAME = #{originName}
     			,CHANGE_NAME = #{changeName}
     		WHERE USER_NO = #{userNo}	
     	</update>
 
+		<update id="mypageEstateUpdate">
+			UPDATE ESTATE
+			SET  ES_NAME = #{esName}
+				,ES_CEO = #{esCeo}
+				,ES_PHONE = #{esPhone}
+				,ES_ADDRESS = #{esAddress}
+				,ES_CONTENT = #{esContent}
+				,ES_INTRO = #{esIntro}
+			WHERE ES_NO = #{esNo}	
+		</update>
     	
+    	<select id="membermypageEsReservation" resultMap="reservationResultSet">
+    		SELECT RESERVATION_NO
+					,R.ES_NO
+					,R.USER_NO
+					,RESERVATION_DATE
+					,R.TIME_NO
+					,T.TIME_VALUE
+			FROM RESERVATION R
+			JOIN ESTATE E ON R.ES_NO = E.ES_NO
+			JOIN TIME T ON R.TIME_NO = T.TIME_NO
+			JOIN MEMBER M ON M.USER_NO = R.USER_NO
+			WHERE R.ES_NO = #{esNo}
+    	</select>
     </mapper>

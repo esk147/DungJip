@@ -65,8 +65,18 @@
 
     <div class="container" style="display: flex; width: 67%;">
     
-    <!-- 마이페이지 메뉴바 -->      
-    <%@ include file="memberMypagemenubar.jsp" %>
+	<!-- 마이페이지 메뉴바 --> 
+	<c:choose>
+	    <c:when test="${loginUser.userType eq '임차인' }">
+	        <%@ include file="memberMypagemenubar.jsp" %>
+	    </c:when>
+	    <c:when test="${loginUser.userType eq '중개인'}">
+	        <%@ include file="memberMypageEsmenubar.jsp" %>
+	    </c:when>
+	    <c:when test="${loginUser.userType eq '임대인'}">
+	        <%@ include file="memberMypageImdamenubar.jsp" %>
+	    </c:when>
+    </c:choose>     
         
         <!-------------------------------- 회원 정보 수정하기-------------------------------->    
         <section class="main-content" style="width:100%; margin: 70px 0 70px 50px; margin-left:4%;">
@@ -197,15 +207,15 @@
 			      <div class="modal-body" style="padding: 25px;">
 			      	<div class="modal-body context" style="margin-bottom: 25px;">
 						<div class="text-left"><h5><a>현재 비밀번호</a></h5>
-							<input type="password" id="userPassword" name="userPassword" placeholder="현재 비밀번호" style="border: 1px solid #DADADA;">
+							<input type="password" id="userPassword" name="userPassword" placeholder="현재 비밀번호" style="border: 1px solid #DADADA;" autocomplete="current-password">
 						</div>
 						<br>
 						<div class="text-left"><h5><a>새로운 비밀번호</a></h5>
-							<input type="password" id="userNewPassword" name="userNewPassword" placeholder="새로운 비밀번호 (6~15자리 영문 및 숫자 조합)" style="border: 1px solid #DADADA;">
+							<input type="password" id="userNewPassword" name="userNewPassword" placeholder="새로운 비밀번호 (6~15자리 영문 및 숫자 조합)" style="border: 1px solid #DADADA;" autocomplete="current-password">
 						</div>
 						<br>
 						<div class="text-left"><h5><a>새로운 비밀번호 확인</a></h5>
-							<input type="password" id="userNewPasswordChk" name="userNewPasswordChk" placeholder="새로운 비밀번호 (6~15자리 영문 및 숫자 조합)" style="border: 1px solid #DADADA;">
+							<input type="password" id="userNewPasswordChk" name="userNewPasswordChk" placeholder="새로운 비밀번호 (6~15자리 영문 및 숫자 조합)" style="border: 1px solid #DADADA;" autocomplete="current-password">
 						</div>
 						
 					</div>	        
@@ -265,7 +275,7 @@
 								
 								<div class="form-group password">
 									<div class="text-left"><h5><b>해당 계정 비밀번호 확인</b></h5></div>
-					                <input type="password" class="form-control" id="userPwdChk" name="userPwdChk" placeholder="비밀번호 작성하세요">
+					                <input type="password" class="form-control" id="userPwdChk" name="userPwdChk" placeholder="비밀번호를 작성하세요" autocomplete="current-password">
 					                <span class="placeholder"></span>
 				            	</div>  
 								
