@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="com.kh.dungjip.member.model.vo.Member"%>    
+<%@page import="com.kh.dungjip.member.model.vo.Member"%>  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -91,7 +92,7 @@
         <%@ include file="memberMypageEsmenubar.jsp" %>
             
         <section class="main-content" style="width:100%; margin: 70px 0 70px 50px; margin-left:4%;">
-          
+          	
             <div class="card" style="width: 93%; margin-bottom:50px;">
             
                 <a href="mypageupdate.me" style="width: 100%;"><h3>내프로필<img src="resources/img/icons/rightarrow271228.png" alt="" style="width: 15px; float:right;"></h3></a>
@@ -119,135 +120,49 @@
                     <hr>
                     <li>
                     	<img alt="" src="resources/img/icons/mail7873670.png" style="width: 17px;">
-                        <span class="item_text email" style="margin-left:12px;">${loginUser.email }</span>
-                           
-                    </li>
-    
-                </ul>
-            </div>
-            <div class="card" style="width: 93%; margin-bottom:50px;">
-                <h3>매물내역 <img src="resources/img/icons/rightarrow271228.png" alt="" style="width: 15px; float:right;"></h3>
-                <!-- Additional content can be added here -->
-                <ul class="card_row" style="color: #333; list-style: none; padding: 0 20px 20px 20px;">
-                    <li>
-                    	<img alt="" src="" style="width: 16px;">
-                        <span class="item_text name" style="margin-left:12px;">이름</span>
-                        <button class="btn_edit">실명수정</button>    
-                    </li>
-                    <hr>
-                    <li>
-                    	<img alt="" src="" style="width: 16px;">
-                        <span class="item_text nickname" style="margin-left:12px;">닉네임</span>
-                        <button class="btn_edit">수정</button>    
-                    </li>
-                    <hr>
-                    <li>
-                    	<img alt="" src="" style="width: 16px;">
-                        <span class="item_text phone" style="margin-left:12px;">전화번호</span>
-                        <button class="btn_edit">수정</button>    
-                    </li>
-                    <hr>
-                    <li>
-                    	<img alt="" src="" style="width: 16px;">
-                        <span class="item_text email" style="margin-left:12px;">이메일</span>
-                        <button class="btn_edit">수정</button>    
+                        <span class="item_text email" style="margin-left:12px;">${loginUser.email }</span>                           
                     </li>
     
                 </ul>
             </div>
             
-           <!--  <div class="card" style="width: 93%; margin-bottom:50px;">
-                <h3>리뷰내역</h3>
-                Additional content can be added here
+           
+            <div class="card" style="width: 93%; margin-bottom:50px;">
+                <a href="mypageEsUpdate.me" style="width: 100%;"><h3>중개사무소 프로필<img src="resources/img/icons/rightarrow271228.png" alt="" style="width: 15px; float:right;"></h3></a>
+                <!-- Additional content can be added here -->
+                <c:forEach items="${myeslist}" var="hlise" varStatus="status">
                 <ul class="card_row" style="color: #333; list-style: none; padding: 0 20px 20px 20px;">
+              
                     <li>
-                    	<img alt="" src="" style="width: 16px;">
-                        <span class="item_text name" style="margin-left:12px;">집</span>                        
-                        <button class="btn_edit" onclick="window.location.href='myHReview.me'">상세보기</button>  
+                       <img src="resources/img/icons/imda-icon-office.png" alt="" style="width: 16px;">
+                       <span class="item_text esName" style="margin-left:12px;">${myeslist[status.index].esName}</span>
+                       
+                    </li>
+                    
+                    <hr id="hrElement" >
+                    <li id="userNickNameContainer">
+                    	<img alt="" src="resources/img/icons/person3856336.png" style="width: 16px;">
+                        <span class="item_text esCeo" style="margin-left:12px;">${myeslist[status.index].esCeo}</span>                        
+                    </li>                    
+                    
+                    <hr>
+                  
+                    <li>
+                   		<img alt="" src="resources/img/icons/phone519184.png" style="width: 16px;">
+                        <span class="item_text esPhone" style="margin-left:12px;">${myeslist[status.index].esPhone}</span>
                         
                     </li>
-                    <hr>
+                    <hr>                
                     <li>
-                    	<img alt="" src="" style="width: 16px;">
-                        <span class="item_text nickname" style="margin-left:12px;">중개사</span>
-                        <button class="btn_edit" onclick="window.location.href='myEsReview.me'">상세보기</button>    
-                    </li>                   
-    
+                    	<img alt="" src="resources/img/icons/imda-icon-speech.png" style="width: 17px;">
+                        <span class="item_text esIntro" style="margin-left:12px;">${myeslist[status.index].esIntro}</span>
+                           
+                    </li>    
                 </ul>
-            </div> -->
-            
-            <%-- <div class="card" style="width: 93%; margin-bottom:50px;">
-			    <h3>찜내역</h3>
-			    <!-- Additional content can be added here -->
-			    <ul class="card_row" style="color: #333; list-style: none;padding: 0 20px 20px 20px;">
-			        <c:if test="${not empty hlike}">
-			            <c:forEach items="${hlike}" var="house" varStatus="status">
-			                <c:if test="${status.index < 3}">
-			                    <div class="col-md-4" style="margin-top:20px;">
-			                        <div class="card mb-3" style="width:100%;height:100%;">
-			                            <img class="homeImg" src="${himg[status.index].changeName}" class="card-img-top" alt="House Image" style="width: 260px;height: 168px;">
-			                            <div class="card-body">
-			                                <h5 class="card-title" style="width:100%;">${house.houseTitle}</h5>
-			                                <div style="display: flex;justify-content: end;">
-			                                    <a href="house/hjjimdelete.me?houseNo=${house.houseNo}" class="btn btn-light btn-sm" style="color: brown;">찜 해제</a>
-			                                </div>
-			                            </div>
-			                        </div> 
-			                    </div>
-			                </c:if>
-			            </c:forEach> 
-			        </c:if> 
-          
-			    </ul>
-			</div> --%>
-
-            
-            <!-- <div class="card" style="width: 93%; margin-bottom:50px;">
-                <h3>공감 </h3>
-                Additional content can be added here
-                <ul class="card_row" style="color: #333; list-style: none;padding: 0 20px 20px 20px;">
-                    <li>
-                    	<img alt="" src="" style="width: 16px;">
-                        <span class="item_text name" style="margin-left:12px;">집</span>
-                        <button class="btn_edit" onclick="window.location.href='myReReviewLike.me'">상세보기</button>    
-                    </li>
-                    <hr>
-                    <li>
-                    	<img alt="" src="" style="width: 16px;">
-                        <span class="item_text nickname" style="margin-left:12px;">중개사</span>
-                        <button class="btn_edit" onclick="window.location.href='myReviewLike.me'">상세보기</button>    
-                    </li>               
-    
-                </ul>
-            </div> -->
-                       
-            <%-- <div class="card" style="width: 93%;  margin-bottom:50px;">
-                <a href="myQnA.me" style="width: 100%;"><h3>문의내역 <img src="resources/img/icons/rightarrow271228.png" alt="" style="width: 15px; float:right;"></h3></a>
-                <!-- Additional content can be added here -->
-                <ul class="card_row" style="color: #333; list-style: none;padding: 0 20px 20px 20px;">
-	               
-	                <c:if test="${not empty qlist }">         
-	                    <c:forEach items="${qlist}" var="qlist" varStatus="loop">
-	                    	<c:if test="${loop.index < 4}"><!-- 최대 4개까지만 표시 -->
-			                    <li>
-			                    	<img alt="" src="" style="width: 16px;">
-			                        <span class="item_text name" style="margin-left:12px;" >${qlist.enquiryTitle}</span>
-			                        <button onclick="window.location.href='myQnA.me'" class="btn_edit">상세보기</button>    
-			                    </li>
-			                    <hr>
-		                    </c:if>
-	   					</c:forEach>
-	   				</c:if>		   					
-	   				<c:if test="${empty qlist }">
-						<p>※ 문의 내역이 존재하지 않습니다.</p>
-	
-					</c:if>
-                    
-                </ul>
-                </div> --%>
-                
+                </c:forEach>                
+            </div>       
+                   
             </div>
-            <!-- Additional toggles can be added here -->
         </section>
  
  
@@ -266,7 +181,6 @@
 	 	    return maskedUsername;
 	 	}
 		 
-	 	// 요소를 가져와서 값들을 가립니다.
 	 	const phoneElement = document.querySelector('.item_text.phone');
 	 	const emailElement = document.querySelector('.item_text.email');
 
@@ -278,11 +192,22 @@
 	 	    emailElement.textContent = maskEmail("${loginUser.email}");
 	 	} 
 	 	
-	 	console.log(${loginUser.phone});
+	 	
+	 	const esPhoneElement = document.querySelector('.item_text.esPhone');
+	 	
+	 	if (esPhoneElement) {
+	 		esPhoneElement.textContent = maskPhone("${loginUser.phone}");
+	 	}
+	 	
+	 	// 중개사무소 전화번호를 가리는 함수
+	 	function maskPhone(esPhone) {
+	 	    return esPhone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-****-$3');
+	 	}
+	 	
  	</script>
- 
 
      <%@ include file="../common/footer.jsp" %>
+     
      
 </body>
 </html>

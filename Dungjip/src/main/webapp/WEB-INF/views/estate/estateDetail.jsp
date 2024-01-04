@@ -189,7 +189,7 @@
 											<input type="hidden" value="${e.esNo}" id="selectEsNo">
 											<input type="hidden" value="${loginUser.userNo}" id="selectUserNo">
 											<input onclick="reservation();" class="button btn largesearch-btn" value="예약하기" type="submit">
-											<input class="button btn largesearch-btn" value="상담하기" type="submit">
+											<input class="button btn largesearch-btn" value="상담하기" type="button" onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'">
 										</div>
 									</div>
 								</fieldset>

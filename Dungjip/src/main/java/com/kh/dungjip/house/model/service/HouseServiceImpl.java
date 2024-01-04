@@ -192,6 +192,12 @@ public class HouseServiceImpl implements HouseService{
 		return houseDao.mypageImdaHouseList(sqlSession,pi,m);
 	}
 
+	@Override
+	public int myImdaHouseDelete(int houseNo) {
+		// TODO Auto-generated method stub
+		return houseDao.myImdaHouseDelete(sqlSession,houseNo);
+	}
+
 
 
 

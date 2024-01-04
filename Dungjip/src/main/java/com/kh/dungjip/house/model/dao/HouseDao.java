@@ -198,4 +198,10 @@ public class HouseDao {
 		return (ArrayList)sqlSession.selectList("houseMapper.mypageImdaHouseList", m,rowBounds);
 	}
 
+	//마이페이지 임대인 매물내역 삭제
+	public int myImdaHouseDelete(SqlSessionTemplate sqlSession, int houseNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("houseMapper.myImdaHouseDelete", houseNo);
+	}
+
 }

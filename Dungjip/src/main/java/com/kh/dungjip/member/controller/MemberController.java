@@ -556,7 +556,9 @@ public class MemberController {
 		if(result > 0) { //성공
 			
 			Member loginUser = memberService.loginMember(m);
+			
 			session.setAttribute("loginUser", loginUser); //조회한 데이터 세션에 갱신
+			
 			session.setAttribute("alertMsg", "정보 수정이 완료되었습니다.");
 			
 			mv.setViewName("redirect:/myPage.me"); //임차인
@@ -584,12 +586,12 @@ public class MemberController {
 		
 		int result = memberService.mypageEstateUpdate(elist);
 		
-		if(result > 0) {
+		if(result > 0) { //성공
 			
-			Member loginUser = memberService.loginMember(m);
-			session.setAttribute("loginUser", loginUser); //조회한 데이터 세션에 갱신
-			session.setAttribute("alertMsg", "정보 수정이 완료되었습니다.");			
-			mv.setViewName("redirect:/mypageEsUpdate.me");
+			session.setAttribute("alertMsg", "정보 수정이 완료되었습니다.");	
+			
+			mv.setViewName("redirect:/myEsPage.me"); //중개인
+			
 		}else {
 			mv.addObject("errorMsg", "회원 정보 수정 실패").setViewName("common/errorPage");
 		}
@@ -915,19 +917,24 @@ public class MemberController {
 	//중개인페이지이동
 	@RequestMapping("myEsPage.me")
 	public String myEspage(HttpSession session, Model model) {
+		
 		Member m = (Member)session.getAttribute("loginUser");
 		
-		int esNo = estateService.getEsNo(m.getUserNo());		
+		int esNo = estateService.getEsNo(m.getUserNo());
+		
+		ArrayList<Estate> myeslist = estateService.myEspage(m);
 		
 		session.setAttribute("esNo", esNo);
+		session.setAttribute("myeslist", myeslist);
 		
 		return "member/memberMypageEsForm";
 	}
 	
 	//중개인 매물내역
 	@RequestMapping("esHouse.li")
-	public String memberMypageEstateHouseList(@RequestParam(value = "esNo", required = false) Integer esNo, @RequestParam(value="currentPage",defaultValue = "1")int currentPage,HttpSession session, Model model) {
-			
+	public String memberMypageEstateHouseList(@RequestParam(value = "esNo") Integer esNo,
+											@RequestParam(value="currentPage",defaultValue = "1")int currentPage,HttpSession session, Model model) {
+		
 		int listCount = houseService.selectEsHouseListCount();		
 		//한 페이지에서 보여줘야하는 게시글 개수 
 		int boardLimit = 3;
@@ -938,7 +945,7 @@ public class MemberController {
 		
 		ArrayList<House> hlike = houseService.memberMypageEstateHouseList(esNo,pi);
 		
-		ArrayList<HouseImg> himg = new ArrayList<>();		
+		ArrayList<HouseImg> himg = new ArrayList<>();
 		
 		for( House i : hlike ) {
 			
@@ -951,7 +958,8 @@ public class MemberController {
 		
 		model.addAttribute("himg", himg);
 		model.addAttribute("pi", pi);
-	
+		model.addAttribute("esNo", esNo);
+		
 		return "member/memberMypageEstateHouseList";
 	}
 	
@@ -971,7 +979,7 @@ public class MemberController {
 		ArrayList<ReportEstate> repolist = reportEstateService.memberMypageReportEstateList(m,pi);
 		
 		model.addAttribute("repolist", repolist);
-		model.addAttribute("pi", pi);		
+		model.addAttribute("pi", pi);
 				
 		return "member/memberMypageReportEstateList";
 	}
@@ -1038,5 +1046,7 @@ public class MemberController {
 		
 		return "member/memberMypageImdaHouseList";
 	}
+	
+
 	
 }
