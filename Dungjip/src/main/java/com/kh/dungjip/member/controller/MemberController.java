@@ -920,11 +920,11 @@ public class MemberController {
 		
 		Member m = (Member)session.getAttribute("loginUser");
 		
-		//int esNo = estateService.getEsNo(m.getUserNo());
+		int esNo = estateService.getEsNo(m.getUserNo());
 		
 		ArrayList<Estate> myeslist = estateService.myEspage(m);
 		
-		//session.setAttribute("esNo", esNo);
+		session.setAttribute("esNo", esNo);
 		session.setAttribute("myeslist", myeslist);
 		
 		return "member/memberMypageEsForm";
