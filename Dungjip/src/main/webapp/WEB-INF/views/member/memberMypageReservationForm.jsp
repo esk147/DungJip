@@ -86,7 +86,7 @@
 							<c:forEach var="reservation" items="${rlist }" >
 								<tr>
 									<td class="text-center">
-										<h5>NO. 1</h5>
+										<h5>정슬기 수정요함</h5>
 									</td>
 									<td>
 										<div class="media">
@@ -94,7 +94,8 @@
 											<div class="media-body">
 												<p>
 													<b># 일시</b>
-													<fmt:formatDate value="${rervation.reservationDate}" pattern="yyyy년 MM월 dd일" /> 
+													<input type="hidden" id="rTime" value="${reservation.reservationDate }">
+													${reservation.reservationDate }
 													${reservation.time.timeValue }
 												</p>
 												<p>
@@ -106,33 +107,32 @@
 									</td>	
 									<td>
 									<!-- 여기버튼 누르면 리뷰 작성 창 -->
-									
-									<a href="#" class="genric-btn primary-border small" onclick="insertEstateReview(this);">작성</a>
-									
+									<a href="#" class="genric-btn primary-border small" id="reviewEnrol"onclick="insertEstateReview(this);">작성</a>
 									</td>
-									
+								</tr>
 							</c:forEach>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
-			
 		</section>
-
 	</div>
-	
-	
 	<script>
 	function insertEstateReview(el){
 		var esNo = $(el).closest('tr').find('#esNo').val();
-		console.log(esNo);
+		var beforeRTime = $(el).closest('tr').find('#rTime').val();
+		
+		var rTime = new Date(beforeRTime);
+		var today = new Date();
+		
+		if(rTime>today){
+			alert("예약 날짜 이후 작성이 가능합니다.");
+		}else{
 		window.location.href = "/dungjip/insert.esre?esNo="+esNo;
+		}
 	}
-	
 	</script>
-
-
 	<%@ include file="../common/footer.jsp"%>
 
 </body>
