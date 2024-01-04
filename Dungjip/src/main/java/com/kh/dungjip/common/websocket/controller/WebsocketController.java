@@ -146,8 +146,6 @@ public WebsocketController() {//생성자에서 파일을 읽어온다.
 		
 	int result1	=chatService.deleteJoinChatRoom(chatNo);
 	
-	
-
 	if(result1>0) {
 	int result2 = chatService.deleteChatMsg(chatNo);
 	
@@ -160,7 +158,6 @@ public WebsocketController() {//생성자에서 파일을 읽어온다.
 	}
 	
 	}
-	
 
 	
 	return 0;
