@@ -205,6 +205,7 @@
           ,HOUSE_DOITNOW
           ,HOUSE_BUILDDATE
           ,HOUSE_ANIMALS
+          ,HOUSE_NAME
           ,STATUS
     	FROM HOUSE
 		WHERE HOUSE_NO = #{houseNo}
@@ -235,6 +236,7 @@
 		    ,HOUSE_ANIMALS
 		    ,HOUSE_PARKABLE
 		    ,HOUSE_STYLE
+		    ,HOUSE_NAME
 		FROM HOUSE
 		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
 		AND STATUS='Y'
@@ -257,10 +259,24 @@
 	</select>
 	
 	<select id="selectHouseMain" parameterType="string" resultMap="houseResultSet">
-		select house_no, house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
-           THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
-           ELSE TO_CHAR(HOUSE_PRICE)
-           END AS HOUSE_PRICE, house_rent, house_square, house_floor, house_maintaincost, house_title, house_style from house where house_type = #{type} order by house_price FETCH FIRST 7 ROWS ONLY
+		SELECT * FROM (
+		    SELECT house_no, 
+		           house_name, 
+		           CASE 
+		               WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5 THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+		               ELSE TO_CHAR(HOUSE_PRICE)
+		           END AS HOUSE_PRICE, 
+		           house_rent, 
+		           house_square, 
+		           house_floor, 
+		           house_maintaincost, 
+		           house_title, 
+		           house_style 
+		    FROM house 
+		    WHERE house_type = #{type}
+		    ORDER BY house_no
+		) 
+		WHERE ROWNUM <![CDATA[ <= 7 ]]>
 	</select>
 	
 	<select id="selectHouseMainThumnail" parameterType="_int" resultMap="houseImgResultSet">
