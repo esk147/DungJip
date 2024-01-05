@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -105,6 +106,26 @@ public class EstateDao {
 	    params.put("esReContent", esReContent);
 	    return sqlSession.update("estateMapper.updateReview", params);
 	}
+
+	//리뷰 공감수
+	public int selectEstateEmoCount(SqlSessionTemplate sqlSession, int esReNo) {
+		
+		return sqlSession.selectOne("estateMapper.selectEstateEmoCount",esReNo);
+	}
+
+	//부동산 리뷰 상세
+	public EstateReview estateReviewDetail(SqlSessionTemplate sqlSession, int esReNo) {
+		
+		return sqlSession.selectOne("estateMapper.estateReviewDetail",esReNo);
+	}
+
+	//부동산 리뷰 수정
+	public int updateReview(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("estateMapper.updateReview",paramMap);
+	}
+	
+	
 	
 	
 

@@ -52,6 +52,15 @@ public interface EstateService {
 	//수정
 	int updateReview(int esReNo, int esReScore, String esReContent);
 
+	//리뷰 공감수
+	int selectEstateEmoCount(int esReNo);
+
+	//부동산 리뷰 상세
+	EstateReview estateReviewDetail(int esReNo);
+
+	//부동산 리뷰 수정
+	int updateEstateReview(Map<String, Object> paramMap);
+
 
 
 }

@@ -7,7 +7,7 @@
   
     <meta charset="UTF-8" />
     
-    <title>중개인 평가하기</title>
+    <title>중개인 평가 수정하기</title>
     <style>
       .container {
         background-color: white;
@@ -75,10 +75,11 @@
   <body style="background-color:#f4f6f8;">
   	<%@ include file="../common/header.jsp"%>
   	<br>
-  <form class="row contact_form" action="insert.esre" method="post" id="contactForm" novalidate="novalidate">
+  <form class="row contact_form" action="update.esre" method="post" id="updateForm" >
     <div class="container">
       <div class="header">
-        <h2 class="text-xl font-semibold">중개인 리뷰</h2>
+        <h2 class="text-xl font-semibold">중개인 리뷰 수정하기</h2>
+        <input type="hidden" name="esReNo" value="${er.esReNo}">
       </div>
       
       <div class="content">
@@ -105,31 +106,35 @@
         </div>
         
         
+        
+        
         <div class="mb-4">
             <div class="rating-title">별점</div>
             <div class="rating-group">
-                <input class="rating-input" id="rating-5-copy" type="radio" name="reviewScore" value="5"/>
+                <input class="rating-input" id="rating-5-copy" type="radio" name="reviewScore" value="5" ${5 == er.esReScore ? 'checked' : ''}/>
                 <label class="rating-label" for="rating-5-copy">★★★★★ 강력 추천</label>
     
-                <input class="rating-input" id="rating-4-copy" type="radio" name="reviewScore" value="4"/>
+                <input class="rating-input" id="rating-4-copy" type="radio" name="reviewScore" value="4" ${4 == er.esReScore ? 'checked' : ''}/>
                 <label class="rating-label" for="rating-4-copy">★★★★ 추천</label>
     
-                <input class="rating-input" id="rating-3-copy" type="radio" name="reviewScore" value="3"/>
+                <input class="rating-input" id="rating-3-copy" type="radio" name="reviewScore" value="3" ${3 == er.esReScore ? 'checked' : ''}/>
                 <label class="rating-label" for="rating-3-copy">★★★ 보통</label>
     
-                <input class="rating-input" id="rating-2-copy" type="radio" name="reviewScore" value="2"/>
+                <input class="rating-input" id="rating-2-copy" type="radio" name="reviewScore" value="2" ${2 == er.esReScore ? 'checked' : ''}/>
                 <label class="rating-label" for="rating-2-copy">★★ 아쉬움</label>
     
-                <input class="rating-input" id="rating-1-copy" type="radio" name="reviewScore" value="1" />
+                <input class="rating-input" id="rating-1-copy" type="radio" name="reviewScore" value="1"${1 == er.esReScore ? 'checked' : ''} />
                 <label class="rating-label" for="rating-1-copy">★ 실망</label>
             </div>
+            
+            
             <div class="rating-title">고객 분류</div>
             <div class="type-group">
-                <input class="" id="reviewType1" type="radio" name="reviewType" value="상담고객" />
-                <label class="" for="reviewType1">상담고객</label>
-    
-                <input class="" id="reviewType2" type="radio" name="reviewType" value="계약고객" />
-                <label class="" for="reviewType2">계약고객</label>
+              <input class="" id="reviewType1" type="radio" name="reviewType" value="상담고객" ${'상담고객' == er.esReType ? 'checked' : ''} />
+				<label class="" for="reviewType1">상담고객</label>
+
+			<input class="" id="reviewType2" type="radio" name="reviewType" value="계약고객" ${'계약고객' == er.esReType ? 'checked' : ''} />
+			<label class="" for="reviewType2">계약고객</label>
             </div>
         </div>
         <div class="mb-4">
@@ -138,7 +143,7 @@
                             <span class="comment_length">0</span>
                             / 100
                         </span>
-          <textarea  class="comment-content" cols="160" rows="7" style="resize: none" name="esReContent" id="myEsReContent" placeholder="내용을 작성해주세요."></textarea>
+          <textarea  class="comment-content" cols="160" rows="7" style="resize: none" name="esReContent" id="myEsReContent" placeholder="내용을 작성해주세요.">${er.esReContent}</textarea>
         </div>
         
         <script>
@@ -149,7 +154,7 @@
 
                 if (content.length > 100) {
                     $(this).val($(this).val().substring(0, 100));
-                    alert("글자수는 10자까지 입력가능합니다.");
+                    alert("글자수는 100자까지 입력가능합니다.");
                 }
             });
         });
@@ -163,7 +168,8 @@
         <p style="color:#B91C1C;">사용자 경고에도 불구하고 문제 게시물을 계속해서 올리는 이용자는 게시판 접근 차단이 제한됩니다.</p>
     </div>
     
-       <input class="rebutton" value="작성하기" type="submit" onclick="insertEstateReview()">
+       <input class="rebutton" value="수정하기" type="submit" onclick="updateEstateReview();">
+      
         <div class="modal fade" id="homeModal">
         <div class="modal-dialog modal-sm" id="modal">
             <div class="modal-content">
@@ -180,11 +186,7 @@
                        <table class="modal_table"  >
                        	
            				 <tr>
-           				 	<td ><input id="houseSelect" type="radio" name="homeName" value="${house.houseNo }"><td/>
-           				 	
-           				 	
-           				 
-	              				
+           				 	<td ><input id="houseSelect" type="radio" name="homeName" value="${house.houseNo }" ${house.houseNo == er.houseNo ? 'checked' : ''}><td/>
 		           				 	<label for="houseSelect">
 	              				<td style="width:250px; padding:10px;">
 	              						<img class='profile' id="houseSelect" src="${himglist[status.index].changeName}">
@@ -239,7 +241,9 @@
   
 
 <script>
-    function insertEstateReview() {
+
+    function updateEstateReview() {
+    	var esReNo = $("input[name=esReNo]").val();
     	var esNo = $("input[name=esNo]").val();
         var userNo = ${loginUser.userNo};
         var esReContent = $("#myEsReContent").val();
@@ -251,8 +255,9 @@
         $(".rebutton").prop("disabled", true);
         
         $.ajax({
-            url: "insert.esre",
+            url: "update.esre",
             data: {
+            	esReNo : esReNo,
             	esNo: esNo,
                 userNo: userNo,
                 esReContent: esReContent,
@@ -262,18 +267,18 @@
                 
             },
             method: "post",
-            dataType: "json", // 추가: 서버에서 JSON 형식으로 응답하는 경우 dataType 명시
+            dataType: "json", 
             success: function (result) {
                 console.log(result);
                 if (result.success) {
-                    alert("부동산 리뷰 작성 성공");
+                    alert("부동산 리뷰 수정 성공");
                     window.location.href = "detail.es?esNo="+esNo;
                 } else {
-                    alert("부동산 리뷰 작성 실패: " + result.errorMsg);
+                    alert("부동산 리뷰 수정 실패");
                 }
             },
             error: function () {
-                console.log("부동산 리뷰 통신 실패");
+                console.log("부동산 리뷰 수정 통신 실패");
             },
             complete: function () {
                 // 버튼 다시 활성화

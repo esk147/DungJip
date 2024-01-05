@@ -115,10 +115,8 @@
                     <li><a href="mypageupdate.me" class="menuitem" style="font-size: 15px; color: #303038;">내프로필</a></li>
 
                     <li><a href="mReservation.me" class="menuitem" style="font-size: 15px; color: #303038;">예약내역</a></li>   
-                    <li><a href="" class="menuitem" style="font-size: 15px; color: #303038;">중개인 리뷰내역</a></li>
-                    <li><a href="" class="menuitem" style="font-size: 15px; color: #303038;">매물 리뷰내역</a></li>                      
-                    <li><a href="" class="menuitem" style="font-size: 15px; color: #303038;">찜내역</a></li>                    
-                    <li><a href="" class="menuitem" style="font-size: 15px; color: #303038;">문의내역</a></li>                                  
+                                       
+                                                 
          
                      
                     <li class="dropdown">

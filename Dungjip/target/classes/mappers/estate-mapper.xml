@@ -23,6 +23,9 @@
 		<association property="member" javaType="member">
         	<result column="CHANGE_NAME" property="changeName"/>
 		</association>
+		<association property="esReLike" javaType="esReLike">
+        	<result column="ES_RE_NO" property="esReNo"/>
+		</association>
 	</resultMap>
 	
 	<select id="selectEatateList" parameterType="_int" resultMap="estateResultSet" >
@@ -83,6 +86,7 @@
         	<result column="HOUSE_NO" property="houseNo"/>
         	<result column="HOUSE_TITLE" property="houseTitle"/>
 		</association>
+		
 		
 	</resultMap>
 	
@@ -179,11 +183,11 @@
 				        #{er.esReScore}, 
 				        #{er.esReContent}, 
 				        #{er.esReType}, 
-				        4)
+				        #{er.houseNo})
 	</insert>
 
 
-	<select id="selectEstateReview" resultMap="estateReviewResultSet" >
+	<select id="selectEstateReview" resultMap="EstateReviewResultSet" >
 
 		SELECT ES_RE_NO
 		        ,ER.ES_NO
@@ -209,16 +213,39 @@
 		AND ES_RE_NO = #{esReNo}
 	</delete>
 	
-	<update id="updateReview">
+	<update id="updateReview" parameterType="estateReview">
 		UPDATE ESTATE_REVIEW
-		SET ES_RE_SCORE = #{esReScore}
-		    ,ES_RE_CONTENT = #{esReContent}
+		SET ES_RE_SCORE =#{er.esReScore}
+		    ,ES_RE_CONTENT =#{er.esReContent}
 		    ,ES_RE_CREATE_DATE = SYSDATE
-		WHERE ES_RE_NO = #{esReNo}
-		AND ES_RE_STATUS='Y'  
+            ,ES_RE_TYPE=#{er.esReType}
+            ,HOUSE_NO=#{er.houseNo}
+		WHERE ES_RE_NO = #{er.esReNo}
+		AND ES_RE_STATUS='Y'
 	</update>
 	
+	<select id="selectEstateEmoCount" resultType="_int">
+	SELECT COUNT(*) EMO
+	FROM ES_RE_LIKE
+	WHERE ES_RE_NO=#{esReNo}
+	</select>
 
 
+	<select id="estateReviewDetail" resultMap="EstateReviewResultSet">
+	     SELECT ES_RE_NO
+		        ,ER.ES_NO
+		        ,ER.USER_NO
+		        ,ES_RE_SCORE
+		        ,ES_RE_CONTENT
+		        ,ES_RE_CREATE_DATE
+		        ,ES_RE_TYPE
+		        ,ES_RE_STATUS
+		        ,ER.HOUSE_NO
+		FROM ESTATE_REVIEW ER
+		JOIN ESTATE E ON ER.ES_NO  = E.ES_NO
+		JOIN HOUSE H ON ER.HOUSE_NO = H.HOUSE_NO
+		WHERE ES_RE_NO = #{esReNo}
+		AND ES_RE_STATUS='Y'
+	</select>
 
 </mapper>

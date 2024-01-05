@@ -73,6 +73,25 @@
     		 justify-content: flex-start;
              }
              
+             .good{
+             width: 20px;
+             }
+             
+             .emo{
+             display:flex;
+             align-items: center;
+             justify-content: flex-end;
+             }
+             
+             .likecount{
+             padding-left: 3px;
+             }
+             
+        	.like-btn.liked img {
+            filter: sepia(100);
+        	}
+
+             
              
 
         </style>
@@ -629,8 +648,20 @@
                                                 <div id="reviewContainer">
                                                 <div class="review_list" style="width: 1100px;">
                                                     <!-- 리뷰내용 -->
-                                                </div>
+                                               
+                                               
+                                               
+                                               
+                                               
+                                               <div class="emo">
+                                                            <span class="like-btn" onclick="toggleLike(this)" >
+                                                            <img class="good" src="resources/img/good.svg">
+                                                           </span>
+                                                            <h6 class="likecount">25</h6>
+                                                            </div>
                                             </div>
+                                            
+                                            
                                             </div>
                                             
                                         </div>
@@ -639,14 +670,27 @@
                                 </div>
                             </div>
                         </section>
+                           <script>
+   							 function toggleLike(element) {
+       							 var likeCountElement = document.getElementById('likeCount');
+       							 var likeButton = element;
+
+        						// 클릭 토글
+        						likeButton.classList.toggle('liked');
+   								 }
+   							 
+							</script>
                            
+                      
                                     <script>
                                     function selectEstateReview(){
                                     	console.log(${e.esNo});
                                     	
                                     	$.ajax({
                                     		url : "estate.re",
-                                    		data: {esNo: "${e.esNo}"},
+                                    		data: {esNo: "${e.esNo}"
+                                    			   
+                                    				},
                                     		success: function(result){
 	
                                     			var avg = (result.sum /result.count).toFixed(2);
@@ -665,6 +709,9 @@
                                     				console.log(stars);
                                     				console.log(result.erlist[i].esReScore);
                                     				
+                              				
+                                    				
+                                                    
                                     				var reviewItem = $("<div class='review_item'>" +
                                     						"<div class='media'>" +
                             		        		        "<div class='d-flex'>" +
@@ -681,8 +728,9 @@
                             		        		        "</div>" +
                             		        		        "</div>" +
                             		        		        "<p>" + result.erlist[i].esReContent + "</p>" +
-                            		        		        "</div>" + 
-                            		        		        "<hr>");
+                            		        		    	"<hr>"+
+                            		        		        "</div>" 
+                            		        		        );
                                     				 $(".review_list").append(reviewItem);
 											console.log(result);
 											console.log(result.erlist[i].member.userNickName);
@@ -723,6 +771,14 @@
                                     
                                     
                                     </script>
+                                    
+                                 
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
                                     
      <div id="map" style="width:1000px;height:500px; "></div>
                                         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9d3f1c90fc1cea85b8bb8303f360c81&libraries=services,clusterer,drawing"></script>

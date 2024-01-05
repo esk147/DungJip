@@ -101,12 +101,12 @@
 			                             <div style="width:100%;">
 			                                
 			                                 <div class="item-entry overflow" style="width:100%;">
-			                                     <h6 style="display: flex;justify-content: space-between;"><a href=""> # ${elist.esNo}  </a>
-			                                     	<div><a href="#" type="button" id="updateBtn" class="btn btn-light btn-sm" data-target="#updateReview" data-toggle="modal" style="color: blue;"  onclick="a(${elist.esReNo})">수정</a>																					
+			                                     <h6 style="display: flex;justify-content: space-between;"><a href=""> # ${elist.esNo} </a>
+			                                     	<div><a href="update.esre?esReNo=${elist.esReNo}&esNo=${elist.esNo}" type="button" id="updateBtn" class="btn btn-light btn-sm">수정</a>																					
 													 	<a href="estateReview/delete.es?esReNo=${elist.esReNo}" id="deleteBtn" class="btn btn-light btn-sm" onclick="return confirm('리뷰를 삭제하시겠습니까?');" style="color: red;">삭제</a></div></h6>
 			                                     <div class="dot-hr"></div>
 			                                     <span class="pull-left"><b>작성된 날짜 : </b>${elist.esReCreateDate}</span>
-			                                     <p style="display: none;">${elist.esReContent}</p>
+			                                     <p style="display: ">${elist.esReContent}</p>
 			
 			                                 </div>
 			                             </div>
