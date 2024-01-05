@@ -264,4 +264,11 @@ public class EstateServiceImpl implements EstateService {
 		// TODO Auto-generated method stub
 		return estateDao.myEstateHouseDelete(sqlSession,houseNo);
 	}
+
+	//중개인 페이지
+	@Override
+	public ArrayList<Estate> myEspage(Member m) {
+		// TODO Auto-generated method stub
+		return estateDao.myEspage(sqlSession,m);
+	}
 }

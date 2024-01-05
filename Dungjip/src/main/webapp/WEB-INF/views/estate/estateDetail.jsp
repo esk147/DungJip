@@ -192,6 +192,7 @@
 											<input class="button btn largesearch-btn" value="상담하기" type="button" 
 											onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'">
 										</div>																			<!-- onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'" -->
+
 									</div>
 								</fieldset>
 							</div>

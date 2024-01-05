@@ -86,6 +86,9 @@ public interface HouseService {
 	//마이페이지 임대인 매물내역 
 	int mypageImdaHouseListCount();
 
+	//마이페이지 임대인 매물내역 삭제
+	int myImdaHouseDelete(int houseNo);
+
 
 
 }

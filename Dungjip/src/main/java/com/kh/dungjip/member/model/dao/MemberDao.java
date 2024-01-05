@@ -184,5 +184,6 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("memberMapper.membermypageEsReservation",esNo);
 	}
+
 	
 }

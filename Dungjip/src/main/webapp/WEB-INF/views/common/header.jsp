@@ -139,7 +139,7 @@
 							</li>
 							
 	                    </ul>
-	                </div><!-- /.navbar-collapse -->           
+	                </div>         
                 </c:otherwise>               
                 
              </c:choose>    
