@@ -256,6 +256,8 @@
     	SET STATUS = 'N'
     	WHERE CHATROOM_NO = #{chatRoomNo}
 	</update>
+	
+
 
 
 

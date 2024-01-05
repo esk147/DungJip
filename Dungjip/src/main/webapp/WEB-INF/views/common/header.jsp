@@ -99,7 +99,7 @@
                 	<div class="collapse navbar-collapse yamm" id="navigation">
 
 	                    <div class="button navbar-right" id="right-navi">
-	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="logout.me?userNo=${loginUser.userNo}"' data-wow-delay="0.4s">Logout</button>
+	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="http://localhost:9999/dungjip/logout.me?userNo=${loginUser.userNo}"' data-wow-delay="0.4s">Logout</button>
 	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right">
@@ -126,13 +126,13 @@
 											<li class="nav-item"><a class="nav-link" href="http://localhost:9999/dungjip/admin/list">관리자 페이지</a></li>
 										</c:when>
 										<c:when test="${loginUser.userType == '중개인'}">
-											<li class="nav-item"><a class="nav-link" href="myEsPage.me">중개인 페이지</a></li>
+											<li class="nav-item"><a class="nav-link" href="http://localhost:9999/dungjip/myEsPage.me">중개인 페이지</a></li>
 										</c:when>
 										<c:when test="${loginUser.userType == '임차인'}">
-											<li class="nav-item"><a class="nav-link" href="myPage.me">마이 페이지</a></li>
+											<li class="nav-item"><a class="nav-link" href="http://localhost:9999/dungjip/myPage.me">마이 페이지</a></li>
 										</c:when>
 										<c:when test="${loginUser.userType == '임대인'}">
-											<li class="nav-item"><a class="nav-link" href="myImdaPage.me">임차인 페이지</a></li>
+											<li class="nav-item"><a class="nav-link" href="http://localhost:9999/dungjip/myImdaPage.me">임대인 페이지</a></li>
 										</c:when>										
 									</c:choose>
 								</ul>

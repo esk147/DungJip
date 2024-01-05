@@ -23,10 +23,13 @@
 * {
 	box-sizing: border-box;
 	font-family: 'Noto Sans KR', sans-serif;
+	
+	
 }
 
 body {
-	background-color: #f4f4f4;
+	background-image: url('../resources/img/chatImg/backImg.png');	
+
 	margin: 0;
 	padding: 0;
 	display: flex;
@@ -45,6 +48,7 @@ body {
 	border-radius: 8px;
 	box-shadow: 0px 0px 40px rgba(50, 50, 93, 0.25), 0px 30px 60px
 		rgba(0, 0, 0, 0.3), 0px -2px 10px rgba(10, 37, 64, 0.35) inset;
+	
 }
 
 aside {
@@ -57,6 +61,7 @@ aside {
 main {
 	width: 70%;
 	overflow-y: auto;
+	
 }
 
 aside header {
@@ -154,6 +159,7 @@ aside li h3 {
 main header {
 	height: 110px;
 	padding: 30px 20px 30px 40px;
+	background-color: #F3FBFF;
 }
 
 main header>* {
@@ -194,6 +200,7 @@ main header h3 {
 	height: 535px;
 	border-top: 2px solid #fff;
 	border-bottom: 2px solid #fff;
+	
 }
 
 #chat li {
@@ -256,6 +263,7 @@ main header h3 {
 main footer {
 	height: 155px;
 	padding: 20px 30px 10px 20px;
+
 }
 
 main footer textarea {
@@ -268,10 +276,12 @@ main footer textarea {
 	padding: 20px;
 	font-size: larger;
 	margin-bottom: 13px;
+	background-color: #F3FBFF;
 }
 
 main footer textarea::placeholder {
 	font-size: larger;
+	
 }
 
 main footer img {
@@ -288,6 +298,7 @@ main footer a {
 	float: right;
 	margin-top: 5px;
 	display: inline-block;
+	
 }
 
 aside ul::-webkit-scrollbar-track {
@@ -377,11 +388,10 @@ button.clickBtn2 {
 html, body {
 	margin: 0;
 	padding: 0;
-	background: #DCE775;
 	font-family: 'Merriweather', serif;
 }
 
-h1 {
+h1 {2
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -437,6 +447,11 @@ h1 {
 </style>
 
 <body>
+
+<script type="text/javascript">
+
+console.log(${chatList});
+</script>
 	<%-- <%@ include file="../common/chatbot.jsp"%> --%>
 	<div id="main-content" style="width: 80%;">
 		<div id="container">
@@ -444,12 +459,8 @@ h1 {
 			<aside>
 				<header>
 					<input id="findChat" type="text" placeholder="search"
-						name="findChat">
-					<script type="text/javascript">
-			
-				</script>
-
-				</header>
+						name="findChat">		
+			</header>
 				<ul id="findChatList">
 					<c:choose>
 						<c:when test="${not empty chatList}">
@@ -484,6 +495,7 @@ h1 {
 										</div>
 									</c:forEach></li>
 							</c:forEach>
+							
 						</c:when>
 						<c:otherwise>
 							<h2 align="center">채팅방이 존재 하지 않습니다</h2>
@@ -498,15 +510,11 @@ h1 {
 							style="width: 50px; height: 50px;" />
 						<div>
 							<h2 id="otherUser"></h2>
-							<button onclick="connect();">연결</button>
-							<button onclick="disconnect();">종료</button>
+					
 							<h3>부동산 소개 들어갈 자리입니다</h3>
 						</div>
 					</div>
 					<div style="margin-right: 0px;">
-						<script type="text/javascript">
-			console.log('${loginUser}');
-			</script>
 						<c:if test="${loginUser.userType eq '임차인'}">
 							<button class="chat-toggle-button" onclick="toggleChat();">신고</button>
 						</c:if>
@@ -605,6 +613,16 @@ h1 {
 
 
 <script>
+
+//채팅방이 선택될 때 이 함수가 트리거됩니다.
+function onChatRoomSelect(chatRoomNo) {
+    // WebSocket 연결 설정
+    connectToWebSocket(chatRoomNo);
+    // 채팅 메시지 또는 다른 필요한 데이터 로드
+    loadChatRoomData(chatRoomNo);
+}
+
+// WebSo
 $("#subBtn").click(function(){
 	
 	var reportReason = $(".clickBtn2").val();
@@ -927,11 +945,16 @@ window.onload = function() {
 		    //클릭된걸 알게 해주는 css 요소
 		    currentChatRoomNo = $(this).find("input[name='cno']").val();
 		    estateNo = $(this).find("input[name='eno']").val();
+		    var selectedChatRoomNo = $(this).find("input[name='cno']").val();
+		    connectToWebSocket(selectedChatRoomNo);
 		    
 		   console.log(currentChatRoomNo);
 		   //lastElementChild.children[1].id
 	     // 클릭된 부동산의 인덱스를 가져옵니다
 		chatRoomNo = $(this).find("input[name='cno']").val();//this는 li요소 find는 li 안에 있는 input[name='cno'] 이걸 가져온다
+		
+		
+	    connectToWebSocket(chatRoomNo);//추가
 		console.log(chatRoomNo);
 		console.log("클릭의 this입니다 : "+this);
 		$.ajax({
@@ -996,9 +1019,17 @@ window.onload = function() {
 		
 		
 		//연결함수(접속)
-		function connect(){
+		function connectToWebSocket(chatRoonNo){
 			//접속경로를 담아 socket을 생성한다.
-			 console.log("url 집어넣기전 :"+chatRoomNo);
+			 if (socket && socket.readyState === WebSocket.OPEN && currentChatRoomNo === chatRoomNo) {
+			        console.log("이미 채팅방 " + chatRoomNo + "에 연결되어 있습니다.");
+			        return;
+			    }
+			
+			    if (socket) {
+			        socket.close();
+			    }
+						 console.log("url 집어넣기전 :"+chatRoomNo);
 			var url = "ws://localhost:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			// "ws://192.168.150.140:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			socket = new WebSocket(url);
@@ -1006,6 +1037,7 @@ window.onload = function() {
 			socket.onopen = function(){
 				console.log("연결 성공");
 				console.log(url);
+				  currentChatRoomNo = chatRoomNo;
 			};
 			//연결이 종료됐을때
 			socket.onclose = function(){
@@ -1075,15 +1107,19 @@ window.onload = function() {
 			socket.close();//소켓 닫기 
 		}
 		//메세지 전송
-		function send(){
-		var text = $("#sendChat").val();
-			var data={
-					cno : chatRoomNo,
-					message : text
-			};
-				socket.send(JSON.stringify(data));
-		$("#sendChat").val("");
-	}
+	function send() {
+    var text = $("#sendChat").val();
+    if (socket && socket.readyState === WebSocket.OPEN) {
+        var data = {
+            cno: chatRoomNo,
+            message: text
+        };
+        socket.send(JSON.stringify(data));
+        $("#sendChat").val("");
+    } else {
+        console.log("WebSocket is not connected.");
+    }
+}
 		
 		$(document).ready(function(){
 		    // 'aside' 내의 'li' 요소에 대해서만 컨텍스트 메뉴를 표시:

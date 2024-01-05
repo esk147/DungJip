@@ -36,5 +36,7 @@ public interface ChatService {
 
 	int deleteChatMsg(int chatNo);
 
+	/* int pileUpMsg(ChatMessage cm); */
+
 	
 }

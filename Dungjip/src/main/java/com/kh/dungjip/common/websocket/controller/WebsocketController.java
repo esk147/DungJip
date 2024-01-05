@@ -39,7 +39,7 @@ public class WebsocketController {
 public WebsocketController() {//생성자에서 파일을 읽어온다.
 		
 		try {
-			badWords = Files.lines(Paths.get("C:\\Users\\dhgl1\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
+			badWords = Files.lines(Paths.get("C:\\Users\\82103\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
 		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -89,12 +89,26 @@ public WebsocketController() {//생성자에서 파일을 읽어온다.
 		
 		ArrayList<ChatRoom> chatList = chatService.chatRoomList(loginUserNo);// 현재 유저가 채팅하고있는 방의 리스트를 가지고온다.
 
-
 		m.addAttribute("chatList", chatList);
 
 		return "websocket/ask";
 	}
-
+	/*
+	 * @ResponseBody
+	 * 
+	 * @GetMapping("/pileUpMsg.ch")// 쌓인 메세지 읽는 메소드 public int pileUpMsg(int cno,
+	 * int mno) {
+	 * 
+	 * ChatMessage cm = new ChatMessage(cno,mno);
+	 * 
+	 * int result =chatService.pileUpMsg(cm);
+	 * 
+	 * System.out.println(result);
+	 * 
+	 * return result; }
+	 */
+	
+	
 	@ResponseBody
 	@PostMapping(value = "/selectChatMsg.ch", produces = "application/json; charset=UTF-8")
 	public ArrayList<ChatMessage> selectChatMsg(int cno, Model m) {
