@@ -2,6 +2,7 @@
 package com.kh.dungjip.common.websocket.model.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +95,16 @@ public class ChatServiceImpl implements ChatService {
 	public int deleteChatRoom(int chatNo) {
 		// TODO Auto-generated method stub
 		return chatDao.deleteChatRoom(sqlSession, chatNo);
+	}
+	@Override
+	public int pileUpMsg(ChatMessage cm) {
+		// TODO Auto-generated method stub
+		return chatDao.pileUpMsg(sqlSession,cm);
+	}
+	@Override
+	public int nowFileUpMsg(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return chatDao.nowFileUpMsg(sqlSession, map);
 	}
 
 }
