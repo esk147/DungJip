@@ -9,10 +9,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>DungJip Header</title>
-
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Frank+Ruhl+Libre:wght@500;700&family=Montserrat+Alternates:wght@500&display=swap" rel="stylesheet">
+
      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/dungjip/resources/assets/css/normalize.css">
         <link rel="stylesheet" href="/dungjip/resources/assets/css/font-awesome.min.css">
@@ -37,6 +39,12 @@
   </head>
   
   <style>
+  *{
+  	font-family: 'Caveat', cursive;
+  	font-family: 'Frank Ruhl Libre', serif;
+	font-family: 'Montserrat Alternates', sans-serif;
+	font-weight: bold;
+  }
   	.navbar-brand p {
   		padding: 0.5em 0 0;
   	}
@@ -72,14 +80,14 @@
             	<!-- 로그인 전  -->
 	                <div class="collapse navbar-collapse yamm" id="navigation">
 	                    <div class="button navbar-right" id="right-navi">
-	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="login.be"' data-wow-delay="0.4s">Login</button>
-	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="enquiry.en"' data-wow-delay="0.5s">QnA</button>
+	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="/dungjip/login.be"' data-wow-delay="0.4s">Login</button>
+	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right" id="nav-menu">
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">빌라</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">오피스텔</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">집내놓기</a></li>
+	                        
 	                    </ul>
 	                </div>  
 	                  
@@ -91,15 +99,15 @@
                 	<div class="collapse navbar-collapse yamm" id="navigation">
 
 	                    <div class="button navbar-right" id="right-navi">
-	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="logout.me?userNo=${loginUser.userNo}"' data-wow-delay="0.4s">Logout</button>
-	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="enquiry.en"' data-wow-delay="0.5s">QnA</button>
+	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="http://localhost:9999/dungjip/logout.me?userNo=${loginUser.userNo}"' data-wow-delay="0.4s">Logout</button>
+	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right">
                  
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">빌라</a></li>
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" onclick="clickVilla(this)">오피스텔</a></li>
-	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" href="">집내놓기</a></li>
+	                        <li class="wow fadeInDown" data-wow-delay="0.4s"><a class="" onclick="redirectToEnrollForm()">집내놓기</a></li>
 	                       
 	                        <li class="dropdown ymm-sw" data-wow-delay="0.1s">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">
@@ -115,21 +123,23 @@
 								<ul class="dropdown-menu">
 									<c:choose>
 										<c:when test="${loginUser.userType == '관리자'}">
-											<li class="nav-item"><a class="nav-link" href="">관리자 페이지</a></li>
+											<li class="nav-item"><a class="nav-link" href="http://localhost:9999/dungjip/admin/list">관리자 페이지</a></li>
 										</c:when>
 										<c:when test="${loginUser.userType == '중개인'}">
-											<li class="nav-item"><a class="nav-link" href="myPage.me">중개인 페이지</a></li>
+											<li class="nav-item"><a class="nav-link" href="http://localhost:9999/dungjip/myEsPage.me">중개인 페이지</a></li>
 										</c:when>
-										<c:otherwise>
-											<!-- 기본적으로는 마이 페이지가 나타나도록 설정 -->
-											<li class="nav-item"><a class="nav-link" href="myPage.me">마이 페이지</a></li>
-										</c:otherwise>
+										<c:when test="${loginUser.userType == '임차인'}">
+											<li class="nav-item"><a class="nav-link" href="http://localhost:9999/dungjip/myPage.me">마이 페이지</a></li>
+										</c:when>
+										<c:when test="${loginUser.userType == '임대인'}">
+											<li class="nav-item"><a class="nav-link" href="http://localhost:9999/dungjip/myImdaPage.me">임대인 페이지</a></li>
+										</c:when>										
 									</c:choose>
 								</ul>
 							</li>
 							
 	                    </ul>
-	                </div><!-- /.navbar-collapse -->           
+	                </div>         
                 </c:otherwise>               
                 
              </c:choose>    
@@ -149,7 +159,7 @@
         <script>
         	function clickVilla(e){
 				var villa = e.text;
-				location.href="villa.map?type="+villa;
+				location.href="/dungjip/villa.map?type="+villa;
         	}
         </script>
         
@@ -167,6 +177,12 @@
             }
         });
     </script>
+    
+    <script>
+	    function redirectToEnrollForm() {
+	        window.location.href = "/dungjip/house/enrollForm";
+	    }
+	</script>
   
         <script src="/dungjip/resources/assets/js/modernizr-2.6.2.min.js"></script>
 

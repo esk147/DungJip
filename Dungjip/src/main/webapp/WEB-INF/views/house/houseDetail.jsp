@@ -284,7 +284,6 @@
             <div class="clear" id="${estate.esNo }" onclick="detailEstate(this)">
                 <div class="col-xs-4 col-sm-4 dealer-face">
                     <img src="${estate.member.changeName}" class="img-circle" >
-               
                 </div>
                 <div class="col-xs-8 col-sm-8">
                     <h3 class="dealer-name">
@@ -662,8 +661,8 @@
 						<h3
 							style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
 
-						<h1
-							style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
+						<h1 style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
+
 
 						<h5 style="text-align: center;"></h5>
 					</div>
@@ -699,7 +698,8 @@
 								</a></li>
 							</ul>
 							
-						</div>
+
+					</div>
 					</div>
 				</div>
 					<div class="write">
@@ -718,6 +718,7 @@
 	</section>
 </div>
 </div>
+
 
 		<script>
 		console.log("사용자 번호: " + '${loginUser != null ? loginUser.userNo : "null"}');
@@ -847,6 +848,7 @@
 
 
 	</script>
+
 <!-- Footer area-->
 
 

@@ -59,8 +59,28 @@ public class ResidentReviewController {
 			session.setAttribute("alertMsg", "다시 시도해주세요.");
 			return "common/errorPage";
 		}
+		
+	}
 	
-	
+	//공감삭제
+	@RequestMapping("residentReview/reRedelete.me")
+	public String myReReviewDelete(@RequestParam("reReviewNo")int reReviewNo,Model model,HttpSession session) {
+		
+		int result = residentReviewService.myReReviewDelete(reReviewNo);
+		
+		System.out.println("번호 넘어오나" + reReviewNo);
+		
+		if(result > 0) {
+			
+			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
+			
+		}else {
+			
+			session.setAttribute("alertMsg", "다시 시도해주세요.");	
+			
+		}
+		
+		return "redirect:/myReReviewLike.me";
 	}
 	
 }

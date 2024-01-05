@@ -2,6 +2,7 @@ package com.kh.dungjip.member.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.member.model.vo.Member;
@@ -65,26 +66,23 @@ public interface MemberService {
 	
 	int LastLogoutTime(int userNo);
 
+	Member findSubscribeUser(int userNo);
 
+	int noSubscribe(int userNo);
 	//예약 내역
 	ArrayList<Reservation> selectReservation(Member loginUser);
-
-	
-
-
 
 	//프로필 사진 수정
 	int fileAjaxMethod(Member m);
 
-	
+	//마이페이지 예약내역 4개 리스트 뽑는 용도
+	ArrayList<Reservation> selectReservationList(Member m);
 
+	//중개사무소 수정
+	int mypageEstateUpdate(Estate elist);
 
-
-	
-
-
-
-	
+	//중개인 예약내역
+	ArrayList<Reservation> membermypageEsReservation(Integer esNo);
 
 
 }

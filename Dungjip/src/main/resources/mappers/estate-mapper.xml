@@ -12,33 +12,34 @@
 		<result column="ES_CEO" property="esCeo"/>
 		<result column="ES_PHONE" property="esPhone"/>
 		<result column="ES_NUM" property="esNum"/>
+		<result column="ES_REGISTER" property="esRegister"/>
 		<result column="ES_REGISTER_NUM" property="esRegisterNum"/>
 		<result column="ES_ADDRESS" property="esAddress"/>
 		<result column="ES_CONTENT" property="esContent"/>
-		
 		<result column="ES_COUNT" property="esCount"/>
 		<result column="ES_Status" property="esStatus"/>
 		<result column="ENROLLDATE" property="enrollDate"/>
 		<result column="ES_INTRO" property="esIntro"/>
 		<association property="member" javaType="member">
         	<result column="CHANGE_NAME" property="changeName"/>
+        	<result column="USER_NO" property="userNo"/>
 		</association>
 		<association property="esReLike" javaType="esReLike">
         	<result column="ES_RE_NO" property="esReNo"/>
 		</association>
 	</resultMap>
 	
+
 	<select id="selectEatateList" parameterType="_int" resultMap="estateResultSet" >
-	SELECT E.ES_NO
-      ,E.ES_NAME
-      ,M.CHANGE_NAME
-      ,E.ES_INTRO
-	FROM ESTATE E
-	JOIN OWN O ON E.ES_NO = O.ES_NO
-	JOIN MEMBER M ON E.USER_NO = M.USER_NO
-	WHERE HOUSE_NO = #{houseNo}
-	AND O.STATUS = 'Y'
-	
+		SELECT E.ES_NO
+	      ,E.ES_NAME
+	      ,M.CHANGE_NAME
+	      ,E.ES_INTRO
+		FROM ESTATE E
+		JOIN OWN O ON E.ES_NO = O.ES_NO
+		JOIN MEMBER M ON E.USER_NO = M.USER_NO
+		WHERE HOUSE_NO = #{houseNo}
+		AND O.STATUS = 'Y'
 	</select>
 	
 	<select id="estateDetail" parameterType="estate" resultMap="estateResultSet">
@@ -53,6 +54,7 @@
            ,E.ES_CONTENT
            ,E.ENROLLDATE
            ,M.CHANGE_NAME
+           ,M.USER_NO
            ,E.ES_INTRO
 	FROM ESTATE E
     JOIN MEMBER M ON E.USER_NO=M.USER_NO
@@ -61,11 +63,19 @@
 	</select>
 	
 	<update id="increaseCount" parameterType="_int">
-	UPDATE ESTATE
-    SET ES_COUNT = (ES_COUNT + 1)
-    WHERE ES_STATUS = 'Y'
-    AND ES_NO = #{esNo}
+		UPDATE ESTATE
+	    SET ES_COUNT = (ES_COUNT + 1)
+	    WHERE ES_STATUS = 'Y'
+	    AND ES_NO = #{esNo}
 	</update>
+
+	
+	<select id="selectEstateLists" parameterType="estate" resultMap="estateResultSet">
+	  	SELECT *
+		FROM ESTATE 		
+		ORDER BY ES_NO
+	</select>
+
 
 	<!-- 댓글용 resultMap -->
 	<resultMap type="estateReview" id="EstateReviewResultSet">
@@ -89,7 +99,21 @@
 		
 		
 	</resultMap>
-	
+
+	<update id="banEstate" parameterType="estate">
+  		UPDATE ESTATE
+  		SET ES_STATUS = 'N'
+  		WHERE ES_NO = #{esNo}
+  		AND ES_STATUS = 'Y'
+  	</update>
+  		
+  	<update id="permitEstate" parameterType="estate">
+  		UPDATE ESTATE
+  		SET ES_STATUS = 'Y'
+  		WHERE ES_NO = #{esNo}
+  		AND ES_STATUS = 'N'
+  	</update>
+  	
 	<select id="selectEstateReviewList" resultMap="EstateReviewResultSet">
 	SELECT R.ES_RE_NO
       ,M.USER_NICKNAME
@@ -187,8 +211,47 @@
 	</insert>
 
 
-	<select id="selectEstateReview" resultMap="EstateReviewResultSet" >
 
+
+	<select id="selectEstateEmoCount" resultType="_int">
+		SELECT COUNT(*) EMO
+		FROM ES_RE_LIKE
+		WHERE ES_RE_NO=#{esReNo}
+	</select>
+	
+	<select id="selectReviewLikeCount" resultType="_int">
+		select * from ES_RE_LIKE where es_re_no = #{esReNo} and user_no = #{userNo}
+	</select>
+	
+	<delete id="decreaseCount">
+		delete from ES_RE_LIKE where es_re_no = #{esReNo} and user_no = #{userNo}
+	</delete>
+	
+	<insert id="increaseEsReLikeCount">
+		insert into ES_RE_LIKE values(#{esReNo}, #{userNo})
+	</insert>
+	
+	<!-- 댓글용 resultMap -->
+	<resultMap type="reservation" id="reservationResultSet">
+		<result column="RESERVATION_NO" property="reservationNo"/>
+		<result column="ES_NO" property="esNo"/>
+		<result column="USER_NO" property="userNo"/>
+		<result column="RESERVATION_DATE" property="reservationDate"/>
+		<result column="TIME_NO" property="timeNo"/>
+	</resultMap>
+	
+	<resultMap type="time" id="timeResultSet">
+       	<result column="TIME_NO" property="timeNo"/>
+       	<result column="TIME_VALUE" property="timeValue"/>
+	</resultMap>	
+	
+	
+	<select id="selectTime" resultMap="timeResultSet">
+		SELECT *
+		FROM TIME
+	</select>
+
+	<select id="selectEstateReview" resultMap="EstateReviewResultSet" >
 		SELECT ES_RE_NO
 		        ,ER.ES_NO
 		        ,ER.USER_NO
@@ -202,8 +265,7 @@
 		JOIN ESTATE E ON ER.ES_NO  = E.ES_NO
 		JOIN HOUSE H ON ER.HOUSE_NO = H.HOUSE_NO
 		WHERE ER.USER_NO = #{userNo}
-		AND ES_RE_STATUS='Y'
-	
+		AND ES_RE_STATUS='Y'	
 	</select>
 	
 	<delete id="esReviewDelete" parameterType="_int">		
@@ -223,12 +285,16 @@
 		WHERE ES_RE_NO = #{er.esReNo}
 		AND ES_RE_STATUS='Y'
 	</update>
-	
-	<select id="selectEstateEmoCount" resultType="_int">
-	SELECT COUNT(*) EMO
-	FROM ES_RE_LIKE
-	WHERE ES_RE_NO=#{esReNo}
+
+	<select id="memberMypageReviewLike" resultMap="EstateReviewResultSet">
+		SELECT ES.ES_RE_NO, ES.USER_NO ,ER.ES_RE_CREATE_DATE,ER.ES_RE_CONTENT 
+		FROM ES_RE_LIKE ES
+		JOIN MEMBER M ON M.USER_NO = ES.USER_NO
+		JOIN ESTATE_REVIEW ER ON ES.ES_RE_NO = ER.ES_RE_NO
+		WHERE ES.USER_NO = #{userNo}
+
 	</select>
+
 
 
 	<select id="estateReviewDetail" resultMap="EstateReviewResultSet">
@@ -248,4 +314,109 @@
 		AND ES_RE_STATUS='Y'
 	</select>
 
+	<select id="selectEstateListCountByMember" resultType="_int">
+		SELECT COUNT(*)	
+		FROM ESTATE_REVIEW
+		WHERE ES_RE_STATUS = 'Y' 	
+	</select>
+	
+	<delete id="myEsReviewDelete">
+		DELETE 
+		FROM ES_RE_LIKE
+		WHERE ES_RE_NO = #{esReNo}	
+	</delete>
+	
+	<!-- 예약하기 -->
+	<insert id="insertReservation">
+		INSERT INTO RESERVATION 
+		VALUES(SEQ_RES.NEXTVAL
+			  ,#{selectEsNo}
+			  ,#{selectUserNo}
+			  ,#{clickedYMD}
+			  ,#{selectTime})
+	</insert>
+	
+	<resultMap type="reservationNew" id="reservationNewResultSet">
+      	<result column="RESERVATION_NO" property="reservationNo"/>
+      	<result column="ES_NO" property="selectEsNo"/>
+      	<result column="USER_NO" property="selectUserNo"/>
+      	<result column="RESERVATION_DATE" property="clickedYMD"/>
+      	<result column="TIME_NO" property="selectTime"/>
+	</resultMap>	
+	
+	<!-- 예약있는지 확인 -->
+	<select id="selectReservationList" resultMap="reservationNewResultSet">
+		SELECT * FROM RESERVATION
+		WHERE ES_NO = #{selectEsNo}
+		AND RESERVATION_DATE = TO_DATE(#{clickedYMD},'YYYYMMDD')
+	</select>
+
+
+	<select id="selectEstate" resultType="_int">
+		SELECT *
+		FROM ESTATE	
+	</select>
+	
+	<select id="getEsNo" resultType="_int" parameterType="_int">
+		select es_no from estate where user_no = #{userNo}
+	</select>
+	
+	<select id="selectReportEstateListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM REPORT_ESTATE
+	</select>
+	
+	
+	<resultMap type="reportEstate" id="reportEstateResultSet">
+		<result column="REPORT_NO" property="reportNo"/>
+		<result column="USER_NO" property="userNo"/>
+		<result column="CHATROOM_NO" property="chatRoomNo"/>
+		<result column="ESTATE_NO" property="estateNo"/>
+		<result column="REPORT_REASON" property="reportReason"/>
+	</resultMap>	
+	
+	<select id="memberMypageReportEstateList" resultMap="reportEstateResultSet">
+		SELECT RE.REPORT_NO 
+			,RE.USER_NO
+			,RE.CHATROOM_NO 
+			,RE.ESTATE_NO 
+			,RE.REPORT_REASON 
+		FROM REPORT_ESTATE RE       
+		JOIN MEMBER M ON M.USER_NO = RE.USER_NO
+        JOIN CHATROOM C ON C.CHATROOM_NO = RE.CHATROOM_NO
+        WHERE RE.USER_NO = #{userNo}
+	</select>
+	
+	<select id="mypageEstateUpdate" resultMap="estateResultSet">
+		SELECT ES_NO
+			,ES_NAME
+			,ES_CEO
+			,ES_PHONE
+			,ES_ADDRESS
+			,ES_CONTENT
+			,ES_INTRO
+		FROM ESTATE	E
+		JOIN MEMBER M ON M.USER_NO  = E.USER_NO
+		WHERE E.USER_NO = #{userNo}
+	</select>
+	
+	<update id="myEstateHouseDelete">
+		UPDATE OWN 
+		SET STATUS = 'N'
+		WHERE STATUS = 'Y'
+		AND HOUSE_NO = #{houseNo}
+	</update>
+	
+	<select id="myEspage" resultMap="estateResultSet">
+		SELECT E.ES_NO
+			,ES_NAME
+			,E.ES_CEO
+			,E.ES_PHONE
+			,E.ES_INTRO
+			,E.USER_NO
+		FROM ESTATE E
+		JOIN MEMBER M ON M.USER_NO = E.USER_NO
+		WHERE E.USER_NO = #{userNo}
+	</select>
+	
 </mapper>

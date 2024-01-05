@@ -35,9 +35,9 @@
 	
 		<typeAlias type="com.kh.dungjip.estate.model.vo.Own" alias="own"/>
 		
-		<typeAlias type="com.kh.dungjip.house.model.vo.Reservation" alias="reservation"/>
+		<typeAlias type="com.kh.dungjip.house.model.vo.Time" alias="time" /> 
 		
-		<typeAlias type="com.kh.dungjip.house.model.vo.Time" alias="time"/>
+
 		
 		<typeAlias type="com.kh.dungjip.estate.model.vo.EsReLike" alias="esReLike"/>
 		
@@ -46,5 +46,15 @@
 		<typeAlias type="com.kh.dungjip.residentReview.model.vo.Keyword" alias="keyword" />
 		
 		<typeAlias type="com.kh.dungjip.residentReview.model.vo.MemberKeyword" alias="memberKeyword" />
+
+		<typeAlias type="com.kh.dungjip.house.model.vo.Reservation" alias="reservation" /> 
+		
+		<typeAlias type="com.kh.dungjip.common.report.model.vo.ReportEstate" alias="reportEstate"/>
+		
+		<!-- 예약하기 new -->
+		<typeAlias type="com.kh.dungjip.house.model.vo.ReservationNew" alias="reservationNew" />
+		
+
 	</typeAliases>
+		
 </configuration>

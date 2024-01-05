@@ -28,21 +28,19 @@
 		SELECT RE_REVIEW_NO
 				,RR.USER_NO
 				,RR.HOUSE_NO
-				
 				,INTERIOR_SCORE
 				,BUILDING_SCORE
 				,TRAFFIC_SCORE
 				,SAFETY_SCORE
 				,LIFE_SCORE
-				,RE_AD_CONTENT
-				,RE_DIS_CONTENT
+				,RR.RE_AD_CONTENT
+				,RR.RE_DIS_CONTENT
 				,RE_CREATE_DATE
 				,RE_PERIOD
 				,RE_FLOOR
 				,RR.STATUS
 		FROM RESIDENT_REVIEW RR
 		JOIN MEMBER M ON RR.USER_NO = M.USER_NO
-		
 		JOIN HOUSE H ON RR.HOUSE_NO = H.HOUSE_NO
 		WHERE RR.USER_NO = #{userNo}
 		AND RR.STATUS='Y'	
@@ -55,7 +53,7 @@
 	    AND RE_REVIEW_NO = #{reReviewNo}
 	</delete>
 	
-	<update id="updateReReview">
+	<update id="updateReReview" >
 		UPDATE RESIDENT_REVIEW
 	    SET INTERIOR_SCORE = #{interiorScore},
 	        BUILDING_SCORE = #{buildingScore},
@@ -67,5 +65,36 @@
 	    WHERE RE_REVIEW_NO = #{reReviewNo}
 	
 	</update>
+	
+	<select id="memberMypageReviewLike" resultMap="residentReviewResultSet">
+		SELECT RE.RE_REVIEW_NO
+				, RE.USER_NO
+				, RR.HOUSE_NO
+				, RR.RE_AD_CONTENT
+				, RR.RE_DIS_CONTENT
+				, RR.RE_CREATE_DATE
+		FROM RE_RE_LIKE RE
+		JOIN MEMBER M ON M.USER_NO = RE.USER_NO
+		JOIN RESIDENT_REVIEW RR ON RR.RE_REVIEW_NO = RE.RE_REVIEW_NO
+		WHERE RE.USER_NO = #{userNo}
+	</select>
+	
+	<select id="selectResidentListCountByMember" resultType="_int">
+		SELECT COUNT(*)	
+		FROM RESIDENT_REVIEW
+		WHERE STATUS = 'Y' 
+	</select>
+	
+	<delete id="myReReviewDelete">
+		DELETE 
+		FROM RE_RE_LIKE
+		WHERE RE_REVIEW_NO = #{reReNo}		
+	</delete>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*) 
+  	  	FROM RESIDENT_REVIEW 
+  	  	WHERE STATUS = 'Y'
+	</select>
 
 </mapper>

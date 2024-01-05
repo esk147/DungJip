@@ -29,7 +29,11 @@
 		<result column="HOUSE_BUILDDATE" property="houseBuildDate" />
 		<result column="HOUSE_ANIMALS" property="houseAnimals" />
 		<result column="HOUSE_NAME" property="houseName" />
+		<result column="USER_NO" property="userNo" />
 		<result column="STATUS" property="status" />
+		<association property="member" javaType="member">
+			<result column="USER_NAME" property="userName"/>
+		</association>
 	</resultMap>
 	
 	<resultMap type="houseImg" id="houseImgResultSet">
@@ -59,7 +63,9 @@
 	</select>
 	
 	<select id="selectHouse" parameterType="string" resultMap="houseResultSet">
-		select * from house where house_type = #{type} order by house_no
+		select house_no, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+           THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+           ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, house_rent, house_title, house_style, house_square, house_latitude, house_longitude, house_floor, house_maintaincost, house_name, house_type from house where house_type = #{type} order by house_no
 	</select>
 	
 	<select id="selectHouseThumnail" resultMap="houseImgResultSet">
@@ -73,6 +79,29 @@
 		GROUP BY HOUSE_NO
 	</select>
 	
+<insert id="enrollHouse" parameterType="house">
+    <selectKey keyProperty="houseNo" resultType="_int" order="BEFORE">
+        SELECT SEQ_HNO.NEXTVAL FROM DUAL
+    </selectKey>
+    INSERT INTO HOUSE (
+        HOUSE_NO, HOUSE_PRICE, HOUSE_RENT, HOUSE_SQUARE, HOUSE_STYLE, HOUSE_TITLE,
+        HOUSE_DETAILS, HOUSE_TYPE, HOUSE_LATITUDE, HOUSE_LONGITUDE,
+        HOUSE_ADDRESS, HOUSE_FLOOR, HOUSE_BUILDING_FLOOR, HOUSE_TOILET, HOUSE_ROOMS, HOUSE_PARKABLE, HOUSE_BALCONY,
+        HOUSE_MAINTAINCOST, HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS, HOUSE_NAME, USER_NO
+    )
+    VALUES (
+        #{houseNo}, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle},
+        #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude},
+        #{houseAddress}, #{houseFloor}, #{houseBuildingFloor}, #{houseToilet}, #{houseRooms}, #{houseParkAble}, #{houseBalcony},
+        #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals}, #{houseName}, #{userNo}
+    )
+</insert>
+    
+	<insert id="enrollHouseImg" parameterType="houseImg">
+		INSERT INTO HOUSE_IMG (FILE_NO, HOUSE_NO, ORIGIN_NAME, CHANGE_NAME)
+		VALUES (SEQ_HINO.NEXTVAL, #{houseNo}, #{originName}, #{changeName})
+    </insert>
+
 	<select id="selectHouseList" resultMap="houseResultSet">
 	SELECT H.HOUSE_NO
           ,H.HOUSE_PRICE
@@ -206,6 +235,7 @@
 		    ,HOUSE_ROOMS
 		    ,HOUSE_ANIMALS
 		    ,HOUSE_PARKABLE
+		    ,HOUSE_STYLE
 		FROM HOUSE
 		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
 		AND STATUS='Y'
@@ -226,8 +256,26 @@
 		GROUP BY I.HOUSE_NO
 		ORDER BY I.HOUSE_NO
 	</select>
+	
 	<select id="selectHouseMain" parameterType="string" resultMap="houseResultSet">
-		select * from house where house_type = #{type} order by house_price FETCH FIRST 7 ROWS ONLY
+		SELECT * FROM (
+		    SELECT house_no, 
+		           house_name, 
+		           CASE 
+		               WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5 THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+		               ELSE TO_CHAR(HOUSE_PRICE)
+		           END AS HOUSE_PRICE, 
+		           house_rent, 
+		           house_square, 
+		           house_floor, 
+		           house_maintaincost, 
+		           house_title, 
+		           house_style 
+		    FROM house 
+		    WHERE house_type = #{type}
+		    ORDER BY house_no
+		) 
+		WHERE ROWNUM <![CDATA[ <= 7 ]]>
 	</select>
 	
 	<select id="selectHouseMainThumnail" parameterType="_int" resultMap="houseImgResultSet">
@@ -243,7 +291,9 @@
 	</select>
 	
 	<select id="selectSubscribeHouseList" resultMap="houseResultSet">
-		SELECT H.*
+		SELECT H.house_no, H.house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+           THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+           ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, H.house_price, H.house_rent, H.house_square, H.house_floor, H.house_maintaincost, H.house_title, H.house_style
 	    FROM OWN O
 	    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
 	    WHERE O.ES_NO=#{randomUser}
@@ -251,6 +301,14 @@
 	    AND O.STATUS = 'Y'
 	</select>
 	
+	<!-- 비슷한 매물 전체 개수 -->
+	<select id="selectHouseLikeCount" parameterType="string" resultType="_int">
+		SELECT count(*) COUNT
+		FROM HOUSE 
+		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND STATUS='Y'
+	</select>
+
 	<select id="memberMypageHousejjimForm" resultMap="houseResultSet">	
 		SELECT H.HOUSE_NO
 		        ,H.HOUSE_TITLE
@@ -259,6 +317,7 @@
 		WHERE J.USER_NO = #{userNo}
 	</select>
 	
+
 	
 		<resultMap type="residentReview" id="residentReviewResultSet">
 		<result column="RE_REVIEW_NO" property="reReviewNo"/>
@@ -339,7 +398,49 @@ GROUP BY RR.RE_REVIEW_NO, M.USER_NICKNAME, M.CHANGE_NAME, RR.HOUSE_NO
 ,RR.INTERIOR_SCORE, RR.BUILDING_SCORE, RR.TRAFFIC_SCORE, RR.SAFETY_SCORE, RR.LIFE_SCORE
 ,RR.RE_AD_CONTENT, RR.RE_DIS_CONTENT, RR.RE_CREATE_DATE, RR.RE_PERIOD, RR.RE_FLOOR, RR.STATUS, RR.TOTAL, RI.CHANGE_NAME,M.AGE
 ,M.GENDER
+</select>
+
+	<delete id="mypageHjjimdelete" parameterType="_int">
+		DELETE FROM JJIM
+		WHERE HOUSE_NO = #{houseNo}
+	</delete>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)	
+		FROM HOUSE
+		WHERE STATUS = 'Y' 		
 	</select>
+	
+	<select id="selectEsHouseListCount" resultType="_int">
+		SELECT COUNT(*)	count
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		JOIN OWN O ON O.HOUSE_NO = H.HOUSE_NO
+	</select>
+	
+	<select id="memberMypageEstateHouseList" resultMap="houseResultSet">
+		SELECT H.HOUSE_NO 
+	        ,H.HOUSE_PRICE
+	        ,H.HOUSE_SQUARE
+	        ,H.HOUSE_RENT
+	        ,H.HOUSE_STYLE
+	        ,H.HOUSE_TITLE
+	        ,H.HOUSE_TYPE
+	        ,H.HOUSE_ADDRESS
+	        ,H.HOUSE_TOILET
+	        ,H.HOUSE_ROOMS
+	        ,H.HOUSE_PARKABLE
+	        ,H.HOUSE_NAME
+	        ,H.USER_NO
+	        ,M.USER_NAME
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		JOIN OWN O ON O.HOUSE_NO = H.HOUSE_NO
+		WHERE O.es_no = #{esNo}
+		AND O.STATUS = 'Y'
+
+	</select>
+
 
 
 <select id="selectResidentReviewSum" resultType="_int">
@@ -511,33 +612,37 @@ SELECT COUNT(life_score) AS life_score_COUNT
 	AND STATUS='Y'
 </select>
 
-
+	<select id="mypageImdaHouseListCount" resultType="_int">
+		SELECT COUNT(*)	count
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+	</select>
+	
+	<select id="mypageImdaHouseList" resultMap="houseResultSet">
+		SELECT H.HOUSE_NO 
+		    ,H.HOUSE_PRICE
+		    ,H.HOUSE_SQUARE
+		    ,H.HOUSE_RENT
+		    ,H.HOUSE_STYLE
+		    ,H.HOUSE_TITLE
+		    ,H.HOUSE_TYPE
+		    ,H.HOUSE_ADDRESS
+		    ,H.HOUSE_TOILET
+		    ,H.HOUSE_ROOMS
+		    ,H.HOUSE_PARKABLE
+		    ,H.HOUSE_NAME
+		    ,H.USER_NO
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		WHERE M.USER_NO = #{userNo}
+		AND H.STATUS='Y'
+	</select>
+	
+	<update id="myImdaHouseDelete">
+		UPDATE HOUSE
+		SET STATUS = 'N'
+		WHERE STATUS = 'Y'
+		AND HOUSE_NO = #{houseNo}
+	</update>
+	
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

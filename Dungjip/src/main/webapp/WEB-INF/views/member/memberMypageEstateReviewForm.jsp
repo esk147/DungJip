@@ -87,7 +87,7 @@
 			<div class="section" style="width: 93%; margin-bottom: 50px;">
 				 
 				 <div class="panel-heading">
-                    <p><strong style="font-style: italic;">리뷰내역>중개사</strong></p>
+                     <h3 class="panel-title"><strong>리뷰내역 > 중개사</strong></h3>
                  </div>
 				
 				<!-- Additional content can be added here -->
@@ -101,12 +101,16 @@
 			                             <div style="width:100%;">
 			                                
 			                                 <div class="item-entry overflow" style="width:100%;">
+
 			                                     <h6 style="display: flex;justify-content: space-between;"><a href=""> # ${elist.esNo} </a>
 			                                     	<div><a href="update.esre?esReNo=${elist.esReNo}&esNo=${elist.esNo}" type="button" id="updateBtn" class="btn btn-light btn-sm">수정</a>																					
 													 	<a href="estateReview/delete.es?esReNo=${elist.esReNo}" id="deleteBtn" class="btn btn-light btn-sm" onclick="return confirm('리뷰를 삭제하시겠습니까?');" style="color: red;">삭제</a></div></h6>
+
 			                                     <div class="dot-hr"></div>
 			                                     <span class="pull-left"><b>작성된 날짜 : </b>${elist.esReCreateDate}</span>
+
 			                                     <p style="display: ">${elist.esReContent}</p>
+
 			
 			                                 </div>
 			                             </div>
@@ -122,6 +126,25 @@
 						</c:if>
 										
 				</div>
+				
+				<footer style="width: 450px;">
+				 <!--------------------------------------- 페이징 처리 ------------------------------------->
+				   <div class="pull-right" >
+			            <div class="pagination">
+			                <ul>
+			                	 <c:if test="${pi.currentPage ne 1 }">
+			                   <li><a href="myEsReview.me?currentPage=${pi.currentPage-1}">Prev</a></li>
+			                </c:if>   
+			                <c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">  
+			                   <li><a href="myEsReview.me?currentPage=${p}">${p}</a></li>
+			                </c:forEach>   
+			                <c:if test="${pi.currentPage ne pi.maxPage }"> 
+			                     <li><a href="myEsReview.me?currentPage=${pi.currentPage+1}">Next</a></li>
+			                	  </c:if>
+			                </ul>
+			            </div>
+			       </div> 				
+				</footer>
 			</div>
 		</section>
 	</div>
@@ -187,37 +210,32 @@
 
 	<script type="text/javascript">
 		function a(data){
+			
 			$("#updateEsReNo").prop("value", data);
 			
 			var esReNo = data;
 			var esReScore  = $("input[name=esReScore]:checked").val();
 			var esReContent  =$("#esReContent").val();
-			
-			
-			 if (confirm("리뷰를 수정하시겠습니까?")) {
-		            // 서버로 수정된 내용 전송
-		            $.ajax({
-		                type: "POST",
-		                url: "updateReview.es",
-		                data: {
-		                    esReNo: esReNo,
-		                    esReScore: esReScore,
-		                    esReContent: esReContent
-		                },
-		                success: function (result) {
-		                	
-							console.log(result);
-							
-							alert('리뷰 등록이 완료되었습니다.');
-		                },
-		                error: function (error) {
-		                	console.log("오류");
-		                }
-		            });
-		            return true; // 수정 내용 전송
-		        } else {
-		            return false; // 수정 취소
-		        }
+        
+            $.ajax({
+                type: "POST",
+                url: "updateReview.es",
+                data: {
+                    esReNo: esReNo,
+                    esReScore: esReScore,
+                    esReContent: esReContent
+                },
+                success: function (result) {
+                	
+					console.log(result);
+					
+					alert('리뷰 등록이 완료되었습니다.');
+                },
+                error: function (error) {
+                	console.log("오류");
+                }
+            });		            
+		 
 		} 
 		
 	</script>

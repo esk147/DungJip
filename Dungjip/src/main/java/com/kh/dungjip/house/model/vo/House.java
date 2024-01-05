@@ -2,6 +2,8 @@ package com.kh.dungjip.house.model.vo;
 
 import java.sql.Date;
 
+import com.kh.dungjip.member.model.vo.Member;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,9 +35,24 @@ public class House {
 	private String houseBalcony;
 	private int houseMaintainCost;
 	private String houseDoItNow;
-	private Date houseBuildDate;
+	private String houseBuildDate;
 	private String houseAnimals;
 	private String houseName;
+	private int userNo;
 	private String status;
+	
+	private Member member;
+
+    // Member 속성에 접근할 수 있는 getter 메서드
+    public Member getMember() {
+        return member;
+    }
+
+    // Member 속성에 값을 설정할 수 있는 setter 메서드
+    public void setMember(Member member) {
+        this.member = member;
+    }
+	
+	
 	
 }

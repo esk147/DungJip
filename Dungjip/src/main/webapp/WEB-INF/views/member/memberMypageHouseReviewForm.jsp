@@ -83,7 +83,7 @@
 			<div class="section" style="width: 93%; margin-bottom: 50px;">
 
 				<div class="panel-heading">
-                    <p><strong style="font-style: italic;">리뷰내역>집</strong></p>
+                     <h3 class="panel-title"><strong>리뷰내역 > 집</strong></h3>
                  </div>
 
 				<div  id="list-type" class="proerty-th-list" style="color: #333; list-style: none; padding: 20px 20px 20px 20px;">
@@ -96,14 +96,20 @@
 			                             <div style="width:100%;">
 			                                
 			                                 <div class="item-entry overflow" style="width:100%;">
+
 			                                     <h5 style="display: flex;justify-content: space-between;"><a href=""> 집 번호 ${hlist.houseNo}  </a>
 			                                     	<div><a href="update.rere?reReviewNo=${hlist.reReviewNo}&houseNo=${hlist.houseNo}" type="button" id="updateBtn" class="btn btn-light btn-sm">수정</a>																					
+
+
 													 	<a href="residentReview/delete.re?reReviewNo=${hlist.reReviewNo }" id="deleteBtn" class="btn btn-light btn-sm" onclick="return confirm('리뷰를 삭제하시겠습니까?');" style="color: red;">삭제</a></div></h5>
 			                                     <div class="dot-hr"></div>
 			                                     <!-- 별점을 어떻게 띄울지 생각을 해보자. -->
 			                                     <span class="pull-left"><b>작성된 날짜 : </b>${hlist.reCreateDate}</span>
-			                                     <p style="display: ;">장점 : ${hlist.reAdContent}</p>
-			                                     <p style="display: ;">단점 : ${hlist.reDisContent}</p>
+
+	
+			                                     <p>장점 : ${hlist.reAdContent}</p>
+			                                     <p>단점 : ${hlist.reDisContent}</p>
+
 			
 			                                 </div>
 			                             </div>
@@ -119,7 +125,27 @@
 						</c:if>
 										
 				</div>
-			</div>
+				
+				<footer style="width: 500px;">
+				   <!--------------------------------------- 페이징 처리 ------------------------------------->
+				   <div class="pull-right" >
+			            <div class="pagination">
+			                <ul>
+			                	 <c:if test="${pi.currentPage ne 1 }">
+			                   <li><a href="myHReview.me?currentPage=${pi.currentPage-1}">Prev</a></li>
+			                </c:if>   
+			                <c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">  
+			                   <li><a href="myHReview.me?currentPage=${p}">${p}</a></li>
+			                </c:forEach>   
+			                <c:if test="${pi.currentPage ne pi.maxPage }"> 
+			                     <li><a href="myHReview.me?currentPage=${pi.currentPage+1}">Next</a></li>
+			                	  </c:if>
+			                </ul>
+			            </div>
+			       </div> 
+		       	</footer>
+		       						
+			</div>			
 		</section>
 	</div>
 	
@@ -300,37 +326,32 @@
 			var lifeScore  = $("input[name=lifeScore]:checked").val();
 			var reAdContent  =$("#reAdContent").val();
 			var reDisContent  =$("#reDisContent").val();
-			
-			
-			 if (confirm("리뷰를 수정하시겠습니까?")) {
-		            // 서버로 수정된 내용 전송
-		            $.ajax({
-		                type: "POST",
-		                url: "updateReReview.es",
-		                data: {
-		                	reReviewNo: reReviewNo,
-		                	interiorScore: interiorScore,
-		                	buildingScore: buildingScore,
-		                	trafficScore: trafficScore,
-		                	safetyScore: safetyScore,
-		                	lifeScore: lifeScore,
-		                	reAdContent: reAdContent,
-		                    reDisContent: reDisContent
-		                },
-		                success: function (result) {
-		                	
-							console.log(result);
-							
-							alert('리뷰 등록이 완료되었습니다.');
-		                },
-		                error: function (error) {
-		                	console.log("오류");
-		                }
-		            });
-		            return true; // 수정 내용 전송
-		        } else {
-		            return false; // 수정 취소
-		        }
+
+            $.ajax({
+                type: "POST",
+                url: "updateReReview.es",
+                data: {
+                	reReviewNo: reReviewNo,
+                	interiorScore: interiorScore,
+                	buildingScore: buildingScore,
+                	trafficScore: trafficScore,
+                	safetyScore: safetyScore,
+                	lifeScore: lifeScore,
+                	reAdContent: reAdContent,
+                    reDisContent: reDisContent
+                },
+                success: function (result) {
+                	
+					console.log(result);
+					
+					alert('리뷰 등록이 완료되었습니다.');
+                },
+                error: function (error) {
+                	console.log("오류");
+                }
+            });
+            return true; // 수정 내용 전송
+		       
 		} 
 		
 	</script>
