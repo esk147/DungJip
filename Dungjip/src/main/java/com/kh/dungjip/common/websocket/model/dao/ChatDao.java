@@ -47,7 +47,8 @@ public class ChatDao {
 
 
 	public int updateChatRoomMsg(SqlSessionTemplate sqlSession, ChatMessage c) {//해당채팅방 대화내용 저장 
-
+		System.out.println("dao에 있는 c : "+ sqlSession.insert("chatMapper.updateChatRoomMsg",c));	
+		
 		return sqlSession.insert("chatMapper.updateChatRoomMsg",c);
 	}
 
@@ -95,7 +96,12 @@ public class ChatDao {
 		return sqlSession.delete("chatMapper.deleteChatRoom", chatNo);
 	}
 
-
+	/*
+	 * public int pileUpMsg(SqlSessionTemplate sqlSession, ChatMessage cm) { // TODO
+	 * Auto-generated method stub return
+	 * sqlSession.update("chatMapper.pileUpMsg",cm); }
+	 * 
+	 */
 
 
 

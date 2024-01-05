@@ -44,7 +44,9 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 	public WebsocketAskServer() {//파일에서 부적절한 단어 목록을 읽어 badWords에 저장합니다.
 		
 		try {
-			badWords = Files.lines(Paths.get("C:\\Users\\user1\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
+
+			badWords = Files.lines(Paths.get("C:\\Users\\82103\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
+
 		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -75,7 +77,7 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {// 텍스트 보내는 메소드
-	
+	System.out.println(message);
 		// Current time
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddEEEE HH:mm:ss");
@@ -94,9 +96,11 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 		int chatRoomNo = Integer.parseInt(preCno);
 		String contentMessage = (String) jsonObj.get("message");
 		ChatMessage c = new ChatMessage(contentMessage, chatRoomNo, userNo, userName);
+		System.out.println(c);
 		int result = chatService.updateChatRoomMsg(c); // 메세지 전송
 		//관리자가 잘 알아볼수있게 미리 사용자의 대화를 db에 저장을 해두고 
 		// 이후에 욕설필터링을 통하여 관리하기
+		System.out.println("저장 됬나? :" +result);
 		for(String word : badWords) {//위에서 받아온 badWords에서 반복문으로 사용자가 보낸 메세지가 담겨있는지 확인
 			if(contentMessage.contains(word)) {
 				
@@ -115,6 +119,8 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 
 		String jobjString = jobj.toString();
 		TextMessage jobjMessage = new TextMessage(jobjString);
+		
+		System.out.println(jobjMessage);
 
 		System.out.println("메세지를 보낸 방번호 " + chatRoomNo);
 		Set<WebSocketSession> sessionsInRoom = roomSessions.get(chatRoomNo);
@@ -147,6 +153,17 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 
+		for (Map.Entry<Integer, Set<WebSocketSession>> entry : roomSessions.entrySet()) {
+	        Set<WebSocketSession> sessions = entry.getValue();
+	        if (sessions.contains(session)) {
+	            sessions.remove(session);
+	     
+	            if (sessions.isEmpty()) {
+	                roomSessions.remove(entry.getKey());
+	            }
+	            break; 
+	        }
+	    }
 	}
 
 	private Map<String, String> parseQuery(String query) { // 파라미터로 받아온 방번호 해체 작업
