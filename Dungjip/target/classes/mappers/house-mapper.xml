@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="houseMapper">
+
+	<resultMap type="house" id="houseResultSet">
+		<result column="HOUSE_NO" property="houseNo" />
+		<result column="HOUSE_PRICE" property="housePrice" />
+		<result column="HOUSE_RENT" property="houseRent" />
+		<result column="HOUSE_SQUARE" property="houseSquare" />
+		<result column="HOUSE_STYLE" property="houseStyle" />
+		<result column="HOUSE_TITLE" property="houseTitle" />
+		<result column="HOUSE_DETAILS" property="houseDetails" />
+		<result column="HOUSE_TYPE" property="houseType" />
+		<result column="HOUSE_LATITUDE" property="houseLatitude" />
+		<result column="HOUSE_LONGITUDE" property="houseLongitude" />
+		<result column="HOUSE_UPLOAD_TIME" property="houseUploadTime" />
+		<result column="HOUSE_ADDRESS" property="houseAddress" />
+		<result column="HOUSE_FLOOR" property="houseFloor" />
+		<result column="HOUSE_BUILDING_FLOOR" property="houseBuildingFloor" />
+		<result column="HOUSE_TOILET" property="houseToilet" />
+		<result column="HOUSE_ROOMS" property="houseRooms" />
+		<result column="HOUSE_PARKABLE" property="houseParkAble" />
+		<result column="HOUSE_BALCONY" property="houseBalcony" />
+		<result column="HOUSE_MAINTAINCOST" property="houseMaintainCost" />
+		<result column="HOUSE_DOITNOW" property="houseDoItNow" />
+		<result column="HOUSE_BUILDDATE" property="houseBuildDate" />
+		<result column="HOUSE_ANIMALS" property="houseAnimals" />
+		<result column="HOUSE_NAME" property="houseName" />
+		<result column="USER_NO" property="userNo" />
+		<result column="STATUS" property="status" />
+		<association property="member" javaType="member">
+			<result column="USER_NAME" property="userName"/>
+		</association>
+	</resultMap>
+	
+	<resultMap type="houseImg" id="houseImgResultSet">
+		<result column="FILE_NO" property="fileNo"/>
+		<result column="HOUSE_NO" property="houseNo"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="UPLOAD_DATE" property="uploadDate"/>
+		<result column="STATUS" property="status"/>
+	</resultMap>
+
+	<insert id="insertHouseJSON" parameterType="house">
+		insert into house (HOUSE_NO, HOUSE_PRICE, HOUSE_RENT, HOUSE_SQUARE,
+		HOUSE_STYLE,HOUSE_TITLE,HOUSE_DETAILS,HOUSE_TYPE,HOUSE_LATITUDE,
+		HOUSE_LONGITUDE,HOUSE_UPLOAD_TIME,HOUSE_ADDRESS,HOUSE_FLOOR,HOUSE_BUILDING_FLOOR,
+		HOUSE_TOILET, HOUSE_ROOMS, HOUSE_PARKABLE, HOUSE_BALCONY, HOUSE_MAINTAINCOST,
+		HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS, HOUSE_NAME)
+		values (seq_hno.nextval, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle}
+		, #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude}, #{houseUploadTime}, #{houseAddress}
+		, #{houseFloor}, #{houseBuildingFloor}, #{houseToilet}, #{houseRooms}, #{houseParkAble}, #{houseBalcony}
+		, #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals}, #{houseName})
+	</insert>
+	
+	<select id="selectLocations" resultMap="houseResultSet">
+		select DISTINCT house_address from house
+	</select>
+	
+	<select id="selectHouse" parameterType="string" resultMap="houseResultSet">
+		select house_no, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+           THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+           ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, house_rent, house_title, house_style, house_square, house_latitude, house_longitude, house_floor, house_maintaincost, house_name, house_type from house where house_type = #{type} order by house_no
+	</select>
+	
+	<select id="selectHouseThumnail" resultMap="houseImgResultSet">
+		SELECT MIN(FILE_NO) AS FILE_NO,
+	    HOUSE_NO,
+	    MIN(ORIGIN_NAME) AS ORIGIN_NAME,
+	    MIN(CHANGE_NAME) AS CHANGE_NAME,
+	    MIN(UPLOAD_DATE) AS UPLOAD_DATE,
+	    MIN(STATUS) AS STATUS
+		FROM HOUSE_IMG
+		GROUP BY HOUSE_NO
+	</select>
+	
+<insert id="enrollHouse" parameterType="house">
+    <selectKey keyProperty="houseNo" resultType="_int" order="BEFORE">
+        SELECT SEQ_HNO.NEXTVAL FROM DUAL
+    </selectKey>
+    INSERT INTO HOUSE (
+        HOUSE_NO, HOUSE_PRICE, HOUSE_RENT, HOUSE_SQUARE, HOUSE_STYLE, HOUSE_TITLE,
+        HOUSE_DETAILS, HOUSE_TYPE, HOUSE_LATITUDE, HOUSE_LONGITUDE,
+        HOUSE_ADDRESS, HOUSE_FLOOR, HOUSE_BUILDING_FLOOR, HOUSE_TOILET, HOUSE_ROOMS, HOUSE_PARKABLE, HOUSE_BALCONY,
+        HOUSE_MAINTAINCOST, HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS, HOUSE_NAME, USER_NO
+    )
+    VALUES (
+        #{houseNo}, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle},
+        #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude},
+        #{houseAddress}, #{houseFloor}, #{houseBuildingFloor}, #{houseToilet}, #{houseRooms}, #{houseParkAble}, #{houseBalcony},
+        #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals}, #{houseName}, #{userNo}
+    )
+</insert>
+    
+	<insert id="enrollHouseImg" parameterType="houseImg">
+		INSERT INTO HOUSE_IMG (FILE_NO, HOUSE_NO, ORIGIN_NAME, CHANGE_NAME)
+		VALUES (SEQ_HINO.NEXTVAL, #{houseNo}, #{originName}, #{changeName})
+    </insert>
+
+	<select id="selectHouseList" resultMap="houseResultSet">
+	SELECT H.HOUSE_NO
+          ,H.HOUSE_PRICE
+          ,H.HOUSE_RENT
+          ,H.HOUSE_SQUARE
+          ,H.HOUSE_STYLE
+          ,H.HOUSE_TYPE
+          ,H.HOUSE_FLOOR
+    FROM OWN O 
+    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+    WHERE O.ES_NO=#{esNo}
+    AND O.STATUS = 'Y'
+	</select>
+	
+	<select id="selectHouseModal" resultMap="houseResultSet">
+	SELECT H.HOUSE_NO
+          ,H.HOUSE_PRICE
+          ,H.HOUSE_RENT
+          ,H.HOUSE_SQUARE
+          ,H.HOUSE_STYLE
+          ,H.HOUSE_TYPE
+          ,H.HOUSE_FLOOR
+    FROM OWN O 
+    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+    WHERE O.ES_NO=#{esNo}
+    AND O.STATUS = 'Y'
+	</select>
+	
+	<select id="selectHouseImg" resultMap="houseImgResultSet">
+	SELECT MIN(H.FILE_NO) AS FILE_NO
+          ,H.HOUSE_NO
+          ,MIN(H.CHANGE_NAME) AS CHANGE_NAME
+          ,MIN(H.UPLOAD_DATE) AS UPLOAD_DATE
+          ,MIN(H.STATUS) AS STATUS
+    FROM HOUSE_IMG H
+    JOIN OWN O ON O.HOUSE_NO = H.HOUSE_NO
+    WHERE O.ES_NO=#{esNo}
+    AND O.STATUS = 'Y'
+    GROUP BY H.HOUSE_NO
+	
+	</select>
+	
+	<select id="selectHouseListCount" resultType="_int">
+	SELECT COUNT(*)
+	FROM OWN O
+ 	JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+    WHERE O.ES_NO=#{esNo}
+    AND O.STATUS = 'Y'
+	</select>
+	
+	<resultMap type="jjim" id="JjimResultSet">
+		<result column="HOUSE_NO" property="houseNo" />
+		<result column="USER_NO" property="userNo" />
+	</resultMap>	
+	
+	<!-- 찜하기 -->
+	<insert id="insertJjim" parameterType="jjim">
+		INSERT INTO JJIM(HOUSE_NO,USER_NO)
+		VALUES (#{houseNo},#{userNo})
+	</insert>
+	
+	<!-- 찜 데이터 있는지 여부 확인 -->
+	<select id="selectJjim" resultMap="JjimResultSet">
+		SELECT *
+		FROM JJIM
+		WHERE USER_NO = #{userNo}
+		AND HOUSE_NO = #{houseNo}
+	</select>
+	
+	<!-- 찜 데이터 삭제 -->
+	<delete id="deleteJjim" parameterType="jjim">
+		DELETE FROM JJIM
+		WHERE USER_NO = #{userNo}
+		AND HOUSE_NO = #{houseNo}
+	</delete>
+	
+	<!-- 집 상세보기 -->
+	<select id="selectHouseDetail" resultMap="houseResultSet">
+		SELECT HOUSE_NO
+          ,CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>  
+           THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+           ELSE TO_CHAR(HOUSE_PRICE)
+           END AS HOUSE_PRICE
+          ,HOUSE_RENT
+          ,HOUSE_SQUARE
+          ,HOUSE_STYLE
+          ,HOUSE_TITLE
+          ,HOUSE_DETAILS
+          ,HOUSE_TYPE
+          ,HOUSE_LATITUDE
+          ,HOUSE_LONGITUDE
+          ,HOUSE_UPLOAD_TIME
+          ,HOUSE_ADDRESS
+          ,HOUSE_FLOOR
+          ,HOUSE_BUILDING_FLOOR
+          ,HOUSE_TOILET
+          ,HOUSE_ROOMS
+          ,HOUSE_PARKABLE
+          ,HOUSE_BALCONY
+          ,HOUSE_MAINTAINCOST
+          ,HOUSE_DOITNOW
+          ,HOUSE_BUILDDATE
+          ,HOUSE_ANIMALS
+          ,STATUS
+    	FROM HOUSE
+		WHERE HOUSE_NO = #{houseNo}
+	</select>
+	
+	<!-- 상세보기 집 이미지 -->
+	<select id="selectHouseImgDetail" resultMap="houseImgResultSet">
+		SELECT *
+		FROM HOUSE_IMG
+		WHERE HOUSE_NO = #{houseNo}
+		AND STATUS = 'Y'
+	</select>
+	
+	<!-- 비슷한 매물 찾기 list -->
+	<select id="houseLikeList" resultMap="houseResultSet">
+		SELECT HOUSE_NO
+		    ,CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>  
+           	 THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+           	 ELSE TO_CHAR(HOUSE_PRICE)
+           	 END AS HOUSE_PRICE
+		    ,HOUSE_RENT
+		    ,HOUSE_SQUARE
+		    ,HOUSE_TITLE
+		    ,HOUSE_ADDRESS
+		    ,HOUSE_DETAILS
+		    ,HOUSE_TOILET
+		    ,HOUSE_ROOMS
+		    ,HOUSE_ANIMALS
+		    ,HOUSE_PARKABLE
+		    ,HOUSE_STYLE
+		FROM HOUSE
+		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND STATUS='Y'
+		ORDER BY HOUSE_NO
+	</select>
+	
+	<!-- 비슷한 매물 찾기 img -->
+	<select id="houseImgLike" resultMap="houseImgResultSet">
+		SELECT MIN(I.FILE_NO) AS FILE_NO,
+	    I.HOUSE_NO,
+	    MIN(I.ORIGIN_NAME) AS ORIGIN_NAME,
+	    MIN(I.CHANGE_NAME) AS CHANGE_NAME,
+	    MIN(I.UPLOAD_DATE) AS UPLOAD_DATE,
+	    MIN(I.STATUS) AS STATUS
+		FROM HOUSE_IMG I
+		JOIN HOUSE H ON (I.HOUSE_NO = H.HOUSE_NO)
+		WHERE TRIM(SUBSTR(H.HOUSE_ADDRESS, INSTR(H.HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		GROUP BY I.HOUSE_NO
+		ORDER BY I.HOUSE_NO
+	</select>
+	
+	<select id="selectHouseMain" parameterType="string" resultMap="houseResultSet">
+		SELECT * FROM (
+		    SELECT house_no, 
+		           house_name, 
+		           CASE 
+		               WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5 THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+		               ELSE TO_CHAR(HOUSE_PRICE)
+		           END AS HOUSE_PRICE, 
+		           house_rent, 
+		           house_square, 
+		           house_floor, 
+		           house_maintaincost, 
+		           house_title, 
+		           house_style 
+		    FROM house 
+		    WHERE house_type = #{type}
+		    ORDER BY house_no
+		) 
+		WHERE ROWNUM <![CDATA[ <= 7 ]]>
+	</select>
+	
+	<select id="selectHouseMainThumnail" parameterType="_int" resultMap="houseImgResultSet">
+		SELECT MIN(FILE_NO) AS FILE_NO,
+	    HOUSE_NO,
+	    MIN(ORIGIN_NAME) AS ORIGIN_NAME,
+	    MIN(CHANGE_NAME) AS CHANGE_NAME,
+	    MIN(UPLOAD_DATE) AS UPLOAD_DATE,
+	    MIN(STATUS) AS STATUS
+		FROM HOUSE_IMG
+		WHERE HOUSE_NO = #{houseNo}
+		GROUP BY HOUSE_NO
+	</select>
+	
+	<select id="selectSubscribeHouseList" resultMap="houseResultSet">
+		SELECT H.house_no, H.house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+           THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
+           ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, H.house_price, H.house_rent, H.house_square, H.house_floor, H.house_maintaincost, H.house_title, H.house_style
+	    FROM OWN O
+	    JOIN HOUSE H ON O.HOUSE_NO = H.HOUSE_NO
+	    WHERE O.ES_NO=#{randomUser}
+	    AND H.HOUSE_TYPE=#{type}
+	    AND O.STATUS = 'Y'
+	</select>
+	
+	<!-- 비슷한 매물 전체 개수 -->
+	<select id="selectHouseLikeCount" parameterType="string" resultType="_int">
+		SELECT count(*) COUNT
+		FROM HOUSE 
+		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND STATUS='Y'
+	</select>
+
+	<select id="memberMypageHousejjimForm" resultMap="houseResultSet">	
+		SELECT H.HOUSE_NO
+		        ,H.HOUSE_TITLE
+		FROM HOUSE H
+		JOIN JJIM J ON J.HOUSE_NO = H.HOUSE_NO	
+		WHERE J.USER_NO = #{userNo}
+	</select>
+	
+	<delete id="mypageHjjimdelete" parameterType="_int">
+		DELETE FROM JJIM
+		WHERE HOUSE_NO = #{houseNo}
+	</delete>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)	
+		FROM HOUSE
+		WHERE STATUS = 'Y' 		
+	</select>
+	
+	<select id="selectEsHouseListCount" resultType="_int">
+		SELECT COUNT(*)	count
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		JOIN OWN O ON O.HOUSE_NO = H.HOUSE_NO
+	</select>
+	
+	<select id="memberMypageEstateHouseList" resultMap="houseResultSet">
+		SELECT H.HOUSE_NO 
+	        ,H.HOUSE_PRICE
+	        ,H.HOUSE_SQUARE
+	        ,H.HOUSE_RENT
+	        ,H.HOUSE_STYLE
+	        ,H.HOUSE_TITLE
+	        ,H.HOUSE_TYPE
+	        ,H.HOUSE_ADDRESS
+	        ,H.HOUSE_TOILET
+	        ,H.HOUSE_ROOMS
+	        ,H.HOUSE_PARKABLE
+	        ,H.HOUSE_NAME
+	        ,H.USER_NO
+	        ,M.USER_NAME
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		JOIN OWN O ON O.HOUSE_NO = H.HOUSE_NO
+		WHERE O.es_no = #{esNo}
+		AND O.STATUS = 'Y'
+	</select>
+
+	<select id="mypageImdaHouseListCount" resultType="_int">
+		SELECT COUNT(*)	count
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+	</select>
+	
+	<select id="mypageImdaHouseList" resultMap="houseResultSet">
+		SELECT H.HOUSE_NO 
+		    ,H.HOUSE_PRICE
+		    ,H.HOUSE_SQUARE
+		    ,H.HOUSE_RENT
+		    ,H.HOUSE_STYLE
+		    ,H.HOUSE_TITLE
+		    ,H.HOUSE_TYPE
+		    ,H.HOUSE_ADDRESS
+		    ,H.HOUSE_TOILET
+		    ,H.HOUSE_ROOMS
+		    ,H.HOUSE_PARKABLE
+		    ,H.HOUSE_NAME
+		    ,H.USER_NO
+		FROM HOUSE H
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		WHERE M.USER_NO = #{userNo}
+		AND H.STATUS='Y'
+	</select>
+	
+	<update id="myImdaHouseDelete">
+		UPDATE HOUSE
+		SET STATUS = 'N'
+		WHERE STATUS = 'Y'
+		AND HOUSE_NO = #{houseNo}
+	</update>
+	
+</mapper>
