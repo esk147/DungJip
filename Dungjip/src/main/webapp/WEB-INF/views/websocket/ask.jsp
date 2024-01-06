@@ -444,6 +444,26 @@ h1 {2
 .contextmenu li:hover a {
 	color: #FFFFFF;
 }
+.fileUpMsg{
+
+
+    right: 25px;
+    width: 35px;
+    height: 35px;
+    color: #ffffff;
+    background-color:#FC9B8F;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    font-size: 15px;
+    z-index: 2000;
+	 box-shadow: 
+        0px 0px 40px rgba(50, 50, 93, 0.25),
+        0px 30px 60px rgba(0, 0, 0, 0.3),
+        0px -2px 10px rgba(10, 37, 64, 0.35) inset;
+        }
+
+}
 </style>
 
 <body>
@@ -464,17 +484,18 @@ console.log(${chatList});
 				<ul id="findChatList">
 					<c:choose>
 						<c:when test="${not empty chatList}">
-							<c:forEach items="${chatList}" var="chatRoom">
-								<li onclick="whatEvent(this);"><c:forEach
-										items="${chatRoom.members}" var="member">
+							<c:forEach items="${chatList}" var="chatRoom" varStatus="status">
+								<li onclick="whatEvent(this);">
+								<c:forEach items="${chatRoom.members}" var="member">
 										<img id="${member.changeName }" src="../${member.changeName }"
 											alt="" style="width: 50px; height: 50px;">
-										<div>
+										<div style="width:74%;">
 											<input type="hidden" name="cno"
 												value="${chatRoom.chatRoomNo}">
 											<!-- 각 채팅방의 멤버에 대해 루프를 돌면서 userName을 표시 -->
-											<div id="${member.userName }">
-												<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userName}</h2>
+											<div id="${member.userName }" style="width:100%; display:flex; justify-content: space-between;">
+													<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userName}</h2>
+													 <span class="fileUpMsg" id="fileUpMsg${status.index }" style="margin-right:10px;"></span>
 												<input type="hidden" name="eno" value="${member.userNo }">
 											</div>
 											<c:choose>
@@ -484,7 +505,6 @@ console.log(${chatList});
 														현재 활동중
 													</h3>
 												</c:when>
-
 												<c:otherwise>
 													<h3 id="logoutTime">
 														&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="status orange"></span>
@@ -493,14 +513,61 @@ console.log(${chatList});
 												</c:otherwise>
 											</c:choose>
 										</div>
-									</c:forEach></li>
+									</c:forEach>
+									</li>
 							</c:forEach>
+						
+							
 							
 						</c:when>
 						<c:otherwise>
 							<h2 align="center">채팅방이 존재 하지 않습니다</h2>
 						</c:otherwise>
 					</c:choose>
+					<!-- 쌓인 메세지 확인하는 용도 -->
+					<script type="text/javascript">
+					
+					function readFileUpMsg(){
+						var cnoList = [];
+						document.querySelectorAll('input[name="cno"]').forEach(function(input) {
+						  cnoList.push(input.value);
+						});
+						console.log("검색하고 조회");
+						console.log(cnoList);
+						//쌓인 메세지 개수					
+						$.ajax({
+							url:'nowFileUpMsg.ch',
+							data : {
+								cnoList : cnoList,
+								mno : '${loginUser.userNo}'
+							},
+							success : function(countList){
+								console.log(countList);
+								for(var i = 0; i < countList.length; i++){
+									var divId = "fileUpMsg"+i;
+									var countDiv = document.getElementById(divId);
+									console.log(countDiv);
+									if(countList[i] == 0){
+										$("#"+divId).css("display", "none");
+										continue;
+									}
+									countDiv.innerHTML = countList[i];
+									countDiv.displya = 'none';
+								}
+								
+								
+								
+							},
+							error : function(){
+								console.log("에러가 났네요");
+								
+							}
+						});
+					}
+					
+					readFileUpMsg();
+					
+					</script>
 				</ul>
 			</aside>
 			<main>
@@ -622,7 +689,7 @@ function onChatRoomSelect(chatRoomNo) {
     loadChatRoomData(chatRoomNo);
 }
 
-// WebSo
+
 $("#subBtn").click(function(){
 	
 	var reportReason = $(".clickBtn2").val();
@@ -785,7 +852,7 @@ e.target은 클릭된 요소를 나타냅니다.
 var currentChatRoomNo;//현재 사용자가 참여하고 있는 채팅방의 번호를 저장하는 변수
 
 $("#findChat").on("input",function(){
-	
+
 	if($("#findChat").val() === ""){
 		location.reload();
 	
@@ -798,21 +865,23 @@ $("#findChat").on("input",function(){
 			loginUserNo : ${loginUser.userNo}
 		},
 		success : function(chatList){
+			
 			 var findChatHtml = "";
-
 			    chatList.forEach(function(chatRoom) {
 			        // chatRoom과 chatRoom.members의 유효성 검사
 			        if (chatRoom && chatRoom.members) {
 			            findChatHtml += "<li onclick='whatEvent(this);'>"
 
+						var a = 0;
 			            chatRoom.members.forEach(function(member) {
 			                if (member) {
 							                    // member 객체의 유효성 검사
 			                    findChatHtml += "<img id='" + member.changeName + "' src='../" + member.changeName + "' alt='' style='width:50px; height:50px;'>";
-			                    findChatHtml += "<div>";
+			                    findChatHtml += '<div style="width:74%;">';
 			                    findChatHtml += "<input type='hidden' name='cno' value='" + chatRoom.chatRoomNo + "'>";
-			                    findChatHtml += "<div id='" + member.userName + "'>";
+			                    findChatHtml += '<div id="'+member.userName+'" style="width:100%; display:flex; justify-content: space-between;">';
 			                    findChatHtml += "<h2>&nbsp;&nbsp;&nbsp;&nbsp;" + member.userName + "</h2>";
+			                    findChatHtml += '<span class="fileUpMsg" id="fileUpMsg'+a+'" style="margin-right:10px;"></span>';
 			                    findChatHtml += "</div>";
 			                    if (member.active) {
 			                        findChatHtml += "<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='status green'></span>현재 활동중</h3>";
@@ -821,13 +890,15 @@ $("#findChat").on("input",function(){
 			                    }
 			                    findChatHtml += "</div>";
 			                }
+			                a++;
 			            });
 			            findChatHtml += "</li>";
 			        }
 			    });
 
+				readFileUpMsg();
 			    $("#findChatList").html(findChatHtml);
-			    
+
 			    $('aside ul li').click(function(){//새롭게 변했기때문에 다시 클릭하면 메세지를 받아오게 한다
 			    	
 					   $('aside ul li').removeClass('active');//원래 클릭된 배경 색깔을 지워주고
@@ -841,6 +912,27 @@ $("#findChat").on("input",function(){
 				     // 클릭된 부동산의 인덱스를 가져옵니다
 					chatRoomNo = $(this).find("input[name='cno']").val();//this는 li요소 find는 li 안에 있는 input[name='cno'] 이걸 가져온다
 			
+					$.ajax({
+						url : "../websocket/pileUpMsg.ch",
+						data : {
+							cno : chatRoomNo,
+							mno : '${loginUser.userNo}'
+							
+						},
+						success: function(result){
+							console.log("읽음메세지 처리");
+							readFileUpMsg();
+							
+						},
+						error : function(){
+							console.log("쌓인메세지 실패 ");
+						}
+							
+							
+						});
+						
+					
+					
 					$.ajax({
 						url: "../websocket/selectChatMsg.ch",
 						method:"POST",
@@ -897,6 +989,7 @@ $("#findChat").on("input",function(){
 						}
 					});
 				   });
+			    readFileUpMsg();
 	        },
 		error : function(){
 			console.log("에러가 났네요");
@@ -952,6 +1045,28 @@ window.onload = function() {
 		   //lastElementChild.children[1].id
 	     // 클릭된 부동산의 인덱스를 가져옵니다
 		chatRoomNo = $(this).find("input[name='cno']").val();//this는 li요소 find는 li 안에 있는 input[name='cno'] 이걸 가져온다
+		
+		//메세지 읽음처리 ajax
+		$.ajax({
+		url : "../websocket/pileUpMsg.ch",
+		data : {
+			cno : chatRoomNo,
+			mno : '${loginUser.userNo}'
+			
+		},
+		success: function(result){
+			console.log("읽음메세지 처리");
+			readFileUpMsg();
+			
+		},
+		error : function(){
+			console.log("쌓인메세지 실패 ");
+		}
+			
+			
+		});
+		
+		
 		
 		
 	    connectToWebSocket(chatRoomNo);//추가
@@ -1030,7 +1145,8 @@ window.onload = function() {
 			        socket.close();
 			    }
 						 console.log("url 집어넣기전 :"+chatRoomNo);
-			var url = "ws://localhost:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
+			var url = "ws://192.168.150.140:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
+			//"ws://localhost:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			// "ws://192.168.150.140:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			socket = new WebSocket(url);
 			//연결이 되었을때
@@ -1100,6 +1216,8 @@ window.onload = function() {
 			    }
 					    }
 				$("#chat").scrollTop($("#chat").prop('scrollHeight'));//채팅을 최신순으로 내려주는 작업
+
+				readFileUpMsg();
 			};
 		}
 		//접속종료 

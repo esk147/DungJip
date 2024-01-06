@@ -96,11 +96,10 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 		int chatRoomNo = Integer.parseInt(preCno);
 		String contentMessage = (String) jsonObj.get("message");
 		ChatMessage c = new ChatMessage(contentMessage, chatRoomNo, userNo, userName);
-		System.out.println(c);
+
 		int result = chatService.updateChatRoomMsg(c); // 메세지 전송
 		//관리자가 잘 알아볼수있게 미리 사용자의 대화를 db에 저장을 해두고 
 		// 이후에 욕설필터링을 통하여 관리하기
-		System.out.println("저장 됬나? :" +result);
 		for(String word : badWords) {//위에서 받아온 badWords에서 반복문으로 사용자가 보낸 메세지가 담겨있는지 확인
 			if(contentMessage.contains(word)) {
 				
@@ -120,7 +119,6 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 		String jobjString = jobj.toString();
 		TextMessage jobjMessage = new TextMessage(jobjString);
 		
-		System.out.println(jobjMessage);
 
 		System.out.println("메세지를 보낸 방번호 " + chatRoomNo);
 		Set<WebSocketSession> sessionsInRoom = roomSessions.get(chatRoomNo);
@@ -130,25 +128,6 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 			}
 		}
 	}
-	/*
-	 * @Override protected void handleBinaryMessage(WebSocketSession session,
-	 * BinaryMessage message) { System.out.println("왔냐??"); ByteBuffer byteBuffer =
-	 * message.getPayload(); // 바이너리 데이터 추출 및 처리 System.out.println(byteBuffer); //
-	 * 예: 파일로 저장, 변환 등
-	 * 
-	 * URI uri = session.getUri(); if (uri != null) { String query = uri.getQuery();
-	 * Map<String, String> queryParams = parseQuery(query);
-	 * 
-	 * String chatRoomNoStr = queryParams.get("chatRoomNo"); if (chatRoomNoStr !=
-	 * null) { int chatRoomNo = Integer.parseInt(chatRoomNoStr); // 바이너리 데이터를 해당
-	 * 채팅방의 다른 참가자들에게 전송 Set<WebSocketSession> sessionsInRoom =
-	 * roomSessions.get(chatRoomNo); if (sessionsInRoom != null) {
-	 * System.out.println("히히2"); for (WebSocketSession s : sessionsInRoom) { if
-	 * (s.equals(session)) { // 메시지를 보낸 사용자 제외 try { System.out.println("히히3");
-	 * s.sendMessage(new BinaryMessage(byteBuffer)); } catch (IOException e) { //
-	 * TODO Auto-generated catch block e.printStackTrace(); } // 바이너리 메시지 전송 } } } }
-	 * } }
-	 */
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {

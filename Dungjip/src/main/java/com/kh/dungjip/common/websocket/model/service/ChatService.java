@@ -2,6 +2,7 @@
 package com.kh.dungjip.common.websocket.model.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.kh.dungjip.common.report.model.vo.ReportEstate;
 import com.kh.dungjip.common.websocket.model.vo.ChatMessage;
@@ -36,7 +37,9 @@ public interface ChatService {
 
 	int deleteChatMsg(int chatNo);
 
-	/* int pileUpMsg(ChatMessage cm); */
+	 int pileUpMsg(ChatMessage cm);
+
+	int nowFileUpMsg(Map<String, Object> map); 
 
 	
 }
