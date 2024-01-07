@@ -23,13 +23,10 @@
 * {
 	box-sizing: border-box;
 	font-family: 'Noto Sans KR', sans-serif;
-	
-	
 }
 
 body {
-	background-image: url('../resources/img/chatImg/backImg.png');	
-
+	background-image: url('../resources/img/chatImg/backImg.png');
 	margin: 0;
 	padding: 0;
 	display: flex;
@@ -48,7 +45,6 @@ body {
 	border-radius: 8px;
 	box-shadow: 0px 0px 40px rgba(50, 50, 93, 0.25), 0px 30px 60px
 		rgba(0, 0, 0, 0.3), 0px -2px 10px rgba(10, 37, 64, 0.35) inset;
-	
 }
 
 aside {
@@ -61,7 +57,6 @@ aside {
 main {
 	width: 70%;
 	overflow-y: auto;
-	
 }
 
 aside header {
@@ -200,7 +195,6 @@ main header h3 {
 	height: 535px;
 	border-top: 2px solid #fff;
 	border-bottom: 2px solid #fff;
-	
 }
 
 #chat li {
@@ -263,7 +257,6 @@ main header h3 {
 main footer {
 	height: 155px;
 	padding: 20px 30px 10px 20px;
-
 }
 
 main footer textarea {
@@ -281,7 +274,6 @@ main footer textarea {
 
 main footer textarea::placeholder {
 	font-size: larger;
-	
 }
 
 main footer img {
@@ -298,7 +290,6 @@ main footer a {
 	float: right;
 	margin-top: 5px;
 	display: inline-block;
-	
 }
 
 aside ul::-webkit-scrollbar-track {
@@ -391,7 +382,7 @@ html, body {
 	font-family: 'Merriweather', serif;
 }
 
-h1 {2
+h1 { 2
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -444,31 +435,27 @@ h1 {2
 .contextmenu li:hover a {
 	color: #FFFFFF;
 }
-.fileUpMsg{
 
-
-    right: 25px;
-    width: 35px;
-    height: 35px;
-    color: #ffffff;
-    background-color:#FC9B8F;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 32px;
-    font-size: 15px;
-    z-index: 2000;
-	 box-shadow: 
-        0px 0px 40px rgba(50, 50, 93, 0.25),
-        0px 30px 60px rgba(0, 0, 0, 0.3),
-        0px -2px 10px rgba(10, 37, 64, 0.35) inset;
-        }
-
+.fileUpMsg {
+	right: 25px;
+	width: 35px;
+	height: 35px;
+	color: #ffffff;
+	background-color: #FC9B8F;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 32px;
+	font-size: 15px;
+	z-index: 2000;
+	box-shadow: 0px 0px 40px rgba(50, 50, 93, 0.25), 0px 30px 60px
+		rgba(0, 0, 0, 0.3), 0px -2px 10px rgba(10, 37, 64, 0.35) inset;
+}
 }
 </style>
 
 <body>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
 console.log(${chatList});
 </script>
@@ -479,24 +466,26 @@ console.log(${chatList});
 			<aside>
 				<header>
 					<input id="findChat" type="text" placeholder="search"
-						name="findChat">		
-			</header>
+						name="findChat">
+				</header>
 				<ul id="findChatList">
 					<c:choose>
 						<c:when test="${not empty chatList}">
 							<c:forEach items="${chatList}" var="chatRoom" varStatus="status">
-								<li onclick="whatEvent(this);">
-								<c:forEach items="${chatRoom.members}" var="member">
+								<li onclick="whatEvent(this);"><c:forEach
+										items="${chatRoom.members}" var="member">
 										<img id="${member.changeName }" src="../${member.changeName }"
 											alt="" style="width: 50px; height: 50px;">
-										<div style="width:74%;">
+										<div style="width: 74%;">
 											<input type="hidden" name="cno"
 												value="${chatRoom.chatRoomNo}">
 											<!-- 각 채팅방의 멤버에 대해 루프를 돌면서 userName을 표시 -->
-											<div id="${member.userName }" style="width:100%; display:flex; justify-content: space-between;">
-													<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userName}</h2>
-													 <span class="fileUpMsg" id="fileUpMsg${status.index }" style="margin-right:10px;"></span>
-												<input type="hidden" name="eno" value="${member.userNo }">
+											<div id="${member.userName }"
+												style="width: 100%; display: flex; justify-content: space-between;">
+												<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userName}</h2>
+												<span class="fileUpMsg" id="fileUpMsg${status.index }"
+													style="margin-right: 10px;"></span> <input type="hidden"
+													name="eno" value="${member.userNo }">
 											</div>
 											<c:choose>
 												<c:when test="${member.active}">
@@ -513,12 +502,11 @@ console.log(${chatList});
 												</c:otherwise>
 											</c:choose>
 										</div>
-									</c:forEach>
-									</li>
+									</c:forEach></li>
 							</c:forEach>
-						
-							
-							
+
+
+
 						</c:when>
 						<c:otherwise>
 							<h2 align="center">채팅방이 존재 하지 않습니다</h2>
@@ -554,19 +542,13 @@ console.log(${chatList});
 									countDiv.innerHTML = countList[i];
 									countDiv.displya = 'none';
 								}
-								
-								
-								
 							},
 							error : function(){
 								console.log("에러가 났네요");
-								
 							}
 						});
 					}
-					
 					readFileUpMsg();
-					
 					</script>
 				</ul>
 			</aside>
@@ -577,8 +559,8 @@ console.log(${chatList});
 							style="width: 50px; height: 50px;" />
 						<div>
 							<h2 id="otherUser"></h2>
-					
-							<h3>부동산 소개 들어갈 자리입니다</h3>
+
+							<h3>언제나 최선을 다하는 장재부동산입니다!</h3>
 						</div>
 					</div>
 					<div style="margin-right: 0px;">
@@ -925,14 +907,10 @@ $("#findChat").on("input",function(){
 							
 						},
 						error : function(){
+							
 							console.log("쌓인메세지 실패 ");
 						}
-							
-							
 						});
-						
-					
-					
 					$.ajax({
 						url: "../websocket/selectChatMsg.ch",
 						method:"POST",
@@ -972,9 +950,7 @@ $("#findChat").on("input",function(){
 						        "</li>";
 						
 							  $("#chat").html(chatHtml);
-							  
 						}
-							
 							}
 							}else{
 								chatHtml = "";
@@ -1145,7 +1121,7 @@ window.onload = function() {
 			        socket.close();
 			    }
 						 console.log("url 집어넣기전 :"+chatRoomNo);
-			var url = "ws://192.168.150.140:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
+			var url = "ws://localhost:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			//"ws://localhost:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			// "ws://192.168.150.140:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			socket = new WebSocket(url);

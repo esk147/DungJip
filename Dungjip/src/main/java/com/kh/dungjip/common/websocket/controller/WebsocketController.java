@@ -192,7 +192,7 @@ public class WebsocketController {
 
 				int result3 = chatService.deleteChatRoom(chatNo);
 
-				System.out.println("성공따리" + result3);
+				
 
 			}
 
