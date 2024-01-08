@@ -312,7 +312,7 @@
 		 var doubleLocation = document.getElementById(searchLocation);
 		 
 		 if(doubleLocation != null){
-			 return alert("이미 검색하신 장소입니다.");
+			 return showError("오류", "이미 검색하신 장소입니다.", "확인");  
 		 }
 
 		ps.keywordSearch(searchLocation, placesSearchCB);

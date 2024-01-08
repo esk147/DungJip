@@ -213,10 +213,10 @@
             success: function (result) {
                 console.log(result);
                 if (result.success) {
-                    alert("부동산 리뷰 작성 성공");
+                    showSuccess("성공","부동산 리뷰 작성 성공","확인");  
                     window.location.href = "detail.es?esNo="+esNo;
                 } else {
-                    alert("부동산 리뷰 작성 실패: " + result.errorMsg);
+                	showError("오류", "부동산 리뷰 작성 실패: " + result.errorMsg, "확인");
                 }
             },
             error: function () {

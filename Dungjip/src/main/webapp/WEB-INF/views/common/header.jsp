@@ -151,9 +151,15 @@
         <c:if test="${not empty alertMsg }">
         <script>
             var alertMsg = "${alertMsg}";
-            alert(alertMsg);
+            var errorMsg = "${errorMsg}";
+            if(alertMsg){
+	            showSuccess("성공",alertMsg,"확인");            	
+            } else {
+	            showError("오류", errorMsg, "확인");            	
+            }
         </script>
         <c:remove var="alertMsg" />
+        <c:remove var="errorMsg" />
    		</c:if>        
         
         <script>

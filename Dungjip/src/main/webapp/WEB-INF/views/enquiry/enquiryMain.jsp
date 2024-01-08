@@ -119,13 +119,6 @@ input[type="text"], input[type="email"], select, textarea {
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<c:if test="${not empty alertMsg }">
-        <script>
-            var alertMsg = "${alertMsg}";
-            alert(alertMsg);
-        </script>
-        <c:remove var="alertMsg" />
-    </c:if>
     
 	<div class="page-head">
 		<div class="container">

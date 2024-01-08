@@ -127,9 +127,9 @@
 		var today = new Date();
 		
 		if(rTime>today){
-			alert("예약 날짜 이후 작성이 가능합니다.");
+			showWarning("경고","예약 날짜 이후 작성이 가능합니다.","확인");
 		}else{
-		window.location.href = "/dungjip/insert.esre?esNo="+esNo;
+			window.location.href = "/dungjip/insert.esre?esNo="+esNo;
 		}
 	}
 	</script>
