@@ -4,7 +4,6 @@
 
 <!DOCTYPE html>
 <html class="no-js">
-<!--<![endif]-->
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -74,10 +73,10 @@
   .custom-input {
     display: flex;
     align-items: center;
-    border: 1px solid #d1d5db; /* Gray 300 */
+    border: 1px solid #d1d5db;
     border-radius: 8px;
     padding: 8px 16px;
-    background-color: #f9fafb; /* Gray 50 */
+    background-color: #f9fafb;
     margin-bottom: 25px;
   }
   
@@ -86,8 +85,8 @@
     border: none;
     outline: none;
     padding: 8px 0;
-    background-color: transparent; /* Make sure the input has no background */
-    margin-left: 8px; /* Spacing between icon and input text */
+    background-color: transparent;
+    margin-left: 8px;
   }
 
   .bto {
@@ -99,14 +98,14 @@
   }
   
   .btn-dead {
-    background-color: #f3f4f6; /* Gray 100 */
-    color: #1f2937; /* Gray 800 */
+    background-color: #f3f4f6;
+    color: #1f2937;
     font-weight: bold;
   }
   
   .btn-pray {
-    background-color: #cca427; /* Blue 500 */
-    color: #ffffff; /* White */
+    background-color: #cca427;
+    color: #ffffff;
     font-weight: bold;
   }
   
@@ -130,9 +129,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- End page header -->
 
-	<!-- property area -->
 	<div class="content-area single-property"
 		style="background-color: #FFF;">
 		&nbsp;
@@ -261,7 +258,7 @@
                 </div>
             </div>
             <div class="clear">
-                <!-- 추가적인 내용이 있다면 여기에 추가할 수 있습니다. -->
+                
             </div>
         </div>
     </div>
@@ -327,12 +324,9 @@
 		console.log(sx);
 		console.log(sy);
 		
-		// 키워드 검색 완료 시 호출되는 콜백함수 입니다
 		function placesSearchCB (data, status, pagination) {
 		    if (status === kakao.maps.services.Status.OK) {
 	
-		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-		        // LatLngBounds 객체에 좌표를 추가합니다
 		        var bounds = new kakao.maps.LatLngBounds();
 	
 		        for (var i=0; i<data.length; i++) {
@@ -419,10 +413,8 @@
 	
 	function formatDistance(distanceInMeters) {
 	    if (distanceInMeters >= 1000) {
-	        // Convert to kilometers and format to 1 decimal place
 	        return (distanceInMeters / 1000).toFixed(1) + "km";
 	    } else {
-	        // Display in meters
 	        return distanceInMeters + "m";
 	    }
 	}

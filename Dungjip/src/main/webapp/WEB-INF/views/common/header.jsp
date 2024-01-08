@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.kh.dungjip.member.model.vo.Member"%>
+<%@ include file="sweetAlert.jsp" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +62,6 @@
   <body>
         <nav class="navbar navbar-default ">
             <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
                         <span class="sr-only">Toggle navigation</span>
@@ -144,7 +144,7 @@
                 
              </c:choose>    
                 
-            </div><!-- /.container-fluid -->
+            </div>
         </nav>
 
         
@@ -165,10 +165,8 @@
         
         <script>
         var type = "${type}";
-        // Get all the menu items
         var menuItems = document.querySelectorAll('#nav-menu li a');
 
-        // Add click event to all menu items
         menuItems.forEach(function(item) {
             if(type === item.text){
             	item.classList.add('active');
