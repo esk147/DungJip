@@ -335,10 +335,7 @@
                     reDisContent: reDisContent
                 },
                 success: function (result) {
-                	
-					console.log(result);
-					
-					alert('리뷰 등록이 완료되었습니다.');
+					showSuccess("성공",'리뷰 등록이 완료되었습니다.',"확인");  
                 },
                 error: function (error) {
                 	console.log("오류");

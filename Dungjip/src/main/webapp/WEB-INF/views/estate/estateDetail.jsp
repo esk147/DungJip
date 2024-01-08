@@ -878,7 +878,7 @@
         		var selectUserNo = document.getElementById('selectUserNo').value; //유저 번호
         		console.log(selectTime);
         		if(selectUserNo == 0){
-        			alert("로그인 후 예약 가능합니다.")
+        			showSuccess("경고","로그인 후 예약 가능합니다.","확인");
         		}else{
 	          		let f = document.createElement('form');
 	        		
