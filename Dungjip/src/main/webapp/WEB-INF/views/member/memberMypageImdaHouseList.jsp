@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>매물내역</title>
+    <title>임대인 매물내역</title>
   <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style>
@@ -86,7 +86,7 @@
 		        <%@ include file="memberMypageImdamenubar.jsp" %>
 		    </c:when>
 	    </c:choose>
-	    
+
 		<section class="main-content"
 			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
 
@@ -94,61 +94,61 @@
 				
 				<div  id="list-type" class="proerty-th-list" style="color: #333; list-style: none; padding: 20px 20px 20px 20px;">
 					                           
-                        <c:if test="${not empty hlike}">
-							<c:forEach items="${hlike}" var="hlike" varStatus="status" >
+                        <c:if test="${not empty imdalike}">
+							<c:forEach items="${imdalike}" var="imdalike" varStatus="status">
 	                     		<div class="col-md-4 p0">
 		                            <div class="box-two proerty-item">
 		                                <div class="item-thumb">
-		                                    <img src="${himg[status.index].changeName }">
+		                                    <img src="${imdaimg[status.index].changeName }">
 		                                </div>
 		                                <div class="item-entry overflow">
-		                                    <h5><a href="property-1.html"> ${hlike.houseName } </a></h5>
+		                                    <h5><a href="property-1.html"> ${imdalike.houseName } </a></h5>
 		                                    <div class="dot-hr"></div>
-		                                    <span class="pull-left"><b> Area :</b> ${hlike.houseSquare } </span>
+		                                    <span class="pull-left"><b> Area :</b> ${imdalike.houseSquare } </span>
 		                                    <div>
 		                                    	<div>	
-			                                    	<span class="proerty-price pull-right"> ${hlike.housePrice } / ${hlike.houseRent }</span>
+			                                    	<span class="proerty-price pull-right"> ${imdalike.housePrice } / ${imdalike.houseRent }</span>
 		                                        </div>
-		                                   		<p>${hlike.houseTitle }</p>
+		                                   		<p>${imdalike.houseTitle }</p>
 		                                        <div class="dealer-action pull-right" style="margin-top:35px;">                                                                              
-		                                            <a href="${contextPath}/esHdelete.li?houseNo=${hlike.houseNo}" class="button delete_user_car">Delete</a>
-		                                            <a href="${contextPath}/detail.ho?houseNo=${hlike.houseNo}" class="button">View</a>
+		                                            <a href="${contextPath}/imdaHdelete.li?houseNo=${imdalike.houseNo}" class="button delete_user_car">Delete</a>
+		                                            <a href="${contextPath}/detail.ho?houseNo=${imdalike.houseNo}" class="button">View</a>
 		                                        </div>
 		                                    </div>    
 		                                </div>
 		                            </div>
 	                     		</div>	                          	                     
                         	</c:forEach>	
-						</c:if>                                										
+						</c:if>                                
+										
 				</div>
-
-			</div>
-				<footer style="width: 500px;">
-					<!--------------------------------------- 페이징 처리 ------------------------------------->
-					<div class="pull-right">
-						<div class="pagination">
-							<ul>
-								<c:if test="${pi.currentPage ne 1 }">
-									<li><a
-										href="esHouse.li?currentPage=${pi.currentPage-1}&esNo=${esNo}">Prev</a></li>
-								</c:if>
-								<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">
-									<li><a href="esHouse.li?currentPage=${p}&esNo=${esNo}">${p}</a></li>
-								</c:forEach>
-								<c:if test="${pi.currentPage ne pi.maxPage }">
-									<li><a
-										href="esHouse.li?currentPage=${pi.currentPage+1}&esNo=${esNo}">Next</a></li>
-								</c:if>
-							</ul>
-						</div>
-					</div>
+				
+				<footer style="width: 450px;">
+				 <!--------------------------------------- 페이징 처리 ------------------------------------->
+				   <div class="pull-right" >
+			            <div class="pagination">
+			                <ul>
+			                	 <c:if test="${pi.currentPage ne 1 }">
+			                   <li><a href="imdaHouse.li?currentPage=${pi.currentPage-1}">Prev</a></li>
+			                </c:if>   
+			                <c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">  
+			                   <li><a href="imdaHouse.li?currentPage=${p}">${p}</a></li>
+			                </c:forEach>   
+			                <c:if test="${pi.currentPage ne pi.maxPage }"> 
+			                     <li><a href="imdaHouse.li?currentPage=${pi.currentPage+1}">Next</a></li>
+			                	  </c:if>
+			                </ul>
+			            </div>
+			       </div> 				
 				</footer>
-			
+			</div>
 		</section>
 	</div>
 
+
+
 	<!-- delete -->
-	<form action="esHdelete.li" method="post">
+	<form action="imdaHdelete.li" method="post">
     	<input type ="hidden">
     </form>
 

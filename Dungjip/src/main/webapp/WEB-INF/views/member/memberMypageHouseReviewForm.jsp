@@ -120,7 +120,7 @@
 										
 				</div>
 				
-				<footer style="width: 450px;">
+				<footer style="width: 500px;">
 				   <!--------------------------------------- 페이징 처리 ------------------------------------->
 				   <div class="pull-right" >
 			            <div class="pagination">
@@ -137,7 +137,8 @@
 			                </ul>
 			            </div>
 			       </div> 
-		       	</footer>					
+		       	</footer>
+		       						
 			</div>			
 		</section>
 	</div>

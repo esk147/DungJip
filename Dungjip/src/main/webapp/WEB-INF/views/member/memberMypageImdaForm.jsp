@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="com.kh.dungjip.member.model.vo.Member"%>  
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@page import="com.kh.dungjip.member.model.vo.Member"%>    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -89,10 +88,10 @@
 
     <div class="container" style="display: flex; width: 67%;">
           
-        <%@ include file="memberMypageEsmenubar.jsp" %>
+        <%@ include file="memberMypageImdamenubar.jsp" %>
             
         <section class="main-content" style="width:100%; margin: 70px 0 70px 50px; margin-left:4%;">
-          	
+          
             <div class="card" style="width: 93%; margin-bottom:50px;">
             
                 <a href="mypageupdate.me" style="width: 100%;"><h3>내프로필<img src="resources/img/icons/rightarrow271228.png" alt="" style="width: 15px; float:right;"></h3></a>
@@ -120,50 +119,43 @@
                     <hr>
                     <li>
                     	<img alt="" src="resources/img/icons/mail7873670.png" style="width: 17px;">
-                        <span class="item_text email" style="margin-left:12px;">${loginUser.email }</span>                           
+                        <span class="item_text email" style="margin-left:12px;">${loginUser.email }</span>
+                           
                     </li>
     
                 </ul>
             </div>
-            
-           
-            <div class="card" style="width: 93%; margin-bottom:50px;">
-                <a href="mypageEsUpdate.me" style="width: 100%;"><h3>중개사무소 프로필<img src="resources/img/icons/rightarrow271228.png" alt="" style="width: 15px; float:right;"></h3></a>
-                <!-- Additional content can be added here -->
-                <c:forEach items="${myeslist}" var="hlise" varStatus="status">
-                <ul class="card_row" style="color: #333; list-style: none; padding: 0 20px 20px 20px;">
-              
-                    <li>
-                       <img src="resources/img/icons/imda-icon-office.png" alt="" style="width: 16px;">
-                       <span class="item_text esName" style="margin-left:12px;">${myeslist[status.index].esName}</span>
-                       
-                    </li>
-                    
-                    <hr id="hrElement" >
-                    <li id="userNickNameContainer">
-                    	<img alt="" src="resources/img/icons/person3856336.png" style="width: 16px;">
-                        <span class="item_text esCeo" style="margin-left:12px;">${myeslist[status.index].esCeo}</span>                        
-                    </li>                    
-                    
-                    <hr>
-                  
-                    <li>
-                   		<img alt="" src="resources/img/icons/phone519184.png" style="width: 16px;">
-                        <span class="item_text esPhone" style="margin-left:12px;">${myeslist[status.index].esPhone}</span>
-                        
-                    </li>
-                    <hr>                
-                    <li>
-                    	<img alt="" src="resources/img/icons/imda-icon-speech.png" style="width: 17px;">
-                        <span class="item_text esIntro" style="margin-left:12px;">${myeslist[status.index].esIntro}</span>
-                           
-                    </li>    
-                </ul>
-                </c:forEach>                
-            </div>       
-                   
-            </div>
+			<div class="card" style="width: 93%; margin-bottom: 50px;">
+				<a href="myQnA.me" style="width: 100%;"><h3>
+						문의내역 <img src="resources/img/icons/rightarrow271228.png" alt=""
+							style="width: 15px; float: right;">
+					</h3></a>
+				<!-- Additional content can be added here -->
+				<ul class="card_row"
+					style="color: #333; list-style: none; padding: 0 20px 20px 20px;">
+
+					<c:if test="${not empty qlist }">
+						<c:forEach items="${qlist}" var="qlist" varStatus="loop">
+							<c:if test="${loop.index < 4}">
+								<!-- 최대 4개까지만 표시 -->
+								<li><img alt="" src="" style="width: 16px;"> <span
+									class="item_text name" style="margin-left: 12px;">${qlist.enquiryTitle}</span>
+									<button onclick="window.location.href='myQnA.me'"
+										class="btn_edit">상세보기</button></li>
+								<hr>
+							</c:if>
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty qlist }">
+						<p>※ 문의 내역이 존재하지 않습니다.</p>
+
+					</c:if>
+
+				</ul>
+			</div>
+                
         </section>
+      </div>
  
  
 	<!---------------------- 마스킹처리 ----------------------------> 
@@ -181,6 +173,7 @@
 	 	    return maskedUsername;
 	 	}
 		 
+	 	// 요소를 가져와서 값들을 가립니다.
 	 	const phoneElement = document.querySelector('.item_text.phone');
 	 	const emailElement = document.querySelector('.item_text.email');
 
@@ -192,22 +185,11 @@
 	 	    emailElement.textContent = maskEmail("${loginUser.email}");
 	 	} 
 	 	
-	 	
-	 	const esPhoneElement = document.querySelector('.item_text.esPhone');
-	 	
-	 	if (esPhoneElement) {
-	 		esPhoneElement.textContent = maskPhone("${loginUser.phone}");
-	 	}
-	 	
-	 	// 중개사무소 전화번호를 가리는 함수
-	 	function maskPhone(esPhone) {
-	 	    return esPhone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-****-$3');
-	 	}
-	 	
+	 	console.log(${loginUser.phone});
  	</script>
+ 
 
      <%@ include file="../common/footer.jsp" %>
-     
      
 </body>
 </html>

@@ -178,6 +178,27 @@ public class HouseServiceImpl implements HouseService{
 		return houseDao.selectEsHouseListCount(sqlSession);
 	}
 
+	//마이페이지 임대인 매물내역 카운트
+	@Override
+	public int mypageImdaHouseListCount() {
+		// TODO Auto-generated method stub
+		return houseDao.mypageImdaHouseListCount(sqlSession);
+	}
+	
+	//마이페이지 임대인 매물내역
+	@Override
+	public ArrayList<House> mypageImdaHouseList(PageInfo pi,Member m) {
+		// TODO Auto-generated method stub
+		return houseDao.mypageImdaHouseList(sqlSession,pi,m);
+	}
+
+	@Override
+	public int myImdaHouseDelete(int houseNo) {
+		// TODO Auto-generated method stub
+		return houseDao.myImdaHouseDelete(sqlSession,houseNo);
+	}
+
+
 
 
 

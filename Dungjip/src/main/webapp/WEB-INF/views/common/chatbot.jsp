@@ -110,7 +110,7 @@
 	
 DUNGJIP 입니다
 	
-무엇을 도와드릴까요?
+무엇을 도와드릴까요? 
                 </pre></h6>
                 <button onclick="introduceArea()">홈페이지소개 시켜줘</button>
                 <button onclick="whatSubscribeArea()">구독을 시작하면?</button>
@@ -118,6 +118,31 @@ DUNGJIP 입니다
                 <button onclick="goFindIDPwdArea()">아이디를 잃어버렸어 </button>
                 <button onclick="goSubscribeArea()">구독하고 싶어</button>
                 <button onclick="noSubscribeArea()">구독해지하고 싶어</button>
+             	  <button onclick="goChatService()"> 채  팅 </button>
+		    <c:choose>
+		    		<c:when test="${not empty loginUser}">
+		    	   
+		    	    <script>
+					function goChatService(){
+					location.href='websocket/ask?estateUserNo=' + ${loginUser.userNo};
+				 }
+		        	</script>
+		   			
+		   			 </c:when>
+		    	
+		    	<c:otherwise>
+		      
+		        <script>
+		        function goChatService(){
+		            alert("로그인 후 이용 가능 합니다.");
+		         
+		        }
+		     
+		        </script>
+		  
+		    	</c:otherwise>
+		
+		</c:choose>
             </div>
         </div>
         <div class="chat-container" id="introduce" style="display: none;">
@@ -179,17 +204,15 @@ DUNGJIP의 멤버가 되고싶으시다구요?
 
 제가 바로 회원가입 버튼을 만들어 오겠습니다
 
-.....
+.............
 
 .............
 
-...zzzzZZzzzZZ
+.............
 
-오잉? 이미 로그인이 되어있으십니다.
+이미 로그인이 되어있으십니다.
 
-해당 서비스는 로그아웃 후 이용가능 하니 
-
-참고해주세용
+해당 서비스는 로그아웃 후 이용가능 합니다.
 
 </pre></h6>
               
@@ -226,11 +249,11 @@ DUNGJIP의 멤버가 되고싶으시다구요?
 
 잠시만 기다려주세요 버튼을 만들어 오겠습니다
 
-...zzzzZZzzzZZ
+.............
 
-...zzzzZZzzzZZ
+.............
 
-오잉? 이미 로그인 되어 있으신데요?
+현제 로그인이 되어 있으십니다.
 
 해당 서비스는 로그아웃 후 이용해주세요
 </pre></h6>
@@ -272,9 +295,9 @@ DUNGJIP을 즐겨주세요!
 
 제가 바로 구독버튼을 만들어오겠습니다
 
-...zzzzZZzzzZZ
+.............
 
-...zzzzZZzzzZZ
+.............
 
 아직 로그인을 안하셨네요! 
 
@@ -312,13 +335,15 @@ DUNGJIP을 즐겨주세요!
 
 제가 바로 구독버튼을 만들어오겠습니다
 
-.........
-...zzzzZZzzzZZzzzzZZZZ
-.........
+.............
 
-이미 구독을 하신 상태이십니다!!
+.............
 
-마음껏 둥집을 즐겨주세요!
+.............
+
+해당 서비스는 중개인만 구독 할 수 있는
+
+서비스입니다.
 
 </pre></h6>
 
@@ -340,9 +365,9 @@ DUNGJIP을 즐겨주세요!
 
 ... 바로 구독 해지 버튼을 만들어 오겠습니다
 
-...zzzzZZzzzZZ
+.............
 
-...zzzzZZzzzZZ
+.............
 
 아직 로그인을 안하셨네요!
 
@@ -384,9 +409,11 @@ DUNGJIP을 즐겨주세요!
 
 ... 바로 구독 해지 버튼을 만들어 오겠습니다
 
-.........
-...zzzzZZzzzZZzzzzZZZZ
-.........
+.............
+
+.............
+
+.............
 
 회원님이 중개인이 아니시거나
 
@@ -617,7 +644,16 @@ DUNGJIP을 즐겨주세요!
     	 		 alert("구독 해지가 취소되었습니다.");
     	 	 }
       	 }
-    </script>
+    	//채팅바로가기
+    	
+    	
+
+      
+      </script>
+    
+    
+    
+    
         
 </body>
 </html>

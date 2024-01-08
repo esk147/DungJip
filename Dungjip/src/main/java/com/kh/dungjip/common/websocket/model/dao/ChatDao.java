@@ -1,6 +1,7 @@
 package com.kh.dungjip.common.websocket.model.dao;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -42,12 +43,11 @@ public class ChatDao {
 
 		return (ArrayList)sqlSession.selectList("chatMapper.selectChatMsg",cno);
 		
-		
 	}
 
-
 	public int updateChatRoomMsg(SqlSessionTemplate sqlSession, ChatMessage c) {//해당채팅방 대화내용 저장 
-
+	
+		
 		return sqlSession.insert("chatMapper.updateChatRoomMsg",c);
 	}
 
@@ -95,16 +95,17 @@ public class ChatDao {
 		return sqlSession.delete("chatMapper.deleteChatRoom", chatNo);
 	}
 
+	
+	 public int pileUpMsg(SqlSessionTemplate sqlSession, ChatMessage cm) {
+		
+		 return sqlSession.update("chatMapper.pileUpMsg",cm);
+	  }
 
-
-
-
-
-
-
-
-
-
-
+	public int nowFileUpMsg(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("chatMapper.nowFileUpMsg", map);
+	}
+	  
+	 
 
 }
