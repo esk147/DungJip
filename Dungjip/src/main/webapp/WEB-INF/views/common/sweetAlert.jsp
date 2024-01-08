@@ -17,6 +17,15 @@
                 button : button,
             })
         }
+        
+        function showWarning(title, text, button) {
+            swal({
+                title : title,
+                text : text,
+                icon : 'warning',
+                button : button,
+            })
+        }
 
         function showSuccess(title, text, button) {
             swal({
@@ -38,6 +47,24 @@
 
                 if (result) {
                     location.href = url;
+                }
+
+            })
+        }
+        
+        function showConfirmToTrue(text) {
+            swal({
+                text : text,
+                icon : 'warning',
+                buttons : [ "취소", "확인" ],
+                closeOnClickOutside : false,
+            }).then(function(result) {
+                console.log(result);
+
+                if (result) {
+                    return true;
+                } else {
+                	return false;
                 }
 
             })
