@@ -105,7 +105,7 @@
   }
   
   .btn-pray {
-    background-color: #3b82f6; /* Blue 500 */
+    background-color: #cca427; /* Blue 500 */
     color: #ffffff; /* White */
     font-weight: bold;
   }
@@ -270,9 +270,9 @@
 		<div class="panel panel-default sidebar-menu wow fadeInRight animated">
 			<h2>교통정보</h2>
 			<div class="search-type-btn">
-				<button class="bto btn-pray" id="button" onclick="toggleStyle(this)">최소시간</button>
-				<button class="bto btn-dead" id="button" onclick="toggleStyle(this)">버스</button>
-				<button class="bto btn-dead" id="button" onclick="toggleStyle(this)">지하철</button>
+				<button class="bto btn-pray" id="btn1" onclick="toggleStyle(this)">최소시간</button>
+				<button class="bto btn-dead" id="btn2" onclick="toggleStyle(this)">지하철</button>
+				<button class="bto btn-dead" id="btn3" onclick="toggleStyle(this)">버스</button>
 			</div>
 			<div class="custom-input">
 				<input id="search-destination" class="search-destination" placeholder="도착지 검색" onkeypress="if( event.keyCode == 13 ){searchLocate();}">			
@@ -286,16 +286,16 @@
 </div>
 <script>
 	function toggleStyle(selectedButton) {
-	    // Get all buttons
+
 	    let buttons = document.querySelectorAll('.bto');
-	    // Remove the 'btn-primary' class from all buttons except the selected one
+
 	    buttons.forEach(button => {
 	      if(button !== selectedButton) {
 	        button.classList.remove('btn-pray');
 	        button.classList.add('btn-dead');
 	      }
 	    });
-	    // Toggle the 'btn-primary' class on the selected button
+
 	    selectedButton.classList.toggle('btn-dead');
 	    selectedButton.classList.toggle('btn-pray');
 	}
@@ -310,14 +310,14 @@
 	function searchLocate(){
 		 var ps = new kakao.maps.services.Places(); 
 		 var searchLocation = document.getElementById("search-destination").value;
+		 const trafic = document.querySelector('.btn-pray').id;
 		 
 		 var doubleLocation = document.getElementById(searchLocation);
 		 
 		 if(doubleLocation != null){
 			 return alert("이미 검색하신 장소입니다.");
 		 }
-	
-		// 키워드로 장소를 검색합니다
+
 		ps.keywordSearch(searchLocation, placesSearchCB);
 		
 		var sx = "${house.houseLongitude}"
@@ -342,12 +342,21 @@
 		        ey = (bounds.qa + bounds.pa) / 2;
 		        
 		        var xhr = new XMLHttpRequest();
-				var url = "https://api.odsay.com/v1/api/searchPubTransPathT?SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&OPT=0&SearchType=0&SearchPathType=0&apiKey=cH7JYiCgxsFFcnS8ZV32Uw";
+		        var url;
+		        if(trafic == 'btn1'){
+					url = "https://api.odsay.com/v1/api/searchPubTransPathT?SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&OPT=0&SearchType=0&SearchPathType=0&apiKey=cH7JYiCgxsFFcnS8ZV32Uw";	        	
+		        } else if(trafic == 'btn2'){
+					url = "https://api.odsay.com/v1/api/searchPubTransPathT?SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&OPT=0&SearchType=0&SearchPathType=1&apiKey=cH7JYiCgxsFFcnS8ZV32Uw";	  
+		        } else {
+					url = "https://api.odsay.com/v1/api/searchPubTransPathT?SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&OPT=0&SearchType=0&SearchPathType=2&apiKey=cH7JYiCgxsFFcnS8ZV32Uw";
+				}
+		        
 				xhr.open("GET", url, true);
 				xhr.send();
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState == 4 && xhr.status == 200) {
 						var responseObject = JSON.parse(xhr.responseText);
+						console.log(responseObject);
 						var firstPathValue = responseObject.result.path[0];
 						
 						const payment = firstPathValue.info.payment; // 교통비
