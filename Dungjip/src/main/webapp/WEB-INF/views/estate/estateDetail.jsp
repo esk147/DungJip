@@ -796,10 +796,7 @@
 		                    clickedDate = clickedDate >= 10 ? clickedDate : '0' + clickedDate;
 		                    clickedMonth = clickedMonth >= 10 ? clickedMonth : '0' + clickedMonth;
 		                    clickedYMD = clickedYear + clickedMonth + clickedDate;
-		                    console.log(clickedYMD);
 		                    var selectEsNo = document.getElementById("selectEsNo").value;
-		                    console.log("===채현===")
-		                    console.log(selectEsNo)
 		                    $.ajax({
 		                        url: "selectReservationList.re",
 		                        data: {
@@ -812,6 +809,10 @@
 			                        		var time = "time"+result[i].selectTime;
 				                        	var disDiv = document.getElementById(time);
 				                        	disDiv.disabled = true;
+				                        	
+				                        	if (disDiv.disabled) {
+				                                disDiv.style.textDecoration = 'line-through';
+				                            }				                        	
 			                        	}
 		                        	}
 		                        },

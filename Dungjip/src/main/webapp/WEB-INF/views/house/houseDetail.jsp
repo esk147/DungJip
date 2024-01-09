@@ -21,7 +21,9 @@
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="resources/assets/css/lightslider.min.css">
-
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9d3f1c90fc1cea85b8bb8303f360c81&libraries=services,clusterer,drawing">
+</script>	
 <style>
 
 .dealer-widget {
@@ -423,13 +425,15 @@
 <section class="product_description_area">
 	<div class="container">
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
+		
 			<li class="nav-item"><a class="nav-link active" id="home-tab"
-				data-toggle="tab" href="#home" role="tab" aria-controls="home"
+				data-toggle="tab" href="#home" role="tab" 
 				aria-selected="true">상세설명</a></li>
 
 			<li class="nav-item"><a class="nav-link" id="profile-tab"
-				data-toggle="tab" href="#profile" role="tab"
+				data-toggle="tab" href="#profile" role="tab" 
 				aria-controls="profile" aria-selected="false">상세정보</a></li>
+				
 			<li class="nav-item" id="houseLikeList"><a class="nav-link" id="contact-tab"
 				data-toggle="tab" href="#contact" role="tab"
 				aria-controls="contact" aria-selected="false">비슷한 매물 보기</a></li>
@@ -536,14 +540,18 @@
 							</tr>
 						</tbody>
 					</table>
-				</div>
-				<script>
-				var hDate = "${house.houseBuildDate}";
-					if(hDate.length > 10){
-						hDate = hDate.substr(0, 10);
-					}
-					$("#houseBuildDate").text(hDate);
-				</script>
+					<div id="map" style="width: 100%; height: 500px;">
+					
+					</div>
+									
+					</div>
+					<script>
+						var hDate = "${house.houseBuildDate}";
+						if(hDate.length > 10){
+							hDate = hDate.substr(0, 10);
+						}
+						$("#houseBuildDate").text(hDate);
+					</script>
 			</div>
 			<div class="tab-pane fade" id="contact" role="tabpanel"
 				aria-labelledby="contact-tab">
@@ -590,116 +598,116 @@
 					</div>
 				</div>
 			</div>
-			</div>
-<div class="tab-pane fade show active" id="review" role="tabpanel"
-	aria-labelledby="review-tab">
-	<div class="row">
-		<div class="col-lg">
-			<div class="row total_rate" style="display: flex;">
-				<div class="col-6" style="flex: 1">
-					<div class="box_total">
-						<br>
-						<h3
-							style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
-
-						<h1
-							style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;">4.0</h1>
-
-						<h5 style="text-align: center;">(03 Reviews)</h5>
-					</div>
-					</div>
-					<div class="col-6" style="flex: 1">
-						<div class="rating_list" style="margin-top: 25px;">
-							<h5 style="text-align: left;">Based on 3 Reviews</h5>
-							<ul class="list" style="padding: 0;">
-								<li><a href="#" id="num">5 Star <i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i> 01
-								</a></li>
-								<li><a href="#" id="num">4 Star <i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i> 01
-								</a></li>
-								<li><a href="#" id="num">3 Star <i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i> 01
-								</a></li>
-								<li><a href="#" id="num">2 Star <i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i> 01
-								</a></li>
-								<li><a href="#" id="num">1 Star <i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i> 01
-								</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="review_list">
-					<div class="review_item">
-						<div class="media">
-							<div class="d-flex">
-								<img src="resources/img/product/review-1.png" alt="">
+		</div>
+		<div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+			<div class="row">
+				<div class="col-lg">
+					<div class="row total_rate" style="display: flex;">
+						<div class="col-6" style="flex: 1">
+							<div class="box_total">
+								<br>
+									<h3
+										style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
+			
+									<h1
+										style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;">4.0</h1>
+			
+									<h5 style="text-align: center;">(03 Reviews)</h5>
+								</div>
 							</div>
-							<div class="media-body">
-								<h4>Blake Ruiz</h4>
-								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-									class="fa fa-star"></i>
+							<div class="col-6" style="flex: 1">
+								<div class="rating_list" style="margin-top: 25px;">
+									<h5 style="text-align: left;">Based on 3 Reviews</h5>
+									<ul class="list" style="padding: 0;">
+										<li><a href="#" id="num">5 Star <i
+												class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i> 01
+										</a></li>
+										<li><a href="#" id="num">4 Star <i
+												class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i> 01
+										</a></li>
+										<li><a href="#" id="num">3 Star <i
+												class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i> 01
+										</a></li>
+										<li><a href="#" id="num">2 Star <i
+												class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i> 01
+										</a></li>
+										<li><a href="#" id="num">1 Star <i
+												class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i><i class="fa fa-star"></i><i
+												class="fa fa-star"></i> 01
+										</a></li>
+									</ul>
+								</div>
 							</div>
 						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-							elit, sed do eiusmod tempor incididunt ut labore et dolore
-							magna aliqua. Ut enim ad minim veniam, quis nostrud
-							exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-					</div>
-					<div class="review_item">
-						<div class="media">
-							<div class="d-flex">
-								<img src="resources/img/product/review-2.png" alt="">
+						<div class="review_list">
+							<div class="review_item">
+								<div class="media">
+									<div class="d-flex">
+										<img src="resources/img/product/review-1.png" alt="">
+									</div>
+									<div class="media-body">
+										<h4>Blake Ruiz</h4>
+										<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+											class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+											class="fa fa-star"></i>
+									</div>
+								</div>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing
+									elit, sed do eiusmod tempor incididunt ut labore et dolore
+									magna aliqua. Ut enim ad minim veniam, quis nostrud
+									exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
 							</div>
-							<div class="media-body">
-								<h4>Blake Ruiz</h4>
-								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-									class="fa fa-star"></i>
+							<div class="review_item">
+								<div class="media">
+									<div class="d-flex">
+										<img src="resources/img/product/review-2.png" alt="">
+									</div>
+									<div class="media-body">
+										<h4>Blake Ruiz</h4>
+										<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+											class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+											class="fa fa-star"></i>
+									</div>
+								</div>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing
+									elit, sed do eiusmod tempor incididunt ut labore et dolore
+									magna aliqua. Ut enim ad minim veniam, quis nostrud
+									exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
+							</div>
+							<div class="review_item">
+								<div class="media">
+									<div class="d-flex">
+										<img src="resources/img/product/review-3.png" alt="">
+									</div>
+									<div class="media-body">
+										<h4>Blake Ruiz</h4>
+										<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+											class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+											class="fa fa-star"></i>
+									</div>
+								</div>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing
+									elit, sed do eiusmod tempor incididunt ut labore et dolore
+									magna aliqua. Ut enim ad minim veniam, quis nostrud
+									exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
 							</div>
 						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-							elit, sed do eiusmod tempor incididunt ut labore et dolore
-							magna aliqua. Ut enim ad minim veniam, quis nostrud
-							exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-					</div>
-					<div class="review_item">
-						<div class="media">
-							<div class="d-flex">
-								<img src="resources/img/product/review-3.png" alt="">
-							</div>
-							<div class="media-body">
-								<h4>Blake Ruiz</h4>
-								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-									class="fa fa-star"></i>
-							</div>
-						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-							elit, sed do eiusmod tempor incididunt ut labore et dolore
-							magna aliqua. Ut enim ad minim veniam, quis nostrud
-							exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	</div>
-	</div>
-	</section>
+</section>
+</div>
 </div>
 </div>
 <!-- Footer area-->
@@ -721,6 +729,52 @@
 	<script src="resources/assets/js/main.js"></script>
 	
 	<script>
+	<!-- HTML 파일의 일부분 -->
+	<!-- 지도 -->
+	var map;
+	$(document).ready(function() {
+	    var mapContainer = document.getElementById('map');
+	    var mapOption = {
+	        center: new kakao.maps.LatLng(${house.houseLatitude}, ${house.houseLongitude}),
+	        level: 3
+	    };
+		console.log(${house.houseLatitude});
+		console.log(${house.houseLongitude});
+		console.log("====================");
+		
+	    map = new kakao.maps.Map(mapContainer, mapOption);
+	    var markerPosition = new kakao.maps.LatLng(${house.houseLatitude}, ${house.houseLongitude});
+
+	    var geocoder = new kakao.maps.services.Geocoder();
+
+	    geocoder.addressSearch('${house.houseAddress}', function(result, status) {
+	        if (status === kakao.maps.services.Status.OK) {
+	            
+	            var marker = new kakao.maps.Marker({
+	                position: markerPosition
+	            });
+	            marker.setMap(map);
+
+	            // 중심 좌표를 마커 위치로 설정
+	            map.setCenter(markerPosition);
+	            console.log(markerPosition)
+	        }
+	        // 맵 크기 및 레이아웃 조정
+	        kakao.maps.event.addListener(map, 'idle', function() {
+	            map.relayout();
+	            map.setCenter(markerPosition);
+	        });
+	    });
+	});
+
+	
+	$(document).on("click", "#profile-tab", function() {
+	    setTimeout(function() {
+	        map.relayout();
+            map.setCenter(markerPosition);
+	    }, 300);
+	});
+	
 	<!-- 페이징바 -->
     $(document).ready(function() {
         var currentPage = 1; // currentPage 변수를 정의하고 초기화
