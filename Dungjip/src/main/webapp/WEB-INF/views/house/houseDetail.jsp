@@ -25,6 +25,13 @@
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9d3f1c90fc1cea85b8bb8303f360c81&libraries=services,clusterer,drawing">
 </script>	
 <style>
+ .boxss{
+ border: 1px solid #D27E04;
+ padding: 5px 10px;
+ margin-right: 5px;
+ border-radius : 25px;
+}
+ 
 
 .dealer-widget {
 	max-height: 300px;
@@ -62,6 +69,88 @@
     padding: 0px 0px;
     margin: 0;
 }
+
+
+ .profile{
+             width: 45px;
+    		 height: 45px;
+    		 border-radius: 50%;
+             }
+             
+  .d-flex{
+            display: flex;
+    		align-items: center;
+    	   justify-content: flex-start;
+             }
+    
+    .info{
+     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px 0 0 10px;
+    }
+    
+    .nick{
+    padding: 0px;
+    margin: 0px;
+    }
+ 
+ .reviewPhoto{
+ 	padding-top : 10px;
+ }
+ 
+ .write{
+ display: flex;
+    justify-content: flex-end;
+    padding-right: 40px;
+}
+ }
+ 
+ /* 기본 이미지 스타일 */
+.zoomable {
+    transition: transform 0.3s ease, z-index 0s; /* 부드러운 확대/축소 효과 */
+    cursor: pointer; /* 마우스 오버시 커서 변경 */
+    z-index: 1; /* 기본 z-index 설정 */
+    width:100px;
+    height:100px;
+}
+
+/* 확대될 때 적용할 스타일 */
+.zoomable.zoomed {
+    transform: scale(2) translate(-50%, -50%); /* 이미지를 2배로 확대 및 가운데 정렬 */
+    z-index: 1000; /* 다른 요소 위에 놓임 */
+    position: fixed; /* 고정된 위치 */
+    top: 50%; /* 상단에서부터 50%의 위치 */
+    left: 50%; /* 좌측에서부터 50%의 위치 */
+    transition: transform 0.3s ease, z-index 0s 0.3s; /* 확대/축소 및 z-index 변화 효과 지연 */
+}
+
+/* 확대된 이미지의 배경 */
+.zoomable.zoomed::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 어두운 배경 */
+    cursor: default;
+    z-index: -1; /* 이미지보다 아래에 위치 */
+}
+
+ 
+
+ 
+ .big{
+ display: flex;
+ align-items : center;
+ flex-direction: row;
+ }
+ 
+ #photo{
+ width:300px;
+ height:300px;
+ }
 
 #search-road-result-div {
 	max-height: 295px;
@@ -116,6 +205,7 @@
     justify-content: space-between;
     margin-bottom: 25px;
   }
+
 </style>
 </head>
 <body>
@@ -598,110 +688,55 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
-			<div class="row">
-				<div class="col-lg">
-					<div class="row total_rate" style="display: flex;">
-						<div class="col-6" style="flex: 1">
-							<div class="box_total">
-								<br>
-									<h3
-										style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
-			
-									<h1
-										style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;">4.0</h1>
-			
-									<h5 style="text-align: center;">(03 Reviews)</h5>
-								</div>
-							</div>
-							<div class="col-6" style="flex: 1">
-								<div class="rating_list" style="margin-top: 25px;">
-									<h5 style="text-align: left;">Based on 3 Reviews</h5>
-									<ul class="list" style="padding: 0;">
-										<li><a href="#" id="num">5 Star <i
-												class="fa fa-star"></i><i class="fa fa-star"></i><i
-												class="fa fa-star"></i><i class="fa fa-star"></i><i
-												class="fa fa-star"></i> 01
-										</a></li>
-										<li><a href="#" id="num">4 Star <i
-												class="fa fa-star"></i><i class="fa fa-star"></i><i
-												class="fa fa-star"></i><i class="fa fa-star"></i><i
-												class="fa fa-star"></i> 01
-										</a></li>
-										<li><a href="#" id="num">3 Star <i
-												class="fa fa-star"></i><i class="fa fa-star"></i><i
-												class="fa fa-star"></i><i class="fa fa-star"></i><i
-												class="fa fa-star"></i> 01
-										</a></li>
-										<li><a href="#" id="num">2 Star <i
-												class="fa fa-star"></i><i class="fa fa-star"></i><i
-												class="fa fa-star"></i><i class="fa fa-star"></i><i
-												class="fa fa-star"></i> 01
-										</a></li>
-										<li><a href="#" id="num">1 Star <i
-												class="fa fa-star"></i><i class="fa fa-star"></i><i
-												class="fa fa-star"></i><i class="fa fa-star"></i><i
-												class="fa fa-star"></i> 01
-										</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="review_list">
-							<div class="review_item">
-								<div class="media">
-									<div class="d-flex">
-										<img src="resources/img/product/review-1.png" alt="">
-									</div>
-									<div class="media-body">
-										<h4>Blake Ruiz</h4>
-										<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-											class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-											class="fa fa-star"></i>
-									</div>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-									elit, sed do eiusmod tempor incididunt ut labore et dolore
-									magna aliqua. Ut enim ad minim veniam, quis nostrud
-									exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-							</div>
-							<div class="review_item">
-								<div class="media">
-									<div class="d-flex">
-										<img src="resources/img/product/review-2.png" alt="">
-									</div>
-									<div class="media-body">
-										<h4>Blake Ruiz</h4>
-										<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-											class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-											class="fa fa-star"></i>
-									</div>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-									elit, sed do eiusmod tempor incididunt ut labore et dolore
-									magna aliqua. Ut enim ad minim veniam, quis nostrud
-									exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-							</div>
-							<div class="review_item">
-								<div class="media">
-									<div class="d-flex">
-										<img src="resources/img/product/review-3.png" alt="">
-									</div>
-									<div class="media-body">
-										<h4>Blake Ruiz</h4>
-										<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-											class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-											class="fa fa-star"></i>
-									</div>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-									elit, sed do eiusmod tempor incididunt ut labore et dolore
-									magna aliqua. Ut enim ad minim veniam, quis nostrud
-									exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-							</div>
-						</div>
+
+			</div>
+<div class="tab-pane fade show active" id="review" role="tabpanel"
+	aria-labelledby="review-tab">
+	<div class="row">
+		<div class="col-lg">
+			<div class="row total_rate" style="display: flex;">
+				<div class="col-6" style="flex: 1">
+					<div class="box_total">
+						<br>
+						<h3
+							style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
+
+						<h1 style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
+
+
+						<h5 style="text-align: center;"></h5>
 					</div>
+					</div>
+					<div class="col-6" style="flex: 1">
+						<div class="rating_list" style="margin-top: 25px;" id="count">
+							<h5 style="text-align: left;"></h5>
+							<ul class="list" style="padding: 0;">
+								<li><a href="#" id="building">건물: 
+										 <span></span>
+								</a></li>
+								<li><a href="#" id="traffic">교통: 
+									<span></span>
+								</a></li>
+								<li><a href="#" id="interior">내부:  <span></span>
+								</a></li>
+								<li><a href="#" id="safety">치한: <span></span>
+								</a></li>
+								<li><a href="#" id="life">생활:  <span></span>
+								</a></li>
+							</ul>
+							
+
+					</div>
+					</div>
+				</div>
+					<div class="write">
+					<input type="hidden" id="houseNo" value="${house.houseNo }" >
+					<button onclick="insertResidentReview(this);">리뷰 작성</button>
+					<input type="hidden" id="loginUserNo" value="${loginUser != null ? loginUser.userNo : null}" />
+					</div>
+				<div class="review_list">
+					<!-- 리뷰 내용 -->
+
 				</div>
 			</div>
 		</div>
@@ -710,6 +745,182 @@
 </div>
 </div>
 </div>
+
+
+		<script>
+		console.log("사용자 번호: " + '${loginUser != null ? loginUser.userNo : "null"}');
+
+		function insertResidentReview(el){
+			var loginUser = document.getElementById('loginUserNo').value;
+			if(loginUser == ''){
+				alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+				location.href="login.be";
+		
+			}else{
+				
+			var houseNo = $(el).siblings('#houseNo').val();
+			console.log("리뷰 넘어가는 집번호: "+houseNo);
+			window.location.href = "/dungjip/insert.rere?houseNo="+houseNo;
+			}
+		}
+		</script>
+
+
+
+		<script>
+		
+		function generateStars(score) {
+		    let fullStarCount = Math.floor(score); // 전체 별의 개수
+		    let halfStar = score % 1 >= 0.5 ? 1 : 0; // 반 별의 개수
+		    let emptyStarCount = 5 - fullStarCount - halfStar; // 빈 별의 개수
+
+		    let starsHtml = '';
+
+		    // 전체 별 추가
+		    for (let i = 0; i < fullStarCount; i++) {
+		        starsHtml += '<i class="fa fa-star"></i> ';
+		    }
+		    // 반 별 추가
+		    if (halfStar) {
+		        starsHtml += '<i class="fa fa-star-half-o"></i> ';
+		    }
+		    // 빈 별 추가
+		    for (let i = 0; i < emptyStarCount; i++) {
+		        starsHtml += '<i class="fa fa-star-o"></i> ';
+		    }
+
+		    return starsHtml;
+		}
+		
+			function selectResidentReview(){
+				console.log(${house.houseNo});
+				
+				$.ajax({
+					url:"resi.re",
+					data: {houseNo:"${house.houseNo}" },
+					success: function(result){
+						console.log("거주자 리뷰 통신 성공");
+						
+						var avg = (result.sum /result.count).toFixed(2);
+						
+						var building = (result.building /result.buildingCount).toFixed(2);
+						var traffic = (result.traffic /result.trafficCount).toFixed(2);
+						var interior = (result.interior /result.interiorCount).toFixed(2);
+						var safety = (result.safety /result.safetyCount).toFixed(2);
+						var life = (result.life /result.lifeCount).toFixed(2);
+						
+						
+						
+						for(var i = 0; i < result.rlist.length; i++) {
+						    var stars = "";
+						    
+						    for(var j = 0; j < result.rlist[i].total; j++) {
+						        stars += "<i class='fa fa-star'></i> ";
+						    }
+						    
+						    var positiveKeywords = result.rlist[i].positiveKeywords.split(", "); // 쉼표와 공백으로 문자열 분리
+						    var positiveDivs = ""; // 각 키워드를 위한 div를 저장할 변수
+
+						    for(var k = 0; k < positiveKeywords.length; k++) {
+						        positiveDivs += "<div class='boxss'>" + positiveKeywords[k] + "</div>"; // 각 키워드를 div로 감싸기
+						    }
+						    
+						    var negativeKeywords = result.rlist[i].negativeKeywords.split(", "); // 쉼표와 공백으로 문자열 분리
+						    var negativeDivs = ""; // 각 키워드를 위한 div를 저장할 변수
+
+						    for(var m = 0; m < negativeKeywords.length; m++) {
+						    	negativeDivs += "<div class='boxss'>" + negativeKeywords[m] + "</div>"; // 각 키워드를 div로 감싸기
+						    }
+						    
+						    var reviewItem = "<div class='review_item'>" +
+						        "<div class='media'>" +
+						            "<div class='d-flex'>" +
+						                "<div>" +
+						                    "<img class='profile' src='"+result.rlist[i].member.changeName+"' alt=''>" +
+						                "</div>" +
+						                "<div class='info'>" +
+						                    "<h5 class='nick'>" + result.rlist[i].member.userNickName + "</h5>" +
+						                    "<span>"+result.rlist[i].member.gender+' ' +result.rlist[i].member.age+'세'+"</span>" +
+						                    "<span>"+result.rlist[i].reFloor+' ' +result.rlist[i].rePeriod+"</span>" +
+						                "</div>" +
+						            "</div>" +
+						            "<span>" + result.rlist[i].reCreateDate + "</span>" +
+						            "<div class='media-body'>" + stars + "</div>" +
+						        "</div>" +
+						        "<h6>장점</h6>" +
+						        "<p>" + result.rlist[i].reAdContent + "</p>" +
+						        "<div class='big'>" +
+						        positiveDivs+
+						        "</div>" +
+						        "<h6>단점</h6>" +
+						        "<p>" + result.rlist[i].reDisContent + "</p>" +
+						        "<div class='big'>" +
+						            
+						            negativeDivs+
+						        "</div>" +
+						        "<div class='reviewPhoto'>" +
+						            "<div class='reviewPhotoWrap'>" +
+						                "<img id='photo' class='zoomable' src='"+result.rlist[i].reviewImg.changeName+"' alt=''>" +
+						            "</div>" +
+						        "</div>" +
+						        "<hr>" +
+						    "</div>";
+
+						    $(".review_list").append(reviewItem);
+						    
+						    
+						   
+						
+
+						console.log("---------리스트 확인---------");
+						console.log(result);
+						console.log("---------확인---------");
+						console.log(result.rlist[i].positiveKeywords);
+						console.log("평균");
+						console.log(avg);
+						console.log(building);
+						console.log(traffic);
+						console.log(interior);
+						console.log(safety);
+						console.log(life);
+						
+						$(".box_total h5").text("("+result.count+" Reviews)");
+				    	$("#count h5").text("Based on "+result.count+" Reviews");
+				        $(".box_total h1").text(avg);
+						
+				        $("#building span").html(generateStars(parseFloat(building)) + " " + building );
+				        $("#traffic span").html(generateStars(parseFloat(traffic)) + " " + traffic );
+				        $("#interior span").html(generateStars(parseFloat(interior)) + " " + interior);
+				        $("#safety span").html(generateStars(parseFloat(safety)) + " " + safety);
+				        $("#life span").html(generateStars(parseFloat(life)) + " " + life );
+
+						}
+					
+						
+					},error: function(){
+						console.log("거주자 리뷰 통신 실패");
+					}
+				});
+			}
+			
+			 
+            $(function(){
+            	selectResidentReview();
+            });
+			</script>
+
+			<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	    document.querySelectorAll('.zoomable').forEach(img => {
+	        img.addEventListener('click', function() {
+	            this.classList.toggle('zoomed'); // 'zoomed' 클래스 토글
+	        });
+	    });
+	});
+
+
+	</script>
+
 <!-- Footer area-->
 
 
