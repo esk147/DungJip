@@ -671,30 +671,17 @@
 						<div class="rating_list" style="margin-top: 25px;" id="count">
 							<h5 style="text-align: left;"></h5>
 							<ul class="list" style="padding: 0;">
-								<li><a href="#" id="num">건물 <i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i> 
+								<li><a href="#" id="building">건물: 
+										 <span></span>
 								</a></li>
-								<li><a href="#" id="num">교통 <i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i> 
+								<li><a href="#" id="traffic">교통: 
+									<span></span>
 								</a></li>
-								<li><a href="#" id="num">내부 <i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i> 
+								<li><a href="#" id="interior">내부:  <span></span>
 								</a></li>
-								<li><a href="#" id="num">치한 <i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i>
+								<li><a href="#" id="safety">치한: <span></span>
 								</a></li>
-								<li><a href="#" id="num">생활 <i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i><i class="fa fa-star"></i><i
-										class="fa fa-star"></i> 
+								<li><a href="#" id="life">생활:  <span></span>
 								</a></li>
 							</ul>
 							
@@ -741,6 +728,30 @@
 
 
 		<script>
+		
+		function generateStars(score) {
+		    let fullStarCount = Math.floor(score); // 전체 별의 개수
+		    let halfStar = score % 1 >= 0.5 ? 1 : 0; // 반 별의 개수
+		    let emptyStarCount = 5 - fullStarCount - halfStar; // 빈 별의 개수
+
+		    let starsHtml = '';
+
+		    // 전체 별 추가
+		    for (let i = 0; i < fullStarCount; i++) {
+		        starsHtml += '<i class="fa fa-star"></i> ';
+		    }
+		    // 반 별 추가
+		    if (halfStar) {
+		        starsHtml += '<i class="fa fa-star-half-o"></i> ';
+		    }
+		    // 빈 별 추가
+		    for (let i = 0; i < emptyStarCount; i++) {
+		        starsHtml += '<i class="fa fa-star-o"></i> ';
+		    }
+
+		    return starsHtml;
+		}
+		
 			function selectResidentReview(){
 				console.log(${house.houseNo});
 				
@@ -751,6 +762,14 @@
 						console.log("거주자 리뷰 통신 성공");
 						
 						var avg = (result.sum /result.count).toFixed(2);
+						
+						var building = (result.building /result.buildingCount).toFixed(2);
+						var traffic = (result.traffic /result.trafficCount).toFixed(2);
+						var interior = (result.interior /result.interiorCount).toFixed(2);
+						var safety = (result.safety /result.safetyCount).toFixed(2);
+						var life = (result.life /result.lifeCount).toFixed(2);
+						
+						
 						
 						for(var i = 0; i < result.rlist.length; i++) {
 						    var stars = "";
@@ -782,6 +801,7 @@
 						                "<div class='info'>" +
 						                    "<h5 class='nick'>" + result.rlist[i].member.userNickName + "</h5>" +
 						                    "<span>"+result.rlist[i].member.gender+' ' +result.rlist[i].member.age+'세'+"</span>" +
+						                    "<span>"+result.rlist[i].reFloor+' ' +result.rlist[i].rePeriod+"</span>" +
 						                "</div>" +
 						            "</div>" +
 						            "<span>" + result.rlist[i].reCreateDate + "</span>" +
@@ -816,12 +836,24 @@
 						console.log(result);
 						console.log("---------확인---------");
 						console.log(result.rlist[i].positiveKeywords);
+						console.log("평균");
+						console.log(avg);
+						console.log(building);
+						console.log(traffic);
+						console.log(interior);
+						console.log(safety);
+						console.log(life);
 						
 						$(".box_total h5").text("("+result.count+" Reviews)");
 				    	$("#count h5").text("Based on "+result.count+" Reviews");
 				        $(".box_total h1").text(avg);
 						
-					
+				        $("#building span").html(generateStars(parseFloat(building)) + " " + building );
+				        $("#traffic span").html(generateStars(parseFloat(traffic)) + " " + traffic );
+				        $("#interior span").html(generateStars(parseFloat(interior)) + " " + interior);
+				        $("#safety span").html(generateStars(parseFloat(safety)) + " " + safety);
+				        $("#life span").html(generateStars(parseFloat(life)) + " " + life );
+
 						}
 					
 						

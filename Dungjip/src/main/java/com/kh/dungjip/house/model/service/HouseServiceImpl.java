@@ -308,4 +308,27 @@ public class HouseServiceImpl implements HouseService{
 		return houseDao.myImdaHouseDelete(sqlSession,houseNo);
 	}
 
+	//매물 리뷰 수정
+	@Override
+	public int updateResidentReview(Map<String, Object> paramMap) {
+		
+		return houseDao.updateResidentReview(sqlSession,paramMap);
+	}
+
+	@Override
+	public int updateKeywords(Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		
+		return houseDao.updateKeywords(sqlSession,paramMap);
+	}
+
+	@Override
+	public int deleteKeywords(Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		
+		return houseDao.deleteKeywords(sqlSession,paramMap);
+	}
+
+	
+
 }

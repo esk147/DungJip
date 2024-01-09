@@ -254,7 +254,7 @@
                             <span class="comment_length">0</span>
                             / 100
                         </span>
-          <textarea class="comment-content" cols="160" rows="7" style="resize: none" name="reAdContent" id="reAdContent" placeholder="장점을 작성해주세요."></textarea>
+          <textarea class="comment-content" cols="160" rows="7" style="resize: none; width:1150px;" name="reAdContent" id="reAdContent" placeholder="장점을 작성해주세요."></textarea>
 		<div id="exampleText" class="example-text"></div>
 
 
@@ -281,7 +281,7 @@
                             <span class="comment_lengths">0</span>
                             / 100
                         </span>
-          <textarea  class="comment-contents" cols="160" rows="7" style="resize: none" name="reDisContent" id="reDisContent" placeholder="단점을 작성해주세요."></textarea>
+          <textarea  class="comment-contents" cols="160" rows="7" style="resize: none; width:1150px;" name="reDisContent" id="reDisContent" placeholder="단점을 작성해주세요."></textarea>
           <div id="example" class="example-text"></div>
           
         </div>

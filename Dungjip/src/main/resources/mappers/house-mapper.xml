@@ -104,7 +104,10 @@
 
 	<select id="selectHouseList" resultMap="houseResultSet">
 	SELECT H.HOUSE_NO
-          ,H.HOUSE_PRICE
+          ,CASE WHEN LENGTHB(TO_CHAR(H.HOUSE_PRICE)) <![CDATA[ >= 5 ]]>  
+           THEN TO_CHAR(SUBSTR(TO_CHAR(H.HOUSE_PRICE), 1, LENGTHB(TO_CHAR(H.HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(H.HOUSE_PRICE), -4))
+           ELSE TO_CHAR(H.HOUSE_PRICE)
+           END AS HOUSE_PRICE
           ,H.HOUSE_RENT
           ,H.HOUSE_SQUARE
           ,H.HOUSE_STYLE
@@ -645,4 +648,31 @@ SELECT COUNT(life_score) AS life_score_COUNT
 		AND HOUSE_NO = #{houseNo}
 	</update>
 	
+	<update id="updateResidentReview" parameterType="residentReview">
+	UPDATE RESIDENT_REVIEW
+	SET INTERIOR_SCORE = #{rr.interiorScore}
+    ,BUILDING_SCORE = #{rr.buildingScore}
+    ,TRAFFIC_sCORE = #{rr.trafficScore}
+    ,SAFETY_SCORE = #{rr.safetyScore}
+    ,LIFE_SCORE = #{rr.lifeScore}
+    ,RE_AD_CONTENT = #{rr.reAdContent}
+    ,RE_DIS_CONTENT = #{rr.reDisContent}
+    ,RE_PERIOD = #{rr.rePeriod}
+    ,RE_FLOOR = #{rr.reFloor}
+    ,TOTAL = #{rr.total}
+    WHERE RE_REVIEW_NO = #{rr.reReviewNo}
+    AND STATUS ='Y'
+	</update>
+	
+	<delete id="deleteKeywords" parameterType="int">
+    DELETE FROM MEMBER_KEYWORD
+    WHERE RE_REVIEW_NO = #{rr.reReviewNo}
+</delete>
+
+<insert id="insertKeyword" parameterType="memberKeyword">
+	    INSERT INTO MEMBER_KEYWORD(USER_NO, KEYWORD_NO, re_Review_No)
+	    		     VALUES (#{loginUser.userNo},#{keyword},#{rr.reReviewNo})
+
+</insert>
+
 </mapper>

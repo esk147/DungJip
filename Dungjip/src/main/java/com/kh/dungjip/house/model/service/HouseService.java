@@ -130,4 +130,13 @@ public interface HouseService {
 	//마이페이지 임대인 매물내역 삭제
 	int myImdaHouseDelete(int houseNo);
 
+	//매물 리뷰 수정
+	int updateResidentReview(Map<String, Object> paramMap);
+
+	int updateKeywords(Map<String, Object> paramMap);
+
+	int deleteKeywords(Map<String, Object> paramMap);
+
+
+
 }

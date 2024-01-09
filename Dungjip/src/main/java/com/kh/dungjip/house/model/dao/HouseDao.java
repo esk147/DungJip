@@ -296,4 +296,22 @@ public class HouseDao {
 		return sqlSession.delete("houseMapper.myImdaHouseDelete", houseNo);
 	}
 
+	//매물 리뷰 수정
+	public int updateResidentReview(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		
+		return sqlSession.update("houseMapper.updateResidentReview",paramMap);
+	}
+
+	public int updateKeywords(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		
+		
+		
+		return sqlSession.insert("houseMapper.insertKeyword",paramMap);
+	}
+
+	public int deleteKeywords(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("houseMapper.deleteKeywords",paramMap);
+	}
+
 }

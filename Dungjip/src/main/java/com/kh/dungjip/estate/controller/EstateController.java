@@ -114,6 +114,7 @@ public class EstateController {
 	@RequestMapping(value="estate.re",produces="application/json; charset=UTF-8")
 	public Map<String, Object> selectEstateReviewList(int esNo, int userNo){
 		
+		System.out.println(userNo);
 		ArrayList<EstateReview>erlist = estateService.selectEstateReviewList(esNo);
 		List<Integer> erNums = new ArrayList<>();
 		List<Integer> reviewBooleans = new ArrayList<>();

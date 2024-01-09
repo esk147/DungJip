@@ -352,6 +352,17 @@ public class HouseController {
 		map.put("rlist", rlist);
 		map.put("sum", sum);
 		map.put("count", count);
+		map.put("buildingCount", buildingCount);
+		map.put("building", building);
+		map.put("trafficCount", trafficCount);
+		map.put("traffic", traffic);
+		map.put("interiorCount", interiorCount);
+		map.put("interior", interior);
+		map.put("safetyCount", safetyCount);
+		map.put("safety", safety);
+		map.put("lifeCount", lifeCount);
+		map.put("life", life);
+		
 		System.out.println(rlist);
 		return map;
 		
@@ -444,7 +455,60 @@ public class HouseController {
 		
 		model.addAttribute("rr", rr);
 		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		
 		return "review/residentReviewUpdate";
+	}
+	
+	
+	@PostMapping("update.rere")
+	public String updateResident(int reReviewNo,int houseNo,  MultipartFile reUpFile,ResidentReview rr, Model model, HttpSession session,@RequestParam("reviewImage") MultipartFile file, @RequestParam String prosKeywords, @RequestParam String consKeywords){
+	
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+	
+		
+		if(loginUser != null && rr!= null) {
+			
+			 
+			
+			 Map<String, Object> paramMap = new HashMap<>();
+		     paramMap.put("rr", rr);
+		     paramMap.put("loginUser", loginUser);
+		     int result = houseService.updateResidentReview(paramMap);
+		     
+		     houseService.deleteKeywords(paramMap);
+		     
+		     String keywordString = prosKeywords + "," + consKeywords;
+		     
+		     
+		     String[] keywordNo = keywordString.split(",");
+		     for(int i = 0; i < keywordNo.length; i++) {
+		    	 paramMap.put("keyword", keywordNo[i]);
+					System.out.println(keywordNo[i]);
+					 houseService.updateKeywords(paramMap);
+					paramMap.remove("keyword");
+				}
+		    
+		     
+		     
+		     if(result>0) {
+		    	 session.setAttribute("alertMsg", "매물 리뷰 수정 성공");
+					
+					return "redirect:detail.ho?houseNo="+houseNo;
+		     }else {
+		    	 session.setAttribute("alertMsg", "매물 리뷰 수정 실패");
+					
+					return "common/errorPage";
+		     }
+		}else {
+			session.setAttribute("alertMsg", "매물 리뷰 수정 실패");
+			
+			return "common/errorPage";
+		}
+		
+		
 	}
 	
 	//마이페이지에서 집 찜해제

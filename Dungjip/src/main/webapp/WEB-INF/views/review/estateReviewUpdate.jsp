@@ -143,7 +143,7 @@
                             <span class="comment_length">0</span>
                             / 100
                         </span>
-          <textarea  class="comment-content" cols="160" rows="7" style="resize: none" name="esReContent" id="myEsReContent" placeholder="내용을 작성해주세요.">${er.esReContent}</textarea>
+          <textarea  class="comment-content" cols="160" rows="7" style="resize: none; width:1150px;" name="esReContent" id="myEsReContent" placeholder="내용을 작성해주세요.">${er.esReContent}</textarea>
         </div>
         
         <script>

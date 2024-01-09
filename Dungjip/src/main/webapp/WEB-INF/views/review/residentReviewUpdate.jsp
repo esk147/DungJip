@@ -98,8 +98,9 @@
   <form class="row contact_form" action="update.rere" method="post" id="contactForm" novalidate="novalidate" enctype="multipart/form-data">
     <div class="container">
       <div class="header">
-        <h2 class="text-xl font-semibold">매물 리뷰</h2>
+        <h2 class="text-xl font-semibold">매물 리뷰 수정하기</h2>
         <input type="hidden" name="reReviewNo" value="${rr.reReviewNo}">
+        <input type="hidden" name="houseNo" value="${rr.houseNo}">
       </div>
       
       <div class="content">
@@ -254,7 +255,7 @@
                             <span class="comment_length">0</span>
                             / 100
                         </span>
-          <textarea class="comment-content" cols="160" rows="7" style="resize: none" name="reAdContent" id="reAdContent" placeholder="장점을 작성해주세요.">${rr.reAdContent }</textarea>
+          <textarea class="comment-content" cols="160" rows="7" style="resize: none; width:1150px;" name="reAdContent" id="reAdContent" placeholder="장점을 작성해주세요.">${rr.reAdContent }</textarea>
 		<div id="exampleText" class="example-text"></div>
 
 
@@ -281,7 +282,7 @@
                             <span class="comment_lengths">0</span>
                             / 100
                         </span>
-          <textarea  class="comment-contents" cols="160" rows="7" style="resize: none" name="reDisContent" id="reDisContent" placeholder="단점을 작성해주세요.">${rr.reDisContent }</textarea>
+          <textarea  class="comment-contents" cols="160" rows="7" style="resize: none; width:1150px;" name="reDisContent" id="reDisContent" placeholder="단점을 작성해주세요.">${rr.reDisContent }</textarea>
           <div id="example" class="example-text"></div>
           
         </div>
