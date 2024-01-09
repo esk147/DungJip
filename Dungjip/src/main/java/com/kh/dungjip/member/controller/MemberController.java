@@ -509,7 +509,7 @@ public class MemberController {
 			
 		}else { //비밀번호가 다를 때 
 			
-			session.setAttribute("alertMsg", "비밀번호를 잘못 입력하셨습니다.");
+			session.setAttribute("errorMsg", "비밀번호를 잘못 입력하셨습니다.");
 			return "redirect:myPage.me";
 		}
 
@@ -542,14 +542,14 @@ public class MemberController {
 	            
 	        } else { // DB 업데이트 실패
 	        	
-	            session.setAttribute("alertMsg", "비밀번호 변경에 실패하셨습니다.");
+	            session.setAttribute("errorMsg", "비밀번호 변경에 실패하셨습니다.");
 	            return "redirect:myPage.me";
 	            
 	        }
 			
 		}else {
 			
-			session.setAttribute("alertMsg", "비밀번호 수정에 실패하셨습니다.");
+			session.setAttribute("errorMsg", "비밀번호 수정에 실패하셨습니다.");
 			return "redirect:myPage.me";
 		}
 				
@@ -691,7 +691,6 @@ public class MemberController {
 		ArrayList<Reservation> rlist = memberService.selectReservation(loginUser);
 		
 		model.addAttribute("rlist", rlist);
-				System.out.println(rlist);
 		return "member/memberMypageReservationForm";
 	}
 	                                     
@@ -767,13 +766,9 @@ public class MemberController {
 		
 		ArrayList<House> hlike = houseService.memberMypageHousejjimForm(m,pi);
 		
-		System.out.println("확인 1"+hlike);
-		
 		ArrayList<HouseImg> himg = new ArrayList<>();
 		
 		for( House i : hlike ) {
-		
-			System.out.println("확인 2"+hlike);
 			
 			HouseImg j = houseService.memberMypageHousejjimImg(i.getHouseNo());
 			

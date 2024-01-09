@@ -256,7 +256,25 @@
     	SET STATUS = 'N'
     	WHERE CHATROOM_NO = #{chatRoomNo}
 	</update>
+	
+	<update id="pileUpMsg">
+	
+	UPDATE CHATMESSAGE
+	SET READMESSAGE = 'Y'
+	WHERE CHATROOM_NO = #{chatRoomNo}
+	AND  <![CDATA[ SENDMESSAGE_TIME < SYSDATE ]]> 
+	AND USER_NO != #{userNo}
+	AND READMESSAGE != 'Y'
 
+	</update>
+
+<select id="nowFileUpMsg" resultType="_int">
+SELECT COUNT(*) 
+FROM CHATMESSAGE
+WHERE CHATROOM_NO = #{cno}
+AND USER_NO != #{mno}
+AND READMESSAGE ='N'
+</select>
 
 
     </mapper>

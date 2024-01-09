@@ -241,8 +241,10 @@
 											<input type="hidden" value="${e.esNo}" id="selectEsNo">
 											<input type="hidden" value="${loginUser.userNo}" id="selectUserNo">
 											<input onclick="reservation();" class="button btn largesearch-btn" value="예약하기" type="submit">
-											<input class="button btn largesearch-btn" value="상담하기" type="button" onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'">
-										</div>
+											<input class="button btn largesearch-btn" value="상담하기" type="button" 
+											onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'">
+										</div>																			<!-- onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'" -->
+
 									</div>
 								</fieldset>
 							</div>
@@ -858,10 +860,7 @@
 		                    clickedDate = clickedDate >= 10 ? clickedDate : '0' + clickedDate;
 		                    clickedMonth = clickedMonth >= 10 ? clickedMonth : '0' + clickedMonth;
 		                    clickedYMD = clickedYear + clickedMonth + clickedDate;
-		                    console.log(clickedYMD);
 		                    var selectEsNo = document.getElementById("selectEsNo").value;
-		                    console.log("===채현===")
-		                    console.log(selectEsNo)
 		                    $.ajax({
 		                        url: "selectReservationList.re",
 		                        data: {
@@ -874,6 +873,10 @@
 			                        		var time = "time"+result[i].selectTime;
 				                        	var disDiv = document.getElementById(time);
 				                        	disDiv.disabled = true;
+				                        	
+				                        	if (disDiv.disabled) {
+				                                disDiv.style.textDecoration = 'line-through';
+				                            }				                        	
 			                        	}
 		                        	}
 		                        },
@@ -940,7 +943,7 @@
         		var selectUserNo = document.getElementById('selectUserNo').value; //유저 번호
         		console.log(selectTime);
         		if(selectUserNo == 0){
-        			alert("로그인 후 예약 가능합니다.")
+        			showSuccess("경고","로그인 후 예약 가능합니다.","확인");
         		}else{
 	          		let f = document.createElement('form');
 	        		

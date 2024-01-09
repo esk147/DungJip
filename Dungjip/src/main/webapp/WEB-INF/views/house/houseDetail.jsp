@@ -4,7 +4,6 @@
 
 <!DOCTYPE html>
 <html class="no-js">
-<!--<![endif]-->
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +21,9 @@
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="resources/assets/css/lightslider.min.css">
-
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9d3f1c90fc1cea85b8bb8303f360c81&libraries=services,clusterer,drawing">
+</script>	
 <style>
  .boxss{
  border: 1px solid #D27E04;
@@ -31,6 +32,12 @@
  border-radius : 25px;
 }
  
+
+.dealer-widget {
+	max-height: 300px;
+    overflow-y: auto;
+	min-height: 200px;
+}
 
 .fa-star {
 	color: #D27E04;
@@ -52,6 +59,7 @@
     height: 70px;
     width: 100%;
 }
+
 #houseImgLikeList .pDetail{
 	display : -webkit-box;
 	overflow: hidden;
@@ -61,6 +69,7 @@
     padding: 0px 0px;
     margin: 0;
 }
+
 
  .profile{
              width: 45px;
@@ -142,16 +151,65 @@
  width:300px;
  height:300px;
  }
+
+#search-road-result-div {
+	max-height: 295px;
+    overflow-y: auto;
+}
+
+.search-type-btn {
+	margin: 25px 0;
+}
+
+  .custom-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 8px 16px;
+    background-color: #f9fafb;
+    margin-bottom: 25px;
+  }
+  
+  .custom-input input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 8px 0;
+    background-color: transparent;
+    margin-left: 8px;
+  }
+
+  .bto {
+    transition: background-color 0.3s, color 0.3s;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    width: 32.5%;
+  }
+  
+  .btn-dead {
+    background-color: #f3f4f6;
+    color: #1f2937;
+    font-weight: bold;
+  }
+  
+  .btn-pray {
+    background-color: #cca427;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  
+  .route {
+  	display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+  }
+
 </style>
 </head>
 <body>
-    <c:if test="${not empty alertMsg }">
-        <script>
-            var alertMsg = "${alertMsg}";
-            alert(alertMsg);
-        </script>
-        <c:remove var="alertMsg" />
-    </c:if>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9d3f1c90fc1cea85b8bb8303f360c81&libraries=services,clusterer,drawing"></script>
 	<%@ include file="../common/header.jsp"%>
 	<div id="preloader">
 		<div id="status">&nbsp;</div>
@@ -163,11 +221,9 @@
 			</div>
 		</div>
 	</div>
-	<!-- End page header -->
 
-	<!-- property area -->
 	<div class="content-area single-property"
-		style="background-color: #FCFCFC;">
+		style="background-color: #FFF;">
 		&nbsp;
 		<div class="container">
 
@@ -212,7 +268,7 @@
 
 					<div class="single-property-wrapper">
 						<div class="single-property-header">
-							<h1 class="property-title pull-left"  style="margin-bottom: 15px;"><b>상세보기</b></h1>
+							<h1 class="property-title pull-left"  style="margin-bottom: 15px;"><b>${house.houseName }</b></h1>
 							<c:choose>
 								<c:when test="${house.houseStyle == '월세'}">
 									<span class="property-price pull-right" style="color:black">(월세) ${house.housePrice}/${house.houseRent}만원</span>
@@ -276,7 +332,7 @@
 					</div>
 				</div>
 				<div class="col-md-4 p0">
-					<aside class="sidebar sidebar-property blog-asside-right">
+					<aside class="sidebar sidebar-property blog-asside-right" style="min-height: 760px;">
 						<div class="dealer-widget">
 							<c:forEach var="estate" items="${elist}">
     <div class="dealer-content">
@@ -294,201 +350,180 @@
                 </div>
             </div>
             <div class="clear">
-                <!-- 추가적인 내용이 있다면 여기에 추가할 수 있습니다. -->
+                
             </div>
         </div>
     </div>
 </c:forEach>
 </div>
-		<div
-			class="panel panel-default sidebar-menu wow fadeInRight animated">
-			<div class="panel-heading">
-				<h3 class="panel-title">Smart search</h3>
+		<div class="panel panel-default sidebar-menu wow fadeInRight animated">
+			<h2>교통정보</h2>
+			<div class="search-type-btn">
+				<button class="bto btn-pray" id="btn1" onclick="toggleStyle(this)">최소시간</button>
+				<button class="bto btn-dead" id="btn2" onclick="toggleStyle(this)">지하철</button>
+				<button class="bto btn-dead" id="btn3" onclick="toggleStyle(this)">버스</button>
 			</div>
-			<div class="panel-body search-widget">
-				<form action="" class=" form-inline">
-					<fieldset>
-						<div class="row">
-							<div class="col-xs-12">
-								<input type="text" class="form-control" placeholder="Key word">
-							</div>
-							</div>
-							</fieldset>
-							<fieldset>
-								<div class="row">
-									<div class="col-xs-6">
-
-										<select id="lunchBegins" class="selectpicker"
-											data-live-search="true" data-live-search-style="begins" title="Select Your City">
-											<option>New york, CA</option>
-											<option>Paris</option>
-											<option>Casablanca</option>
-											<option>Tokyo</option>
-											<option>Marraekch</option>
-											<option>kyoto , shibua</option>
-										</select>
-									</div>
-									<div class="col-xs-6">
-										<select id="basic"
-											class="selectpicker show-tick form-control">
-											<option>-Status-</option>
-											<option>Rent</option>
-											<option>Boy</option>
-											<option>used</option>
-										</select>
-									</div>
-								</div>
-							</fieldset>
-							<fieldset class="padding-5">
-								<div class="row">
-									<div class="col-xs-6">
-										<label for="price-range">Price range ($):</label> <input
-											type="text" class="span2" value="" data-slider-min="0"
-											data-slider-max="600" data-slider-step="5"
-											data-slider-value="[0,450]" id="price-range"><br />
-										<b class="pull-left color">2000$</b> <b
-											class="pull-right color">100000$</b>
-									</div>
-									<div class="col-xs-6">
-										<label for="property-geo">Property geo (m2) :</label> <input
-											type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5"
-											data-slider-value="[50,450]" id="property-geo"><br/>
-										<b class="pull-left color">40m</b> <b class="pull-right color">12000m</b>
-									</div>
-								</div>
-							</fieldset>
-							<fieldset class="padding-5">
-								<div class="row">
-									<div class="col-xs-6">
-										<label for="price-range">Min baths :</label> 
-										<input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5"
-											data-slider-value="[250,450]" id="min-baths"><br/>
-										<b class="pull-left color">1</b> 
-										<b class="pull-right color">120</b>
-									</div>
-
-									<div class="col-xs-6">
-										<label for="property-geo">Min bed :</label> <input
-											type="text" class="span2" value="" data-slider-min="0"
-											data-slider-max="600" data-slider-step="5"
-											data-slider-value="[250,450]" id="min-bed"><br />
-										<b class="pull-left color">1</b> 
-										<b class="pull-right color">120</b>
-									</div>
-								</div>
-							</fieldset>
-							<fieldset class="padding-5">
-								<div class="row">
-									<div class="col-xs-6">
-										<div class="checkbox">
-											<label> <input type="checkbox" checked>
-												Fire Place
-											</label>
-										</div>
-									</div>
-
-									<div class="col-xs-6">
-										<div class="checkbox">
-											<label> <input type="checkbox"> Dual Sinks
-											</label>
-										</div>
-									</div>
-								</div>
-							</fieldset>
-
-							<fieldset class="padding-5">
-								<div class="row">
-									<div class="col-xs-6">
-										<div class="checkbox">
-											<label> <input type="checkbox" checked>
-												Swimming Pool
-											</label>
-										</div>
-									</div>
-									<div class="col-xs-6">
-										<div class="checkbox">
-											<label> <input type="checkbox" checked> 2
-												Stories
-											</label>
-										</div>
-									</div>
-								</div>
-							</fieldset>
-
-							<fieldset class="padding-5">
-								<div class="row">
-									<div class="col-xs-6">
-										<div class="checkbox">
-											<label><input type="checkbox"> Laundry
-												Room </label>
-										</div>
-									</div>
-									<div class="col-xs-6">
-										<div class="checkbox">
-											<label> <input type="checkbox"> Emergency
-												Exit
-											</label>
-										</div>
-									</div>
-								</div>
-							</fieldset>
-
-							<fieldset class="padding-5">
-								<div class="row">
-									<div class="col-xs-6">
-										<div class="checkbox">
-											<label> <input type="checkbox" checked>
-												Jog Path
-											</label>
-										</div>
-									</div>
-									<div class="col-xs-6">
-										<div class="checkbox">
-											<label> <input type="checkbox"> 26'
-												Ceilings
-											</label>
-										</div>
-									</div>
-								</div>
-							</fieldset>
-
-							<fieldset class="padding-5">
-								<div class="row">
-									<div class="col-xs-12">
-										<div class="checkbox">
-											<label> <input type="checkbox"> Hurricane
-												Shutters
-											</label>
-										</div>
-									</div>
-								</div>
-							</fieldset>
-
-							<fieldset>
-								<div class="row">
-									<div class="col-xs-12">
-										<input class="button btn largesearch-btn" value="Search"
-											type="submit">
-									</div>
-								</div>
-							</fieldset>
-						</form>
-					</div>
-				</div>
+			<div class="custom-input">
+				<input id="search-destination" class="search-destination" placeholder="도착지 검색" onkeypress="if( event.keyCode == 13 ){searchLocate();}">			
+			</div>
+			<div id="search-road-result-div">
+				
+			</div>
+		</div>
 		</aside>
 	</div>
 </div>
+<script>
+	function toggleStyle(selectedButton) {
+
+	    let buttons = document.querySelectorAll('.bto');
+
+	    buttons.forEach(button => {
+	      if(button !== selectedButton) {
+	        button.classList.remove('btn-pray');
+	        button.classList.add('btn-dead');
+	      }
+	    });
+
+	    selectedButton.classList.toggle('btn-dead');
+	    selectedButton.classList.toggle('btn-pray');
+	}
+	
+	function removeRoute(routeId) {
+	    var element = document.getElementById(routeId);
+	    element.remove();
+	}
+
+</script>
+<script>
+	function searchLocate(){
+		 var ps = new kakao.maps.services.Places(); 
+		 var searchLocation = document.getElementById("search-destination").value;
+		 const trafic = document.querySelector('.btn-pray').id;
+		 
+		 var doubleLocation = document.getElementById(searchLocation);
+		 
+		 if(doubleLocation != null){
+			 return showError("오류", "이미 검색하신 장소입니다.", "확인");  
+		 }
+
+		ps.keywordSearch(searchLocation, placesSearchCB);
+		
+		var sx = "${house.houseLongitude}"
+		var sy = "${house.houseLatitude}"
+		var ex = 0;
+		var ey = 0;
+		console.log(sx);
+		console.log(sy);
+		
+		function placesSearchCB (data, status, pagination) {
+		    if (status === kakao.maps.services.Status.OK) {
+	
+		        var bounds = new kakao.maps.LatLngBounds();
+	
+		        for (var i=0; i<data.length; i++) {
+		            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+		        }
+		        ex = (bounds.oa + bounds.ha) / 2;
+		        ey = (bounds.qa + bounds.pa) / 2;
+		        
+		        var xhr = new XMLHttpRequest();
+		        var url;
+		        if(trafic == 'btn1'){
+					url = "https://api.odsay.com/v1/api/searchPubTransPathT?SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&OPT=0&SearchType=0&SearchPathType=0&apiKey=cH7JYiCgxsFFcnS8ZV32Uw";	        	
+		        } else if(trafic == 'btn2'){
+					url = "https://api.odsay.com/v1/api/searchPubTransPathT?SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&OPT=0&SearchType=0&SearchPathType=1&apiKey=cH7JYiCgxsFFcnS8ZV32Uw";	  
+		        } else {
+					url = "https://api.odsay.com/v1/api/searchPubTransPathT?SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&OPT=0&SearchType=0&SearchPathType=2&apiKey=cH7JYiCgxsFFcnS8ZV32Uw";
+				}
+		        
+				xhr.open("GET", url, true);
+				xhr.send();
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						var responseObject = JSON.parse(xhr.responseText);
+						console.log(responseObject);
+						var firstPathValue = responseObject.result.path[0];
+						
+						const payment = firstPathValue.info.payment; // 교통비
+						const totalDistance = firstPathValue.info.totalDistance; //총 거리
+						const subwayTransitCount = firstPathValue.info.subwayTransitCount; //지하철 환승 카운트
+						const busTransitCount = firstPathValue.info.busTransitCount; //버스 환승 카운트
+						const totalTime = firstPathValue.info.totalTime; //총 시간
+						const trafficType = firstPathValue.subPath.trafficType; //이동 수단 종류
+						const subPath = firstPathValue.subPath; //이동 교통 수단 확장
+						const pathType = firstPathValue.pathType;
+						
+						var walkTime = 0; // 도보 시간
+						var passList = [];
+						var lane = [];
+						for(var i = 0; i < subPath.length; i++){
+							if(subPath[i].trafficType == 3){
+								walkTime += subPath[i].sectionTime;
+							} else {
+								if(subPath[i].passStopList){
+									passList.push(subPath[i].passStopList);
+									if(subPath[i].lane[0].name){
+										lane.push(subPath[i].lane[0].name);										
+									} else if(subPath[i].lane[0].busNo) {
+										lane.push(subPath[i].lane[0].busNo);
+									}
+								}
+							}
+						}
+						
+						var resultDiv = document.getElementById('search-road-result-div');
+						var str = '<div class="route" id="'+searchLocation+'">';
+							str += '<div>';
+							str += '<b style="font-size: 20px;">'+searchLocation+'까지 '+'약 '+totalTime+'분</b>';
+							str += '<div>'+formatDistance(totalDistance)+' | 도보'+walkTime+'분 | 환승';
+							if(pathType == 1){
+								str += subwayTransitCount-1+'회</div>';
+							} else if(pathType == 2){
+								str += busTransitCount-1+'회</div>';
+							} else {
+								str += subwayTransitCount+busTransitCount-1+'회</div>';
+							}
+							for(var i = 0; i < passList.length; i++){
+								str += '<div>'+lane[i]+' | '+passList[i].stations[0].stationName+'>>>'+passList[i].stations[passList[i].stations.length - 1].stationName+'</div>';
+								if(i != passList.length-1){
+									str += '<div>|</div>';									
+								}
+							}
+							str += '</div>';
+							str += '<div class="route-close" onclick="removeRoute(\'' + searchLocation + '\')" style="cursor: pointer; width: 24px; height: 24px;"><img src="/dungjip/resources/img/icons/blackX.svg"></div>';
+							str += '</div>';
+							
+						$('#search-road-result-div').append(str);
+						
+						document.getElementById("search-destination").value = "";
+					}
+				}
+		    }
+		}
+	}
+	
+	function formatDistance(distanceInMeters) {
+	    if (distanceInMeters >= 1000) {
+	        return (distanceInMeters / 1000).toFixed(1) + "km";
+	    } else {
+	        return distanceInMeters + "m";
+	    }
+	}
+</script>
 <div class="col-md-8 single-property-content prp-style-1 " style="width: 1100px;">
 <section class="product_description_area">
 	<div class="container">
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
+		
 			<li class="nav-item"><a class="nav-link active" id="home-tab"
-				data-toggle="tab" href="#home" role="tab" aria-controls="home"
+				data-toggle="tab" href="#home" role="tab" 
 				aria-selected="true">상세설명</a></li>
 
 			<li class="nav-item"><a class="nav-link" id="profile-tab"
-				data-toggle="tab" href="#profile" role="tab"
+				data-toggle="tab" href="#profile" role="tab" 
 				aria-controls="profile" aria-selected="false">상세정보</a></li>
+				
 			<li class="nav-item" id="houseLikeList"><a class="nav-link" id="contact-tab"
 				data-toggle="tab" href="#contact" role="tab"
 				aria-controls="contact" aria-selected="false">비슷한 매물 보기</a></li>
@@ -595,14 +630,18 @@
 							</tr>
 						</tbody>
 					</table>
-				</div>
-				<script>
-				var hDate = "${house.houseBuildDate}";
-					if(hDate.length > 10){
-						hDate = hDate.substr(0, 10);
-					}
-					$("#houseBuildDate").text(hDate);
-				</script>
+					<div id="map" style="width: 100%; height: 500px;">
+					
+					</div>
+									
+					</div>
+					<script>
+						var hDate = "${house.houseBuildDate}";
+						if(hDate.length > 10){
+							hDate = hDate.substr(0, 10);
+						}
+						$("#houseBuildDate").text(hDate);
+					</script>
 			</div>
 			<div class="tab-pane fade" id="contact" role="tabpanel"
 				aria-labelledby="contact-tab">
@@ -649,6 +688,7 @@
 					</div>
 				</div>
 			</div>
+
 			</div>
 <div class="tab-pane fade show active" id="review" role="tabpanel"
 	aria-labelledby="review-tab">
@@ -696,13 +736,13 @@
 					</div>
 				<div class="review_list">
 					<!-- 리뷰 내용 -->
+
 				</div>
 			</div>
 		</div>
 	</div>
-	</div>
-	</div>
-	</section>
+</section>
+</div>
 </div>
 </div>
 
@@ -900,6 +940,52 @@
 	<script src="resources/assets/js/main.js"></script>
 	
 	<script>
+	<!-- HTML 파일의 일부분 -->
+	<!-- 지도 -->
+	var map;
+	$(document).ready(function() {
+	    var mapContainer = document.getElementById('map');
+	    var mapOption = {
+	        center: new kakao.maps.LatLng(${house.houseLatitude}, ${house.houseLongitude}),
+	        level: 3
+	    };
+		console.log(${house.houseLatitude});
+		console.log(${house.houseLongitude});
+		console.log("====================");
+		
+	    map = new kakao.maps.Map(mapContainer, mapOption);
+	    var markerPosition = new kakao.maps.LatLng(${house.houseLatitude}, ${house.houseLongitude});
+
+	    var geocoder = new kakao.maps.services.Geocoder();
+
+	    geocoder.addressSearch('${house.houseAddress}', function(result, status) {
+	        if (status === kakao.maps.services.Status.OK) {
+	            
+	            var marker = new kakao.maps.Marker({
+	                position: markerPosition
+	            });
+	            marker.setMap(map);
+
+	            // 중심 좌표를 마커 위치로 설정
+	            map.setCenter(markerPosition);
+	            console.log(markerPosition)
+	        }
+	        // 맵 크기 및 레이아웃 조정
+	        kakao.maps.event.addListener(map, 'idle', function() {
+	            map.relayout();
+	            map.setCenter(markerPosition);
+	        });
+	    });
+	});
+
+	
+	$(document).on("click", "#profile-tab", function() {
+	    setTimeout(function() {
+	        map.relayout();
+            map.setCenter(markerPosition);
+	    }, 300);
+	});
+	
 	<!-- 페이징바 -->
     $(document).ready(function() {
         var currentPage = 1; // currentPage 변수를 정의하고 초기화
@@ -949,7 +1035,7 @@
 				+	'</div>'
 				+	'<div class="item-entry overflow">'	
 				+	'<h5>'
-				+	'<a href="detail.ho?houseNo='+houseLike[i].houseNo+'"><p style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:break-all;">'+houseLike[i].houseTitle+ '</p> </a>'
+				+	'<a href="detail.ho?houseNo='+houseLike[i].houseNo+'"><p style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:break-all;">'+houseLike[i].houseName+ '</p> </a>'
 				+	'</h5>'
 				+	'<div class="dot-hr"></div>'
 				+	'<span class="pull-left"><b> 평수 :</b> '+houseLike[i].houseSquare+'평</span><br>';

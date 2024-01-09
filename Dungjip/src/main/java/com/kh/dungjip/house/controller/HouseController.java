@@ -120,7 +120,7 @@ public class HouseController {
 			int count = houseService.insertHouseJSON(house);
 
 			if (result * count == 0) {
-				session.setAttribute("alertMsg", "집 등록 실패");
+				session.setAttribute("errorMsg", "집 등록 실패");
 				return "common/errorPage";
 			}
 
@@ -190,7 +190,7 @@ public class HouseController {
 			session.setAttribute("alertMsg", "찜하기 성공");
 			mv.setViewName("redirect:detail.ho?houseNo=" + jj.getHouseNo());
 		} else {
-			session.setAttribute("alertMsg", "찜하기 실패");
+			session.setAttribute("errorMsg", "찜하기 실패");
 			mv.setViewName("redirect:detail.ho");
 	}
 		return mv;
@@ -204,7 +204,7 @@ public class HouseController {
 			session.setAttribute("alertMsg", "찜 취소 성공");
 			return "redirect:detail.ho?houseNo=" + jj.getHouseNo();
 		} else {
-			session.setAttribute("alertMsg", "찜 취소 실패");
+			session.setAttribute("errorMsg", "찜 취소 실패");
 			return "redirect:detail.ho?houseNo=" + jj.getHouseNo();
 		}
 	}
@@ -517,12 +517,10 @@ public class HouseController {
 		
 		int result = houseService.mypageHjjimdelete(houseNo);
 		
-		System.out.println(result);
-		
 		if(result > 0) {
 			session.setAttribute("alertMsg", "목록에서 삭제되었습니다.");
 		}else {
-			session.setAttribute("alertMsg", "다시 시도해주세요.");
+			session.setAttribute("errorMsg", "다시 시도해주세요.");
 		}
 		
 		return "redirect:/myHousejjim.me";
@@ -537,7 +535,7 @@ public class HouseController {
 		if(result > 0) {
 			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
 		}else {
-			session.setAttribute("alertMsg", "다시 시도해주세요.");
+			session.setAttribute("errorMsg", "다시 시도해주세요.");
 		}
 		return"redirect:/imdaHouse.li";
 		

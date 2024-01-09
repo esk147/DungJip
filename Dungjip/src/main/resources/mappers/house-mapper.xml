@@ -209,6 +209,7 @@
           ,HOUSE_DOITNOW
           ,HOUSE_BUILDDATE
           ,HOUSE_ANIMALS
+          ,HOUSE_NAME
           ,STATUS
     	FROM HOUSE
 		WHERE HOUSE_NO = #{houseNo}
@@ -239,6 +240,7 @@
 		    ,HOUSE_ANIMALS
 		    ,HOUSE_PARKABLE
 		    ,HOUSE_STYLE
+		    ,HOUSE_NAME
 		FROM HOUSE
 		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
 		AND STATUS='Y'
