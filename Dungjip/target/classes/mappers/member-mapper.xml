@@ -63,7 +63,7 @@
 			WHERE USER_ID = #{userId}
  			AND STATUS = 'Y'
   		</select>
-    	
+
     	<select id="ajaxIdMethod" resultType="_int">
     		SELECT COUNT(USER_ID) 
     		FROM MEMBER 
@@ -264,6 +264,18 @@
     		WHERE USER_NO = #{userNo}
     	</update>
     	
+    	<select id="findSubscribeUser" resultMap="memberResultSet">
+  			SELECT *
+			FROM MEMBER
+			WHERE USER_NO = #{userNo}
+ 			AND STATUS = 'Y'
+  		</select>
+  		
+  		<update id="noSubscribe">
+    		UPDATE MEMBER
+    		SET SUBSCRIBE = 'N'
+    		WHERE USER_NO = #{userNo}
+    	</update>
 
     	<!-- 예약용 resultMap 생성 -->
     	<resultMap type="reservation" id="reservationResultSet">

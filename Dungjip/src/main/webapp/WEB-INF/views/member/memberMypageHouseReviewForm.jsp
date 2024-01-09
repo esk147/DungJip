@@ -120,7 +120,7 @@
 										
 				</div>
 				
-				<footer style="width: 450px;">
+				<footer style="width: 500px;">
 				   <!--------------------------------------- 페이징 처리 ------------------------------------->
 				   <div class="pull-right" >
 			            <div class="pagination">
@@ -137,7 +137,8 @@
 			                </ul>
 			            </div>
 			       </div> 
-		       	</footer>					
+		       	</footer>
+		       						
 			</div>			
 		</section>
 	</div>
@@ -334,10 +335,7 @@
                     reDisContent: reDisContent
                 },
                 success: function (result) {
-                	
-					console.log(result);
-					
-					alert('리뷰 등록이 완료되었습니다.');
+					showSuccess("성공",'리뷰 등록이 완료되었습니다.',"확인");  
                 },
                 error: function (error) {
                 	console.log("오류");

@@ -87,6 +87,36 @@ public class EstateDao {
 		return sqlSession.selectList("estateMapper.selectSubscribeEstateList");
 	}
 
+	public int selectEstateEmoCount(SqlSessionTemplate sqlSession, int esReNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("estateMapper.selectEstateEmoCount", esReNo);
+	}
+
+	public int selectReviewLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int count = 0;
+		try {
+			count = sqlSession.selectOne("estateMapper.selectReviewLikeCount", map);
+			
+			if(count > 0) {
+				count = 1;
+			}
+		} catch(Exception e) {
+			count = 0;
+		}
+		return count;
+	}
+
+	public int decreaseCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("estateMapper.decreaseCount", map);
+	}
+
+	public int increaseEsReLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("estateMapper.increaseEsReLikeCount", map);
+	}
+
 	//예약 시간 select
 	public ArrayList<Time> selectTime(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("estateMapper.selectTime");
@@ -188,5 +218,11 @@ public class EstateDao {
 	//예약 날짜 눌렀을때 데이터 있는지 확인
 	public ArrayList<ReservationNew> selectReservationList(SqlSessionTemplate sqlSession, ReservationNew reservation) {
 		return (ArrayList)sqlSession.selectList("estateMapper.selectReservationList",reservation);
+	}
+
+	//중개인 페이지
+	public ArrayList<Estate> myEspage(SqlSessionTemplate sqlSession,Member m) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("estateMapper.myEspage",m);
 	}
 }

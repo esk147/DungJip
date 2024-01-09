@@ -56,17 +56,6 @@
             color: #333;
         }
         
-       /*  .footer {
-            background: #f3f3f3;
-            padding: 10px;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .footer p {
-            font-size: 16px;
-            color: #333;
-        } */
-        
         .check-box {
             display: flex;
             align-items: center;
@@ -79,16 +68,28 @@
             text-align: center;
             margin-top: 20px;
             background: #e3dcd6;
+            cursor: pointer;
         }
         
         .btn {
             /* background: #e3dcd6; */
             color: #fff;
             padding: 10px 20px;
-            cursor: pointer;
             text-transform: uppercase;
+            width: 100%;
         }
-        
+        #AllAgreeDiv {
+        	display: flex;
+		    align-items: center;
+		    justify-content: center;
+        }
+        #default-checkbox3 {
+        	width: auto;
+        	margin: 0;
+        }
+        #agree-label {
+        	margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -102,7 +103,7 @@
         
         <div class="content-box" style="padding:40px;">
         
-            <h3 style="font-size: 12px">회원가입 이용약관</h3>
+            <h3 style="font-size: 16px; font-weight:bold;">회원가입 이용약관</h3>
             
             <textarea name="" id="" cols="137" rows="10" style="width: 100%;">제1조 (약관의 적용목적)이 약관은 스테이션3(이하 “회사”라 한다)가 운영하는 “다방”에서 제공하는 인터넷과 모바일 서비스(이하 “서비스”라 한다)를 이용함에 있어 “회사”와 “이용자”의 권리, 의무 및 책임 사항, 기타 필요한 사항을 규정함을 목적으로 합니다. 유료 서비스 상품의 경우 “유료 서비스 이용약관”을 따릅니다.
 
@@ -136,7 +137,7 @@
         </div>
         
         <div class="content-box" style="padding:40px;">
-            <h3 style="font-size: 12px">개인정보수집 및 이용에 대한 동의</h3>
+            <h3 style="font-size: 16px; font-weight:bold;">개인정보수집 및 이용에 대한 동의</h3>
              <textarea name="" id="" cols="137" rows="10" style="width: 100%;">제1조 (약관의 적용목적)
 이 약관은 스테이션3(이하 “회사”라 한다)가 운영하는 “둥집”에서 제공하는 인터넷과 모바일 서비스(이하 “서비스”라 한다)를 이용함에 있어 “회사”와 “이용자”의 권리, 의무 및 책임 사항, 기타 필요한 사항을 규정함을 목적으로 합니다. 유료 서비스 상품의 경우 “유료 서비스 이용약관”을 따릅니다.
 
@@ -170,9 +171,9 @@
             <label for="default-checkbox2">[필수] 회원가입 이용약관에 동의합니다.</label>
         </div>
         
-        <div class="check-box" align="center" style="display: block; margin:20px 0px;">
+        <div id="AllAgreeDiv" class="check-box" align="center" style="display: block; margin:20px 0px;">
             <input type="checkbox" id="default-checkbox3">
-            <label for="default-checkbox3">이용 약관에 모두 동의합니다.</label>
+            <label id="agree-label" for="default-checkbox3">이용 약관에 모두 동의합니다.</label>
         </div>
        
         <div class="btn-area" id="memberEnrollNext">
@@ -207,7 +208,7 @@
     		//전체동의 되지 않은 상태로 회원가입 버튼 클릭 시 페이지 이동 막기 
     		$("#memberEnrollNext").on("click",function() {
     			if (!($("#default-checkbox1").prop("checked") && $("#default-checkbox2").prop("checked"))) {
-					alert("이용 약관에 모두 동의해야 합니다.");
+					showError("오류", "이용 약관에 모두 동의해야 합니다.", "확인"); 
 					return false;
 				}
     			

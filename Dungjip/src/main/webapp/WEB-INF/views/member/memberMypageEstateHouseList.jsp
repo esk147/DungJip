@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>중개인 매물내역</title>
+    <title>매물내역</title>
   <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style>
@@ -77,9 +77,16 @@
 
 	<div class="container" style="display: flex; width: 67%;">
 
-		<!-- 마이페이지 메뉴바 -->
-		<%@ include file="memberMypageEsmenubar.jsp"%>
-
+		<!-- 마이페이지 메뉴바 --> 
+		<c:choose>
+		    <c:when test="${loginUser.userType eq '중개인'}">
+		        <%@ include file="memberMypageEsmenubar.jsp" %>
+		    </c:when>
+		    <c:when test="${loginUser.userType eq '임대인'}">
+		        <%@ include file="memberMypageImdamenubar.jsp" %>
+		    </c:when>
+	    </c:choose>
+	    
 		<section class="main-content"
 			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
 
@@ -88,7 +95,7 @@
 				<div  id="list-type" class="proerty-th-list" style="color: #333; list-style: none; padding: 20px 20px 20px 20px;">
 					                           
                         <c:if test="${not empty hlike}">
-							<c:forEach items="${hlike}" var="hlike" varStatus="status">
+							<c:forEach items="${hlike}" var="hlike" varStatus="status" >
 	                     		<div class="col-md-4 p0">
 		                            <div class="box-two proerty-item">
 		                                <div class="item-thumb">
@@ -112,33 +119,33 @@
 		                            </div>
 	                     		</div>	                          	                     
                         	</c:forEach>	
-						</c:if>                                
-										
+						</c:if>                                										
 				</div>
-				
-				<footer style="width: 450px;">
-				 <!--------------------------------------- 페이징 처리 ------------------------------------->
-				   <div class="pull-right" >
-			            <div class="pagination">
-			                <ul>
-			                	 <c:if test="${pi.currentPage ne 1 }">
-			                   <li><a href="myEsReview.me?currentPage=${pi.currentPage-1}">Prev</a></li>
-			                </c:if>   
-			                <c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">  
-			                   <li><a href="myEsReview.me?currentPage=${p}">${p}</a></li>
-			                </c:forEach>   
-			                <c:if test="${pi.currentPage ne pi.maxPage }"> 
-			                     <li><a href="myEsReview.me?currentPage=${pi.currentPage+1}">Next</a></li>
-			                	  </c:if>
-			                </ul>
-			            </div>
-			       </div> 				
-				</footer>
+
 			</div>
+				<footer style="width: 500px;">
+					<!--------------------------------------- 페이징 처리 ------------------------------------->
+					<div class="pull-right">
+						<div class="pagination">
+							<ul>
+								<c:if test="${pi.currentPage ne 1 }">
+									<li><a
+										href="esHouse.li?currentPage=${pi.currentPage-1}&esNo=${esNo}">Prev</a></li>
+								</c:if>
+								<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">
+									<li><a href="esHouse.li?currentPage=${p}&esNo=${esNo}">${p}</a></li>
+								</c:forEach>
+								<c:if test="${pi.currentPage ne pi.maxPage }">
+									<li><a
+										href="esHouse.li?currentPage=${pi.currentPage+1}&esNo=${esNo}">Next</a></li>
+								</c:if>
+							</ul>
+						</div>
+					</div>
+				</footer>
+			
 		</section>
 	</div>
-
-
 
 	<!-- delete -->
 	<form action="esHdelete.li" method="post">

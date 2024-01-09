@@ -11,7 +11,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -114,7 +113,7 @@ public class MemberController {
 		if(beginLoginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())) { //성공시
 
 
-			int SuccessLoginTime =	memberService.updateLastLoginTime(beginLoginUser);//현재 시간 추가 
+			memberService.updateLastLoginTime(beginLoginUser);//현재 시간 추가 
 			
 			//굳이 if문 추가안함 
 			//현재시간이 추가안되었다고 로그인을 막아버리는 예외가 있으면 안된다고 판단
@@ -133,7 +132,7 @@ public class MemberController {
 	@RequestMapping("logout.me")
 	public String loginMember(@RequestParam ("userNo") int userNo,HttpSession session) {//로그아웃 버튼에 파라미터 영역으로 userNo를 보내주었습니다.
 		
-		int logoutTime = memberService.LastLogoutTime(userNo);
+		memberService.LastLogoutTime(userNo);
 		
 		//세션에 담겨있는 logoutUser정보 지우기 
 		session.removeAttribute("loginUser");
@@ -370,7 +369,6 @@ public class MemberController {
 			m.setChangeName(defaultImagePath);
 			
 		}
-
 		
 		m.setUserPwd(encPwd); //암호화된 비번			
 
@@ -503,7 +501,7 @@ public class MemberController {
 			
 		}else { //비밀번호가 다를 때 
 			
-			session.setAttribute("alertMsg", "비밀번호를 잘못 입력하셨습니다.");
+			session.setAttribute("errorMsg", "비밀번호를 잘못 입력하셨습니다.");
 			return "redirect:myPage.me";
 		}
 
@@ -535,14 +533,14 @@ public class MemberController {
 	            
 	        } else { // DB 업데이트 실패
 	        	
-	            session.setAttribute("alertMsg", "비밀번호 변경에 실패하셨습니다.");
+	            session.setAttribute("errorMsg", "비밀번호 변경에 실패하셨습니다.");
 	            return "redirect:myPage.me";
 	            
 	        }
 			
 		}else {
 			
-			session.setAttribute("alertMsg", "비밀번호 수정에 실패하셨습니다.");
+			session.setAttribute("errorMsg", "비밀번호 수정에 실패하셨습니다.");
 			return "redirect:myPage.me";
 		}
 				
@@ -558,16 +556,29 @@ public class MemberController {
 		if(result > 0) { //성공
 			
 			Member loginUser = memberService.loginMember(m);
+			
 			session.setAttribute("loginUser", loginUser); //조회한 데이터 세션에 갱신
+			
 			session.setAttribute("alertMsg", "정보 수정이 완료되었습니다.");
 			
-			mv.setViewName("redirect:/myPage.me");
+			mv.setViewName("redirect:/myPage.me"); //임차인
+			
+		 if ("중개인".equals(loginUser.getUserType())) {
+	            mv.setViewName("redirect:/myEsPage.me");
+	        } else if ("임대인".equals(loginUser.getUserType())) {
+	            mv.setViewName("redirect:/myImdaPage.me");
+	        } else {
+	            mv.setViewName("redirect:/myPage.me");
+	        }
+			
+			
 		} else { //수정 실패
 			
 			mv.addObject("errorMsg", "회원 정보 수정 실패").setViewName("common/errorPage");
 		}
 		
 		return mv;
+		
 	}
 	
 	@RequestMapping("esupdate.me")
@@ -575,11 +586,12 @@ public class MemberController {
 		
 		int result = memberService.mypageEstateUpdate(elist);
 		
-		if(result > 0) {
+		if(result > 0) { //성공
 			
-			Member loginUser = memberService.loginMember(m);
-			session.setAttribute("alertMsg", "정보 수정이 완료되었습니다.");			
-			mv.setViewName("redirect:/mypageEsUpdate.me");
+			session.setAttribute("alertMsg", "정보 수정이 완료되었습니다.");	
+			
+			mv.setViewName("redirect:/myEsPage.me"); //중개인
+			
 		}else {
 			mv.addObject("errorMsg", "회원 정보 수정 실패").setViewName("common/errorPage");
 		}
@@ -619,7 +631,7 @@ public class MemberController {
 		}
 		
 		//전달된 파일이 있다면 해당 정보 DB에 전달하기 
-		int result = memberService.fileAjaxMethod(m);
+		memberService.fileAjaxMethod(m);
 	
 	}
 	
@@ -666,7 +678,6 @@ public class MemberController {
 		ArrayList<Reservation> rlist = memberService.selectReservation(loginUser);
 		
 		model.addAttribute("rlist", rlist);
-				System.out.println(rlist);
 		return "member/memberMypageReservationForm";
 	}
 	                                     
@@ -675,9 +686,30 @@ public class MemberController {
 
 	@ResponseBody
 	@RequestMapping("subscribe.pay")
-	public int userSubscribe(int userNo) {
+	public int userSubscribe(int userNo, HttpSession session) {
 		
 		int result = memberService.userSubscribe(userNo);
+		
+		if(result > 0) {
+			Member m = memberService.findSubscribeUser(userNo);
+			
+			session.setAttribute("loginUser", m);
+		}
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("subscribe.no")
+	public int noSubscribe(int userNo, HttpSession session) {
+		
+		int result = memberService.noSubscribe(userNo);
+		
+		if(result > 0) {
+			Member m = memberService.findSubscribeUser(userNo);
+			
+			session.setAttribute("loginUser", m);
+		}
 		
 		return result;
 	}
@@ -719,13 +751,9 @@ public class MemberController {
 		
 		ArrayList<House> hlike = houseService.memberMypageHousejjimForm(m,pi);
 		
-		System.out.println("확인 1"+hlike);
-		
 		ArrayList<HouseImg> himg = new ArrayList<>();
 		
 		for( House i : hlike ) {
-		
-			System.out.println("확인 2"+hlike);
 			
 			HouseImg j = houseService.memberMypageHousejjimImg(i.getHouseNo());
 			
@@ -884,19 +912,24 @@ public class MemberController {
 	//중개인페이지이동
 	@RequestMapping("myEsPage.me")
 	public String myEspage(HttpSession session, Model model) {
+		
 		Member m = (Member)session.getAttribute("loginUser");
 		
-		int esNo = estateService.getEsNo(m.getUserNo());		
+		int esNo = estateService.getEsNo(m.getUserNo());
+		
+		ArrayList<Estate> myeslist = estateService.myEspage(m);
 		
 		session.setAttribute("esNo", esNo);
+		session.setAttribute("myeslist", myeslist);
 		
 		return "member/memberMypageEsForm";
 	}
 	
 	//중개인 매물내역
 	@RequestMapping("esHouse.li")
-	public String memberMypageEstateHouseList(@RequestParam(value = "esNo", required = false) Integer esNo, @RequestParam(value="currentPage",defaultValue = "1")int currentPage,HttpSession session, Model model) {
-			
+	public String memberMypageEstateHouseList(@RequestParam(value = "esNo") Integer esNo,
+											@RequestParam(value="currentPage",defaultValue = "1")int currentPage,HttpSession session, Model model) {
+		
 		int listCount = houseService.selectEsHouseListCount();		
 		//한 페이지에서 보여줘야하는 게시글 개수 
 		int boardLimit = 3;
@@ -907,7 +940,7 @@ public class MemberController {
 		
 		ArrayList<House> hlike = houseService.memberMypageEstateHouseList(esNo,pi);
 		
-		ArrayList<HouseImg> himg = new ArrayList<>();		
+		ArrayList<HouseImg> himg = new ArrayList<>();
 		
 		for( House i : hlike ) {
 			
@@ -920,7 +953,8 @@ public class MemberController {
 		
 		model.addAttribute("himg", himg);
 		model.addAttribute("pi", pi);
-	
+		model.addAttribute("esNo", esNo);
+		
 		return "member/memberMypageEstateHouseList";
 	}
 	
@@ -940,7 +974,7 @@ public class MemberController {
 		ArrayList<ReportEstate> repolist = reportEstateService.memberMypageReportEstateList(m,pi);
 		
 		model.addAttribute("repolist", repolist);
-		model.addAttribute("pi", pi);		
+		model.addAttribute("pi", pi);
 				
 		return "member/memberMypageReportEstateList";
 	}
@@ -965,11 +999,49 @@ public class MemberController {
 		
 		ArrayList<Reservation> relist = memberService.membermypageEsReservation(esNo);
 		
-		System.out.println(relist);
-		
 		model.addAttribute("relist",relist);
 		
 		return "member/memberEspageReservation";
 	}
+	
+	//임대인 페이지 이동 
+	@RequestMapping("myImdaPage.me")
+	public String mypageImdaPage() {
+		return "member/memberMypageImdaForm";
+	}
+	
+	//임대인 매물내역
+	@RequestMapping("imdaHouse.li")
+	public String mypageImdaHouseList(@RequestParam(value="currentPage",defaultValue = "1")int currentPage,HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		int listCount = houseService.mypageImdaHouseListCount();		
+		//한 페이지에서 보여줘야하는 게시글 개수 
+		int boardLimit = 3;
+		//페이징 바 개수 (pageLimit)
+		int pageLimit = 3;								
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<House> imdalike = houseService.mypageImdaHouseList(pi,m);
+		
+		ArrayList<HouseImg> imdaimg = new ArrayList<>();		
+		
+		for( House i : imdalike ) {
+			
+			HouseImg j = houseService.memberMypageHousejjimImg(i.getHouseNo());			
+			
+			imdaimg.add(j); //하나씩 뽑은 j를 himg에 담아주기
+		}		
+		
+		model.addAttribute("imdalike", imdalike);				
+		model.addAttribute("imdaimg", imdaimg);
+		model.addAttribute("pi", pi);
+		
+		return "member/memberMypageImdaHouseList";
+	}
+	
+
 	
 }

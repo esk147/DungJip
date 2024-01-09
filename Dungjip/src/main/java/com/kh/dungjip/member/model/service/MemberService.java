@@ -66,6 +66,9 @@ public interface MemberService {
 	
 	int LastLogoutTime(int userNo);
 
+	Member findSubscribeUser(int userNo);
+
+	int noSubscribe(int userNo);
 	//예약 내역
 	ArrayList<Reservation> selectReservation(Member loginUser);
 
@@ -80,15 +83,6 @@ public interface MemberService {
 
 	//중개인 예약내역
 	ArrayList<Reservation> membermypageEsReservation(Integer esNo);
-
-
-	
-
-
-
-
-
-	
 
 
 }

@@ -67,12 +67,15 @@
     
 	<!-- 마이페이지 메뉴바 --> 
 	<c:choose>
-    <c:when test="${loginUser.userType eq '임차인' || loginUser.userType eq '임대인'}">
-        <%@ include file="memberMypagemenubar.jsp" %>
-    </c:when>
-    <c:when test="${loginUser.userType eq '중개인'}">
-        <%@ include file="memberMypageEsmenubar.jsp" %>
-    </c:when>
+	    <c:when test="${loginUser.userType eq '임차인' }">
+	        <%@ include file="memberMypagemenubar.jsp" %>
+	    </c:when>
+	    <c:when test="${loginUser.userType eq '중개인'}">
+	        <%@ include file="memberMypageEsmenubar.jsp" %>
+	    </c:when>
+	    <c:when test="${loginUser.userType eq '임대인'}">
+	        <%@ include file="memberMypageImdamenubar.jsp" %>
+	    </c:when>
     </c:choose>     
         
         <!-------------------------------- 회원 정보 수정하기-------------------------------->    
@@ -300,12 +303,12 @@
 			var deletePwd = $("#userPwdChk").val();
 			
 			if(!($("#cashRefundAgree").is(":checked"))) {
-				alert('환불 규정에 동의하세요.');
+				showWarning("경고", '환불 규정에 동의하세요.', "확인");  
 				return false;
 			}
 			
 			if(deletePwd == null || deletePwd == '') {
-				alert('비밀번호를 작성하세요.');
+				showError("오류", '비밀번호를 작성하세요.', "확인");
 				$("#userPwdChk").focus();
 				return false;
 			}
@@ -321,8 +324,8 @@
 			var userNewPasswordChk = $("#userNewPasswordChk").val();
 			
 			if(userPassword == null || userPassword == '') {
-				
-				alert("비밀번호를 입력하세요.");
+
+				showError("오류", '비밀번호를 작성하세요.', "확인");
 				$("#userPassword").focus();
 				return false;
 				
@@ -331,19 +334,19 @@
 				var regExp =  /^(?=.*[A-Za-z\d?!\s])[A-Za-z\d?!]{5,14}$/;
 		
 				if(!regExp.test(userNewPassword)) {
-					alert("비밀번호는 6~15자리 영문 및 숫자 조합이여야 합니다.");
+					showError("오류", "비밀번호는 6~15자리 영문 및 숫자 조합이여야 합니다.", "확인");
 					$("#userNewPassword").focus();
 					return false;
 				}
 				
 				if(userNewPassword != userNewPasswordChk) {
-					alert("비밀번호가 일치하지 않습니다.");
+					showError("오류", "비밀번호가 일치하지 않습니다.", "확인");
 					$("#userNewPasswordChk").focus();
 					return false;
 				}				
 			}
 			
-			if (confirm("비밀번호를 변경하시겠습니까?")) {
+			if (showConfirmToTrue("비밀번호를 변경하시겠습니까?")) {
 				return true;
 			} else {
 				return false;
@@ -359,32 +362,32 @@
 			var email = $("#email").val();
 			var address = $("#address_kakao").val();
 			
-			if(confirm("정보를 수정하시겠습니까?")) {
+			if(showConfirmToTrue("정보를 수정하시겠습니까?")) {
 				
 				if (userName == '' || userName == null) {
-					alert('이름을 입력하세요.');
+					showError("오류", '이름을 입력하세요.', "확인");
 					return false;
 				}
 				
 				if (phone == '' || phone == null) {
-					alert('휴대폰 번호를 입력하세요.');
+					showError("오류", '휴대폰 번호를 입력하세요.', "확인");
 					return false;
 				}
 				
 				if (address == '' || address == null) {
-					alert('주소를 입력하세요.');
+					showError("오류", '주소를 입력하세요.', "확인");
 					return false;
 				}
 				
 				if (email == '' || email == null) {
-					alert('이메일을 입력하세요.');
+					showError("오류", '이메일을 입력하세요.', "확인");
 					return false;
 				} else {
 
 					var regExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
 					if (!regExp.test(email)) {
-						alert("이메일 형식이 올바르지 않습니다.");
+						showError("오류", "이메일 형식이 올바르지 않습니다.", "확인");
 						$("#email").focus(); //해당 요소에 포커스
 						return false;
 					}

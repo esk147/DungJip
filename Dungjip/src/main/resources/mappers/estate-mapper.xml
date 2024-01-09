@@ -187,6 +187,24 @@
 		join member m using (user_no)
 		where subscribe = 'Y'
 	</select>
+
+	<select id="selectEstateEmoCount" resultType="_int">
+		SELECT COUNT(*) EMO
+		FROM ES_RE_LIKE
+		WHERE ES_RE_NO=#{esReNo}
+	</select>
+	
+	<select id="selectReviewLikeCount" resultType="_int">
+		select * from ES_RE_LIKE where es_re_no = #{esReNo} and user_no = #{userNo}
+	</select>
+	
+	<delete id="decreaseCount">
+		delete from ES_RE_LIKE where es_re_no = #{esReNo} and user_no = #{userNo}
+	</delete>
+	
+	<insert id="increaseEsReLikeCount">
+		insert into ES_RE_LIKE values(#{esReNo}, #{userNo})
+	</insert>
 	
 	<!-- 댓글용 resultMap -->
 	<resultMap type="reservation" id="reservationResultSet">
@@ -315,7 +333,6 @@
 	<select id="selectReportEstateListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM REPORT_ESTATE
-		WHERE USER_NO = #{userNo}
 	</select>
 	
 	
@@ -358,4 +375,17 @@
 		WHERE STATUS = 'Y'
 		AND HOUSE_NO = #{houseNo}
 	</update>
+	
+	<select id="myEspage" resultMap="estateResultSet">
+		SELECT E.ES_NO
+			,ES_NAME
+			,E.ES_CEO
+			,E.ES_PHONE
+			,E.ES_INTRO
+			,E.USER_NO
+		FROM ESTATE E
+		JOIN MEMBER M ON M.USER_NO = E.USER_NO
+		WHERE E.USER_NO = #{userNo}
+	</select>
+	
 </mapper>

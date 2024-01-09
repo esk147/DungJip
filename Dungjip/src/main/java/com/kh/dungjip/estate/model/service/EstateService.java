@@ -1,14 +1,14 @@
 package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.house.model.vo.ReservationNew;
 import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
-import java.util.List;
-import java.util.Map;
 
 import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.vo.EsReLike;
@@ -41,6 +41,14 @@ public interface EstateService {
 	int selectEstateThreeStar(int esNo);
 	int selectEstateTwoStar(int esNo);
 	int selectEstateOneStar(int esNo);
+
+	int selectEstateEmoCount(int esReNo);
+
+	int selectReviewLikeCount(Map<String, Object> map);
+
+	int decreaseCount(Map<String, Object> map);
+
+	int increaseEsReLikeCount(Map<String, Object> map);
 
 	//예약 시간 select
 	ArrayList<Time> selectTime();
@@ -91,5 +99,8 @@ public interface EstateService {
 
 	//중개인 매물내역 삭제 
 	int myEstateHouseDelete(int houseNo);
+
+	//중개인페이지
+	ArrayList<Estate> myEspage(Member m);
 
 }

@@ -180,21 +180,21 @@
       		var esPhone = $("#esPhone").val();
       		var esAddress = $("#esAddress").val();
       		
-      		if(confirm("정보를 수정하시겠습니까?")) {
+      		if(showConfirmToTrue("정보를 수정하시겠습니까?")) {
       			if (esName == '' || esName == null) {
-					alert('사무소 명을 입력하세요.');
+					showError("오류", '사무소 명을 입력하세요.', "확인"); 
 					return false;
 				}
       			if (esCeo == '' || esCeo == null) {
-					alert('대표자 명을 입력하세요.');
+					showError("오류", '대표자 명을 입력하세요.', "확인"); 
 					return false;
 				}
       			if (esPhone == '' || esPhone == null) {
-					alert('사무소 번호를 입력하세요.');
+					showError("오류", '사무소 번호를 입력하세요.', "확인");
 					return false;
 				}
       			if (esAddress == '' || esAddress == null) {
-					alert('사무소 주소를 입력하세요.');
+					showError("오류", '사무소 주소를 입력하세요.', "확인");
 					return false;
 				}
       			

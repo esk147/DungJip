@@ -25,9 +25,6 @@ public class MemberServiceImpl implements MemberService{
 	//로그인 처리 
 	@Override
 	public Member loginMember(Member m) {
-		// TODO Auto-generated method stub
-		Member loginMember = memberDao.loginMember(sqlSession, m);
-		//System.out.println("serviceimple " + loginMember);
 		return memberDao.loginMember(sqlSession, m);
 	}
 	
@@ -202,6 +199,20 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return memberDao.membermypageEsReservation(sqlSession,esNo);
 	}
+
+	@Override
+	public Member findSubscribeUser(int userNo) {
+		// TODO Auto-generated method stub
+		return memberDao.findSubscribeUser(sqlSession, userNo);
+	}
+
+
+	@Override
+	public int noSubscribe(int userNo) {
+		// TODO Auto-generated method stub
+		return memberDao.noSubscribe(sqlSession, userNo);
+	}
+
 
 
 	
