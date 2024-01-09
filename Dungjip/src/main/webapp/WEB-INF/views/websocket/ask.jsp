@@ -687,7 +687,7 @@ $("#subBtn").click(function(){
 			
 		},
 		success : function(result){
-			alert("신고가 정상적으로 제출되었습니다");
+			 showSuccess("성공","신고가 정상적으로 제출되었습니다","확인"); 
 			 $(".chat-container").css("display", "none");
 			 $("#main-content").removeClass("blur-effect");
 		},
@@ -713,8 +713,8 @@ $("#subBtn2").click(function(){
 			
 		},
 		success : function(result){
-			
-			alert("신고가 정상적으로 접수 되었습니다.");
+
+			 showSuccess("성공","신고가 정상적으로 제출되었습니다","확인");
 			 $(".chat-container").css("display", "none");
 			 $("#main-content").removeClass("blur-effect");
 			

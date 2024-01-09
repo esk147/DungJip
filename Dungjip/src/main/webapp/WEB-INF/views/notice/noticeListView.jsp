@@ -217,7 +217,7 @@
             }),
             success: function (response) {
                 // Ajax 호출 성공 시, 작성한 글을 화면에 추가
-                alert("글 작성이 완료되었습니다.");
+	            showSuccess("성공","글 작성이 완료되었습니다.","확인");
 
                 // 모달 창 닫기
                 closeModal();
@@ -227,7 +227,7 @@
             },
             error: function () {
                 // Ajax 호출 실패 시 에러 처리
-                alert("글 작성 중 오류가 발생했습니다.");
+                showError("오류", "글 작성 중 오류가 발생했습니다.", "확인");
             }
         });
     }
@@ -272,12 +272,12 @@
                 noticeContent: content
             }),
             success: function (response) {
-                alert("글 수정이 완료되었습니다.");
+                showSuccess("성공","글 수정이 완료되었습니다.","확인");
                 closeUpdateModal();
                 location.reload();
             },
             error: function () {
-                alert("글 수정 중 오류가 발생했습니다.");
+                showError("오류", "글 수정 중 오류가 발생했습니다.", "확인");
             }
         });
     }	
@@ -319,11 +319,11 @@
                 noticeNo: noticeNo
             }),
             success: function (response) {
-                alert("삭제되었습니다.");
+                showSuccess("성공","삭제되었습니다.","확인"); 
                 location.reload();
             },
             error: function () {
-                alert("삭제 중 오류가 발생했습니다.");
+                showError("오류", "삭제 중 오류가 발생했습니다.", "확인");  
             }
         });
     }

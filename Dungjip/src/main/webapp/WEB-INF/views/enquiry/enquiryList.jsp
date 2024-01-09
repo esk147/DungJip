@@ -126,13 +126,6 @@
 		
     </style>
     <body>
-    <c:if test="${not empty alertMsg }">
-        <script>
-            var alertMsg = "${alertMsg}";
-            alert(alertMsg);
-        </script>
-        <c:remove var="alertMsg" />
-    </c:if>
     <%@ include file="../common/header.jsp" %>
          <div class="page-head"> 
             <div class="container">
