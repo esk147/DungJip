@@ -58,7 +58,6 @@ public class EstateController {
 		if(result>0) {
 			
 			Estate e = estateService.estateDetail(esNo);
-			System.out.println(e);
 			model.addAttribute("e",e);
 		}else {
 			model.addAttribute("errorMsg", "부동산 상제 정보 조회 실패");
@@ -76,9 +75,6 @@ public class EstateController {
 		//전체 집 개수
 		int listCount = houseService.selectHouseListCount(esNo);
 		
-		System.out.println("집: "+ listCount);
-		
-		
 		//한 페이지에서 보여줘야하는 집 개수
 		int boardLimit = 12;
 		
@@ -94,14 +90,6 @@ public class EstateController {
 		map.put("pi", pi);
 		map.put("himglist", himglist);
 		
-		
-	    //System.out.println(hlist);
-	    //System.out.println("pi:"+pi);
-	    //System.out.println(map);
-	    //System.out.println("------------------------");
-	    //System.out.println(pi.getCurrentPage());
-	    
-	  
 		return map;
 	}
 	
@@ -110,6 +98,7 @@ public class EstateController {
 	@RequestMapping(value="estate.re",produces="application/json; charset=UTF-8")
 	public Map<String, Object> selectEstateReviewList(int esNo, int userNo){
 		
+		System.out.println(userNo);
 		ArrayList<EstateReview>erlist = estateService.selectEstateReviewList(esNo);
 		List<Integer> erNums = new ArrayList<>();
 		List<Integer> reviewBooleans = new ArrayList<>();
@@ -137,6 +126,9 @@ public class EstateController {
 		int threeStar = estateService.selectEstateThreeStar(esNo);
 		int twoStar = estateService.selectEstateTwoStar(esNo);
 		int oneStar = estateService.selectEstateOneStar(esNo);
+		
+		//리뷰 공감수
+		//int emoCount = estateService.selectEstateEmoCount(esReNo);
 	
 		
 	
@@ -149,43 +141,33 @@ public class EstateController {
 		map.put("threeStar", threeStar);
 		map.put("twoStar", twoStar);
 		map.put("oneStar", oneStar);
+
 		map.put("erNums", erNums);
 		map.put("reviewBooleans", reviewBooleans);
 		
-		
-		System.out.println("------리뷰 리스트-----------");
-		System.out.println(erlist);
-		
-		
 		return map;
 	}
-	
+
+	//부동산 리뷰
 	@ResponseBody
 	@RequestMapping("estate.like")
 	public Map<String, Object> selectReviewLikeCount(String esReNo, String userNo){
 
-		System.out.println("리뷰 번호, 유저 번호");
-		System.out.println(esReNo);
-		System.out.println(userNo);
-		
 		Map<String, Object> map = new HashMap<>();
 		map.put("esReNo", esReNo);
 		map.put("userNo", userNo);
 		
 		int count = estateService.selectReviewLikeCount(map);
-		System.out.println("카운터는 1이여야함 제발");
-		System.out.println(count);
+
 		int result = 0;
 		
 		int bool = 0;
 		
 		if(count > 0) {
 			result = estateService.decreaseCount(map);
-			//TODO 공감 해제 값 변수에 넣어서 맵에 넣고 전달
 			bool = 1;
 		} else {
 			result = estateService.increaseEsReLikeCount(map);
-			//TODO 공감 클릭 값 변수에 넣어서 맵에 넣고 전달
 			bool = 2;
 		}
 		
@@ -203,15 +185,13 @@ public class EstateController {
 	@RequestMapping("insertReservation.re")
 	public String insertReservation(ReservationNew reservation,HttpSession session) {
 		
-		System.out.println("컨트롤러 들어오세요");
-		
 		int result = estateService.insertReservation(reservation);
 		int esNo = reservation.getSelectEsNo();
 		
 		if(result > 0) {
 			session.setAttribute("alertMsg", "예약 등록이 되었습니다.");
 		}else {
-			session.setAttribute("alertMsg", "예약 등록 실패하였습니다."+"관리자에게 문의하세요.");
+			session.setAttribute("errorMsg", "예약 등록 실패하였습니다."+"관리자에게 문의하세요.");
 		}
 		
 		return "redirect:/detail.es?esNo="+esNo;
@@ -227,7 +207,7 @@ public class EstateController {
 	}
 	
 	@GetMapping("insert.esre")
-	public String boardEnrollForm(int esNo, HttpSession session, Model model) {
+	public String insertEstateReview(int esNo, HttpSession session, Model model) {
 		
 		 Member loginUser = (Member) session.getAttribute("loginUser");
 		    
@@ -243,21 +223,25 @@ public class EstateController {
 		    
 		    ArrayList<House> hlist = houseService.selectHouseModal(esNo);
 		    ArrayList<HouseImg> himglist = houseService.selectHouseImg(esNo);
-		    model.addAttribute("hlist", hlist);
+		   model.addAttribute("hlist", hlist);
 		    model.addAttribute("himglist", himglist);
-		
+		    
+		    
 		return "review/estateReviewInsert";
 	}
-	
-	
-	
 	
 	//부동산 리뷰 작성
 	@ResponseBody
 	@PostMapping(value = "insert.esre", produces = "application/json; charset=UTF-8")
 	public Map<String, Object> insertEstateReview(int esNo, HttpSession session, EstateReview er,Model model) {
 	    Map<String, Object> response = new HashMap<>();
-	    System.out.println(er);
+
+	    
+	    ArrayList<House> hlist = houseService.selectHouseModal(esNo);
+	    ArrayList<HouseImg> himglist = houseService.selectHouseImg(esNo);
+	   model.addAttribute("hlist", hlist);
+	    model.addAttribute("himglist", himglist);
+
 	    Member loginUser = (Member) session.getAttribute("loginUser");
 	    ArrayList<Reservation> rlist = memberService.selectReservation(loginUser);
 	    
@@ -269,14 +253,10 @@ public class EstateController {
 	        }
 	    }
 
-
-
 	    if (loginUser != null && er != null) {
 	        Map<String, Object> paramMap = new HashMap<>();
 	        paramMap.put("er", er);
 	        paramMap.put("loginUser", loginUser);
-	        
-	      
 
 	        int result = estateService.insertEstateReview(paramMap);
 
@@ -289,7 +269,7 @@ public class EstateController {
 	            response.put("errorMsg", "부동산 리뷰 등록 실패");
 	        }
 	    } else {
-	        session.setAttribute("alertMsg", "부동산 리뷰 등록 실패");
+	        session.setAttribute("errorMsg", "부동산 리뷰 등록 실패");
 	        response.put("success", false);
 	        response.put("errorMsg", "부동산 리뷰 등록 실패");
 	    }
@@ -297,13 +277,13 @@ public class EstateController {
 	    return response;
 	}
 
-	//삭제
+
+
+	//부동산 리뷰 삭제
 	@RequestMapping("/estate/delete.es")
 	public String esReviewDelete(@RequestParam("esReNo")int esReNo,Model model, HttpSession session) {
 		
 		int result = estateService.esReviewDelete(esReNo);
-		
-		System.out.println("번호 넘어오나" + esReNo);
 		
 		if(result > 0) {
 			
@@ -311,31 +291,42 @@ public class EstateController {
 			
 		}else {
 			
-			session.setAttribute("alertMsg", "다시 시도해주세요.");	
+			session.setAttribute("errorMsg", "다시 시도해주세요.");	
 			
 		}
 		
 		return "redirect:/myEsReview.me";
 	}
 	
-	//수정
-	@RequestMapping("updateReview.es")
-	public String updateReview(@RequestParam("esReNo") int esReNo,
-			 @RequestParam("esReScore") int esReScore,
-             @RequestParam("esReContent") String esReContent,Model model, HttpSession session) {
-		    
-		int result = estateService.updateReview(esReNo,esReScore,esReContent);
+	//부동산 리뷰 수정
+	
+	@GetMapping("update.esre")
+	public String updateEstateReview(int esReNo,int esNo, Model model, HttpSession session) {
 		
-		System.out.println(esReNo);
-		if(result > 0) {
-			System.out.println(result);
-			session.setAttribute("alertMsg", "수정이 완료되었습니다.");
-			return "redirect:/myEsReview.me";
-		}else {
-			session.setAttribute("alertMsg", "다시 시도해주세요.");
-			return "common/errorPage";
-		}
+
+		EstateReview er = estateService.estateReviewDetail(esReNo);
+
 		
+		model.addAttribute("er", er);
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+	    
+	    ArrayList<Reservation> rlist = memberService.selectReservation(loginUser);
+	    
+	    for(int i=0; i<rlist.size(); i++) {
+	    	if (rlist.get(i).getEsNo() == esNo) {
+	            // esNo와 일치하는 예약 정보를 찾았을 때 해당 정보를 모델에 추가
+	            model.addAttribute("selectedReservation", rlist.get(i));
+	            break; // 일치하는 예약 정보를 찾았으므로 반복문 종료
+	        }
+	    }
+	    
+	    ArrayList<House> hlist = houseService.selectHouseModal(esNo);
+	    ArrayList<HouseImg> himglist = houseService.selectHouseImg(esNo);
+	    model.addAttribute("hlist", hlist);
+	    model.addAttribute("himglist", himglist);
+
+		return "review/estateReviewUpdate";
 	}
 	
 	//공감삭제
@@ -350,11 +341,57 @@ public class EstateController {
 			
 		}else {
 			
-			session.setAttribute("alertMsg", "다시 시도해주세요.");	
+			session.setAttribute("errorMsg", "다시 시도해주세요.");	
 			
 		}
 		
 		return "redirect:/myReviewLike.me";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "update.esre", produces = "application/json; charset=UTF-8")
+	public Map<String, Object> updateReview(int esReNo,int esNo,EstateReview er,Model model, HttpSession session) {
+		
+		Map<String, Object> response = new HashMap<>();
+		ArrayList<House> hlist = houseService.selectHouseModal(esNo);
+	    ArrayList<HouseImg> himglist = houseService.selectHouseImg(esNo);
+	    model.addAttribute("hlist", hlist);
+	    model.addAttribute("himglist", himglist);
+	    Member loginUser = (Member) session.getAttribute("loginUser");
+	    ArrayList<Reservation> rlist = memberService.selectReservation(loginUser);
+	    
+	    for(int i=0; i<rlist.size(); i++) {
+	    	if (rlist.get(i).getEsNo() == esNo) {
+	            // esNo와 일치하는 예약 정보를 찾았을 때 해당 정보를 모델에 추가
+	            model.addAttribute("selectedReservation", rlist.get(i));
+	            break; // 일치하는 예약 정보를 찾았으므로 반복문 종료
+	        }
+	    }
+	    
+	    if (loginUser != null && er != null) {
+	        Map<String, Object> paramMap = new HashMap<>();
+	        paramMap.put("er", er);
+	        paramMap.put("loginUser", loginUser);
+	        
+	      
+
+	        int result = estateService.updateEstateReview(paramMap);
+
+	        if (result > 0) {
+	            
+	            response.put("success", true);
+	            response.put("result", result);
+	        } else {
+	            response.put("success", false);
+	            response.put("errorMsg", "부동산 리뷰 수정 실패");
+	        }
+	    } else {
+	        session.setAttribute("alertMsg", "부동산 리뷰 수정 실패");
+	        response.put("success", false);
+	        response.put("errorMsg", "부동산 리뷰 수정 실패");
+	    }
+
+	    return response;
 	}
 	
 	@RequestMapping("esHdelete.li")
@@ -369,7 +406,7 @@ public class EstateController {
 		if(result > 0) {
 			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
 		}else {
-			session.setAttribute("alertMsg", "다시 시도해주세요.");
+			session.setAttribute("errorMsg", "다시 시도해주세요.");
 		}
 		
 		return"redirect:/esHouse.li?esNo="+esNo;

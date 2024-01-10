@@ -43,6 +43,7 @@ public interface EstateService {
 	int selectEstateTwoStar(int esNo);
 	int selectEstateOneStar(int esNo);
 
+	//리뷰 공감수
 	int selectEstateEmoCount(int esReNo);
 
 	int selectReviewLikeCount(Map<String, Object> map);
@@ -53,7 +54,6 @@ public interface EstateService {
 
 	//예약 시간 select
 	ArrayList<Time> selectTime();
-
 
 	//리뷰 작성
 	int insertEstateReview( Map<String, Object> paramMap);
@@ -67,7 +67,12 @@ public interface EstateService {
 
 	//수정
 	int updateReview(int esReNo, int esReScore, String esReContent);
+	
+	//부동산 리뷰 상세
+	EstateReview estateReviewDetail(int esReNo);
 
+	//부동산 리뷰 수정
+	int updateEstateReview(Map<String, Object> paramMap);
 
 	//중개사리뷰공감
 	ArrayList<EsReLike> memberMypageReviewLike(Member m, PageInfo pi);

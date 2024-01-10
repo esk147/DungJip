@@ -392,45 +392,41 @@
 				
 								
 				if (userId == null || userId == '') {
-					alert("ID를 입력하세요.");
+					showError("오류", "ID를 입력하세요.", "확인"); 
 					$("#userId").focus();
 					return false;
 				}
 
 				if (userPwd == null || userPwd == '') {
-					alert("비밀번호를 입력하세요");
+					showError("오류", "비밀번호를 입력하세요", "확인");
 					$("#userPwd").focus();
 					return false;
 					
 				} else {
 					
 					var regExp =  /^(?=.*[A-Za-z\d?!\s])[A-Za-z\d?!]{5,14}$/;
-					
-					console.log("비번이요~")
-					console.log(userPwd);
-					console.log("비번이요~")
 
 					if (!regExp.test(userPwd)) {
-						alert("비밀번호는 4~15자리 영문 및 숫자 조합이어야 합니다.");
+						showError("오류", "비밀번호는 4~15자리 영문 및 숫자 조합이어야 합니다.", "확인");
 						$("#userPwd").focus();
 						return false;
 					}
 					
 					if (userPwd != checkPwd) {
-						alert("비밀번호가 일치하지 않습니다.");
+						showError("오류", "비밀번호가 일치하지 않습니다.", "확인");
 						$("#checkPwd").focus();
 						return false;
 					}
 				}
 				
 				if (userName == null || userName == '') {
-					alert("이름을 입력하세요.");
+					showError("오류", "이름을 입력하세요.", "확인");
 					$("#userName").focus();
 					return false;
 				}
 
 				if (email == null || email == '') {
-					alert("이메일을 입력하세요");
+					showError("오류", "이메일을 입력하세요", "확인");
 					$("#email").focus();
 					return false;
 					
@@ -439,14 +435,14 @@
 					var regExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 					
 					if (!regExp.test(email)) { 
-						alert("올바르지 않은 이메일 형식입니다.");
+						showError("오류", "올바르지 않은 이메일 형식입니다.", "확인");
 						$("#email").focus();
 						return false;
 					}
 				}
 				
 				if (phone == null || phone == '') {
-					alert("전화번호를 입력하세요.");
+					showError("오류", "전화번호를 입력하세요.", "확인");
 					$("#phone").focus();
 					return false;
 					

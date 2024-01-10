@@ -140,19 +140,20 @@
 	</div>
 		
 	<script> 
-		function insertEstateReview(el){
-			var esNo = $(el).closest('tr').find('#esNo').val();
-			var beforeRTime = $(el).closest('tr').find('#rTime').val();
-			
-			var rTime = new Date(beforeRTime);
-			var today = new Date();
-			
-			if(rTime>today){
-				alert("예약 날짜 이후 작성이 가능합니다.");
-			}else{
+
+	function insertEstateReview(el){
+		var esNo = $(el).closest('tr').find('#esNo').val();
+		var beforeRTime = $(el).closest('tr').find('#rTime').val();
+		
+		var rTime = new Date(beforeRTime);
+		var today = new Date();
+		
+		if(rTime>today){
+			showWarning("경고","예약 날짜 이후 작성이 가능합니다.","확인");
+		}else{
 			window.location.href = "/dungjip/insert.esre?esNo="+esNo;
-			}
 		}
+		
 	</script>
 	
 	

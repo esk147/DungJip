@@ -142,7 +142,7 @@
                     url: "/dungjip/admin/approveReport",
                     data: { chatRoomNo: chatRoomNo },
                     success: function () {
-                        alert("신고가 승인되었습니다.");
+                        showSuccess("성공","신고가 승인되었습니다.","확인"); 
                         var modal = $("#chatHistoryModal");
                         modal.css("display", "none");
 
@@ -164,7 +164,7 @@
                     url: "/dungjip/admin/cancelReport",
                     data: { chatRoomNo: chatRoomNo },
                     success: function () {
-                        alert("신고가 취소되었습니다.");
+                        showSuccess("성공","신고가 취소되었습니다.","확인");
                         var modal = $("#chatHistoryModal");
                         modal.css("display", "none");
 

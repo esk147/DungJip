@@ -4,7 +4,6 @@
 	String contextPath = request.getContextPath();	
 
 	Member loginUser = (Member)session.getAttribute("loginUser");
-	String alertMsg = (String)session.getAttribute("alertMsg");
 
 	//쿠키정보 
 	//쿠키정보
@@ -106,15 +105,7 @@
             </div>
         </div> 
         
-        <script>        
-        	var msg = "<%=alertMsg%>"; 
-        	
-        	if(msg != "null") {
-        		
-        		alert(msg);
-        		
-        		<%session.removeAttribute("alertMsg");%>
-        	}
+        <script>
         		//쿠키 아이디 값 가지고 오기         		        			        		
         		var saveId= "<%= saveId %>";
      		        		

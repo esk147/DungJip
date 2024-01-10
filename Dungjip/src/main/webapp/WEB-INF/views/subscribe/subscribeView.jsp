@@ -166,7 +166,6 @@
 	$('#pay-btn').click(function(){
 		const activeImg = document.querySelector('#info-imgs img.active');
 		
-		console.log(activeImg.id);
 		IMP.request_pay({
 			pg: activeImg.id,
 			merchant_uid: 'merchant_' + new Date().getTime(),
@@ -178,10 +177,9 @@
             buyer_addr: address,
             buyer_postcode: '123-456'
 		}, function(rsp){
-			console.log(rsp);
-			
+			var msg;
 			if(rsp.success){
-				var msg = 'success to pay';
+				msg = 'success';
 				console.log("success to pay");
 				
 				$.ajax({
@@ -197,9 +195,14 @@
 					}
 				});
 			} else {
-				var msg = 'failed to pay';
+				msg = 'failed to pay';
 			}
-			alert(msg);
+			
+			if(msg == 'success'){
+				showSuccess("성공",msg,"확인");
+			} else {
+				showError("오류", msg, "확인");
+			}
 		})
 	})
 </script>

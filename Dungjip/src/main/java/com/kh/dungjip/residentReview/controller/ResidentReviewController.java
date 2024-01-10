@@ -22,15 +22,13 @@ public class ResidentReviewController {
 		
 		int result = residentReviewService.esReviewDelete(reReviewNo);
 		
-		System.out.println("번호 넘어오나" + reReviewNo);
-		
 		if(result > 0) {
 			
 			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
 			
 		}else {
 			
-			session.setAttribute("alertMsg", "다시 시도해주세요.");	
+			session.setAttribute("errorMsg", "다시 시도해주세요.");	
 			
 		}
 		
@@ -49,14 +47,11 @@ public class ResidentReviewController {
 		
 		int result = residentReviewService.updateReReview(reReviewNo,interiorScore,buildingScore,trafficScore,safetyScore,lifeScore,reAdContent,reDisContent);
 		
-		System.out.println(reReviewNo);
-		
 		if(result > 0) {
-			System.out.println(result);
 			session.setAttribute("alertMsg", "수정이 완료되었습니다.");
 			return "redirect:/myHReview.me";
 		}else {
-			session.setAttribute("alertMsg", "다시 시도해주세요.");
+			session.setAttribute("errorMsg", "다시 시도해주세요.");
 			return "common/errorPage";
 		}
 		
@@ -68,15 +63,13 @@ public class ResidentReviewController {
 		
 		int result = residentReviewService.myReReviewDelete(reReviewNo);
 		
-		System.out.println("번호 넘어오나" + reReviewNo);
-		
 		if(result > 0) {
 			
 			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
 			
 		}else {
 			
-			session.setAttribute("alertMsg", "다시 시도해주세요.");	
+			session.setAttribute("errorMsg", "다시 시도해주세요.");	
 			
 		}
 		

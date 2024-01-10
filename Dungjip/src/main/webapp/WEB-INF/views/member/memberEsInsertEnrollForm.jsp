@@ -175,7 +175,7 @@
 					        
 					        if (content.length > 500) {
 					            // 500자를 넘었을 때 알림창 띄우기
-					            alert("500자 이내로 입력해주세요.");
+					            showWarning("경고", "500자 이내로 입력해주세요.", "확인");  
 					            
 					            // 500자를 넘어가면 타이핑 되지 않도록 처리
 					            $(this).val(content.substring(0, 500));
@@ -251,37 +251,37 @@
 				var esContent = $("#esContent").val();
 	        	
 	       		if(esName == null || esName == '') {
-	       			alert("중개사를 입력하세요.");
+	       			showError("오류", "중개사를 입력하세요.", "확인");
 	       			$("#esName").focus();
 	       			return false;
 	       		}
 	        
 	       		if(esCeo == null || esCeo == '') {
-	       			alert("대표자명을 입력하세요.");
+	       			showError("오류", "대표자명을 입력하세요.", "확인");
 	       			$("#esCeo").focus();
 	       			return false;
 	       		}
 	        
 	       		if(esPhone == null || esPhone == '') {
-	       			alert("전화번호를 입력하세요.");
+	       			showError("오류", "전화번호를 입력하세요.", "확인");
 	       			$("#esPhone").focus();
 	       			return false;
 	       		}
 				
 	       		if(esNum == null || esNum == '') {
-	       			alert("사업자 번호를 입력하세요.");
+	       			showError("오류", "사업자 번호를 입력하세요.", "확인");
 	       			$("#esNum").focus();
 	       			return false;
 	       		}
 	        	
 	       		if(esRegisterNum == null || esRegisterNum == '') {
-	       			alert("중개인 번호를 입력하세요.");
+	       			showError("오류", "중개인 번호를 입력하세요.", "확인");
 	       			$("#esRegisterNum").focus();
 	       			return false;
 	       		}
 	        
 	       		if(address_kakao == null || address_kakao == '') {
-	       			alert("주소를 입력하세요.");
+	       			showError("오류", "주소를 입력하세요.", "확인");
 	       			$("#address_kakao").focus();
 	       			return false;
 	       		}

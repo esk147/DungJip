@@ -191,6 +191,21 @@ public class EstateServiceImpl implements EstateService {
 		return estateDao.updateReview(sqlSession,esReNo,esReScore,esReContent );
 	}
 
+	//부동산 리뷰 상세
+	@Override
+	public EstateReview estateReviewDetail(int esReNo) {
+		
+		return estateDao.estateReviewDetail(sqlSession,esReNo);
+	}
+
+
+	//부동산 리뷰 수정
+	@Override
+	public int updateEstateReview(Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return estateDao.updateReview(sqlSession,paramMap);
+	}
+	
 	@Override
 	public ArrayList<EsReLike> memberMypageReviewLike(Member m,PageInfo pi) {
 		// TODO Auto-generated method stub
