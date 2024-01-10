@@ -93,7 +93,7 @@
 						<c:forEach var="relist" items="${relist }" >
 							<tr>
 								<td class="text-center" >
-									<h5>NO. ${relist.reservationNo }</h5>
+									<h5>${relist.reservationNo }</h5>
 								</td>
 								<td>
 									<div class="media" >
@@ -132,7 +132,7 @@
 								<li><a
 									href="reser.es?currentPage=${pi.currentPage-1}&esNo=${esNo}">Prev</a></li>
 							</c:if>
-							<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">
+							<c:forEach begin="${pi.startPage}" end="${pi.endPage }" var="p">
 								<li><a href="reser.es?currentPage=${p}&esNo=${esNo}">${p}</a></li>
 							</c:forEach>
 							<c:if test="${pi.currentPage ne pi.maxPage }">
@@ -143,9 +143,11 @@
 					</div>
 				</div>
 			</footer>
-			
 		</section> 
 	</div>
+			<script type="text/javascript">
+				console.log(${pi});
+			</script>
 
 	<%@ include file="../common/footer.jsp"%>
 

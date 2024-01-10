@@ -338,6 +338,7 @@
 			JOIN TIME T ON R.TIME_NO = T.TIME_NO
 			JOIN MEMBER M ON M.USER_NO = R.USER_NO
 			WHERE R.ES_NO = #{esNo}
+			ORDER BY R.RESERVATION_NO DESC
     	</select>
     	
     </mapper>

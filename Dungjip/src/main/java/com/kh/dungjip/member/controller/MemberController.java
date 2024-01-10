@@ -302,7 +302,6 @@ public class MemberController {
 		}
 		
 	}
-	
 		
 	//아이디 중복 체크 (임대인/임차인)
 	@ResponseBody
@@ -313,9 +312,6 @@ public class MemberController {
 		
 		return result;		
 	}
-	
-	
-	
 	
 	//회원가입 (중개인) 폼으로 이동 (사용자 폼)
 	@RequestMapping("enroll.es")
@@ -511,7 +507,7 @@ public class MemberController {
 
 	}
 
-	
+
 	//비밀번호 수정
 	@RequestMapping("changePwd.me")
 	public String memberPwdUpdate(Member m, Model model, HttpSession session,HttpServletRequest request) {
@@ -748,28 +744,28 @@ public class MemberController {
 		return "member/memberMypageForm";
 	}
 	
-	@PostMapping("myHousejjim.me")
-	public String selectHousejjim(HttpSession session ,Model model,PageInfo pi) {
-		
-		Member m = (Member)session.getAttribute("loginUser");
-		
-		ArrayList<House> hlike = houseService.memberMypageHousejjimForm(m,pi);
-		
-		ArrayList<HouseImg> himg = new ArrayList<>();
-		
-		for( House i : hlike ) {
-			
-			HouseImg j = houseService.memberMypageHousejjimImg(i.getHouseNo());
-			
-			himg.add(j); //하나씩 뽑은 j를 himg에 담아주기
-			
-		}
-
-		model.addAttribute("hlike", hlike);
-		model.addAttribute("himg", himg);
-		
-		return "member/memberMypageForm";
-	}
+//	@PostMapping("myHousejjim.me")
+//	public String selectHousejjim(HttpSession session ,Model model,PageInfo pi) {
+//		
+//		Member m = (Member)session.getAttribute("loginUser");
+//		
+//		ArrayList<House> hlike = houseService.memberMypageHousejjimForm(m,pi);
+//		
+//		ArrayList<HouseImg> himg = new ArrayList<>();
+//		
+//		for( House i : hlike ) {
+//			
+//			HouseImg j = houseService.memberMypageHousejjimImg(i.getHouseNo());
+//			
+//			himg.add(j); //하나씩 뽑은 j를 himg에 담아주기
+//			
+//		}
+//
+//		model.addAttribute("hlike", hlike);
+//		model.addAttribute("himg", himg);
+//		
+//		return "member/memberMypageForm";
+//	}
 	
 	//mypage에서 집리뷰내역 페이지로 이동
 	@GetMapping("myHReview.me")
@@ -831,7 +827,8 @@ public class MemberController {
 		Member m = (Member)session.getAttribute("loginUser");
 		
 		//전체 게시글 개수 (listCount)
-		int listCount = houseService.selectListCount();		
+		int listCount = houseService.selectListCount(m);	
+		
 		//한 페이지에서 보여줘야하는 게시글 개수 
 		int boardLimit = 6;
 		//페이징 바 개수 (pageLimit)
@@ -850,7 +847,7 @@ public class MemberController {
 			himg.add(j); //하나씩 뽑은 j를 himg에 담아주기
 			
 		}
-
+		
 		model.addAttribute("hlike", hlike);
 		model.addAttribute("himg", himg);
 		model.addAttribute("pi", pi);
@@ -935,7 +932,8 @@ public class MemberController {
 	public String memberMypageEstateHouseList(@RequestParam(value = "esNo") Integer esNo,
 											@RequestParam(value="currentPage",defaultValue = "1")int currentPage,HttpSession session, Model model) {
 		
-		int listCount = houseService.selectEsHouseListCount();		
+		int listCount = houseService.selectEsHouseListCount();
+		
 		//한 페이지에서 보여줘야하는 게시글 개수 
 		int boardLimit = 3;
 		//페이징 바 개수 (pageLimit)
@@ -968,7 +966,8 @@ public class MemberController {
 		
 		Member m = (Member)session.getAttribute("loginUser");
 		
-		int listCount = estateService.selectReportEstateListCount();		
+		int listCount = estateService.selectReportEstateListCount();	
+		
 		//한 페이지에서 보여줘야하는 게시글 개수 
 		int boardLimit = 3;
 		//페이징 바 개수 (pageLimit)
@@ -1001,13 +1000,17 @@ public class MemberController {
 	public String membermypageEsReservation(@RequestParam(value="currentPage",defaultValue="1")int currentPage,@RequestParam(value = "esNo", required = false) Integer esNo,HttpSession session, Model model) {
 		
 		//Member m = (Member)session.getAttribute("loginUser");
-		int listCount = houseService.mypageImdaHouseListCount();		
+		int listCount = houseService.mypagemypageEsReservationCount(esNo);		
+
+		System.out.println(listCount);
+		
 		//한 페이지에서 보여줘야하는 게시글 개수 
-		int boardLimit = 3;
+		int boardLimit = 7;
 		//페이징 바 개수 (pageLimit)
 		int pageLimit = 3;								
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		System.out.println(pi);
 		
 		ArrayList<Reservation> relist = memberService.membermypageEsReservation(esNo,pi);
 		
