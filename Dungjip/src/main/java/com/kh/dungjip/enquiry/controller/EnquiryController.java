@@ -118,11 +118,11 @@ public class EnquiryController {
 		
 		if(result > 0) {
 			
-			session.setAttribute("alertMsgMsg", "삭제가 완료되었습니다.");
+			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
 			
 		}else {
 			
-			session.setAttribute("alertMsgMsg", "다시 시도해주세요.");	
+			session.setAttribute("alertMsg", "다시 시도해주세요.");	
 			
 		}
 		

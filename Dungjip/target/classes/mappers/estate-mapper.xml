@@ -374,6 +374,7 @@
 		SET STATUS = 'N'
 		WHERE STATUS = 'Y'
 		AND HOUSE_NO = #{houseNo}
+		AND ES_NO = #{esNo}
 	</update>
 	
 	<select id="myEspage" resultMap="estateResultSet">

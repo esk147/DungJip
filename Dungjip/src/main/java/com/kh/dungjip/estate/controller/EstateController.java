@@ -1,9 +1,5 @@
 package com.kh.dungjip.estate.controller;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +21,13 @@ import com.kh.dungjip.common.template.Pagination;
 import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.estate.model.vo.Own;
 import com.kh.dungjip.house.model.service.HouseService;
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
-import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.house.model.vo.ReservationNew;
+import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.service.MemberService;
 import com.kh.dungjip.member.model.vo.Member;
 
@@ -362,16 +358,21 @@ public class EstateController {
 	}
 	
 	@RequestMapping("esHdelete.li")
-	public String myEstateHouseDelete(@RequestParam("houseNo")int houseNo,Model model, HttpSession session) {
+	public String myEstateHouseDelete(Own o,Model model, HttpSession session) {
 		
-		int result = estateService.myEstateHouseDelete(houseNo);
+		System.out.println(o);
+		
+		int esNo = o.getEsNo();
+		
+		int result = estateService.myEstateHouseDelete(o);
 		
 		if(result > 0) {
 			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
 		}else {
 			session.setAttribute("alertMsg", "다시 시도해주세요.");
 		}
-		return"redirect:/esHouse.li";
+		
+		return"redirect:/esHouse.li?esNo="+esNo;
 	}
 	
 	

@@ -14,6 +14,7 @@ import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.estate.model.vo.Own;
 import com.kh.dungjip.house.model.vo.ReservationNew;
 import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
@@ -210,9 +211,9 @@ public class EstateDao {
 	}
 
 	//중개인 매물내역 삭제
-	public int myEstateHouseDelete(SqlSessionTemplate sqlSession, int houseNo) {
+	public int myEstateHouseDelete(SqlSessionTemplate sqlSession, Own o) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("estateMapper.myEstateHouseDelete", houseNo);
+		return sqlSession.update("estateMapper.myEstateHouseDelete", o);
 	}
 
 	//예약 날짜 눌렀을때 데이터 있는지 확인
