@@ -329,6 +329,13 @@ public class HouseServiceImpl implements HouseService{
 		return houseDao.deleteKeywords(sqlSession,paramMap);
 	}
 
+	@Override
+	public int updateReviewImg(Map<String, Object> paramMap) {
+		
+		return houseDao.updateReviewImg(sqlSession,paramMap);
+		
+	}
+
 	
 
 }

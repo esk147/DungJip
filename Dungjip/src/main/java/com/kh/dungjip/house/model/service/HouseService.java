@@ -137,6 +137,8 @@ public interface HouseService {
 
 	int deleteKeywords(Map<String, Object> paramMap);
 
+	int updateReviewImg(Map<String, Object> paramMap);
+
 
 
 }

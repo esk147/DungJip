@@ -314,4 +314,9 @@ public class HouseDao {
 		return sqlSession.delete("houseMapper.deleteKeywords",paramMap);
 	}
 
+	public int updateReviewImg(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("houseMapper.updateReviewImg",paramMap);
+	}
+
 }

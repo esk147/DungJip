@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -463,18 +464,29 @@ public class HouseController {
 	
 	
 	@PostMapping("update.rere")
-	public String updateResident(int reReviewNo,int houseNo,  MultipartFile reUpFile,ResidentReview rr, Model model, HttpSession session,@RequestParam("reviewImage") MultipartFile file, @RequestParam String prosKeywords, @RequestParam String consKeywords){
+	public String updateResident(ReviewImg ri, int reReviewNo,int houseNo,  @RequestParam("reviewImage") MultipartFile file,ResidentReview rr, Model model, HttpSession session, @RequestParam String prosKeywords, @RequestParam String consKeywords){
 	
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		
-	
+	System.out.println(file);
 		
 		if(loginUser != null && rr!= null) {
 			
-			 
+			if(!file.getOriginalFilename().equals("")) {
+				String changeName = saveFile(file,session);
+				
+				if(!ri.getOriginName().equals("")) {
+					new File(session.getServletContext().getRealPath(ri.getChangeName())).delete();
+				}
+				
+				ri.setOriginName(file.getOriginalFilename());
+				ri.setChangeName("resources/review/"+changeName);
+			}
+			
 			
 			 Map<String, Object> paramMap = new HashMap<>();
 		     paramMap.put("rr", rr);
+		     paramMap.put("ri",ri);
 		     paramMap.put("loginUser", loginUser);
 		     int result = houseService.updateResidentReview(paramMap);
 		     
@@ -490,6 +502,7 @@ public class HouseController {
 					 houseService.updateKeywords(paramMap);
 					paramMap.remove("keyword");
 				}
+		     houseService.updateReviewImg(paramMap);
 		    
 		     
 		     
@@ -509,6 +522,26 @@ public class HouseController {
 		}
 		
 		
+	}
+	
+	public String saveFile(@RequestParam("reviewImage") MultipartFile file, HttpSession session) {
+		
+		String originName = file.getOriginalFilename();
+        String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
+        int ranNum = (int) (Math.random() * 90000 + 10000);
+        String ext = originName.substring(originName.lastIndexOf("."));
+        String changeName = currentTime + ranNum + ext;
+        String savePath = session.getServletContext().getRealPath("/resources/review/");
+
+        try {
+          
+        		  File uploadFile = new File(savePath+changeName);
+        		  file.transferTo(uploadFile); 
+            }catch (Exception e) {
+            e.printStackTrace();
+        }
+       
+		return changeName;
 	}
 	
 	//마이페이지에서 집 찜해제

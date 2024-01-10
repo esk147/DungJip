@@ -574,9 +574,9 @@
                                                
                                                <div class="emo">
                                                             <span class="like-btn" onclick="toggleLike(this)" >
-                                                            <img class="good" src="resources/img/good.svg">
+                                                            
                                                            </span>
-                                                            <h6 class="likecount">25</h6>
+                                                            
                                                             </div>
 
                                                <hr>
@@ -675,10 +675,10 @@
                             		        		        "</div>" +
                             		        		        "</div>" +
                             		        		        "<p>" + result.erlist[i].esReContent + "</p>" +
-                            		        		    	"<hr>"+
                             		        		        '<div class="emo"><span class="' + (result.reviewBooleans[i] === 1 ? "like-btn liked" : "like-btn") + '" onclick="toggleLike(this)" id="'+result.erlist[i].esReNo+'"><img class="good" src="resources/img/good.svg"> </span> <h6 id="likeCount'+result.erlist[i].esReNo+'" class="likecount">'+
                             		        		        result.erNums[i]+'</h6>'+
-                            		        		        "</div>" 
+                            		        		        "</div>" +
+                            		        		    	"<hr>"
                             		        		        );
                                     				 $(".review_list").append(reviewItem);
                                     		} 
@@ -756,7 +756,12 @@
             });
         </script>
 
-
+<script>
+			function detailHouse(e){
+				location.href="detail.ho?houseNo="+e.id;
+				console.log(e.id);
+			}
+			</script>
 
 	<script>
 			
