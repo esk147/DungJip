@@ -63,7 +63,7 @@
 	</select>
 	
 	<select id="selectHouse" parameterType="string" resultMap="houseResultSet">
-		select house_no, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+		select house_no, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>
            THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
            ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, house_rent, house_title, house_style, house_square, house_latitude, house_longitude, house_floor, house_maintaincost, house_name, house_type from house where house_type = #{type} order by house_no
 	</select>
@@ -257,7 +257,7 @@
 	</select>
 	
 	<select id="selectHouseMain" parameterType="string" resultMap="houseResultSet">
-		select house_no, house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+		select house_no, house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>
            THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
            ELSE TO_CHAR(HOUSE_PRICE)
            END AS HOUSE_PRICE, house_rent, house_square, house_floor, house_maintaincost, house_title, house_style from house where house_type = #{type} order by house_price FETCH FIRST 7 ROWS ONLY
@@ -276,7 +276,7 @@
 	</select>
 	
 	<select id="selectSubscribeHouseList" resultMap="houseResultSet">
-		SELECT H.house_no, H.house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+		SELECT H.house_no, H.house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>
            THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
            ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, H.house_price, H.house_rent, H.house_square, H.house_floor, H.house_maintaincost, H.house_title, H.house_style
 	    FROM OWN O
@@ -310,7 +310,7 @@
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*)	
 		FROM HOUSE
-		WHERE STATUS = 'Y' 		
+		WHERE STATUS = 'Y' 			
 	</select>
 	
 	<select id="selectEsHouseListCount" resultType="_int">
@@ -342,29 +342,7 @@
 		AND O.STATUS = 'Y'
 	</select>
 
-	<select id="mypageImdaHouseListCount" resultType="_int">
-		SELECT COUNT(*)	count
-		FROM HOUSE H
-		JOIN MEMBER M ON M.USER_NO = H.USER_NO
-	</select>
+	<select id="membermypageEsReservation" >
 	
-	<select id="mypageImdaHouseList" resultMap="houseResultSet">
-		SELECT H.HOUSE_NO 
-		    ,H.HOUSE_PRICE
-		    ,H.HOUSE_SQUARE
-		    ,H.HOUSE_RENT
-		    ,H.HOUSE_STYLE
-		    ,H.HOUSE_TITLE
-		    ,H.HOUSE_TYPE
-		    ,H.HOUSE_ADDRESS
-		    ,H.HOUSE_TOILET
-		    ,H.HOUSE_ROOMS
-		    ,H.HOUSE_PARKABLE
-		    ,H.HOUSE_NAME
-		    ,H.USER_NO
-		FROM HOUSE H
-		JOIN MEMBER M ON M.USER_NO = H.USER_NO
-		WHERE M.USER_NO = #{userNo}
 	</select>
-	
 </mapper>

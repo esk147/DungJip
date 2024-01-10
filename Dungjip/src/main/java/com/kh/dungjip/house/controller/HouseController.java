@@ -229,7 +229,6 @@ public class HouseController {
 	@ResponseBody
 	@RequestMapping("select.house")
 	public Map<String, Object> selectHouse(String type) {
-		
 		//타입별 집 리스트
 		ArrayList<House> mainList = houseService.selectHouseMain(type);
 		//타입별 집 이미지 리스트
