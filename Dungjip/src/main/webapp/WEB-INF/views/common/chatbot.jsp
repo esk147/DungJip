@@ -134,8 +134,7 @@ DUNGJIP 입니다
 		      
 		        <script>
 		        function goChatService(){
-		            alert("로그인 후 이용 가능 합니다.");
-		         
+		            showError("실패","로그인 후 이용 가능 합니다.","확인");
 		        }
 		     
 		        </script>
@@ -603,23 +602,9 @@ DUNGJIP을 즐겨주세요!
                 $(".chat-container").css("display", "none");
             }
         });
-        
-      // 위 함수에 대한 gpt 설명 
-        /*  !$(e.target).closest('.chat-container, .chat-toggle-button').length는 
-        jQuery를 사용하여 클릭된 요소의 부모 중에서 .chat-container 또는 .chat-toggle-button 클래스를 가진 요소를 찾는 것입니다.
-
-        e.target은 클릭된 요소를 나타냅니다.
-        .closest('.chat-container, .chat-toggle-button')은 클릭된 요소부터 시작해서 상위로 올라가며 주어진 선택자들 중에서 가장 가까운 부모를 찾습니다.
-        !는 논리 NOT 연산자로, 결과를 부정합니다.
-        .length는 선택된 요소의 개수를 나타냅니다.
-        따라서 !$(e.target).closest('.chat-container, .chat-toggle-button').length는
-		클릭된 요소의 부모 중에서 .chat-container 또는 .chat-toggle-button 클래스를 가진 요소가 없을 경우를 나타냅니다. 
-		이 경우, 클릭된 요소가 채팅 창 또는 토글 버튼 영역 외부에 있다는 의미이며, 이때 채팅 창을 숨기는 동작을 수행합니다.
-		 */
 		 
 		 function noSubscribe(){
     	  var userNo = "${loginUser.userNo}";
-    	  console.log(userNo);
     	 	  if(confirm("정말로 해지하시겠습니까?")){
     	 		 $.ajax({
     	 			 url: 'subscribe.no',
@@ -628,20 +613,20 @@ DUNGJIP을 즐겨주세요!
     	 			 },
     	 			 success: function(result){
     	 				 if(result === 1){
-    	 					 alert('해지 성공');
+    	 		            showSuccess("성공",'해지 성공',"확인");
     	 				 } else {
-    	 					 alert('해지 실패');
+     	 		            showError("실패",'해지 실패',"확인");
     	 				 }
     	 			 },
     	 			 error: function(){
-    	 				 alert('해지 실패');
+  	 		            showError("실패",'해지 실패',"확인");
     	 			 },
     	 			 complete: function(){
     	 				 location.replace('/dungjip');
     	 			 }
     	 		 })
     	 	 } else {
-    	 		 alert("구독 해지가 취소되었습니다.");
+		            showError("실패","구독 해지가 취소되었습니다.","확인");
     	 	 }
       	 }
     	//채팅바로가기
