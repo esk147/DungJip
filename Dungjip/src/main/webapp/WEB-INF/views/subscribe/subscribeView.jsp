@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../common/sweetAlert.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -188,7 +189,7 @@
 						userNo: userNo
 					},
 					success: function(result){
-						location.href='/dungjip';
+						console.log("success");
 					},
 					error: function(){
 						console.log("통신 에러");
@@ -199,7 +200,7 @@
 			}
 			
 			if(msg == 'success'){
-				showSuccess("성공",msg,"확인");
+				showConfirm("구독에 성공하셨습니다","/dungjip");
 			} else {
 				showError("오류", msg, "확인");
 			}
