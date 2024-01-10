@@ -3,6 +3,7 @@ package com.kh.dungjip.estate.model.vo;
 import java.sql.Date;
 
 import com.kh.dungjip.member.model.vo.Member;
+import com.kh.dungjip.estate.model.vo.EsReLike;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,5 +40,25 @@ public class Estate {
     // Member 속성에 값을 설정할 수 있는 setter 메서드
     public void setMember(Member member) {
         this.member = member;
+    }
+    
+    private EsReLike esReLike;
+    
+    public EsReLike getEsReLike() {
+    	return esReLike;
+    }
+    
+    public void setEsReLike(EsReLike esReLike) {
+    	this.esReLike = esReLike;
+    }
+    
+    private int esReNo;
+
+    public int getEsReNo() {
+        return esReNo;
+    }
+
+    public void setEsReNo(int esReNo) {
+        this.esReNo = esReNo;
     }
 }

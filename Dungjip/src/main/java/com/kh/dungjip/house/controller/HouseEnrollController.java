@@ -44,7 +44,6 @@ public class HouseEnrollController {
     	Member loginUser = (Member)session.getAttribute("loginUser");
     	int userNo = loginUser.getUserNo();
     	house.setUserNo(userNo);
-    	System.out.println("userNo : " + userNo);
 	    int houseNo = houseEnrollService.enrollHouse(house); // 매물 정보 저장
 	    System.out.println("houseNo : " + houseNo);
 	    // 파일 저장 경로를 지정합니다.

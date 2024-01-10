@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.kh.dungjip.member.model.vo.Member"%>    
+<%@ include file="../common/sweetAlert.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -139,10 +140,7 @@
             success: function(response) {
                 // 서버 응답에 따라 버튼 및 회원 상태 업데이트
                 if (response === "Success") {
-                    alert("회원이 정지되었습니다.");
-                    // 필요한 경우 버튼 및 회원 상태 업데이트 로직 추가
-                    // 페이지 새로고침 또는 필요한 동작 수행
-                    location.reload();
+                	showSuccessThen("성공","회원이 정지되었습니다.","확인");
                 } else {
                     alert("회원이 이미 정지 상태입니다.");
                 }
@@ -163,10 +161,7 @@
             success: function(response) {
                 // 서버 응답에 따라 버튼 및 회원 상태 업데이트
                 if (response === "Success") {
-                    alert("회원 정지가 해제되었습니다.");
-                    // 필요한 경우 버튼 및 회원 상태 업데이트 로직 추가
-                    // 페이지 새로고침 또는 필요한 동작 수행
-                    location.reload();
+                	showSuccessThen("성공","정지가 해제되었습니다.","확인");
                 } else {
                     alert("회원이 정지 상태가 아닙니다.");
                 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.kh.dungjip.member.model.vo.Member"%>
+<%@ include file="../common/sweetAlert.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -263,8 +264,7 @@
                 url: "/dungjip/admin/approveReport",
                 data: { chatRoomNo: chatRoomNo },
                 success: function () {
-                    alert("신고가 승인되었습니다.");
-                    location.reload();
+                	showSuccessThen("성공","신고가 승인되었습니다.","확인");
                 },
                 error: function (xhr, status, error) {
                     console.error("Error approving report:", error);
@@ -278,8 +278,7 @@
                 url: "/dungjip/admin/cancelReport",
                 data: { chatRoomNo: chatRoomNo },
                 success: function () {
-                    alert("신고가 취소되었습니다.");
-                    location.reload();
+                	showSuccessThen("성공","신고가 취소되었습니다.","확인");
                 },
                 error: function (xhr, status, error) {
                     console.error("Error canceling report:", error);

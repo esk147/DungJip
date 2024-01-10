@@ -70,7 +70,7 @@ public class EnquiryController {
 			session.setAttribute("alertMsg", "문의하기 등록 성공");
 			return "redirect:enquiry.en";
 		}else {
-			session.setAttribute("alertMsg", "문의하기 등록 실패");
+			session.setAttribute("errorMsg", "문의하기 등록 실패");
 			return "redirect:enquiry.en";
 		}
 	}
@@ -85,7 +85,7 @@ public class EnquiryController {
 			session.setAttribute("alertMsg", "댓글 등록 성공");
 			return "redirect:enList.en";
 		}else {
-			session.setAttribute("alertMsg", "댓글 등록 실패");
+			session.setAttribute("errorMsg", "댓글 등록 실패");
 			return "redirect:enList.en";
 		}
 	}
@@ -118,11 +118,11 @@ public class EnquiryController {
 		
 		if(result > 0) {
 			
-			session.setAttribute("alertMsgMsg", "삭제가 완료되었습니다.");
+			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
 			
 		}else {
-			
-			session.setAttribute("alertMsgMsg", "다시 시도해주세요.");	
+
+			session.setAttribute("errorMsg", "다시 시도해주세요.");	
 			
 		}
 		

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,7 @@ import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.estate.model.vo.Own;
 import com.kh.dungjip.house.model.vo.ReservationNew;
 import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
@@ -87,11 +89,6 @@ public class EstateDao {
 		return sqlSession.selectList("estateMapper.selectSubscribeEstateList");
 	}
 
-	public int selectEstateEmoCount(SqlSessionTemplate sqlSession, int esReNo) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("estateMapper.selectEstateEmoCount", esReNo);
-	}
-
 	public int selectReviewLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		int count = 0;
@@ -152,6 +149,23 @@ public class EstateDao {
 	    params.put("esReContent", esReContent);
 	    return sqlSession.update("estateMapper.updateReview", params);
 	}
+	//리뷰 공감수
+	public int selectEstateEmoCount(SqlSessionTemplate sqlSession, int esReNo) {
+		
+		return sqlSession.selectOne("estateMapper.selectEstateEmoCount",esReNo);
+	}
+
+	//부동산 리뷰 상세
+	public EstateReview estateReviewDetail(SqlSessionTemplate sqlSession, int esReNo) {
+		
+		return sqlSession.selectOne("estateMapper.estateReviewDetail",esReNo);
+	}
+
+	//부동산 리뷰 수정
+	public int updateReview(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("estateMapper.updateReview",paramMap);
+	}
 
 	public ArrayList<EsReLike> memberMypageReviewLike(SqlSessionTemplate sqlSession, Member m, PageInfo pi) {
 		// TODO Auto-generated method stub
@@ -210,13 +224,19 @@ public class EstateDao {
 	}
 
 	//중개인 매물내역 삭제
-	public int myEstateHouseDelete(SqlSessionTemplate sqlSession, int houseNo) {
+	public int myEstateHouseDelete(SqlSessionTemplate sqlSession, Own o) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("estateMapper.myEstateHouseDelete", houseNo);
+		return sqlSession.update("estateMapper.myEstateHouseDelete", o);
 	}
 
 	//예약 날짜 눌렀을때 데이터 있는지 확인
 	public ArrayList<ReservationNew> selectReservationList(SqlSessionTemplate sqlSession, ReservationNew reservation) {
 		return (ArrayList)sqlSession.selectList("estateMapper.selectReservationList",reservation);
+	}
+
+	//중개인 페이지
+	public ArrayList<Estate> myEspage(SqlSessionTemplate sqlSession,Member m) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("estateMapper.myEspage",m);
 	}
 }

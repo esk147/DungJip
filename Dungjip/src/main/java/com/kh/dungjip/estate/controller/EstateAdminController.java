@@ -26,8 +26,6 @@ public class EstateAdminController {
 	public String selectEstateList(Model model) {
 		List<Estate> estateList = estateAdminService.selectEstateLists();
 		
-		System.out.println(estateList);
-		
 		model.addAttribute("estateList", estateList);
 		
 		return "estate/estateListView";

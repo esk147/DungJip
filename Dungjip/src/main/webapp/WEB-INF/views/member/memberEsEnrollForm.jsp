@@ -79,6 +79,16 @@
 
  	<%@ include file="../common/header.jsp" %>
  	
+ 	<div class="page-head"> 
+         <div class="container">
+             <div class="row">
+                 <div class="page-head-content">
+                     <h1 class="page-title"></h1>               
+                 </div>
+             </div>
+         </div>
+    </div>
+ 	
 		<div class="registration-container" style="padding:40px;width:40%;box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);">
 			<h2 class="form-title">회원가입</h2>
 			
@@ -107,8 +117,14 @@
 				</div>
 		
 				<div class="form-section">
-					<label for="userName">이름(중개사) *</label> 
+					<label for="userName">이름*</label> 
  					<input type="text" class="form-control" id="userName" name="userName" placeholder="이름" required>				
+
+				</div>
+				
+				<div class="form-section">
+					<label for="userNickName">중개사무소 명 </label> 
+ 					<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="중개사무소 명" required>				
 
 				</div>			
 	
@@ -376,45 +392,41 @@
 				
 								
 				if (userId == null || userId == '') {
-					alert("ID를 입력하세요.");
+					showError("오류", "ID를 입력하세요.", "확인"); 
 					$("#userId").focus();
 					return false;
 				}
 
 				if (userPwd == null || userPwd == '') {
-					alert("비밀번호를 입력하세요");
+					showError("오류", "비밀번호를 입력하세요", "확인");
 					$("#userPwd").focus();
 					return false;
 					
 				} else {
 					
 					var regExp =  /^(?=.*[A-Za-z\d?!\s])[A-Za-z\d?!]{5,14}$/;
-					
-					console.log("비번이요~")
-					console.log(userPwd);
-					console.log("비번이요~")
 
 					if (!regExp.test(userPwd)) {
-						alert("비밀번호는 4~15자리 영문 및 숫자 조합이어야 합니다.");
+						showError("오류", "비밀번호는 4~15자리 영문 및 숫자 조합이어야 합니다.", "확인");
 						$("#userPwd").focus();
 						return false;
 					}
 					
 					if (userPwd != checkPwd) {
-						alert("비밀번호가 일치하지 않습니다.");
+						showError("오류", "비밀번호가 일치하지 않습니다.", "확인");
 						$("#checkPwd").focus();
 						return false;
 					}
 				}
 				
 				if (userName == null || userName == '') {
-					alert("이름을 입력하세요.");
+					showError("오류", "이름을 입력하세요.", "확인");
 					$("#userName").focus();
 					return false;
 				}
 
 				if (email == null || email == '') {
-					alert("이메일을 입력하세요");
+					showError("오류", "이메일을 입력하세요", "확인");
 					$("#email").focus();
 					return false;
 					
@@ -423,14 +435,14 @@
 					var regExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 					
 					if (!regExp.test(email)) { 
-						alert("올바르지 않은 이메일 형식입니다.");
+						showError("오류", "올바르지 않은 이메일 형식입니다.", "확인");
 						$("#email").focus();
 						return false;
 					}
 				}
 				
 				if (phone == null || phone == '') {
-					alert("전화번호를 입력하세요.");
+					showError("오류", "전화번호를 입력하세요.", "확인");
 					$("#phone").focus();
 					return false;
 					

@@ -13,6 +13,8 @@ import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
 import com.kh.dungjip.house.model.vo.Jjim;
 import com.kh.dungjip.member.model.vo.Member;
+import com.kh.dungjip.residentReview.model.vo.ResidentReview;
+import com.kh.dungjip.residentReview.model.vo.ReviewImg;
 
 @Repository
 public class HouseDao {
@@ -108,13 +110,12 @@ public class HouseDao {
 		return (ArrayList) sqlSession.selectList("houseMapper.selectSubscribeHouseList", map);
 	}
 
-
 	//부동산 집 리스트(모달창)
-	
 	public ArrayList<House> selectHouseModal(SqlSessionTemplate sqlSession, int esNo) {
 	
 		return (ArrayList)sqlSession.selectList("houseMapper.selectHouseModal",esNo);
 	}
+
 	//집 상세보기
 	public House selectHouseDetail(SqlSessionTemplate sqlSession, int houseNo) {
 		return sqlSession.selectOne("houseMapper.selectHouseDetail", houseNo);
@@ -142,6 +143,98 @@ public class HouseDao {
 	public ArrayList<HouseImg> houseImgLike(SqlSessionTemplate sqlSession, String houseAddress) {
 		return (ArrayList)sqlSession.selectList("houseMapper.houseImgLike",houseAddress);
 
+	}
+
+	//거주자 리뷰 리스트
+	public ArrayList<ResidentReview> selectResidentReviewList(SqlSessionTemplate sqlSession, int houseNo) {
+		
+		return (ArrayList)sqlSession.selectList("houseMapper.selectResidentReviewList",houseNo);
+	}
+
+	//거주자 리뷰 총점
+	public int selectResidentReviewSum(SqlSessionTemplate sqlSession, int houseNo) {
+	
+		return sqlSession.selectOne("houseMapper.selectResidentReviewSum",houseNo);
+	}
+
+	//거주자 리뷰 수
+	public int selectResidentReviewCount(SqlSessionTemplate sqlSession, int houseNo) {
+		
+		return sqlSession.selectOne("houseMapper.selectResidentReviewCount",houseNo);
+	}
+
+	//매물 리뷰 작성
+	public int insertResidentReview(SqlSessionTemplate sqlSession, ResidentReview rr) {
+		
+
+		return sqlSession.insert("houseMapper.insertResidentReview",rr);
+	}
+
+	public void enrollReviewImg(SqlSessionTemplate sqlSession, ReviewImg reviewImg) {
+		
+		sqlSession.insert("houseMapper.enrollReviewImg",reviewImg);
+		
+	}
+
+	public int insertMemberKeyword(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("houseMapper.insertMemberKeyword",map);
+	}
+
+	//매물 리뷰 수정 상세뷰 
+	public ResidentReview ResidentReviewDetail(SqlSessionTemplate sqlSession, int reReviewNo) {
+		
+		return sqlSession.selectOne("houseMapper.ResidentReviewDetail",reReviewNo);
+	}
+
+	public int selectBuilding(SqlSessionTemplate sqlSession, int houseNo) {
+		
+		return sqlSession.selectOne("houseMapper.selectBuilding",houseNo);
+	}
+
+	public int selectBuildingCount(SqlSessionTemplate sqlSession, int houseNo) {
+	
+		return sqlSession.selectOne("houseMapper.selectBuildingCount",houseNo);
+	}
+
+	public int selectTraffic(SqlSessionTemplate sqlSession, int houseNo) {
+		
+		return sqlSession.selectOne("houseMapper.selectTraffic",houseNo);
+	}
+
+	public int selectTrafficCount(SqlSessionTemplate sqlSession, int houseNo) {
+		
+		return sqlSession.selectOne("houseMapper.selectTrafficCount",houseNo);
+	}
+
+	public int selectInterior(SqlSessionTemplate sqlSession, int houseNo) {
+		
+		return sqlSession.selectOne("houseMapper.selectInterior",houseNo);
+	}
+
+	public int selectInteriorCount(SqlSessionTemplate sqlSession, int houseNo) {
+		
+		return sqlSession.selectOne("houseMapper.selectInteriorCount",houseNo);
+	}
+
+	public int selectSafety(SqlSessionTemplate sqlSession, int houseNo) {
+		
+		return sqlSession.selectOne("houseMapper.selectSafety",houseNo);
+	}
+
+	public int selectSafetyCount(SqlSessionTemplate sqlSession, int houseNo) {
+		
+		return sqlSession.selectOne("houseMapper.selectSafetyCount",houseNo);
+	}
+
+	public int selectLife(SqlSessionTemplate sqlSession, int houseNo) {
+	
+		return sqlSession.selectOne("houseMapper.selectLife",houseNo);
+	}
+
+	public int selectLifeCount(SqlSessionTemplate sqlSession, int houseNo) {
+	
+		return sqlSession.selectOne("houseMapper.selectLifeCount",houseNo);
 	}
 
 	//마이페이지 찜 목록에서 찜 해제
@@ -194,8 +287,31 @@ public class HouseDao {
 		
 		RowBounds rowBounds = new RowBounds(offset,limit);
 		
-		
 		return (ArrayList)sqlSession.selectList("houseMapper.mypageImdaHouseList", m,rowBounds);
+	}
+
+	//마이페이지 임대인 매물내역 삭제
+	public int myImdaHouseDelete(SqlSessionTemplate sqlSession, int houseNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("houseMapper.myImdaHouseDelete", houseNo);
+	}
+
+	//매물 리뷰 수정
+	public int updateResidentReview(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		
+		return sqlSession.update("houseMapper.updateResidentReview",paramMap);
+	}
+
+	public int updateKeywords(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		
+		
+		
+		return sqlSession.insert("houseMapper.insertKeyword",paramMap);
+	}
+
+	public int deleteKeywords(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("houseMapper.deleteKeywords",paramMap);
 	}
 
 }

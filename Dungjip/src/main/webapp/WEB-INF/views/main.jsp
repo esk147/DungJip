@@ -153,7 +153,7 @@
             display: block;
             font-size: 18px;
             text-align: center;
-            padding: 8px 84.59px;
+            padding: 8px 82.68px;
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
@@ -225,23 +225,20 @@
     </div>
     
     <script>
-        // Get all the menu items
         var menuItems = document.querySelectorAll('#menu li');
         selectHouseType('원룸');
-        // Function to remove the active class from all items
+        
         function removeActiveClasses() {
             menuItems.forEach(function(item) {
                 item.classList.remove('active');
             });
         }
 
-        // Function to add active class to the clicked item
         function setActiveClass(clickedItem) {
             removeActiveClasses();
             clickedItem.classList.add('active');
         }
 
-        // Add click event to all menu items
         menuItems.forEach(function(item) {
             item.addEventListener('click', function() {
                 setActiveClass(item);
@@ -295,7 +292,7 @@
     				
     				$("#cardContainer").append(str);
     			},error: function(){
-    				console.log("통통신신에에러러");
+    				console.log("통신에러");
     			}
         	})
         };
@@ -345,7 +342,6 @@
 	    let scrollLeft;
 	    const slider = document.querySelector('.card-container');
 	
-	    // Button click scrolls
 	    function scroll(offset) {
 	        slider.scrollLeft += offset;
 	    }
@@ -353,11 +349,10 @@
 	    document.querySelectorAll('.scroll-button').forEach(button => {
 	        button.addEventListener('click', (e) => {
 	            const direction = button.id === 'right-btn' ? 1 : -1;
-	            scroll(direction * 200); // Scroll distance for each click
+	            scroll(direction * 200);
 	        });
 	    });
 	
-	    // Mouse drag scrolls
 	    slider.addEventListener('mousedown', (e) => {
 	        isDown = true;
 	        slider.classList.add('active');
@@ -379,7 +374,7 @@
 	        if (!isDown) return;
 	        e.preventDefault();
 	        const x = e.pageX - slider.offsetLeft;
-	        const walk = (x - startX); // Scroll speed
+	        const walk = (x - startX);
 	        slider.scrollLeft = scrollLeft - walk;
 	    });
     </script>

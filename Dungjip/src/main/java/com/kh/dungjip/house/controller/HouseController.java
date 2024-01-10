@@ -1,17 +1,21 @@
 package com.kh.dungjip.house.controller;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,14 +26,20 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.dungjip.house.model.vo.House;
 import com.kh.dungjip.house.model.vo.HouseImg;
 import com.kh.dungjip.member.model.vo.Member;
+import com.kh.dungjip.residentReview.model.vo.ResidentReview;
+import com.kh.dungjip.residentReview.model.vo.ReviewImg;
+
 import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.common.template.Pagination;
 import com.kh.dungjip.estate.model.service.EstateService;
@@ -110,7 +120,7 @@ public class HouseController {
 			int count = houseService.insertHouseJSON(house);
 
 			if (result * count == 0) {
-				session.setAttribute("alertMsg", "집 등록 실패");
+				session.setAttribute("errorMsg", "집 등록 실패");
 				return "common/errorPage";
 			}
 
@@ -180,7 +190,7 @@ public class HouseController {
 			session.setAttribute("alertMsg", "찜하기 성공");
 			mv.setViewName("redirect:detail.ho?houseNo=" + jj.getHouseNo());
 		} else {
-			session.setAttribute("alertMsg", "찜하기 실패");
+			session.setAttribute("errorMsg", "찜하기 실패");
 			mv.setViewName("redirect:detail.ho");
 	}
 		return mv;
@@ -194,7 +204,7 @@ public class HouseController {
 			session.setAttribute("alertMsg", "찜 취소 성공");
 			return "redirect:detail.ho?houseNo=" + jj.getHouseNo();
 		} else {
-			session.setAttribute("alertMsg", "찜 취소 실패");
+			session.setAttribute("errorMsg", "찜 취소 실패");
 			return "redirect:detail.ho?houseNo=" + jj.getHouseNo();
 		}
 	}
@@ -291,21 +301,280 @@ public class HouseController {
         return randomIndex;
     }
 	
+	//거주자 리뷰리스트
+	@ResponseBody
+	@RequestMapping(value="resi.re",produces="application/json; charset=UTF-8")
+	public Map<String,Object> selectResidentReviewList(int houseNo){
+		
+		ArrayList<ResidentReview> rlist = houseService.selectResidentReviewList(houseNo);
+		
+		
+		//리뷰 총점
+		int sum = houseService.selectResidentReviewSum(houseNo);
+		
+		//리뷰개수
+		int count = houseService.selectResidentReviewCount(houseNo);
+		
+		
+		//건물총점
+		int building = houseService.selectBuilding(houseNo);
+		
+		//건물 카운트
+		int buildingCount = houseService.selectBuildingcount(houseNo);
+		
+		//교통총점
+		int traffic = houseService.selectTraffic(houseNo);
+		
+		//교통 카운트
+		int trafficCount = houseService.selectTrafficCount(houseNo);
+		
+		//내부 총점
+		int interior = houseService.selectInterior(houseNo);
+		
+		//내부 카운트
+		int interiorCount = houseService.selectInteriorCount(houseNo);
+		
+		//치안 총점
+		int safety = houseService.selectSafety(houseNo);
+		
+		//치안 카운트
+		int safetyCount = houseService.selectSafetyCount(houseNo);
+		
+		//생활 총점
+		int life = houseService.selectLife(houseNo);
+		
+		//생활 카운트
+		 int lifeCount = houseService.selectLifeCount(houseNo);
+		 
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("rlist", rlist);
+		map.put("sum", sum);
+		map.put("count", count);
+		map.put("buildingCount", buildingCount);
+		map.put("building", building);
+		map.put("trafficCount", trafficCount);
+		map.put("traffic", traffic);
+		map.put("interiorCount", interiorCount);
+		map.put("interior", interior);
+		map.put("safetyCount", safetyCount);
+		map.put("safety", safety);
+		map.put("lifeCount", lifeCount);
+		map.put("life", life);
+		
+		System.out.println(rlist);
+		return map;
+		
+	}
+	
+	//매물 리뷰 작성
+	@GetMapping("insert.rere")
+	public String insertResidentReview(int houseNo, HttpSession session, Model model) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		model.addAttribute("houseNo", houseNo);
+		model.addAttribute("loginUser", loginUser);
+		return "review/residentReviewInsert";
+	}
+	
+	@PostMapping("insert.rere")
+	public String insertResidentReview(int houseNo, HttpSession session,ResidentReview rr, Model model,@RequestParam("reviewImage") MultipartFile file, @RequestParam String prosKeywords, @RequestParam String consKeywords){
+
+		System.out.println(prosKeywords);
+		System.out.println(consKeywords);
+		String keywordString = prosKeywords + "," + consKeywords;
+		String[] keywordNo = keywordString.split(",");
+		System.out.println(keywordString);
+		System.out.println(keywordNo.toString());
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		System.out.println(rr);
+		Map<String, Object> map = new HashMap<>();
+		map.put("rr", rr);
+		if(loginUser !=null && rr!=null) {
+			rr.setUserNo(loginUser.getUserNo());
+			int reReviewNo = houseService.insertResidentReview(rr);
+			for(int i = 0; i < keywordNo.length; i++) {
+				map.put("keyword", keywordNo[i]);
+				System.out.println(keywordNo[i]);
+				houseService.insertMemberKeyword(map);
+				map.remove("keyword");
+			}
+			
+			String uploadPath ="src/main/resources/review/";
+			 
+			    if (file != null && !file.isEmpty()) {
+			        String originName = file.getOriginalFilename();
+			        String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
+			        int ranNum = (int) (Math.random() * 90000 + 10000);
+			        String ext = originName.substring(originName.lastIndexOf("."));
+			        String changeName = currentTime + ranNum + ext;
+			        String savePath = session.getServletContext().getRealPath("/resources/review/");
+
+			        try {
+			            File dir = new File(uploadPath);
+			            if (!dir.exists()) {
+			                dir.mkdirs();
+			            }
+			            File uploadFile = new File(dir, changeName);
+			          
+			            file.transferTo(new File(savePath+changeName));
+			           
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			        }
+			        ReviewImg reviewImg = new ReviewImg();
+		            reviewImg.setReReviewNo(reReviewNo);
+		            reviewImg.setOriginName(originName);
+		            reviewImg.setChangeName("resources/review/"+changeName);
+		            houseService.enrollReviewImg(reviewImg);
+			    }
+			   
+			if(reReviewNo>0) {
+				session.setAttribute("alertMsg", "매물 리뷰 등록 성공");
+				
+				return "redirect:detail.ho?houseNo="+houseNo;
+				
+			}else {
+				session.setAttribute("alertMsg", "매물 리뷰 등록 실패");
+				
+				return "";
+			}
+		}else {
+			session.setAttribute("alertMsg", "매물 리뷰 등록 실패");
+			return "";
+		}
+		
+	}
+	
+	//매물 리뷰 수정
+	@GetMapping("update.rere")
+	public String updateResidentReview(int reReviewNo, int houseNo, Model model, HttpSession session ) {
+		
+		ResidentReview rr = houseService.ResidentReviewDetail(reReviewNo);
+		
+		model.addAttribute("rr", rr);
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		
+		return "review/residentReviewUpdate";
+	}
+	
+	
+	@PostMapping("update.rere")
+	public String updateResident(int reReviewNo,int houseNo,  MultipartFile reUpFile,ResidentReview rr, Model model, HttpSession session,@RequestParam("reviewImage") MultipartFile file, @RequestParam String prosKeywords, @RequestParam String consKeywords){
+	
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+	
+		
+		if(loginUser != null && rr!= null) {
+			
+			 
+			
+			 Map<String, Object> paramMap = new HashMap<>();
+		     paramMap.put("rr", rr);
+		     paramMap.put("loginUser", loginUser);
+		     int result = houseService.updateResidentReview(paramMap);
+		     
+		     houseService.deleteKeywords(paramMap);
+		     
+		     String keywordString = prosKeywords + "," + consKeywords;
+		     
+		     
+		     String[] keywordNo = keywordString.split(",");
+		     for(int i = 0; i < keywordNo.length; i++) {
+		    	 paramMap.put("keyword", keywordNo[i]);
+					System.out.println(keywordNo[i]);
+					 houseService.updateKeywords(paramMap);
+					paramMap.remove("keyword");
+				}
+		    
+		     
+		     
+		     if(result>0) {
+		    	 session.setAttribute("alertMsg", "매물 리뷰 수정 성공");
+					
+					return "redirect:detail.ho?houseNo="+houseNo;
+		     }else {
+		    	 session.setAttribute("alertMsg", "매물 리뷰 수정 실패");
+					
+					return "common/errorPage";
+		     }
+		}else {
+			session.setAttribute("alertMsg", "매물 리뷰 수정 실패");
+			
+			return "common/errorPage";
+		}
+		
+		
+	}
+	
 	//마이페이지에서 집 찜해제
 	@RequestMapping("house/hjjimdelete.me")
 	public String mypageHjjimdelete(@RequestParam("houseNo")int houseNo,Model model,HttpSession session) {
 		
 		int result = houseService.mypageHjjimdelete(houseNo);
 		
-		System.out.println(result);
-		
 		if(result > 0) {
 			session.setAttribute("alertMsg", "목록에서 삭제되었습니다.");
 		}else {
-			session.setAttribute("alertMsg", "다시 시도해주세요.");
+			session.setAttribute("errorMsg", "다시 시도해주세요.");
 		}
 		
 		return "redirect:/myHousejjim.me";
 	}
+	
+	//임대인 매물내역 삭제
+	@RequestMapping("imdaHdelete.li")
+	public String myImdaHouseDelete(@RequestParam("houseNo")int houseNo,Model model, HttpSession session) {
+		
+		int result = houseService.myImdaHouseDelete(houseNo);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
+		}else {
+			session.setAttribute("errorMsg", "다시 시도해주세요.");
+		}
+		return"redirect:/imdaHouse.li";
+		
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

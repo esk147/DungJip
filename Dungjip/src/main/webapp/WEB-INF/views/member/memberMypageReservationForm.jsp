@@ -65,70 +65,95 @@
 
 	<div class="container" style="display: flex; width: 67%;">
 
-		<!-- 마이페이지 메뉴바 --> 
-		<c:choose>
-	    <c:when test="${loginUser.userType eq '임차인' || loginUser.userType eq '임대인'}">
-	        <%@ include file="memberMypagemenubar.jsp" %>
-	    </c:when>
-	    <c:when test="${loginUser.userType eq '중개인'}">
-	        <%@ include file="memberMypageEsmenubar.jsp" %>
-	    </c:when>
-	    </c:choose>  
+		<!-- 마이페이지 메뉴바 -->
+		<%@ include file="memberMypagemenubar.jsp"%>
 
-		<section class="main-content" style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">				
-		        
-			<div class="cart_inner">
+
+		<section class="main-content"
+			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
 			
-				<div class="table-responsive" style="margin-top:20px;">
-					<table class="table">
-						<thead>
-							<tr class="text-center">
-								<th scope="col" style="width:10%;">NO</th>
-								<th scope="col">예약 상세정보</th>
-								<th scope="col" style="width:15%;">리뷰</th>
-							</tr>
-						</thead>
-						<tbody>
-						<c:forEach var="reservation" items="${rlist }" >
-							<tr>
-								<td class="text-center" >
-									<h5>NO. ${reservation.reservationNo }</h5>
-								</td>
-								<td>
-									<div class="media">
-										<div class="d-flex"></div>
-										<div class="media-body">
-											<p>
-												<b><i class="fa fa-clock-o" ></i> </b>
-												<fmt:formatDate value="${rervation.reservationDate}" pattern="yyyy년 MM월 dd일" /> 
-												${reservation.time.timeValue }
-											</p>
-											<p>
-												<b>중개사 : </b> ${reservation.estate.esName }
-												<input type="hidden" id="esNo" value="${reservation.esNo}">
-											</p>
+				<div class="cart_inner">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr class="text-center">
+									<th scope="col" style="width:10%;">#</th>
+									<th scope="col">예약 상세정보</th>
+									<th scope="col" style="width:15%;">리뷰</th>
+								</tr>
+							</thead>
+							<tbody>
+							<c:forEach var="reservation" items="${rlist }" >
+								<tr>
+									<td>
+										<div class="media">
+											<div class="d-flex"></div>
+											<div class="media-body">
+												<p>
+													<b># 일시</b>
+													<input type="hidden" id="rTime" value="${reservation.reservationDate }">
+													${reservation.reservationDate }
+													${reservation.time.timeValue }
+												</p>
+												<p>
+													<b># 중개사무소</b> ${reservation.estate.esName }
+													<input type="hidden" id="esNo" value="${reservation.esNo}">
+												</p>
+											</div>
 										</div>
-									</div>
-								</td>
-									
-								<td>
-								
-								  <!-- 예약 내역의 esReNo가 비어있는지 여부 확인 -->
-				                    <a href="#" class="genric-btn primary-border small" onclick="insertEstateReview(this);">작성</a>						         
-								
-								</td>
-								
-								
-						</c:forEach>
-						</tbody>
-					</table>
+									</td>	
+									<td>
+									<!-- 여기버튼 누르면 리뷰 작성 창 -->
+									<a href="#" class="genric-btn primary-border small" id="reviewEnrol"onclick="insertEstateReview(this);">작성</a>
+									</td>
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
+					</div>
 				</div>
-			</div>
+			<!------------------------------ 페이징 처리 -------------------------------->
+			<footer style="width: 450px;">
+				<div class="pull-right">
+					<div class="pagination">
+						<ul>
+							<c:if test="${pi.currentPage ne 1 }">
+								<li><a
+									href="mReservation.me?currentPage=${pi.currentPage-1}&esNo=${esNo}">Prev</a></li>
+							</c:if>
+							<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">
+								<li><a href="mReservation.me?currentPage=${p}&esNo=${esNo}">${p}</a></li>
+							</c:forEach>
+							<c:if test="${pi.currentPage ne pi.maxPage }">
+								<li><a
+									href="mReservation.me?currentPage=${pi.currentPage+1}&esNo=${esNo}">Next</a></li>
+							</c:if>
+						</ul>
+					</div>
+				</div>
+			</footer>
 			
-		</section> 
-
+		</section>
 	</div>
+		
+	<script> 
 
+	function insertEstateReview(el){
+		var esNo = $(el).closest('tr').find('#esNo').val();
+		var beforeRTime = $(el).closest('tr').find('#rTime').val();
+		
+		var rTime = new Date(beforeRTime);
+		var today = new Date();
+		
+		if(rTime>today){
+			showWarning("경고","예약 날짜 이후 작성이 가능합니다.","확인");
+		}else{
+			window.location.href = "/dungjip/insert.esre?esNo="+esNo;
+		}
+		
+	</script>
+	
+	
 	<%@ include file="../common/footer.jsp"%>
 
 </body>

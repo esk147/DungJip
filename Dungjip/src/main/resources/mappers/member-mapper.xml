@@ -63,7 +63,7 @@
 			WHERE USER_ID = #{userId}
  			AND STATUS = 'Y'
   		</select>
-    	
+
     	<select id="ajaxIdMethod" resultType="_int">
     		SELECT COUNT(USER_ID) 
     		FROM MEMBER 
@@ -137,6 +137,7 @@
 			                    ,USER_ID
 			                    ,USER_PWD
 			                    ,USER_NAME
+			                    ,USER_NICKNAME
 			                    ,EMAIL
 			                    ,PHONE
 			                    ,AGE
@@ -149,6 +150,7 @@
 					,#{userId}
 					,#{userPwd}
 					,#{userName}
+					,#{userNickName}
 					,#{email}
 					,#{phone}
 					,#{age}
@@ -303,6 +305,7 @@
 		JOIN ESTATE E ON R.ES_NO = E.ES_NO
 		JOIN TIME T ON R.TIME_NO = T.TIME_NO
 		WHERE R.USER_NO=#{userNo}
+		ORDER BY R.RESERVATION_NO DESC
     	</select>
 
     	<update id="fileAjaxMethod" >
@@ -336,4 +339,5 @@
 			JOIN MEMBER M ON M.USER_NO = R.USER_NO
 			WHERE R.ES_NO = #{esNo}
     	</select>
+    	
     </mapper>

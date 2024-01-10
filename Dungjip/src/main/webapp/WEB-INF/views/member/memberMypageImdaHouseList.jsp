@@ -111,7 +111,7 @@
 		                                        </div>
 		                                   		<p>${imdalike.houseTitle }</p>
 		                                        <div class="dealer-action pull-right" style="margin-top:35px;">                                                                              
-		                                            <%-- <a href="${contextPath}/esHdelete.li?houseNo=${imdalike.houseNo}" class="button delete_user_car">Delete</a> --%>
+		                                            <a href="${contextPath}/imdaHdelete.li?houseNo=${imdalike.houseNo}" class="button delete_user_car">Delete</a>
 		                                            <a href="${contextPath}/detail.ho?houseNo=${imdalike.houseNo}" class="button">View</a>
 		                                        </div>
 		                                    </div>    
@@ -148,7 +148,7 @@
 
 
 	<!-- delete -->
-	<form action="esHdelete.li" method="post">
+	<form action="imdaHdelete.li" method="post">
     	<input type ="hidden">
     </form>
 

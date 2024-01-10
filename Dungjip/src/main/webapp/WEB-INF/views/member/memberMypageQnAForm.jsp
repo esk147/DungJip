@@ -146,15 +146,6 @@
     </form>	
 
 	<%@ include file="../common/footer.jsp" %>
-     
-      <c:if test="${not empty alertMsg }">
-        <script>
-            var alertMsg = "${alertMsg}";
-            alert(alertMsg);
-        </script>
-        <c:remove var="alertMsg" />
-   		</c:if>  
-     
-     
+
 </body>
 </html>

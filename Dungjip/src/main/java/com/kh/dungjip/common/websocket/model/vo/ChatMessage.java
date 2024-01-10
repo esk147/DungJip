@@ -25,6 +25,12 @@ public ChatMessage(String contentMessage, int chatRoomNo, int userNo, String use
 	this.userName = userName;
 }
 
+public ChatMessage(int chatRoomNo, int userNo) {
+	super();
+	this.chatRoomNo = chatRoomNo;
+	this.userNo = userNo;
+}
+
 
 	
 	

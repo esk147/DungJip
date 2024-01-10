@@ -21,7 +21,16 @@
     <body>
 
        <%@ include file="../common/header.jsp" %>
-
+		
+	  <div class="page-head"> 
+         <div class="container">
+             <div class="row">
+                 <div class="page-head-content">
+                     <h1 class="page-title"></h1>               
+                 </div>
+             </div>
+         </div>
+     </div>
  
         <!-- End page header -->
  
@@ -83,20 +92,20 @@
         		var email = $("#email").val();
         		
         		if (userId == null || userId == '') {
-					alert("아이디를 입력하세요.");
+        			showError("오류", "아이디를 입력하세요.", "확인");
 					$("#userId").focus();
 					return false;
 				}
         		
         		if (userName == null || userName == '') {
-					alert("이름을 입력하세요.");
+        			showError("오류", "이름을 입력하세요.", "확인");
 					$("#userName").focus();
 					return false;
 				}
         		       		
         		
         		if (email == null || email == '') {
-					alert("이메일을 입력하세요");
+        			showError("오류", "이메일을 입력하세요", "확인");
 					$("#email").focus();
 					return false;
 					
@@ -105,7 +114,7 @@
 					var regExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 					
 					if (!regExp.test(email)) { 
-						alert("올바르지 않은 이메일 형식입니다.");
+	        			showError("오류", "올바르지 않은 이메일 형식입니다.", "확인");
 						$("#email").focus();
 						return false;
 					}

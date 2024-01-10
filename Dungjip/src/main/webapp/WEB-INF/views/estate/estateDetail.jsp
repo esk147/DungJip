@@ -52,9 +52,61 @@
 	color: #D27E04;
 }
 
+
+             #num {
+            color: #D27E04;
+             }
+             
+             #type{
+             display: flex;
+             align-items: center;
+             justify-content: space-between;
+             }
+             
+             #realtype{
+            
+    		 padding: 6px;
+    		 border-radius: 50px;
+    		 background-color:rgb(255, 236, 235);
+    		 color:rgb(250, 78, 62);
+             }
+             
+             .profile{
+             width: 35px;
+    		 height: 35px;
+    		 border-radius: 50%;
+             }
+             
+             .d-flex{
+             display: flex;
+    		 align-items: center;
+    		 justify-content: flex-start;
+             }
+             
+             .good{
+             width: 20px;
+             }
+             
+             .emo{
+             display:flex;
+             align-items: center;
+             justify-content: flex-end;
+             }
+             
+             .likecount{
+             padding-left: 3px;
+             }
+             
+        	.like-btn.liked img {
+            filter: sepia(100);
+        	}
+
+             
+
 #num {
 	color: #D27E04;
 }
+
 
 #type {
 	display: flex;
@@ -189,8 +241,10 @@
 											<input type="hidden" value="${e.esNo}" id="selectEsNo">
 											<input type="hidden" value="${loginUser.userNo}" id="selectUserNo">
 											<input onclick="reservation();" class="button btn largesearch-btn" value="예약하기" type="submit">
-											<input class="button btn largesearch-btn" value="상담하기" type="submit">
-										</div>
+											<input class="button btn largesearch-btn" value="상담하기" type="button" 
+											onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'">
+										</div>																			<!-- onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'" -->
+
 									</div>
 								</fieldset>
 							</div>
@@ -516,7 +570,17 @@
                                                
                                                
                                                
+
+                                               
+                                               <div class="emo">
+                                                            <span class="like-btn" onclick="toggleLike(this)" >
+                                                            <img class="good" src="resources/img/good.svg">
+                                                           </span>
+                                                            <h6 class="likecount">25</h6>
+                                                            </div>
+
                                                <hr>
+
                                             </div>
                                             
                                             
@@ -530,6 +594,7 @@
                         </section>
                            <script>
    							 function toggleLike(element) {
+
 
    								 console.log("toggleLike element 로그");
    								 console.log(element);
@@ -593,7 +658,6 @@
                                     					
                                     					stars += "<i class='fa fa-star'></i> ";
                                     				}
-                               
                                                     
                                     				var reviewItem = $("<div class='review_item'>" +
                                     						"<div class='media'>" +
@@ -611,6 +675,7 @@
                             		        		        "</div>" +
                             		        		        "</div>" +
                             		        		        "<p>" + result.erlist[i].esReContent + "</p>" +
+                            		        		    	"<hr>"+
                             		        		        '<div class="emo"><span class="' + (result.reviewBooleans[i] === 1 ? "like-btn liked" : "like-btn") + '" onclick="toggleLike(this)" id="'+result.erlist[i].esReNo+'"><img class="good" src="resources/img/good.svg"> </span> <h6 id="likeCount'+result.erlist[i].esReNo+'" class="likecount">'+
                             		        		        result.erNums[i]+'</h6>'+
                             		        		        "</div>" 
@@ -644,6 +709,7 @@
                                     
                                     
                                     </script>
+
 
 					<div id="map" style="width: 1000px; height: 500px;"></div>
 					<script type="text/javascript"
@@ -794,10 +860,7 @@
 		                    clickedDate = clickedDate >= 10 ? clickedDate : '0' + clickedDate;
 		                    clickedMonth = clickedMonth >= 10 ? clickedMonth : '0' + clickedMonth;
 		                    clickedYMD = clickedYear + clickedMonth + clickedDate;
-		                    console.log(clickedYMD);
 		                    var selectEsNo = document.getElementById("selectEsNo").value;
-		                    console.log("===채현===")
-		                    console.log(selectEsNo)
 		                    $.ajax({
 		                        url: "selectReservationList.re",
 		                        data: {
@@ -810,6 +873,10 @@
 			                        		var time = "time"+result[i].selectTime;
 				                        	var disDiv = document.getElementById(time);
 				                        	disDiv.disabled = true;
+				                        	
+				                        	if (disDiv.disabled) {
+				                                disDiv.style.textDecoration = 'line-through';
+				                            }				                        	
 			                        	}
 		                        	}
 		                        },
@@ -876,7 +943,7 @@
         		var selectUserNo = document.getElementById('selectUserNo').value; //유저 번호
         		console.log(selectTime);
         		if(selectUserNo == 0){
-        			alert("로그인 후 예약 가능합니다.")
+        			showSuccess("경고","로그인 후 예약 가능합니다.","확인");
         		}else{
 	          		let f = document.createElement('form');
 	        		

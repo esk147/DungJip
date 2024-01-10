@@ -222,6 +222,10 @@
         .form-container .fieldset {
             margin-bottom: 16px; /* 조절 가능한 마진 값을 적용 */
         }
+        
+        select, .input{
+        	width:100%;
+        }
     </style>
 </head>
 <body>
@@ -231,12 +235,11 @@
 		<div class="container1">
 		</div>
 	</div>
-    
+
     <h2>매물 등록</h2>
 
     <form action="enroll" method="post" enctype="multipart/form-data">
-		
-        <div class="container">
+        <div class="container" style="width:40%;">
             <div class="grid grid-2 py-4">
                 <div class="col">
                     <label class="label">집 스타일</label>
@@ -285,7 +288,7 @@
 		</div>
         <!-- 카카오 지도를 표시할 영역 -->
       <div class="grid grid-1">
-		<div id="map" style="width: 40%; height: 400px;"></div>
+		<div id="map" style="width: 100%; height: 400px;"></div>
 			<div class="grid grid-2">
 				<div class="col">
 					<label class="label">위도</label>
@@ -297,7 +300,6 @@
 				</div>
 			</div>
       </div>
-      <br>
         <div class="col">
           <label class="label">건물 크기(평)</label>
           <input class="input" id="houseSquare" name="houseSquare" placeholder="건물 크기" />
@@ -355,12 +357,6 @@
             </select>
         </div>
 		<br>
-		<div class="option-item">
-		    <label class="label">준공 날짜</label>
-		    <br>
-		    <input class="input" type="date" id="houseBulidDate" name="houseBuildDate" placeholder="준공 날짜(YY/MM/dd)" />
-		</div>
-		<br>
         <div class="option-item">
             <label class="label">반려동물 가능 여부:</label>
             <br>
@@ -370,6 +366,13 @@
                 <option value="N">불가능</option>
             </select>
         </div>
+        <br>
+		<div class="option-item">
+		    <label class="label">준공 날짜</label>
+		    <br>
+		    <input class="input" type="date" id="houseBulidDate" name="houseBuildDate" placeholder="준공 날짜(YY/MM/dd)" />
+		</div>
+		<br>
     </div>
 
 	<div class="fieldset">

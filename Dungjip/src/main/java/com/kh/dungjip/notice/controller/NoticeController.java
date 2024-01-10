@@ -30,10 +30,6 @@ private NoticeService noticeService;
 	    
 	    model.addAttribute("noticeList", noticeList);
 	    
-	    for (Notice data: noticeList) {
-	    	System.out.println(data);
-	    }
-	    
 	    return "notice/noticeListView";
 	}
 
