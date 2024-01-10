@@ -24,6 +24,9 @@
         	<result column="CHANGE_NAME" property="changeName"/>
         	<result column="USER_NO" property="userNo"/>
 		</association>
+		<association property="esReLike" javaType="esReLike">
+        	<result column="ES_RE_NO" property="esReNo"/>
+		</association>
 	</resultMap>
 	
 
@@ -93,6 +96,7 @@
         	<result column="HOUSE_NO" property="houseNo"/>
         	<result column="HOUSE_TITLE" property="houseTitle"/>
 		</association>
+		
 		
 	</resultMap>
 
@@ -187,6 +191,27 @@
 		join member m using (user_no)
 		where subscribe = 'Y'
 	</select>
+	
+
+	<insert id="insertEstateReview" parameterType="estateReview">
+	INSERT INTO ESTATE_REVIEW (ES_RE_NO, 
+							   ES_NO, 
+							   USER_NO, 
+							   ES_RE_SCORE, 
+							   ES_RE_CONTENT, 
+							   ES_RE_TYPE, 
+							   HOUSE_NO)
+				VALUES (SEQ_ERRO.NEXTVAL, 
+				        #{er.esNo},
+				        #{loginUser.userNo}, 
+				        #{er.esReScore}, 
+				        #{er.esReContent}, 
+				        #{er.esReType}, 
+				        #{er.houseNo})
+	</insert>
+
+
+
 
 	<select id="selectEstateEmoCount" resultType="_int">
 		SELECT COUNT(*) EMO
@@ -225,23 +250,6 @@
 		SELECT *
 		FROM TIME
 	</select>
-	
-	<insert id="insertEstateReview" parameterType="estateReview">
-		INSERT INTO ESTATE_REVIEW (ES_RE_NO, 
-								   ES_NO, 
-								   USER_NO, 
-								   ES_RE_SCORE, 
-								   ES_RE_CONTENT, 
-								   ES_RE_TYPE, 
-								   HOUSE_NO)
-					VALUES (SEQ_ERRO.NEXTVAL, 
-					        #{er.esNo},
-					        #{loginUser.userNo}, 
-					        #{er.esReScore}, 
-					        #{er.esReContent}, 
-					        #{er.esReType}, 
-					        10)
-	</insert>
 
 	<select id="selectEstateReview" resultMap="EstateReviewResultSet" >
 		SELECT ES_RE_NO
@@ -267,21 +275,43 @@
 		AND ES_RE_NO = #{esReNo}
 	</delete>
 	
-	<update id="updateReview">
+	<update id="updateReview" parameterType="estateReview">
 		UPDATE ESTATE_REVIEW
-		SET ES_RE_SCORE = #{esReScore}
-		    ,ES_RE_CONTENT = #{esReContent}
+		SET ES_RE_SCORE =#{er.esReScore}
+		    ,ES_RE_CONTENT =#{er.esReContent}
 		    ,ES_RE_CREATE_DATE = SYSDATE
-		WHERE ES_RE_NO = #{esReNo}
-		AND ES_RE_STATUS='Y'  
+            ,ES_RE_TYPE=#{er.esReType}
+            ,HOUSE_NO=#{er.houseNo}
+		WHERE ES_RE_NO = #{er.esReNo}
+		AND ES_RE_STATUS='Y'
 	</update>
-	
+
 	<select id="memberMypageReviewLike" resultMap="EstateReviewResultSet">
 		SELECT ES.ES_RE_NO, ES.USER_NO ,ER.ES_RE_CREATE_DATE,ER.ES_RE_CONTENT 
 		FROM ES_RE_LIKE ES
 		JOIN MEMBER M ON M.USER_NO = ES.USER_NO
 		JOIN ESTATE_REVIEW ER ON ES.ES_RE_NO = ER.ES_RE_NO
 		WHERE ES.USER_NO = #{userNo}
+
+	</select>
+
+
+
+	<select id="estateReviewDetail" resultMap="EstateReviewResultSet">
+	     SELECT ES_RE_NO
+		        ,ER.ES_NO
+		        ,ER.USER_NO
+		        ,ES_RE_SCORE
+		        ,ES_RE_CONTENT
+		        ,ES_RE_CREATE_DATE
+		        ,ES_RE_TYPE
+		        ,ES_RE_STATUS
+		        ,ER.HOUSE_NO
+		FROM ESTATE_REVIEW ER
+		JOIN ESTATE E ON ER.ES_NO  = E.ES_NO
+		JOIN HOUSE H ON ER.HOUSE_NO = H.HOUSE_NO
+		WHERE ES_RE_NO = #{esReNo}
+		AND ES_RE_STATUS='Y'
 	</select>
 
 	<select id="selectEstateListCountByMember" resultType="_int">
@@ -320,6 +350,7 @@
 		WHERE ES_NO = #{selectEsNo}
 		AND RESERVATION_DATE = TO_DATE(#{clickedYMD},'YYYYMMDD')
 	</select>
+
 
 	<select id="selectEstate" resultType="_int">
 		SELECT *
@@ -374,6 +405,7 @@
 		SET STATUS = 'N'
 		WHERE STATUS = 'Y'
 		AND HOUSE_NO = #{houseNo}
+		AND ES_NO = #{esNo}
 	</update>
 	
 	<select id="myEspage" resultMap="estateResultSet">

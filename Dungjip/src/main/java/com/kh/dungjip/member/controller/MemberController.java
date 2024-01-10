@@ -33,6 +33,9 @@ import com.kh.dungjip.enquiry.model.vo.Enquiry;
 import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
+
+import com.kh.dungjip.house.model.vo.Reservation;
+
 import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.house.model.service.HouseService;
 import com.kh.dungjip.house.model.vo.House;
@@ -51,8 +54,8 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@Autowired
-	private BCryptPasswordEncoder bcryptPasswordEncoder; 	
+	//@Autowired
+	//private BCryptPasswordEncoder bcryptPasswordEncoder; 	
 	
 	@Autowired
 	private EnquiryService enquiryService;
@@ -107,10 +110,8 @@ public class MemberController {
 		
 		//아이디를 가지고 db에서 일치하는 회원정보 조회 
 		Member beginLoginUser = memberService.loginMember(m);
-		
-		//bcryptPasswordEncoder.matches(평문, 암호문)를 이용 (일치하면 true 아니면 false) 
-			
-		if(beginLoginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())) { //성공시
+	
+		if(beginLoginUser != null /*&& bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())*/) { //성공시
 
 
 			memberService.updateLastLoginTime(beginLoginUser);//현재 시간 추가 
@@ -188,6 +189,7 @@ public class MemberController {
 	}
 	
 	//비밀번호 찾기 
+	
 	@PostMapping("findPwd.bo")
 	public String memberFindPwd(@RequestParam("userId") String userId,@RequestParam("userName") String userName,@RequestParam("email") String email, Model model,Member m) {
 		
@@ -204,9 +206,9 @@ public class MemberController {
 		}else { //입력한 정보가 있을 때
 			
 			String newPwd = RandomStringUtils.randomAlphanumeric(10);
-			String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
+			//String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
 			
-			m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
+			//m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
 			
 			memberService.updateMemberPwd(m);
 			
@@ -217,6 +219,7 @@ public class MemberController {
 		}
 		
 	}
+	
 	
 
 	//아이디찾기 결과
@@ -234,6 +237,7 @@ public class MemberController {
 	
 	
 	//회원등록 (임대인/임차인)
+	/*
 	@PostMapping("insert.me")	
 	public String insertMember(Member m, Model model, HttpSession session, MultipartFile upfile) {
 		
@@ -299,6 +303,7 @@ public class MemberController {
 		}
 		
 	}
+	*/
 		
 	//아이디 중복 체크 (임대인/임차인)
 	@ResponseBody
@@ -320,6 +325,7 @@ public class MemberController {
 	}
 	
 	//회원등록 (중개인)
+	/*
 	@PostMapping("esinsert.me")	
 	public String esInsertMember(Member m, Model model, HttpSession session, MultipartFile upfile) {
 
@@ -389,6 +395,7 @@ public class MemberController {
 		}
 		
 	}
+	*/
 	
 	//아이디 중복 체크 (중개인)
 	@ResponseBody
@@ -472,6 +479,7 @@ public class MemberController {
 
 
 	//회원탈퇴
+	/*
 	@RequestMapping("mdelete.me")
 	public String memberDelete(String userPwdChk, HttpSession session, Model model) {
 		
@@ -506,10 +514,11 @@ public class MemberController {
 		}
 
 	}
+	*/
 
 	
 	//비밀번호 수정 
-
+/*
 	@RequestMapping("changePwd.me")
 	public String memberPwdUpdate(Member m, Model model, HttpSession session,HttpServletRequest request) {
 		
@@ -545,6 +554,8 @@ public class MemberController {
 		}
 				
 	}
+	*/
+	
 
 	
 	//회원 정보 수정
@@ -606,7 +617,7 @@ public class MemberController {
 		
 		return "success";
 	}
-	
+
 	@PostMapping("changefile.me")
 	public void fileAjaxMethod (Model model,MultipartFile upfile, HttpSession session) {
 		
@@ -631,7 +642,9 @@ public class MemberController {
 		}
 		
 		//전달된 파일이 있다면 해당 정보 DB에 전달하기 
+
 		memberService.fileAjaxMethod(m);
+
 	
 	}
 	
@@ -678,12 +691,10 @@ public class MemberController {
 		ArrayList<Reservation> rlist = memberService.selectReservation(loginUser);
 		
 		model.addAttribute("rlist", rlist);
+
 		return "member/memberMypageReservationForm";
 	}
 	                                     
-
-	
-
 	@ResponseBody
 	@RequestMapping("subscribe.pay")
 	public int userSubscribe(int userNo, HttpSession session) {
@@ -699,6 +710,7 @@ public class MemberController {
 		return result;
 	}
 	
+
 	@ResponseBody
 	@RequestMapping("subscribe.no")
 	public int noSubscribe(int userNo, HttpSession session) {
@@ -714,6 +726,7 @@ public class MemberController {
 		return result;
 	}
 	
+
 	//mypage에서 문의내역 페이지로 이동 
 	@RequestMapping("myQnA.me")
 	public String selectEnquiryList(HttpSession session ,Model model) {
@@ -860,6 +873,7 @@ public class MemberController {
 		
 		return "member/memberMypageEstatejjimForm";
 	}
+
 	
 	//중개사 리뷰 공감 조회
 	@RequestMapping("myReviewLike.me")
@@ -993,11 +1007,18 @@ public class MemberController {
 	
 	//중개인 예약내역
 	@RequestMapping("reser.es")
-	public String membermypageEsReservation(@RequestParam(value = "esNo", required = false) Integer esNo,HttpSession session, Model model) {
+	public String membermypageEsReservation(@RequestParam(value="currentPage",defaultValue="1")int currentPage,@RequestParam(value = "esNo", required = false) Integer esNo,HttpSession session, Model model) {
 		
 		//Member m = (Member)session.getAttribute("loginUser");
+		int listCount = houseService.mypageImdaHouseListCount();		
+		//한 페이지에서 보여줘야하는 게시글 개수 
+		int boardLimit = 3;
+		//페이징 바 개수 (pageLimit)
+		int pageLimit = 3;								
 		
-		ArrayList<Reservation> relist = memberService.membermypageEsReservation(esNo);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Reservation> relist = memberService.membermypageEsReservation(esNo,pi);
 		
 		model.addAttribute("relist",relist);
 		

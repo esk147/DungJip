@@ -52,9 +52,61 @@
 	color: #D27E04;
 }
 
+
+             #num {
+            color: #D27E04;
+             }
+             
+             #type{
+             display: flex;
+             align-items: center;
+             justify-content: space-between;
+             }
+             
+             #realtype{
+            
+    		 padding: 6px;
+    		 border-radius: 50px;
+    		 background-color:rgb(255, 236, 235);
+    		 color:rgb(250, 78, 62);
+             }
+             
+             .profile{
+             width: 35px;
+    		 height: 35px;
+    		 border-radius: 50%;
+             }
+             
+             .d-flex{
+             display: flex;
+    		 align-items: center;
+    		 justify-content: flex-start;
+             }
+             
+             .good{
+             width: 20px;
+             }
+             
+             .emo{
+             display:flex;
+             align-items: center;
+             justify-content: flex-end;
+             }
+             
+             .likecount{
+             padding-left: 3px;
+             }
+             
+        	.like-btn.liked img {
+            filter: sepia(100);
+        	}
+
+             
+
 #num {
 	color: #D27E04;
 }
+
 
 #type {
 	display: flex;
@@ -518,7 +570,17 @@
                                                
                                                
                                                
+
+                                               
+                                               <div class="emo">
+                                                            <span class="like-btn" onclick="toggleLike(this)" >
+                                                            <img class="good" src="resources/img/good.svg">
+                                                           </span>
+                                                            <h6 class="likecount">25</h6>
+                                                            </div>
+
                                                <hr>
+
                                             </div>
                                             
                                             
@@ -532,6 +594,7 @@
                         </section>
                            <script>
    							 function toggleLike(element) {
+
 
    								 console.log("toggleLike element 로그");
    								 console.log(element);
@@ -595,7 +658,6 @@
                                     					
                                     					stars += "<i class='fa fa-star'></i> ";
                                     				}
-                               
                                                     
                                     				var reviewItem = $("<div class='review_item'>" +
                                     						"<div class='media'>" +
@@ -613,6 +675,7 @@
                             		        		        "</div>" +
                             		        		        "</div>" +
                             		        		        "<p>" + result.erlist[i].esReContent + "</p>" +
+                            		        		    	"<hr>"+
                             		        		        '<div class="emo"><span class="' + (result.reviewBooleans[i] === 1 ? "like-btn liked" : "like-btn") + '" onclick="toggleLike(this)" id="'+result.erlist[i].esReNo+'"><img class="good" src="resources/img/good.svg"> </span> <h6 id="likeCount'+result.erlist[i].esReNo+'" class="likecount">'+
                             		        		        result.erNums[i]+'</h6>'+
                             		        		        "</div>" 
@@ -646,6 +709,7 @@
                                     
                                     
                                     </script>
+
 
 					<div id="map" style="width: 1000px; height: 500px;"></div>
 					<script type="text/javascript"
@@ -796,10 +860,7 @@
 		                    clickedDate = clickedDate >= 10 ? clickedDate : '0' + clickedDate;
 		                    clickedMonth = clickedMonth >= 10 ? clickedMonth : '0' + clickedMonth;
 		                    clickedYMD = clickedYear + clickedMonth + clickedDate;
-		                    console.log(clickedYMD);
 		                    var selectEsNo = document.getElementById("selectEsNo").value;
-		                    console.log("===채현===")
-		                    console.log(selectEsNo)
 		                    $.ajax({
 		                        url: "selectReservationList.re",
 		                        data: {
@@ -812,6 +873,10 @@
 			                        		var time = "time"+result[i].selectTime;
 				                        	var disDiv = document.getElementById(time);
 				                        	disDiv.disabled = true;
+				                        	
+				                        	if (disDiv.disabled) {
+				                                disDiv.style.textDecoration = 'line-through';
+				                            }				                        	
 			                        	}
 		                        	}
 		                        },

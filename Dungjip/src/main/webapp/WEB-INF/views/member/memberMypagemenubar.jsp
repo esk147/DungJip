@@ -111,9 +111,12 @@
             <div id="headerLeft" class="headerLeft" style="margin: 10px 10px;">
             
                 <ul class="leftmenu" style="list-style: none; margin-top: 20px; padding: 0;">
-                
-                    <li><a href="mypageupdate.me" class="menuitem" style="font-size: 15px; color: #929292;">내프로필</a></li>
-                    <li><a href="mReservation.me" class="menuitem" style="font-size: 15px; color: #929292;">예약내역</a></li>                                  
+
+                    <li><a href="mypageupdate.me" class="menuitem" style="font-size: 15px; color: #303038;">내프로필</a></li>
+
+                    <li><a href="mReservation.me" class="menuitem" style="font-size: 15px; color: #303038;">예약내역</a></li>   
+                                       
+
          
                     <li class="dropdown">
 			            <a href="#" class="menuitem" style="font-size: 15px; color: #929292;" >리뷰내역</a>
@@ -154,7 +157,7 @@
         
        		$(function() {
 			  $("input[type='file']").css("display","none"); //file input 숨기기
-                //대표이미지를 클릭하면 input file 요소 1번이 클릭되게 하는 함수
+             
                 $(".text").click(function(){
                     $("#upfile").click();
                 });
@@ -170,10 +173,7 @@
                 if(inputFile.files.length == 1){ //파일이 등록되면 
                     //해당 파일을 읽어줄 FileReader라고 하는 자바스크립트 객체를 이용한다.
                     
-                    var form = document.querySelector("#profileForm");
-                
-                    // var formData = new FormData(form);
-       				//formData.append('file', inputFile.files[0]);                    
+                    var form = document.querySelector("#profileForm");                  
                     
                     var reader = new FileReader();
                     reader.readAsDataURL(inputFile.files[0]);

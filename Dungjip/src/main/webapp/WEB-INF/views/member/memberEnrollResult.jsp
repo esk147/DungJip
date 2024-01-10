@@ -76,6 +76,17 @@
 <body>
 
 	<%@ include file="../common/header.jsp" %>
+	
+	 <div class="page-head"> 
+         <div class="container">
+             <div class="row">
+                 <div class="page-head-content">
+                     <h1 class="page-title"></h1>               
+                 </div>
+             </div>
+         </div>
+     </div>
+
 
     <div class="container1">
     		<h2 style="font-size:30px; padding:inherit;font-weight:revert;">가입완료</h2>

@@ -14,7 +14,6 @@ public interface MemberService {
 
 	//아이디 중복체크 (임대인/임차인)
 	int ajaxIdMethod(String userId);
-
 	
 	//회원가입 메소드 (임대인/임차인)
 	int insertMember(Member m);
@@ -82,7 +81,7 @@ public interface MemberService {
 	int mypageEstateUpdate(Estate elist);
 
 	//중개인 예약내역
-	ArrayList<Reservation> membermypageEsReservation(Integer esNo);
+	ArrayList<Reservation> membermypageEsReservation(Integer esNo,PageInfo pi);
 
 
 }

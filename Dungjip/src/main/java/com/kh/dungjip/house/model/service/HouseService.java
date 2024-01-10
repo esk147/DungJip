@@ -10,6 +10,8 @@ import com.kh.dungjip.house.model.vo.Jjim;
 import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.house.model.vo.HouseImg;
 import com.kh.dungjip.member.model.vo.Member;
+import com.kh.dungjip.residentReview.model.vo.ResidentReview;
+import com.kh.dungjip.residentReview.model.vo.ReviewImg;
 
 public interface HouseService {
 
@@ -71,6 +73,45 @@ public interface HouseService {
 	//부동산 집 리스트(모달창)
 	ArrayList<House> selectHouseModal(int esNo);
 
+	//거주자 리뷰 리스트
+	ArrayList<ResidentReview> selectResidentReviewList(int houseNo);
+
+	//거주자 리뷰 총점
+	int selectResidentReviewSum(int houseNo);
+
+	//거주자 리뷰 수
+	int selectResidentReviewCount(int houseNo);
+
+	//매물 리뷰 작성
+	int insertResidentReview(ResidentReview rr);
+
+	void enrollReviewImg(ReviewImg reviewImg);
+
+	int insertMemberKeyword(Map<String, Object> map);
+
+	//매물 리뷰 수정 상세뷰 
+	ResidentReview ResidentReviewDetail(int reReviewNo);
+
+	int selectBuilding(int houseNo);
+
+	int selectBuildingcount(int houseNo);
+
+	int selectTraffic(int houseNo);
+
+	int selectTrafficCount(int houseNo);
+
+	int selectInterior(int houseNo);
+
+	int selectInteriorCount(int houseNo);
+
+	int selectSafety(int houseNo);
+
+	int selectSafetyCount(int houseNo);
+
+	int selectLife(int houseNo);
+
+	int selectLifeCount(int houseNo);
+
 	//마이페이지 집 찜 페이징
 	int selectListCount();
 
@@ -88,6 +129,13 @@ public interface HouseService {
 
 	//마이페이지 임대인 매물내역 삭제
 	int myImdaHouseDelete(int houseNo);
+
+	//매물 리뷰 수정
+	int updateResidentReview(Map<String, Object> paramMap);
+
+	int updateKeywords(Map<String, Object> paramMap);
+
+	int deleteKeywords(Map<String, Object> paramMap);
 
 
 

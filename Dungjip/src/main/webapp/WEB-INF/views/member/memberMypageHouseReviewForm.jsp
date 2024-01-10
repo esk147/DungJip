@@ -96,14 +96,20 @@
 			                             <div style="width:100%;">
 			                                
 			                                 <div class="item-entry overflow" style="width:100%;">
-			                                     <h5 style="display: flex;justify-content: space-between;"><a href=""> # ${hlist.houseNo}  </a>
-			                                     	<div><a href="#" type="button" id="updateBtn" class="btn btn-light btn-sm" data-target="#updateReReview" data-toggle="modal" style="color: blue;"  onclick="a(${hlist.reReviewNo})">수정</a>																					
+
+			                                     <h5 style="display: flex;justify-content: space-between;"><a href=""> 집 번호 ${hlist.houseNo}  </a>
+			                                     	<div><a href="update.rere?reReviewNo=${hlist.reReviewNo}&houseNo=${hlist.houseNo}" type="button" id="updateBtn" class="btn btn-light btn-sm">수정</a>																					
+
+
 													 	<a href="residentReview/delete.re?reReviewNo=${hlist.reReviewNo }" id="deleteBtn" class="btn btn-light btn-sm" onclick="return confirm('리뷰를 삭제하시겠습니까?');" style="color: red;">삭제</a></div></h5>
 			                                     <div class="dot-hr"></div>
 			                                     <!-- 별점을 어떻게 띄울지 생각을 해보자. -->
 			                                     <span class="pull-left"><b>작성된 날짜 : </b>${hlist.reCreateDate}</span>
+
+	
 			                                     <p>장점 : ${hlist.reAdContent}</p>
 			                                     <p>단점 : ${hlist.reDisContent}</p>
+
 			
 			                                 </div>
 			                             </div>
@@ -120,7 +126,7 @@
 										
 				</div>
 				
-				<footer style="width: 500px;">
+				<footer style="width: 450px;">
 				   <!--------------------------------------- 페이징 처리 ------------------------------------->
 				   <div class="pull-right" >
 			            <div class="pagination">
