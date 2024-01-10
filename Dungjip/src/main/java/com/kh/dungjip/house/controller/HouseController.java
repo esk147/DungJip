@@ -108,6 +108,7 @@ public class HouseController {
 //											.houseBuildDate(sqlBuildDate)
 											.houseAnimals((String)object.get("animals"))
 											.houseName((String)object.get("name"))
+											.status("Y")
 											.build();
 			
 			hlist.add(house);
@@ -306,7 +307,8 @@ public class HouseController {
 	@ResponseBody
 	@RequestMapping(value="resi.re",produces="application/json; charset=UTF-8")
 	public Map<String,Object> selectResidentReviewList(int houseNo){
-		
+		System.out.println("houseNo");
+		System.out.println(houseNo);
 		ArrayList<ResidentReview> rlist = houseService.selectResidentReviewList(houseNo);
 		
 		
@@ -385,8 +387,7 @@ public class HouseController {
 		System.out.println(consKeywords);
 		String keywordString = prosKeywords + "," + consKeywords;
 		String[] keywordNo = keywordString.split(",");
-		System.out.println(keywordString);
-		System.out.println(keywordNo.toString());
+		System.out.println(keywordNo);
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		System.out.println(rr);
 		Map<String, Object> map = new HashMap<>();
@@ -466,8 +467,6 @@ public class HouseController {
 	public String updateResident(int reReviewNo,int houseNo,  MultipartFile reUpFile,ResidentReview rr, Model model, HttpSession session,@RequestParam("reviewImage") MultipartFile file, @RequestParam String prosKeywords, @RequestParam String consKeywords){
 	
 		Member loginUser = (Member) session.getAttribute("loginUser");
-		
-	
 		
 		if(loginUser != null && rr!= null) {
 			
