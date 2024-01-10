@@ -70,6 +70,24 @@
             })
         }
         
+        function showConfirmToReport(text) {
+            swal({
+                text : text,
+                icon : 'warning',
+                buttons : [ "취소", "확인" ],
+                closeOnClickOutside : false,
+            }).then(function(result) {
+                console.log(result);
+
+                if (result) {
+                    return true;
+                } else {
+                	return false;
+                }
+
+            })
+        }
+        
         function showHistoryBack(text) {
             swal({
                 text : text,
