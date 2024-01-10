@@ -113,7 +113,7 @@ public interface HouseService {
 	int selectLifeCount(int houseNo);
 
 	//마이페이지 집 찜 페이징
-	int selectListCount();
+	int selectListCount(Member m);
 
 	//마이페이지 중개인 매물내역
 	ArrayList<House> memberMypageEstateHouseList(Integer esNo, PageInfo pi);
@@ -137,7 +137,12 @@ public interface HouseService {
 
 	int deleteKeywords(Map<String, Object> paramMap);
 
+
 	int updateReviewImg(Map<String, Object> paramMap);
+
+	//중개인 예약내역 페이징
+	int mypagemypageEsReservationCount(Integer esNo);
+
 
 
 

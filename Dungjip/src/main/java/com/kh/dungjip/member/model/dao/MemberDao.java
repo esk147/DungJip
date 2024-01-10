@@ -180,9 +180,16 @@ public class MemberDao {
 	}
 
 	//중개인 예약내역
-	public ArrayList<Reservation> membermypageEsReservation(SqlSessionTemplate sqlSession, Integer esNo) {
+	public ArrayList<Reservation> membermypageEsReservation(SqlSessionTemplate sqlSession, Integer esNo, PageInfo pi) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("memberMapper.membermypageEsReservation",esNo);
+		//몇개를 보여줄지
+		int limit = pi.getBoardLimit();
+		//몇개를 건너뛸지
+		int offset = (pi.getCurrentPage()-1)* limit;		
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+				
+		return (ArrayList)sqlSession.selectList("memberMapper.membermypageEsReservation",esNo,rowBounds);
 	}
 
 	

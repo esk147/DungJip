@@ -17,6 +17,17 @@
         .bg-secondary {
             background-color: #f7f7f7;
         }
+        .form-container {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .accordion {
+            margin-bottom: 15px;
+        }
         .accordion-header {
             cursor: pointer;
             padding: 1rem;
@@ -62,29 +73,66 @@
             text-decoration: none;
             cursor: pointer;
         }
+        
+        .nav-item2 {
+            padding: 10px 50px; /* 필요에 따라 패딩 조정 */
+            margin: 0 10px; /* 아이템 간 간격 조정 */
+            border: 1px solid #ddd; /* 테두리 색상 */
+            background-color: #fff; /* 활성화되지 않은 아이템 배경색 */
+            color: #000; /* 텍스트 색상 */
+            cursor: pointer;
+        }
+
+        .nav-item2.active {
+            background-color: #000; /* 활성화된 아이템 배경색 */
+            color: #fff; /* 활성화된 아이템 텍스트 색상 */
+        }
+
+        .nav-item2:hover {
+            background-color: #000; /* 마우스 오버시 배경색 */
+            color: #fff; /* 마우스 오버시 텍스트 색상 */
+        }
+        h2 {
+            text-align: center;
+        }
     </style>
 </head>
 <body class="bg-secondary">
     <%@ include file="../common/header.jsp" %>
-    <h2>공지사항</h2>
-    <c:forEach var="notice" items="${noticeList}">
-        <div class="accordion">
-            <div class="accordion-header" onclick="toggleAccordion(${notice.noticeNo})">
-                ${notice.noticeNo}. ${notice.noticeTitle}
+	<div class="page-head">
+		<div class="container">
+		</div>
+	</div>
+    <div class="form-container">
+    
+        <h2>공지사항</h2>
+        <br><br>
+		<div align="center">
+		    <c:if test="${loginUser.userType == '관리자' }">
+		        <a href="<c:url value='/enList.en'/>" class="nav-item2" style="width:180px;">1:1문의 내역</a>
+		    </c:if>    
+		    <a href="<c:url value='/enquiry.en'/>" class="nav-item2" style="width:180px;">1:1문의</a>
+		    <a href="<c:url value='/notice/list'/>" class="nav-item2 active" style="width:180px;" onclick="navigateToNotice(event)">공지사항</a>
+		</div>
+        <br><br>
+        <c:forEach var="notice" items="${noticeList}">
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(${notice.noticeNo})">
+                    ${notice.noticeNo}. ${notice.noticeTitle}
+                </div>
+                <div class="accordion-body" id="detailContent-${notice.noticeNo}">
+                    <p>공지사항 번호 : ${notice.noticeNo }</p>
+                    <h2>제목 : ${notice.noticeTitle}</h2>
+                    <p>${notice.noticeContent}</p>
+                    <p>작성일 : ${notice.enrollDate}</p>
+                    <p>조회수: <span id="count-${notice.noticeNo}">${notice.count}</span></p>
+                    <c:if test="${loginUser.userType == '관리자'}">
+                        <button onclick="openUpdateModal(${notice.noticeNo})">수정하기</button>
+                        <button onclick="confirmDelete(${notice.noticeNo})">삭제하기</button>
+                    </c:if>
+                </div>
             </div>
-            <div class="accordion-body" id="detailContent-${notice.noticeNo}">
-            	<p>공지사항 번호 : ${notice.noticeNo }</p>
-                <h2>제목 : ${notice.noticeTitle}</h2>
-                <p>${notice.noticeContent}</p>
-                <p>작성일 : ${notice.enrollDate}</p>
-                <p>조회수: <span id="count-${notice.noticeNo}">${notice.count}</span></p>
-                <c:if test="${loginUser.userType == '관리자'}">
-                    <button onclick="openUpdateModal(${notice.noticeNo})">수정하기</button>
-                    <button onclick="confirmDelete(${notice.noticeNo})">삭제하기</button>
-                </c:if>
-            </div>
-        </div>
-    </c:forEach>
+        </c:forEach>
 
 	<!-- 글 작성 버튼 -->
     <c:if test="${loginUser.userType == '관리자'}">
@@ -147,7 +195,7 @@
 	        <button id="deleteCancelBtn" onclick="closeDeleteModal()">취소</button>
 	    </div>
 	</div>
-	
+</div>
     <script>
     function toggleAccordion(noticeNo) {
         var detailContent = $("#detailContent-" + noticeNo);
@@ -156,7 +204,7 @@
         var isHidden = detailContent.is(":hidden");
 
         // 모든 아코디언 바디 숨김
-        $(".accordion-body").hide();
+        $(".accordion-body").slideUp();
 
         // 아코디언을 펼칠 때
         if (isHidden) {
@@ -168,7 +216,6 @@
                     url: "/dungjip/notice/increaseCount/" + noticeNo,
                     success: function () {
                         // Ajax 호출 성공 시 조회수 업데이트.
-                        
                         console.log("조회수 증가 성공.");
                         var countSpan = $("#count-" + noticeNo);
                         var currentCount = parseInt(countSpan.text());
@@ -183,10 +230,10 @@
                 detailContent.data("loaded", true);
             }
             // 선택된 아코디언 바디 펼치기
-            detailContent.show();
+            detailContent.slideDown();
         } else {
             // 아코디언을 닫을 때
-            detailContent.hide();
+            detailContent.slideUp();
         }
     }
     

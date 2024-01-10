@@ -269,9 +269,9 @@ public class HouseServiceImpl implements HouseService{
 
 	//마이페이지 집 찜 페이징
 	@Override
-	public int selectListCount() {
+	public int selectListCount(Member m) {
 		// TODO Auto-generated method stub
-		return houseDao.selectListCount(sqlSession);
+		return houseDao.selectListCount(sqlSession,m);
 	}
 
 	//마이페이지 중개인 매물내역
@@ -329,11 +329,19 @@ public class HouseServiceImpl implements HouseService{
 		return houseDao.deleteKeywords(sqlSession,paramMap);
 	}
 
+
 	@Override
 	public int updateReviewImg(Map<String, Object> paramMap) {
 		
 		return houseDao.updateReviewImg(sqlSession,paramMap);
 		
+	}
+	//중개인 예약내역 페이징
+	@Override
+	public int mypagemypageEsReservationCount(Integer esNo) {
+		// TODO Auto-generated method stub
+		return houseDao.mypagemypageEsReservationCount(sqlSession,esNo);
+
 	}
 
 	

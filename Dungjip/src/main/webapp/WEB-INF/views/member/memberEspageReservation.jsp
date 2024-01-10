@@ -93,7 +93,7 @@
 						<c:forEach var="relist" items="${relist }" >
 							<tr>
 								<td class="text-center" >
-									<h5>NO. ${relist.reservationNo }</h5>
+									<h5>${relist.reservationNo }</h5>
 								</td>
 								<td>
 									<div class="media" >
@@ -123,11 +123,31 @@
 				</div>
 			</div>
 			
+			<!------------------------------ 페이징 처리 -------------------------------->
+			<footer style="width: 450px;">
+				<div class="pull-right">
+					<div class="pagination">
+						<ul>
+							<c:if test="${pi.currentPage ne 1 }">
+								<li><a
+									href="reser.es?currentPage=${pi.currentPage-1}&esNo=${esNo}">Prev</a></li>
+							</c:if>
+							<c:forEach begin="${pi.startPage}" end="${pi.endPage }" var="p">
+								<li><a href="reser.es?currentPage=${p}&esNo=${esNo}">${p}</a></li>
+							</c:forEach>
+							<c:if test="${pi.currentPage ne pi.maxPage }">
+								<li><a
+									href="reser.es?currentPage=${pi.currentPage+1}&esNo=${esNo}">Next</a></li>
+							</c:if>
+						</ul>
+					</div>
+				</div>
+			</footer>
 		</section> 
-	<script type="text/javascript">
-		console.log(${relist})
-	</script>
 	</div>
+			<script type="text/javascript">
+				console.log(${pi});
+			</script>
 
 	<%@ include file="../common/footer.jsp"%>
 

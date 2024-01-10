@@ -249,9 +249,9 @@ public class HouseDao {
 	}
 	
 	//마이페이지 집 찜 페이징
-	public int selectListCount(SqlSessionTemplate sqlSession) {
+	public int selectListCount(SqlSessionTemplate sqlSession, Member m) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("houseMapper.selectListCount");
+		return sqlSession.selectOne("houseMapper.selectListCount",m);
 	}
 
 	public ArrayList<House> memberMypageEstateHouseList(SqlSessionTemplate sqlSession, Integer esNo, PageInfo pi) {
@@ -314,9 +314,17 @@ public class HouseDao {
 		return sqlSession.delete("houseMapper.deleteKeywords",paramMap);
 	}
 
+
 	public int updateReviewImg(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("houseMapper.updateReviewImg",paramMap);
+	}
+
+	//중개인 예약내역 페이징
+	public int mypagemypageEsReservationCount(SqlSessionTemplate sqlSession, Integer esNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("houseMapper.mypagemypageEsReservationCount",esNo);
+
 	}
 
 }

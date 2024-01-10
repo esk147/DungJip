@@ -452,10 +452,10 @@
 																                    '<div class="col-sm-6 col-md-3 p0" style="height: 377.59px;">' +
 																                        '<div class="box-two proerty-item" id="' + house.houseNo + '" onclick="detailHouse(this)">' +
 																                            '<div class="item-thumb" style="width:265px;">' +
-																                                '<img src="' + img + '" style="max-height: 225px; width: 265px;">' +
+																                                '<img src="' + img + '" style="max-height: 225px; width: 265px; cursor: pointer;">' +
 																                            '</div>' +
 																                            '<div class="item-entry overflow">' +
-																                                '<h5><a href="property-1.html">' + houseStyleDisplay + '</a></h5>' +
+																                                '<h5><a>' + houseStyleDisplay + '</a></h5>' +
 																                                '<div class="dot-hr"></div>' +
 																                                '<span class="pull-left"><b> 평수 :</b> ' + house.houseSquare + ' </span>' +
 																                                '<span class="proerty-price pull-right">' + house.houseType + '</span>' +
@@ -674,11 +674,16 @@
                             		        		        stars +
                             		        		        "</div>" +
                             		        		        "</div>" +
+
                             		        		        "<p>" + result.erlist[i].esReContent + "</p>" +
+
+
                             		        		        '<div class="emo"><span class="' + (result.reviewBooleans[i] === 1 ? "like-btn liked" : "like-btn") + '" onclick="toggleLike(this)" id="'+result.erlist[i].esReNo+'"><img class="good" src="resources/img/good.svg"> </span> <h6 id="likeCount'+result.erlist[i].esReNo+'" class="likecount">'+
+
                             		        		        result.erNums[i]+'</h6>'+
                             		        		        "</div>" +
                             		        		    	"<hr>"
+
                             		        		        );
                                     				 $(".review_list").append(reviewItem);
                                     		} 
@@ -988,6 +993,10 @@
         		}
         	}
         	
+			function detailHouse(e){
+				location.href="detail.ho?houseNo="+e.id;
+				console.log(e.id);
+			}
         	
         	
         	</script>
