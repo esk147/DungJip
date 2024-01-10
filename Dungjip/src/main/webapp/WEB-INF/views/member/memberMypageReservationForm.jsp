@@ -71,7 +71,7 @@
 
 		<section class="main-content"
 			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
-			<div class="container section_gap_top_75">
+			
 				<div class="cart_inner">
 					<div class="table-responsive">
 						<table class="table">
@@ -85,9 +85,6 @@
 							<tbody>
 							<c:forEach var="reservation" items="${rlist }" >
 								<tr>
-									<td class="text-center">
-										<h5>정슬기 수정요함</h5>
-									</td>
 									<td>
 										<div class="media">
 											<div class="d-flex"></div>
@@ -115,10 +112,32 @@
 						</table>
 					</div>
 				</div>
-			</div>
+			<!------------------------------ 페이징 처리 -------------------------------->
+			<footer style="width: 450px;">
+				<div class="pull-right">
+					<div class="pagination">
+						<ul>
+							<c:if test="${pi.currentPage ne 1 }">
+								<li><a
+									href="mReservation.me?currentPage=${pi.currentPage-1}&esNo=${esNo}">Prev</a></li>
+							</c:if>
+							<c:forEach begin="${pi.startPage }" end="${pi.endPage }" var="p">
+								<li><a href="mReservation.me?currentPage=${p}&esNo=${esNo}">${p}</a></li>
+							</c:forEach>
+							<c:if test="${pi.currentPage ne pi.maxPage }">
+								<li><a
+									href="mReservation.me?currentPage=${pi.currentPage+1}&esNo=${esNo}">Next</a></li>
+							</c:if>
+						</ul>
+					</div>
+				</div>
+			</footer>
+			
 		</section>
 	</div>
+		
 	<script> 
+
 	function insertEstateReview(el){
 		var esNo = $(el).closest('tr').find('#esNo').val();
 		var beforeRTime = $(el).closest('tr').find('#rTime').val();
@@ -131,8 +150,10 @@
 		}else{
 			window.location.href = "/dungjip/insert.esre?esNo="+esNo;
 		}
-	}
+		
 	</script>
+	
+	
 	<%@ include file="../common/footer.jsp"%>
 
 </body>

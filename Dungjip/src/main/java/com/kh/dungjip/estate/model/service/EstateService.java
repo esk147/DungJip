@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.estate.model.vo.Own;
 import com.kh.dungjip.house.model.vo.ReservationNew;
 import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
@@ -103,7 +104,7 @@ public interface EstateService {
 	ArrayList<Estate> mypageEstateUpdate(Member m);
 
 	//중개인 매물내역 삭제 
-	int myEstateHouseDelete(int houseNo);
+	int myEstateHouseDelete(Own o);
 
 	//중개인페이지
 	ArrayList<Estate> myEspage(Member m);
