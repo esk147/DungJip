@@ -86,7 +86,7 @@
 							<c:forEach var="reservation" items="${rlist }" >
 								<tr>
 									<td class="text-center">
-										<h5>정슬기 수정요함</h5>
+										<h5>슬기야 수정해야해 </h5>
 									</td>
 									<td>
 										<div class="media">

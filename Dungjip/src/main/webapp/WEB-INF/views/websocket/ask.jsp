@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../common/sweetAlert.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1241,7 +1242,7 @@ window.onload = function() {
 		            posTop = posY - menuHeight - secMargin + "px";
 		        }
 		        else {
-		            posLeft = posX + secMargin + "px";
+		            posLeft = posX + secMargin + "px" ;
 		            posTop = posY + secMargin + "px";
 		        }
 
@@ -1253,7 +1254,9 @@ window.onload = function() {
 		        
 		        var chatNo = this.children[1].children[0].value;						        
 		         $("#deleteChatRoom").click(function(){
+		        	//	 showSuccess("성공","신고가 정상적으로 제출되었습니다","확인"); 
 		        	
+		   
 		         	$.ajax({
 		        	
 		        		url : "../websocket/deleteChatRoom.ch",
@@ -1262,6 +1265,7 @@ window.onload = function() {
 		        			chatNo : chatNo
 		        		},
 		        		success: function(result){
+		        	
 		        			location.reload();
 		        		},
 		        		error : function(){
@@ -1269,6 +1273,7 @@ window.onload = function() {
 		        			
 		        		}
 		        	}) 
+		        	 
 		          });
 		        
 		        // 브라우저 기본 컨텍스트 메뉴 방지.
