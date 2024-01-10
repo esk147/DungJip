@@ -111,7 +111,7 @@ public class MemberController {
 		//아이디를 가지고 db에서 일치하는 회원정보 조회 
 		Member beginLoginUser = memberService.loginMember(m);
 	
-		if(beginLoginUser != null /*&& bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())*/) { //성공시
+		if(beginLoginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())) { //성공시
 
 
 			memberService.updateLastLoginTime(beginLoginUser);//현재 시간 추가 
@@ -206,9 +206,9 @@ public class MemberController {
 		}else { //입력한 정보가 있을 때
 			
 			String newPwd = RandomStringUtils.randomAlphanumeric(10);
-			//String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
+			String encryptPassword = bcryptPasswordEncoder.encode(newPwd);
 			
-			//m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
+			m.setUserPwd(encryptPassword); //새로운 암호화된 비밀번호
 			
 			memberService.updateMemberPwd(m);
 			
@@ -312,9 +312,6 @@ public class MemberController {
 		
 		return result;		
 	}
-	
-	
-	
 	
 	//회원가입 (중개인) 폼으로 이동 (사용자 폼)
 	@RequestMapping("enroll.es")
@@ -510,7 +507,8 @@ public class MemberController {
 
 	}
 
-	//비밀번호 수정 
+
+	//비밀번호 수정
 	@RequestMapping("changePwd.me")
 	public String memberPwdUpdate(Member m, Model model, HttpSession session,HttpServletRequest request) {
 		
@@ -546,8 +544,6 @@ public class MemberController {
 		}
 				
 	}
-	
-
 	
 	//회원 정보 수정
 	@RequestMapping("mupdate.me")

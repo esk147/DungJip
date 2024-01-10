@@ -63,7 +63,7 @@
 	</select>
 	
 	<select id="selectHouse" parameterType="string" resultMap="houseResultSet">
-		select house_no, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+		select house_no, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>
            THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
            ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, house_rent, house_title, house_style, house_square, house_latitude, house_longitude, house_floor, house_maintaincost, house_name, house_type from house where house_type = #{type} order by house_no
 	</select>
@@ -296,7 +296,7 @@
 	</select>
 	
 	<select id="selectSubscribeHouseList" resultMap="houseResultSet">
-		SELECT H.house_no, H.house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+		SELECT H.house_no, H.house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>
            THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
            ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, H.house_price, H.house_rent, H.house_square, H.house_floor, H.house_maintaincost, H.house_title, H.house_style
 	    FROM OWN O
@@ -447,9 +447,6 @@ GROUP BY RR.RE_REVIEW_NO, M.USER_NICKNAME, M.CHANGE_NAME, RR.HOUSE_NO
 		AND O.STATUS = 'Y'
 
 	</select>
-
-
-
 <select id="selectResidentReviewSum" resultType="_int">
 SELECT SUM(TOTAL) AS TOTAL
 	FROM RESIDENT_REVIEW
@@ -644,7 +641,7 @@ SELECT COUNT(life_score) AS life_score_COUNT
 		WHERE M.USER_NO = #{userNo}
 		AND H.STATUS='Y'
 	</select>
-	
+
 	<update id="myImdaHouseDelete">
 		UPDATE HOUSE
 		SET STATUS = 'N'

@@ -186,6 +186,7 @@ public class WebsocketController {
 		int result1 = chatService.deleteJoinChatRoom(chatNo);
 
 		if (result1 > 0) {
+			
 			int result2 = chatService.deleteChatMsg(chatNo);
 
 			if (result2 > 0) {

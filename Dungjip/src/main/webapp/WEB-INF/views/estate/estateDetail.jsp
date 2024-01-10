@@ -452,10 +452,10 @@
 																                    '<div class="col-sm-6 col-md-3 p0" style="height: 377.59px;">' +
 																                        '<div class="box-two proerty-item" id="' + house.houseNo + '" onclick="detailHouse(this)">' +
 																                            '<div class="item-thumb" style="width:265px;">' +
-																                                '<img src="' + img + '" style="max-height: 225px; width: 265px;">' +
+																                                '<img src="' + img + '" style="max-height: 225px; width: 265px; cursor: pointer;">' +
 																                            '</div>' +
 																                            '<div class="item-entry overflow">' +
-																                                '<h5><a href="property-1.html">' + houseStyleDisplay + '</a></h5>' +
+																                                '<h5><a>' + houseStyleDisplay + '</a></h5>' +
 																                                '<div class="dot-hr"></div>' +
 																                                '<span class="pull-left"><b> 평수 :</b> ' + house.houseSquare + ' </span>' +
 																                                '<span class="proerty-price pull-right">' + house.houseType + '</span>' +
@@ -983,6 +983,10 @@
         		}
         	}
         	
+			function detailHouse(e){
+				location.href="detail.ho?houseNo="+e.id;
+				console.log(e.id);
+			}
         	
         	
         	</script>

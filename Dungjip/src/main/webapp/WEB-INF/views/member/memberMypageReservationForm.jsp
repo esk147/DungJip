@@ -73,9 +73,6 @@
 							<tbody>
 							<c:forEach var="reservation" items="${rlist }" >
 								<tr>
-									<td class="text-center">
-										<h5>${reservation.reservationNo}</h5>
-									</td>
 									<td>
 										<div class="media">
 											<div class="d-flex"></div>
