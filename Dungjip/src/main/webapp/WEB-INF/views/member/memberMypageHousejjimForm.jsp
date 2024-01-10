@@ -132,7 +132,12 @@
 					</div>
 				</div>
 			</footer>
-
+		
+		<script type="text/javascript">
+			console.log(${pi});
+			
+		
+		</script>
 		</section>    
 	</div>
 	
