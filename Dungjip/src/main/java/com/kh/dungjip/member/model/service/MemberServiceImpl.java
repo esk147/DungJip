@@ -195,9 +195,9 @@ public class MemberServiceImpl implements MemberService{
 
 	//중개인 예약내역
 	@Override
-	public ArrayList<Reservation> membermypageEsReservation(Integer esNo) {
+	public ArrayList<Reservation> membermypageEsReservation(Integer esNo,PageInfo pi) {
 		// TODO Auto-generated method stub
-		return memberDao.membermypageEsReservation(sqlSession,esNo);
+		return memberDao.membermypageEsReservation(sqlSession,esNo,pi);
 	}
 
 	@Override

@@ -1,23 +1,22 @@
 package com.kh.dungjip.estate.model.service;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.dungjip.common.model.vo.PageInfo;
 import com.kh.dungjip.estate.model.dao.EstateDao;
+import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.estate.model.vo.Own;
 import com.kh.dungjip.house.model.vo.ReservationNew;
 import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
-import com.kh.dungjip.estate.model.vo.EsReLike;
 
 @Service
 public class EstateServiceImpl implements EstateService {
@@ -275,9 +274,9 @@ public class EstateServiceImpl implements EstateService {
 
 	//중개인 매물내역 삭제
 	@Override
-	public int myEstateHouseDelete(int houseNo) {
+	public int myEstateHouseDelete(Own o) {
 		// TODO Auto-generated method stub
-		return estateDao.myEstateHouseDelete(sqlSession,houseNo);
+		return estateDao.myEstateHouseDelete(sqlSession,o);
 	}
 
 	//중개인 페이지

@@ -110,8 +110,8 @@
 			                                    	<span class="proerty-price pull-right"> ${hlike.housePrice } / ${hlike.houseRent }</span>
 		                                        </div>
 		                                   		<p>${hlike.houseTitle }</p>
-		                                        <div class="dealer-action pull-right" style="margin-top:35px;">                                                                              
-		                                            <a href="${contextPath}/esHdelete.li?houseNo=${hlike.houseNo}" class="button delete_user_car">Delete</a>
+		                                        <div class="dealer-action pull-right" style="margin-top:35px;">                                                                           
+		                                            <a href="${contextPath}/esHdelete.li?houseNo=${hlike.houseNo}&esNo=${esNo}" class="button delete_user_car">Delete</a>		                                       
 		                                            <a href="${contextPath}/detail.ho?houseNo=${hlike.houseNo}" class="button">View</a>
 		                                        </div>
 		                                    </div>    
@@ -123,7 +123,8 @@
 				</div>
 
 			</div>
-				<footer style="width: 500px;">
+			
+				<footer style="width: 450px;">
 					<!--------------------------------------- 페이징 처리 ------------------------------------->
 					<div class="pull-right">
 						<div class="pagination">
@@ -146,11 +147,6 @@
 			
 		</section>
 	</div>
-
-	<!-- delete -->
-	<form action="esHdelete.li" method="post">
-    	<input type ="hidden">
-    </form>
 
 	<%@ include file="../common/footer.jsp" %>       
      

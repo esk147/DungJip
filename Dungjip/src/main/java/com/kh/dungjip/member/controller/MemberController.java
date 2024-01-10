@@ -691,12 +691,10 @@ public class MemberController {
 		ArrayList<Reservation> rlist = memberService.selectReservation(loginUser);
 		
 		model.addAttribute("rlist", rlist);
+
 		return "member/memberMypageReservationForm";
 	}
 	                                     
-
-	
-
 	@ResponseBody
 	@RequestMapping("subscribe.pay")
 	public int userSubscribe(int userNo, HttpSession session) {
@@ -1009,11 +1007,18 @@ public class MemberController {
 	
 	//중개인 예약내역
 	@RequestMapping("reser.es")
-	public String membermypageEsReservation(@RequestParam(value = "esNo", required = false) Integer esNo,HttpSession session, Model model) {
+	public String membermypageEsReservation(@RequestParam(value="currentPage",defaultValue="1")int currentPage,@RequestParam(value = "esNo", required = false) Integer esNo,HttpSession session, Model model) {
 		
 		//Member m = (Member)session.getAttribute("loginUser");
+		int listCount = houseService.mypageImdaHouseListCount();		
+		//한 페이지에서 보여줘야하는 게시글 개수 
+		int boardLimit = 3;
+		//페이징 바 개수 (pageLimit)
+		int pageLimit = 3;								
 		
-		ArrayList<Reservation> relist = memberService.membermypageEsReservation(esNo);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Reservation> relist = memberService.membermypageEsReservation(esNo,pi);
 		
 		model.addAttribute("relist",relist);
 		

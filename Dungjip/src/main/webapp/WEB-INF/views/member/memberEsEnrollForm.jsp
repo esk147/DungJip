@@ -79,6 +79,16 @@
 
  	<%@ include file="../common/header.jsp" %>
  	
+ 	<div class="page-head"> 
+         <div class="container">
+             <div class="row">
+                 <div class="page-head-content">
+                     <h1 class="page-title"></h1>               
+                 </div>
+             </div>
+         </div>
+    </div>
+ 	
 		<div class="registration-container" style="padding:40px;width:40%;box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);">
 			<h2 class="form-title">회원가입</h2>
 			
@@ -107,8 +117,14 @@
 				</div>
 		
 				<div class="form-section">
-					<label for="userName">이름(중개사) *</label> 
+					<label for="userName">이름*</label> 
  					<input type="text" class="form-control" id="userName" name="userName" placeholder="이름" required>				
+
+				</div>
+				
+				<div class="form-section">
+					<label for="userNickName">중개사무소 명 </label> 
+ 					<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="중개사무소 명" required>				
 
 				</div>			
 	
