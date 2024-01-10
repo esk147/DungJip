@@ -81,7 +81,7 @@
 	                <div class="collapse navbar-collapse yamm" id="navigation">
 	                    <div class="button navbar-right" id="right-navi">
 	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="/dungjip/login.be"' data-wow-delay="0.4s">Login</button>
-	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>
+	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>	                        	
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right" id="nav-menu">
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
@@ -100,7 +100,14 @@
 
 	                    <div class="button navbar-right" id="right-navi">
 	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="http://localhost:9999/dungjip/logout.me?userNo=${loginUser.userNo}"' data-wow-delay="0.4s">Logout</button>
-	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>
+								<c:choose>
+		                        	<c:when test="${loginUser.userType eq '관리자'}">
+				                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enList.en"' data-wow-delay="0.5s">QnA</button>
+		                        	</c:when>
+		                        	<c:otherwise>	                        
+		                        		<button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>
+		                        	</c:otherwise>
+	                        </c:choose>
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right">
                  
