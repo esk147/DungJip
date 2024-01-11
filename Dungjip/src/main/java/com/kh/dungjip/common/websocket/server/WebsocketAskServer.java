@@ -74,7 +74,7 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 			}
 		}
 	}
-
+/*-----------------------------------------------------텍스트만 받는 메소드입니다-----------------------------------------------------------------        */
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {// 텍스트 보내는 메소드
 	System.out.println(message);
@@ -128,6 +128,15 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 			}
 		}
 	}
+	/*--------------------------------------------파일만 받는 메소드입니다----------------------------------------------------------------*/
+	
+	@Override
+	protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) {
+				System.out.println(message);
+	
+	}
+	
+	
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {

@@ -508,7 +508,6 @@ public class MemberController {
 	}
 
 
-	//비밀번호 수정
 	@RequestMapping("changePwd.me")
 	public String memberPwdUpdate(Member m, Model model, HttpSession session,HttpServletRequest request) {
 		
@@ -544,6 +543,7 @@ public class MemberController {
 		}
 				
 	}
+
 	
 	//회원 정보 수정
 	@RequestMapping("mupdate.me")

@@ -360,7 +360,7 @@ public class HouseDao {
 	public int increaseReReLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("houseMapper.increaseReReLikeCount", map);
-    
+	}
 	//중개인 예약내역 페이징
 	public int mypagemypageEsReservationCount(SqlSessionTemplate sqlSession, Integer esNo) {
 		// TODO Auto-generated method stub

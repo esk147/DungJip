@@ -357,6 +357,7 @@ public class HouseServiceImpl implements HouseService{
 	public int increaseReReLikeCount(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return houseDao.increaseReReLikeCount(sqlSession, map);
+	}
     
 	//중개인 예약내역 페이징
 	@Override
