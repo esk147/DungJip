@@ -19,9 +19,9 @@ public class adminInterceptor implements  HandlerInterceptor{
 
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
-		String userId= loginUser.getUserId();
+		String userType= loginUser.getUserType();
 		
-		if(userId == "admin") { //관리자일시
+		if(userType.equals("관리자")) { //관리자일시
 			return true; //요청 유지
 			
 		}else { 

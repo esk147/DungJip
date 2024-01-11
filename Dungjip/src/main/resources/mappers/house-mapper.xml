@@ -720,4 +720,23 @@ SELECT COUNT(life_score) AS life_score_COUNT
 		insert into RE_RE_LIKE values(#{reReNo}, #{userNo})
 </insert>
 
+<select id="selectHouseList1" resultMap="houseResultSet">
+	SELECT *
+	FROM HOUSE
+	WHERE STATUS = 'Y'
+	ORDER BY HOUSE_NO
+</select>
+
+<select id="selectImgList" resultMap="houseImgResultSet">
+	SELECT * 
+	FROM HOUSE_IMG
+</select>
+
+<update id="deleteHouse" parameterType="int">
+	UPDATE HOUSE
+	SET STATUS = 'N'
+	WHERE HOUSE_NO = #{houseNo}
+</update>
+
 </mapper>
+

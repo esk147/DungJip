@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../common/sweetAlert.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -59,7 +60,7 @@
             margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%;
+            width: 50%;
         }
         .close {
             color: #aaa;
@@ -92,9 +93,25 @@
             background-color: #000; /* 마우스 오버시 배경색 */
             color: #fff; /* 마우스 오버시 텍스트 색상 */
         }
-        h2 {
+        h2, p, button {
             text-align: center;
         }
+        
+		textarea#content {
+		    resize: none;
+		}
+		
+		textarea#updateContent {
+		    resize: none;
+		}
+		
+		textarea {
+        	height: 150px;
+        	width: 100%;
+        	padding: 10px;
+        	box-sizing: border-box;
+        	resize: none;
+    	}
     </style>
 </head>
 <body class="bg-secondary">
@@ -108,15 +125,13 @@
         <h2>공지사항</h2>
         <br><br>
 		<div align="center">
-		<c:choose>
-			<c:when test="${loginUser.userType == '관리자' }">
+		    <c:if test="${loginUser.userType == '관리자' }">
 		        <a href="<c:url value='/enList.en'/>" class="nav-item2" style="width:180px;">1:1문의 내역</a>
-		    </c:when>
-		    <c:otherwise>    
-			    <a href="<c:url value='/enquiry.en'/>" class="nav-item2" style="width:180px;">1:1문의</a>
-		    </c:otherwise>
-		</c:choose>    
-			    <a href="<c:url value='/notice/list'/>" class="nav-item2 active" style="width:180px;" onclick="navigateToNotice(event)">공지사항</a>
+		    </c:if>    
+		    <c:if test="${loginUser.userType != '관리자' }">
+		    	<a href="<c:url value='/enquiry.en'/>" class="nav-item2" style="width:180px;">1:1문의</a>
+			</c:if>
+		    <a href="<c:url value='/notice/list'/>" class="nav-item2 active" style="width:180px;" onclick="navigateToNotice(event)">공지사항</a>
 		</div>
         <br><br>
         <c:forEach var="notice" items="${noticeList}">
@@ -212,9 +227,7 @@
 
         // 아코디언을 펼칠 때
         if (isHidden) {
-            // 아직 로드되지 않은 경우에만 Ajax 호출을 수행
             if (!detailContent.data("loaded")) {
-                // Ajax 호출을 통해 서버의 "/notice/increaseCount/" 엔드포인트에 noticeNo를 파라미터로 전달하여 조회수 증가
                 $.ajax({
                     type: "GET",
                     url: "/dungjip/notice/increaseCount/" + noticeNo,
@@ -268,13 +281,10 @@
             }),
             success: function (response) {
                 // Ajax 호출 성공 시, 작성한 글을 화면에 추가
-	            showSuccess("성공","글 작성이 완료되었습니다.","확인");
+	            showSuccessThen("성공","글 작성이 완료되었습니다.","확인");
 
                 // 모달 창 닫기
                 closeModal();
-
-                // 페이지 새로고침 또는 필요한 동작 수행
-                location.reload();
             },
             error: function () {
                 // Ajax 호출 실패 시 에러 처리
@@ -323,9 +333,9 @@
                 noticeContent: content
             }),
             success: function (response) {
-                showSuccess("성공","글 수정이 완료되었습니다.","확인");
+                showSuccessThen("성공","글 수정이 완료되었습니다.","확인");
                 closeUpdateModal();
-                location.reload();
+
             },
             error: function () {
                 showError("오류", "글 수정 중 오류가 발생했습니다.", "확인");
@@ -370,8 +380,7 @@
                 noticeNo: noticeNo
             }),
             success: function (response) {
-                showSuccess("성공","삭제되었습니다.","확인"); 
-                location.reload();
+                showSuccessThen("성공","삭제되었습니다.","확인"); 
             },
             error: function () {
                 showError("오류", "삭제 중 오류가 발생했습니다.", "확인");  

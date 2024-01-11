@@ -744,29 +744,6 @@ public class MemberController {
 		return "member/memberMypageForm";
 	}
 	
-//	@PostMapping("myHousejjim.me")
-//	public String selectHousejjim(HttpSession session ,Model model,PageInfo pi) {
-//		
-//		Member m = (Member)session.getAttribute("loginUser");
-//		
-//		ArrayList<House> hlike = houseService.memberMypageHousejjimForm(m,pi);
-//		
-//		ArrayList<HouseImg> himg = new ArrayList<>();
-//		
-//		for( House i : hlike ) {
-//			
-//			HouseImg j = houseService.memberMypageHousejjimImg(i.getHouseNo());
-//			
-//			himg.add(j); //하나씩 뽑은 j를 himg에 담아주기
-//			
-//		}
-//
-//		model.addAttribute("hlike", hlike);
-//		model.addAttribute("himg", himg);
-//		
-//		return "member/memberMypageForm";
-//	}
-	
 	//mypage에서 집리뷰내역 페이지로 이동
 	@GetMapping("myHReview.me")
 	public String memberMypageHouseReviewForm(@RequestParam(value="currentPage",defaultValue = "1")int currentPage,HttpSession session, Model model) {
