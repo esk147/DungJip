@@ -68,15 +68,17 @@
            ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, house_rent, house_title, house_style, house_square, house_latitude, house_longitude, house_floor, house_maintaincost, house_name, house_type from house where house_type = #{type} order by house_no
 	</select>
 	
-	<select id="selectHouseThumnail" resultMap="houseImgResultSet">
+	<select id="selectHouseThumnail" parameterType="string" resultMap="houseImgResultSet">
 		SELECT MIN(FILE_NO) AS FILE_NO,
 	    HOUSE_NO,
 	    MIN(ORIGIN_NAME) AS ORIGIN_NAME,
 	    MIN(CHANGE_NAME) AS CHANGE_NAME,
-	    MIN(UPLOAD_DATE) AS UPLOAD_DATE,
-	    MIN(STATUS) AS STATUS
+	    MIN(UPLOAD_DATE) AS UPLOAD_DATE
 		FROM HOUSE_IMG
+        join house h using (house_no)
+        where h.house_type=#{type}
 		GROUP BY HOUSE_NO
+        ORDER BY HOUSE_NO
 	</select>
 	
 <insert id="enrollHouse" parameterType="house">

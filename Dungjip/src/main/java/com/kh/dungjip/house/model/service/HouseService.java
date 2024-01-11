@@ -23,7 +23,7 @@ public interface HouseService {
 	
 	ArrayList<House> selectHouseMain(String type);
 
-	ArrayList<HouseImg> selectHouseThumnail();
+	ArrayList<HouseImg> selectHouseThumnail(String type);
 
 	//부동산 집 리스트
 	ArrayList<House> selectHouseList(int esNo,PageInfo pi);
