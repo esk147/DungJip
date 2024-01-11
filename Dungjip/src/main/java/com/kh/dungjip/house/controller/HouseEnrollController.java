@@ -81,8 +81,8 @@ public class HouseEnrollController {
 	        }
 	      }
 	    }
-	    
-	    return "redirect:/house/enrollForm"; 
+	  //매물 등록 후 메인 페이지 재 요청 
+	    return "redirect:/"; 
 	
     }
   }

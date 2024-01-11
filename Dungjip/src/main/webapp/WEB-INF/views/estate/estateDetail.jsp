@@ -508,7 +508,6 @@
 
 									</div>
 								</div>
-
 								<div class="tab-pane fade active" id="review" role="tabpanel"
 									aria-labelledby="review-tab" style="width: 850px;">
 									<div class="row">
@@ -528,8 +527,7 @@
 													</div>
 												</div>
 												<div class="col-6" style="flex: 0.3">
-													<div class="rating_list" style="margin-top: 25px;"
-														id="count">
+													<div class="rating_list" style="margin-top: 25px;" id="count">
 														<h5 style="text-align: left;"></h5>
 														<ul class="list" style="padding: 0;">
 
@@ -868,6 +866,12 @@
 		                            clickedYMD: clickedYMD
 		                        },
 		                        success: function(result) {
+	                        		// 이전에 비활성화된 요소를 찾아 초기화
+	                        		var disabledElements = document.querySelectorAll('[disabled]');
+	                        		for (var i = 0; i < disabledElements.length; i++) {
+	                        		  disabledElements[i].disabled = false;
+	                        		  disabledElements[i].style.textDecoration = 'none';
+	                        		}
 		                        	if(result.length>0){
 			                        	for (var i = 0;i < result.length; i++){
 			                        		var time = "time"+result[i].selectTime;
@@ -876,7 +880,7 @@
 				                        	
 				                        	if (disDiv.disabled) {
 				                                disDiv.style.textDecoration = 'line-through';
-				                            }				                        	
+				                            }
 			                        	}
 		                        	}
 		                        },
@@ -927,23 +931,43 @@
 			
         	//달력 체크 표시
         	function cal(e){
-        		var select = document.querySelector(".selected");
-        		    // 이전에 선택된 요소가 있을 경우에만 클래스를 제거
-        		    if (select) {
-        		      select.classList.remove('selected');
-        		    }
-        		    // 현재 선택한 요소에 클래스 추가
-        		    e.srcElement.classList.add('selected');
-    		}
+      		 	  // 새로운 날짜 정보 가져오기
+	      		  var checkToday = new Date();
+	      		  var checkYear = checkToday.getFullYear();
+	      		  var checkMonth = checkToday.getMonth() + 1;
+	      		  var checkDay = checkToday.getDate();
+	
+	      		  // 월이 한 자리일 경우 "0"을 추가
+	      		  checkMonth = checkMonth < 10 ? '0' + checkMonth : checkMonth;
+	      		  
+	      		  // 일이 한 자리일 경우 "0"을 추가
+	      		  checkDay = checkDay < 10 ? '0' + checkDay : checkDay;
+	
+	      		  // Today를 문자열로 변환
+	      		  var checkToday = checkYear.toString() + checkMonth.toString() + checkDay.toString();
+	
+	      		  // 예약 날짜와 현재 날짜 비교
+	      		  if (clickedYMD < checkToday) {
+	      		    showWarning("경고", "예약은 오늘 날짜 또는 이후의 날짜만 선택가능합니다.", "확인");
+	      		  }else{        		
+	        		var select = document.querySelector(".selected");
+	        		    // 이전에 선택된 요소가 있을 경우에만 클래스를 제거
+	        		    if (select) {
+	        		      select.classList.remove('selected');
+	        		    }
+	        		    // 현재 선택한 요소에 클래스 추가
+	        		    e.srcElement.classList.add('selected');
+	    		}
+        	}
 			
         	//예약 insert
         	function reservation(){
         		var selectTime = document.querySelector(".check").name; //시간
         		var selectEsNo = document.getElementById("selectEsNo").value; //부동산 번호
         		var selectUserNo = document.getElementById('selectUserNo').value; //유저 번호
-        		console.log(selectTime);
+        		
         		if(selectUserNo == 0){
-        			showSuccess("경고","로그인 후 예약 가능합니다.","확인");
+        			showWarning("경고","로그인 후 예약 가능합니다.","확인");
         		}else{
 	          		let f = document.createElement('form');
 	        		
