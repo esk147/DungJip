@@ -239,4 +239,9 @@ public class EstateDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("estateMapper.myEspage",m);
 	}
+
+	//마이페이지 - 예약 삭제
+	public int deleteReview(SqlSessionTemplate sqlSession, int reservationNo) {
+		return sqlSession.delete("estateMapper.deleteReview",reservationNo);
+	}
 }

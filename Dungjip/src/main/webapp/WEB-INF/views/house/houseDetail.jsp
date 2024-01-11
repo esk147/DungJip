@@ -104,7 +104,13 @@
     justify-content: flex-end;
     padding-right: 40px;
 }
- }
+  #reviewH3{
+  	padding-top: 90px;
+    text-align: center;
+  }
+
+}
+ 
  
  /* 기본 이미지 스타일 */
 .zoomable {
@@ -692,54 +698,61 @@
 
 <div class="tab-pane fade show active" id="review" role="tabpanel"
 	aria-labelledby="review-tab">
+	<c:choose>
+		<c:when test="${empty loginUser.userType}">
+			<h3 id="reviewH3">로그인 후 리뷰 확인 가능합니다!</h3>
+		</c:when>
+		<c:otherwise>
 	<div class="row">
 		<div class="col-lg">
-			<div class="row total_rate" style="display: flex;">
-				<div class="col-6" style="flex: 1">
-					<div class="box_total">
-						<br>
-						<h3
-							style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
-
-						<h1 style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
-
-
-						<h5 style="text-align: center;"></h5>
-					</div>
-					</div>
+				<div class="row total_rate" style="display: flex;">
 					<div class="col-6" style="flex: 1">
-						<div class="rating_list" style="margin-top: 25px;" id="count">
-							<h5 style="text-align: left;"></h5>
-							<ul class="list" style="padding: 0;">
-								<li><a href="#" id="building">건물: 
-										 <span></span>
-								</a></li>
-								<li><a href="#" id="traffic">교통: 
-									<span></span>
-								</a></li>
-								<li><a href="#" id="interior">내부:  <span></span>
-								</a></li>
-								<li><a href="#" id="safety">치안: <span></span>
-								</a></li>
-								<li><a href="#" id="life">생활:  <span></span>
-								</a></li>
-							</ul>
-							
-
-					</div>
-					</div>
-				</div>
-					<div class="write">
-					<input type="hidden" id="houseNo" value="${house.houseNo }" >
-					<button onclick="insertResidentReview(this);">리뷰 작성</button>
-					<input type="hidden" id="loginUserNo" value="${loginUser != null ? loginUser.userNo : null}" />
-					</div>
-				<div class="review_list">
-					<!-- 리뷰 내용 -->
-
-				</div>
+						<div class="box_total">
+							<br>
+								<h3
+									style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
+		
+								<h1 style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
+		
+		
+								<h5 style="text-align: center;"></h5>
+							</div>
+							</div>
+							<div class="col-6" style="flex: 1">
+								<div class="rating_list" style="margin-top: 25px;" id="count">
+									<h5 style="text-align: left;"></h5>
+									<ul class="list" style="padding: 0;">
+										<li><a href="#" id="building">건물: 
+												 <span></span>
+										</a></li>
+										<li><a href="#" id="traffic">교통: 
+											<span></span>
+										</a></li>
+										<li><a href="#" id="interior">내부:  <span></span>
+										</a></li>
+										<li><a href="#" id="safety">치안: <span></span>
+										</a></li>
+										<li><a href="#" id="life">생활:  <span></span>
+										</a></li>
+									</ul>
+									
+		
+							</div>
+							</div>
+						</div>
+							<div class="write">
+							<input type="hidden" id="houseNo" value="${house.houseNo }" >
+							<button onclick="insertResidentReview(this);">리뷰 작성</button>
+							<input type="hidden" id="loginUserNo" value="${loginUser != null ? loginUser.userNo : null}" />
+							</div>
+						<div class="review_list">
+							<!-- 리뷰 내용 -->
+		
+						</div>
 			</div>
 		</div>
+					</c:otherwise>
+				</c:choose>
 	</div>
 	</div>
 </section>
@@ -868,22 +881,6 @@
 
 						    $(".review_list").append(reviewItem);
 						    
-						    
-						   
-						
-
-						console.log("---------리스트 확인---------");
-						console.log(result);
-						console.log("---------확인---------");
-						console.log(result.rlist[i].positiveKeywords);
-						console.log("평균");
-						console.log(avg);
-						console.log(building);
-						console.log(traffic);
-						console.log(interior);
-						console.log(safety);
-						console.log(life);
-						
 						$(".box_total h5").text("("+result.count+" Reviews)");
 				    	$("#count h5").text("Based on "+result.count+" Reviews");
 				        $(".box_total h1").text(avg);
@@ -949,9 +946,6 @@
 	        center: new kakao.maps.LatLng(${house.houseLatitude}, ${house.houseLongitude}),
 	        level: 3
 	    };
-		console.log(${house.houseLatitude});
-		console.log(${house.houseLongitude});
-		console.log("====================");
 		
 	    map = new kakao.maps.Map(mapContainer, mapOption);
 	    var markerPosition = new kakao.maps.LatLng(${house.houseLatitude}, ${house.houseLongitude});

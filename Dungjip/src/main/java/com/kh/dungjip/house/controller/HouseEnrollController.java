@@ -75,8 +75,10 @@ public class HouseEnrollController {
 	            houseImg.setOriginName(originName);
 	            houseImg.setChangeName(changeName);
 	            houseEnrollService.enrollHouseImg(houseImg);
+	            session.setAttribute("alertMsg", "매물 등록이 되었습니다");
 	          } catch (Exception e) {
 	            e.printStackTrace();
+	            session.setAttribute("alertMsg", "매물 등록에 실패하셨습니다.");
 	            // 파일 저장 실패 처리
 	          }
 	        }

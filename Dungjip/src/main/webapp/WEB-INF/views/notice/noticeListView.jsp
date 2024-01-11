@@ -108,11 +108,15 @@
         <h2>공지사항</h2>
         <br><br>
 		<div align="center">
-		    <c:if test="${loginUser.userType == '관리자' }">
+		<c:choose>
+			<c:when test="${loginUser.userType == '관리자' }">
 		        <a href="<c:url value='/enList.en'/>" class="nav-item2" style="width:180px;">1:1문의 내역</a>
-		    </c:if>    
-		    <a href="<c:url value='/enquiry.en'/>" class="nav-item2" style="width:180px;">1:1문의</a>
-		    <a href="<c:url value='/notice/list'/>" class="nav-item2 active" style="width:180px;" onclick="navigateToNotice(event)">공지사항</a>
+		    </c:when>
+		    <c:otherwise>    
+			    <a href="<c:url value='/enquiry.en'/>" class="nav-item2" style="width:180px;">1:1문의</a>
+		    </c:otherwise>
+		</c:choose>    
+			    <a href="<c:url value='/notice/list'/>" class="nav-item2 active" style="width:180px;" onclick="navigateToNotice(event)">공지사항</a>
 		</div>
         <br><br>
         <c:forEach var="notice" items="${noticeList}">
