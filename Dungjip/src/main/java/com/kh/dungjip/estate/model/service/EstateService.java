@@ -109,4 +109,7 @@ public interface EstateService {
 	//중개인페이지
 	ArrayList<Estate> myEspage(Member m);
 
+	//마이페이지 - 예약 삭제
+	int deleteReview(int reservationNo);
+
 }

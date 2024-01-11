@@ -179,7 +179,7 @@ public class HouseController {
 
 	public ModelAndView villaMap(String locate, String type, ModelAndView mv) {
 		ArrayList<House> lList = houseService.selectHouse(type);
-		ArrayList<HouseImg> hImgList = houseService.selectHouseThumnail();
+		ArrayList<HouseImg> hImgList = houseService.selectHouseThumnail(type);
 
 		mv.addObject("lList", lList).addObject("locate", locate).addObject("hImgList", hImgList).addObject("type", type)
 				.setViewName("house/houseMap");
@@ -217,24 +217,26 @@ public class HouseController {
 	//비슷한 매물 찾기
 	@ResponseBody
 	@RequestMapping(value="houseLikeList.ho",produces="application/json; charset=UTF-8")
-	public Map<String, Object> houseLikeList(String houseAddress,
+	public Map<String, Object> houseLikeList(String houseAddress, String houseType,
 			@RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
 		
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
+	    House house = new House(houseType, houseAddress);
+	    
 		//전체 집 개수
-		int listCount = houseService.selectHouseLikeCount(houseAddress);
+		int listCount = houseService.selectHouseLikeCount(house);
 		int pageLimit = 10;
 		int boardLimit = 8;
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		resultMap.put("pi", pi);
 		
 		//집 list
-		ArrayList<House> houseLike = houseService.houseLikeList(houseAddress,pi);
+		ArrayList<House> houseLike = houseService.houseLikeList(house,pi);
 		resultMap.put("houseLike", houseLike);
 
 		//집 img
-		ArrayList<HouseImg> houseImgLike = houseService.houseImgLike(houseAddress);
+		ArrayList<HouseImg> houseImgLike = houseService.houseImgLike(house);
 		resultMap.put("houseImgLike", houseImgLike);
 
 		return resultMap;
@@ -309,11 +311,23 @@ public class HouseController {
 	//거주자 리뷰리스트
 	@ResponseBody
 	@RequestMapping(value="resi.re",produces="application/json; charset=UTF-8")
-	public Map<String,Object> selectResidentReviewList(int houseNo){
-		System.out.println("houseNo");
-		System.out.println(houseNo);
+	public Map<String,Object> selectResidentReviewList(int houseNo, int userNo){
 		ArrayList<ResidentReview> rlist = houseService.selectResidentReviewList(houseNo);
 		
+		List<Integer> residentArr = new ArrayList<>();
+		List<Integer> reviewBooleanArr = new ArrayList<>();
+		for(ResidentReview re : rlist) {
+			int num = houseService.selectResidentEmoCount(re.getReReviewNo());
+			
+			Map<String, Object> numMap = new HashMap<>();
+			numMap.put("reReNo", re.getReReviewNo());
+			numMap.put("userNo", userNo);
+			
+			int result = houseService.selectResidentReviewLikeCount(numMap);
+			
+			residentArr.add(num);
+			reviewBooleanArr.add(result);
+		}
 		
 		//리뷰 총점
 		int sum = houseService.selectResidentReviewSum(houseNo);
@@ -367,11 +381,46 @@ public class HouseController {
 		map.put("safety", safety);
 		map.put("lifeCount", lifeCount);
 		map.put("life", life);
+		map.put("residentArr", residentArr);
+		map.put("reviewBooleanArr", reviewBooleanArr);
 		
-		System.out.println(rlist);
 		return map;
 		
 	}
+	
+	//부동산 리뷰
+		@ResponseBody
+		@RequestMapping("resident.like")
+		public Map<String, Object> selectReviewLikeCount(String reReNo, String userNo){
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("reReNo", reReNo);
+			map.put("userNo", userNo);
+			
+			int count = houseService.selectReviewLikeCount(map);
+
+			int result = 0;
+			
+			int bool = 0;
+			
+			if(count > 0) {
+				result = houseService.decreaseCount(map);
+				bool = 1;
+			} else {
+				result = houseService.increaseReReLikeCount(map);
+				bool = 2;
+			}
+			
+			Map<String, Object> resultMap = new HashMap<>();
+			
+			resultMap.put("emoCount", result);
+			resultMap.put("result", bool);
+			resultMap.put("reReNo", reReNo);
+			
+			
+			return resultMap;
+		}
+	
 	
 	//매물 리뷰 작성
 	@GetMapping("insert.rere")
@@ -385,6 +434,7 @@ public class HouseController {
 	
 	@PostMapping("insert.rere")
 	public String insertResidentReview(int houseNo, HttpSession session,ResidentReview rr, Model model,@RequestParam("reviewImage") MultipartFile file, @RequestParam String prosKeywords, @RequestParam String consKeywords){
+
 		String keywordString = prosKeywords + "," + consKeywords;
 		String[] keywordNo = keywordString.split(",");
 		Member loginUser = (Member) session.getAttribute("loginUser");
@@ -395,7 +445,6 @@ public class HouseController {
 			int reReviewNo = houseService.insertResidentReview(rr);
 			for(int i = 0; i < keywordNo.length; i++) {
 				map.put("keyword", keywordNo[i]);
-				System.out.println(keywordNo[i]);
 				houseService.insertMemberKeyword(map);
 				map.remove("keyword");
 			}
@@ -497,7 +546,6 @@ public class HouseController {
 		     String[] keywordNo = keywordString.split(",");
 		     for(int i = 0; i < keywordNo.length; i++) {
 		    	 paramMap.put("keyword", keywordNo[i]);
-					System.out.println(keywordNo[i]);
 					 houseService.updateKeywords(paramMap);
 					paramMap.remove("keyword");
 				}

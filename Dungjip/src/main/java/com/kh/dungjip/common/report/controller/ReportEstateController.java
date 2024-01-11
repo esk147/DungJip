@@ -54,7 +54,6 @@ public class ReportEstateController {
     @PostMapping("/cancelReport")
     @ResponseBody
     public void cancelReport(@RequestParam int chatRoomNo) {
-
         reportEstateService.updateReportStatus(chatRoomNo);
     }
 	

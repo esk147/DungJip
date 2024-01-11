@@ -406,5 +406,20 @@ public class EstateController {
 		return"redirect:/esHouse.li?esNo="+esNo;
 	}
 	
+	//마이페이지 - 예약 삭제
+	@RequestMapping("deleteReview.re")
+	public String deleteRewive(int reservationNo, HttpSession session) {
+		
+		int result = estateService.deleteReview(reservationNo);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "예약 취소 처리되었습니다.");
+		}else {
+			session.setAttribute("errorMsg", "다시 시도해주세요.");
+		}
+		
+		return "redirect:/mReservation.me";
+	}
+	
 	
 }

@@ -85,6 +85,7 @@
                 <li><a href="http://localhost:9999/dungjip/admin/list" class="menuitem" style="font-size: 15px; color: #929292;">회원관리</a></li>
                 <li><a href="http://localhost:9999/dungjip/admin/estateList" class="menuitem" style="font-size: 15px; color: #929292;">중개인관리</a></li>
                 <li><a href="http://localhost:9999/dungjip/admin/reportList" class="menuitem" style="font-size: 15px; color: #929292;">신고관리</a></li>
+                <li><a href="http://localhost:9999/dungjip/admin/houseList" class="menuitem" style="font-size: 15px; color: #929292;">매물관리</a></li>
             </ul>
         </div>
     </aside>

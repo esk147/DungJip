@@ -54,7 +54,7 @@
                 buttons : [ "취소", "이동" ],
                 closeOnClickOutside : false,
             }).then(function(result) {
-                console.log(result);
+              
 
                 if (result) {
                     location.href = url;
@@ -70,7 +70,7 @@
                 buttons : [ "취소", "확인" ],
                 closeOnClickOutside : false,
             }).then(function(result) {
-                console.log(result);
+             
 
                 if (result) {
                     return true;
@@ -88,7 +88,7 @@
                 buttons : [ "취소", "확인" ],
                 closeOnClickOutside : false,
             }).then(function(result) {
-                console.log(result);
+               
 
                 if (result) {
                     return true;

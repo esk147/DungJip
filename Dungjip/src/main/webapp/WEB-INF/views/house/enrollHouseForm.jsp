@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="../common/sweetAlert.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -247,7 +248,8 @@
                         <select id="houseType" name="houseType">
                             <option value="" disabled selected hidden>선택해주세요.</option>
                             <option value="원룸">원룸</option>
-                            <option value="빌라">빌라(아파트)</option>
+                            <option value="빌라">빌라</option>
+                            <option value="오피스텔">오피스텔</option>
                         </select>
                     </div>
                 </div>
@@ -386,6 +388,7 @@
     </div>
     
     <script>
+
     window.onload = function () {
         // 지도 초기화
         var mapContainer = document.getElementById('map');
@@ -434,6 +437,7 @@
 
     };
 	</script>
+
 </form>
 	<jsp:include page="../common/footer.jsp" />
 </body>

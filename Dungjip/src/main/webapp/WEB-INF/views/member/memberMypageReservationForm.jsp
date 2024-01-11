@@ -65,7 +65,7 @@
 						<table class="table">
 							<thead>
 								<tr class="text-center">
-									<th scope="col" style="width:10%;">#</th>
+									<th scope="col" style="width:10%;text-align: center;">#</th>
 									<th scope="col">예약 상세정보</th>
 									<th scope="col" style="width:15%;">리뷰</th>
 								</tr>
@@ -74,7 +74,8 @@
 							<c:forEach var="reservation" items="${rlist }" >
 								<tr>
 									<td class="text-center">
-										<h5>${reservation.reservationNo}</h5>
+										<input type="hidden" value="${reservation.reservationNo}" id="reservationNo">
+										<h5>NO.${reservation.reservationNo}</h5>
 									</td>
 									
 									<td>
@@ -97,6 +98,7 @@
 									<td>
 									<!-- 여기버튼 누르면 리뷰 작성 창 -->
 									<a href="#" class="genric-btn primary-border small" id="reviewEnrol"onclick="insertEstateReview(this);">작성</a>
+									<a href="deleteReview.re?reservationNo=${reservation.reservationNo}" style="color:red;padding-left: 10px;" class="genric-btn primary-border small">삭제</a>
 									</td>
 								</tr>
 							</c:forEach>
@@ -121,6 +123,10 @@
 			window.location.href = "/dungjip/insert.esre?esNo="+esNo;
 		}
 	}
+	
+
+	}
+	
 	</script>
 	<%@ include file="../common/footer.jsp"%>
 </body>
