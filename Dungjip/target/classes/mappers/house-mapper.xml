@@ -689,4 +689,26 @@ SELECT COUNT(life_score) AS life_score_COUNT
 		ORDER BY R.RESERVATION_NO DESC
 	</select>
 
+<select id="selectResidentEmoCount" resultType="_int">
+		SELECT COUNT(*) EMO
+		FROM RE_RE_LIKE
+		WHERE RE_REVIEW_NO=#{reReviewNo}
+</select>
+
+<select id="selectResidentReviewLikeCount" resultType="_int">
+		select * from RE_RE_LIKE where re_review_no = #{reReNo} and user_no = #{userNo}
+</select>
+
+<select id="selectReviewLikeCount" resultType="_int">
+		select * from RE_RE_LIKE where re_review_no = #{reReNo} and user_no = #{userNo}
+</select>
+
+<delete id="decreaseCount">
+		delete from RE_RE_LIKE where re_review_no = #{reReNo} and user_no = #{userNo}
+</delete>
+
+<insert id="increaseReReLikeCount">
+		insert into RE_RE_LIKE values(#{reReNo}, #{userNo})
+</insert>
+
 </mapper>

@@ -314,6 +314,53 @@ public class HouseDao {
 		return sqlSession.delete("houseMapper.deleteKeywords",paramMap);
 	}
 
+	public int selectResidentEmoCount(SqlSessionTemplate sqlSession, int reReviewNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("houseMapper.selectResidentEmoCount", reReviewNo);
+	}
+
+	public int selectResidentReviewLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> numMap) {
+		// TODO Auto-generated method stub
+		int count = 0;
+		try {
+			sqlSession.selectOne("houseMapper.selectResidentReviewLikeCount", numMap);
+			if(count > 0) {
+				count = 1;
+			}
+		} catch(Exception e) {
+			count = 0;
+		}
+		
+		return count;
+	}
+
+	public int selectReviewLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int count = 0;
+		try {
+			count = sqlSession.selectOne("houseMapper.selectReviewLikeCount", map);
+
+			System.out.println("controller count");
+			System.out.println(count);
+			if(count > 0) {
+				count = 1;
+			}
+		} catch(Exception e) {
+			count = 0;
+		}
+		
+		return count;
+	}
+
+	public int decreaseCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("houseMapper.decreaseCount", map);
+	}
+
+	public int increaseReReLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("houseMapper.increaseReReLikeCount", map);
+    
 	//중개인 예약내역 페이징
 	public int mypagemypageEsReservationCount(SqlSessionTemplate sqlSession, Integer esNo) {
 		// TODO Auto-generated method stub
