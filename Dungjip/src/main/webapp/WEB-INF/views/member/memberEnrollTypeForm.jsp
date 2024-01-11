@@ -44,7 +44,7 @@
                 <div class="col-md-6">
                     <div class="box-for overflow">
                         <div class="col-md-12 col-xs-12 register-blocks">
-                            <h2>사용자 / 임대인 : </h2> 
+                            <h2>임차인 / 임대인 : </h2> 
                             <form action="agree.me" method="post">
                                 <img src="resources/assets/img/u1.png" alt="">
                                 <div class="text-center" style="padding: 10px;">

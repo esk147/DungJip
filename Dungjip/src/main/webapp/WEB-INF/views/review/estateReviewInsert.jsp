@@ -168,6 +168,7 @@
         <div class="modal fade" id="homeModal">
         <div class="modal-dialog modal-sm" id="modal">
             <div class="modal-content">
+            
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">매물리스트</h4>
@@ -182,16 +183,12 @@
                        	
            				 <tr>
            				 	<td ><input id="houseSelect" type="radio" name="homeName" value="${house.houseNo }"><td/>
-           				 	
-           				 	
-           				 
-	              				
 		           				 	<label for="houseSelect">
 	              				<td style="width:250px; padding:10px;">
 	              						<img class='profile' id="houseSelect" src="${himglist[status.index].changeName}">
 		           				 </td>
 		           				 	</label>
-	              				<td id="modal_houseTitle">${house.houseTitle }</td>             
+	              				<td id="modal_houseTitle">${house.houseName }</td>             
             			</tr>
            				 		
                      </table>      
@@ -202,6 +199,8 @@
                         <button type="button" class="btn btn-warning">확인</button>
                         <button type="button" class="btn btn-warning" data-dismiss="modal">취소</button>
                     </div>
+                    
+                    
                 </form>
             </div>
         </div>

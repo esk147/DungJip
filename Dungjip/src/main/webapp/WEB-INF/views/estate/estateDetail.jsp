@@ -282,17 +282,17 @@
 								style="width: 1100px;">
 								<li class="nav-item"><a class="nav-link" id="home-tab"
 									data-toggle="tab" href="#home" role="tab" aria-controls="home"
-									aria-selected="true">Description</a></li>
+									aria-selected="true">상세설명</a></li>
 								<li class="nav-item"><a class="nav-link" id="profile-tab"
 									data-toggle="tab" href="#profile" role="tab"
-									aria-controls="profile" aria-selected="false">Specification</a>
+									aria-controls="profile" aria-selected="false">상세정보</a>
 								</li>
 								<li class="nav-item"><a class="nav-link" id="contact-tab"
 									data-toggle="tab" href="#contact" role="tab"
-									aria-controls="contact" aria-selected="false">House List</a></li>
+									aria-controls="contact" aria-selected="false">매물 종류</a></li>
 								<li class="nav-item"><a class="nav-link active"
 									id="review-tab" data-toggle="tab" href="#review" role="tab"
-									aria-controls="review" aria-selected="false">Reviews</a></li>
+									aria-controls="review" aria-selected="false">리뷰</a></li>
 							</ul>
 							<div class="tab-content" id="myTabContent" style="width: 1100px;">
 								<div class="tab-pane fade" id="home" role="tabpanel"
@@ -378,18 +378,7 @@
 
 														<div class="col-md-12  clear">
 															<div class="col-xs-10 page-subheader sorting pl0">
-																<ul class="sort-by-list">
-																	<li class="active"><a href="javascript:void(0);"
-																		class="order_by_date" data-orderby="property_date"
-																		data-order="ASC"> Property Date <i
-																			class="fa fa-sort-amount-asc"></i>
-																	</a></li>
-																	<li class=""><a href="javascript:void(0);"
-																		class="order_by_price" data-orderby="property_price"
-																		data-order="DESC"> Property Price <i
-																			class="fa fa-sort-numeric-desc"></i>
-																	</a></li>
-																</ul>
+																
 																<!--/ .sort-by-list-->
 
 
@@ -552,68 +541,71 @@
 															<h5 style="text-align: center;"></h5>
 														</div>
 													</div>
-													<div class="col-6" style="flex: 0.3">
-														<div class="rating_list" style="margin-top: 25px;" id="count">
-															<h5 style="text-align: left;"></h5>
-															<ul class="list" style="padding: 0;">
-	
-																<li id="5star"><a href="#" id="num">5 Star <i
-																		class="fa fa-star"></i><i class="fa fa-star"></i><i
-																		class="fa fa-star"></i><i class="fa fa-star"></i><i
-																		class="fa fa-star"></i> <span></span>
-																</a></li>
-	
-	
-																<li id="4star"><a href="#" id="num">4 Star <i
-																		class="fa fa-star"></i><i class="fa fa-star"></i><i
-																		class="fa fa-star"></i><i class="fa fa-star"></i><span></span>
-																</a></li>
-	
-																<li id="3star"><a href="#" id="num">3 Star <i
-																		class="fa fa-star"></i><i class="fa fa-star"></i><i
-																		class="fa fa-star"></i> <span></span></a></li>
-	
-	
-																<li id="2star"><a href="#" id="num">2 Star <i
-																		class="fa fa-star"></i><i class="fa fa-star"></i><span></span></a></li>
-	
-																<li id="1star"><a href="#" id="num">1 Star <i
-																		class="fa fa-star"></i><span></span>
-																</a></li>
-	
-	
-															</ul>
-														</div>
-	                                                    </div>
-	                                                </div>
-	                                                
-	                                                <div id="reviewContainer">
-	                                                <div class="review_list" style="width: 1100px;">
-	                                                    <!-- 리뷰내용 -->
-	                                               
-	                                               
-	                                               
-	                                               
-	
-	                                               
-	                                               <div class="emo">
-	                                                            <span class="like-btn" onclick="toggleLike(this)" >
-	                                                            <img class="good" src="resources/img/good.svg">
-	                                                           </span>
-	                                                            <h6 class="likecount">25</h6>
-	                                                            </div>
-	
-	                                               <hr>
-	
-	                                            </div>
-	                                            
-	                                            
-	                                            </div>
-	                                            
-	                                        </div>
-	                                    </div>
-                                    </c:otherwise>
-                                   </c:choose>
+												</div>
+												<div class="col-6" style="flex: 0.3">
+													<div class="rating_list" style="margin-top: 25px;"
+														id="count">
+														<h5 style="text-align: left;"></h5>
+														<ul class="list" style="padding: 0;">
+
+															<li id="5star"><a href="#" id="num">5 Star <i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><i
+																	class="fa fa-star"></i> <span></span>
+															</a></li>
+
+
+															<li id="4star"><a href="#" id="num">4 Star <i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><span></span>
+															</a></li>
+
+															<li id="3star"><a href="#" id="num">3 Star <i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><i
+																	class="fa fa-star"></i> <span></span></a></li>
+
+
+															<li id="2star"><a href="#" id="num">2 Star <i
+																	class="fa fa-star"></i><i class="fa fa-star"></i><span></span></a></li>
+
+															<li id="1star"><a href="#" id="num">1 Star <i
+																	class="fa fa-star"></i><span></span>
+															</a></li>
+
+
+														</ul>
+													</div>
+                                                    </div>
+                                                </div>
+                                                
+                             
+                                                
+                                                
+                                                <div id="reviewContainer">
+                                                <div class="review_list" style="width: 1100px;">
+                                                    <!-- 리뷰내용 -->
+                                               
+                                               
+                                               
+                                               
+
+                                               
+                                               <div class="emo">
+                                                            <span class="like-btn" onclick="toggleLike(this)" >
+                                                            
+                                                           </span>
+                                                            
+                                                            </div>
+
+                                               <hr>
+
+                                            </div>
+                                            
+                                            
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -693,17 +685,22 @@
                             		        		        "<div class='media-body'>" +
                             		        		        "<span>" + result.erlist[i].esReCreateDate + "</span>" +
                             		        		        "<div id='type'>" +
-                            		        		        "<b>" + result.erlist[i].house.houseTitle + "</b>" +
+                            		        		        "<b>" + result.erlist[i].house.houseName + "</b>" +
                             		        		        "<h6 id='realtype'>"+result.erlist[i].esReType +"</h6>" +
                             		        		        "</div>" + 
                             		        		        stars +
                             		        		        "</div>" +
                             		        		        "</div>" +
+
                             		        		        "<p>" + result.erlist[i].esReContent + "</p>" +
-                            		        		    	"<hr>"+
+
+
                             		        		        '<div class="emo"><span class="' + (result.reviewBooleans[i] === 1 ? "like-btn liked" : "like-btn") + '" onclick="toggleLike(this)" id="'+result.erlist[i].esReNo+'"><img class="good" src="resources/img/good.svg"> </span> <h6 id="likeCount'+result.erlist[i].esReNo+'" class="likecount">'+
+
                             		        		        result.erNums[i]+'</h6>'+
-                            		        		        "</div>" 
+                            		        		        "</div>" +
+                            		        		    	"<hr>"
+
                             		        		        );
                                     				 $(".review_list").append(reviewItem);
                                     		} 
@@ -781,12 +778,14 @@
             });
         </script>
 
-
+<script>
+			function detailHouse(e){
+				location.href="detail.ho?houseNo="+e.id;
+				console.log(e.id);
+			}
+			</script>
 
 	<script>
-			
-			
-			
 			$(document).ready(function() {
 			    // myTab 링크 클릭 시 함수 실행
 			   
@@ -827,9 +826,6 @@
 			            container.style.display = 'block';
 			        });
 			});
-			
-			
-
 			</script>
 
 			<!-- 예약 -->

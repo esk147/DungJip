@@ -192,7 +192,7 @@
 	              						<img class='profile' id="houseSelect" src="${himglist[status.index].changeName}">
 		           				 </td>
 		           				 	</label>
-	              				<td id="modal_houseTitle">${house.houseTitle }</td>             
+	              				<td id="modal_houseTitle">${house.houseName }</td>             
             			</tr>
            				 		
                      </table>      

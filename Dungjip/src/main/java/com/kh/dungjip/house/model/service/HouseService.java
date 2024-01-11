@@ -137,6 +137,9 @@ public interface HouseService {
 
 	int deleteKeywords(Map<String, Object> paramMap);
 
+
+	int updateReviewImg(Map<String, Object> paramMap);
+
 	int selectResidentEmoCount(int reReviewNo);
 
 	int selectResidentReviewLikeCount(Map<String, Object> numMap);
@@ -149,6 +152,7 @@ public interface HouseService {
   
 	//중개인 예약내역 페이징
 	int mypagemypageEsReservationCount(Integer esNo);
+
 
 
 

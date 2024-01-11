@@ -293,7 +293,7 @@
     <div class="text-label">사진 추가</div>
     <input type="file" name="reviewImage" id="reviewImage" accept="image/*">
     현재 업로드된 파일 :
-     <a href="${rr.reviewImg.changeName }">${rr.reviewImg.changeName }</a>
+     <a href="${rr.reviewImg.originName }">${rr.reviewImg.originName }</a>
                             <input type="hidden" name="reReviewdNo" value=${rr.reReviewNo } >
                             <input type="hidden" name="changeName" value="${rr.reviewImg.changeName }">
                             <input type="hidden" name="originName" value="${rr.reviewImg.changeName }">
@@ -323,8 +323,8 @@
 
 
 function updateKeywords() {
-    var prosSelected = [];
-    var consSelected = [];
+    var prosSelected = [${rr.positive}];
+    var consSelected = [${rr.negative}];
 
     // Assuming 'advantages' is the class for pros keywords
     document.querySelectorAll('.advantages .keyword-button.selected').forEach(function(button) {
@@ -342,8 +342,16 @@ function updateKeywords() {
     console.log(consSelected)
 }
 
+updateKeywords();
+
+
+
 var selectedAdvantages = [${rr.positive}];
 var selectedDisadvantages = [${rr.negative}];
+
+
+console.log(${rr.positive});
+console.log(${rr.negative});
 
 // 선택된 장점 키워드 버튼에 'selected' 클래스 추가
 selectedAdvantages.forEach(function(value) {

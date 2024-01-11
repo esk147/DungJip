@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -62,7 +63,7 @@ public class HouseController {
 	public String insertHouse(HttpSession session) throws IOException, ParseException {
 
 		Reader reader = new FileReader(
-				"C:\\Users\\user1\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
+				"C:\\Users\\easyoh\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
 
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(reader);
@@ -85,8 +86,10 @@ public class HouseController {
 
 			Date sqlDate = Date.valueOf(localDateTime.toLocalDate());
 			Date sqlBuildDate = Date.valueOf(localBuildDateTime.toLocalDate());
+			System.out.println("qwer");
+			System.out.println(Integer.parseInt(String.valueOf(object.get("user_no"))));
 			
-					House house = House.builder().housePrice((String)object.get("deposit"))
+					House house = House.builder().housePrice(String.valueOf(object.get("deposit")))
 											.houseRent(Integer.parseInt(String.valueOf(object.get("rent"))))
 											.houseSquare(Double.parseDouble(String.valueOf(sqrtP.get("p"))))
 											.houseStyle((String)object.get("sales_type"))
@@ -108,6 +111,7 @@ public class HouseController {
 //											.houseBuildDate(sqlBuildDate)
 											.houseAnimals((String)object.get("animals"))
 											.houseName((String)object.get("name"))
+											.userNo(Integer.parseInt(String.valueOf(object.get("user_no"))))
 											.status("Y")
 											.build();
 			
@@ -444,7 +448,7 @@ public class HouseController {
 				houseService.insertMemberKeyword(map);
 				map.remove("keyword");
 			}
-			
+		
 			String uploadPath ="src/main/resources/review/";
 			 
 			    if (file != null && !file.isEmpty()) {
@@ -507,16 +511,30 @@ public class HouseController {
 	
 	
 	@PostMapping("update.rere")
-	public String updateResident(int reReviewNo,int houseNo,  MultipartFile reUpFile,ResidentReview rr, Model model, HttpSession session,@RequestParam("reviewImage") MultipartFile file, @RequestParam String prosKeywords, @RequestParam String consKeywords){
+	public String updateResident(ReviewImg ri, int reReviewNo,int houseNo,  @RequestParam("reviewImage") MultipartFile file,ResidentReview rr, Model model, HttpSession session, @RequestParam String prosKeywords, @RequestParam String consKeywords){
 	
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		
+
+		
+
 		if(loginUser != null && rr!= null) {
 			
-			 
+			if(!file.getOriginalFilename().equals("")) {
+				String changeName = saveFile(file,session);
+				
+				if(!ri.getOriginName().equals("")) {
+					new File(session.getServletContext().getRealPath(ri.getChangeName())).delete();
+				}
+				
+				ri.setOriginName(file.getOriginalFilename());
+				ri.setChangeName("resources/review/"+changeName);
+			}
+			
 			
 			 Map<String, Object> paramMap = new HashMap<>();
 		     paramMap.put("rr", rr);
+		     paramMap.put("ri",ri);
 		     paramMap.put("loginUser", loginUser);
 		     int result = houseService.updateResidentReview(paramMap);
 		     
@@ -531,6 +549,7 @@ public class HouseController {
 					 houseService.updateKeywords(paramMap);
 					paramMap.remove("keyword");
 				}
+		     houseService.updateReviewImg(paramMap);
 		    
 		     
 		     
@@ -550,6 +569,26 @@ public class HouseController {
 		}
 		
 		
+	}
+	
+	public String saveFile(@RequestParam("reviewImage") MultipartFile file, HttpSession session) {
+		
+		String originName = file.getOriginalFilename();
+        String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
+        int ranNum = (int) (Math.random() * 90000 + 10000);
+        String ext = originName.substring(originName.lastIndexOf("."));
+        String changeName = currentTime + ranNum + ext;
+        String savePath = session.getServletContext().getRealPath("/resources/review/");
+
+        try {
+          
+        		  File uploadFile = new File(savePath+changeName);
+        		  file.transferTo(uploadFile); 
+            }catch (Exception e) {
+            e.printStackTrace();
+        }
+       
+		return changeName;
 	}
 	
 	//마이페이지에서 집 찜해제
