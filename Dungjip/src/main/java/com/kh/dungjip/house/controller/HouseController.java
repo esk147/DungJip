@@ -175,7 +175,7 @@ public class HouseController {
 
 	public ModelAndView villaMap(String locate, String type, ModelAndView mv) {
 		ArrayList<House> lList = houseService.selectHouse(type);
-		ArrayList<HouseImg> hImgList = houseService.selectHouseThumnail();
+		ArrayList<HouseImg> hImgList = houseService.selectHouseThumnail(type);
 
 		mv.addObject("lList", lList).addObject("locate", locate).addObject("hImgList", hImgList).addObject("type", type)
 				.setViewName("house/houseMap");
@@ -308,8 +308,6 @@ public class HouseController {
 	@ResponseBody
 	@RequestMapping(value="resi.re",produces="application/json; charset=UTF-8")
 	public Map<String,Object> selectResidentReviewList(int houseNo, int userNo){
-		System.out.println("userNo");
-		System.out.println(userNo);
 		ArrayList<ResidentReview> rlist = houseService.selectResidentReviewList(houseNo);
 		
 		List<Integer> residentArr = new ArrayList<>();
@@ -326,12 +324,6 @@ public class HouseController {
 			residentArr.add(num);
 			reviewBooleanArr.add(result);
 		}
-		
-
-		System.out.println("residentArr");
-		System.out.println(residentArr);
-		System.out.println("reviewBooleanArr");
-		System.out.println(reviewBooleanArr);
 		
 		//리뷰 총점
 		int sum = houseService.selectResidentReviewSum(houseNo);
@@ -388,7 +380,6 @@ public class HouseController {
 		map.put("residentArr", residentArr);
 		map.put("reviewBooleanArr", reviewBooleanArr);
 		
-		System.out.println(rlist);
 		return map;
 		
 	}
@@ -407,9 +398,6 @@ public class HouseController {
 			int result = 0;
 			
 			int bool = 0;
-
-			System.out.println("count");
-			System.out.println(count);
 			
 			if(count > 0) {
 				result = houseService.decreaseCount(map);
@@ -443,13 +431,9 @@ public class HouseController {
 	@PostMapping("insert.rere")
 	public String insertResidentReview(int houseNo, HttpSession session,ResidentReview rr, Model model,@RequestParam("reviewImage") MultipartFile file, @RequestParam String prosKeywords, @RequestParam String consKeywords){
 
-		System.out.println(prosKeywords);
-		System.out.println(consKeywords);
 		String keywordString = prosKeywords + "," + consKeywords;
 		String[] keywordNo = keywordString.split(",");
-		System.out.println(keywordNo);
 		Member loginUser = (Member) session.getAttribute("loginUser");
-		System.out.println(rr);
 		Map<String, Object> map = new HashMap<>();
 		map.put("rr", rr);
 		if(loginUser !=null && rr!=null) {
@@ -457,7 +441,6 @@ public class HouseController {
 			int reReviewNo = houseService.insertResidentReview(rr);
 			for(int i = 0; i < keywordNo.length; i++) {
 				map.put("keyword", keywordNo[i]);
-				System.out.println(keywordNo[i]);
 				houseService.insertMemberKeyword(map);
 				map.remove("keyword");
 			}
@@ -545,7 +528,6 @@ public class HouseController {
 		     String[] keywordNo = keywordString.split(",");
 		     for(int i = 0; i < keywordNo.length; i++) {
 		    	 paramMap.put("keyword", keywordNo[i]);
-					System.out.println(keywordNo[i]);
 					 houseService.updateKeywords(paramMap);
 					paramMap.remove("keyword");
 				}
