@@ -235,10 +235,10 @@
 		<div class="container1">
 		</div>
 	</div>
+
     <h2>매물 등록</h2>
 
     <form action="enroll" method="post" enctype="multipart/form-data">
-		
         <div class="container" style="width:40%;">
             <div class="grid grid-2 py-4">
                 <div class="col">

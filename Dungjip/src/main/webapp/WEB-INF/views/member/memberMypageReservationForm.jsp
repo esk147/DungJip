@@ -8,29 +8,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>예약내역</title>
-
 <style>
 .card {
 	box-shadow: 1px 1px 7px 0;
 	border: none;
 	border-radius: 12px 12px 12px 12px;
 }
-
 .card h3 {
 	font-size: 18px;
 	margin-bottom: 10px;
 	position: relative;
 	display: block;
 	padding: 15px 38px 13px 18px;
-	background-color: #c2c2c2;
+	background-color: #C2C2C2;
 	border-radius: 12px 12px 0 0;
-	color: #effcf1;
+	color: #EFFCF1;
 }
-
 .card p {
 	font-size: 14px;
 }
-
 .card a {
 	color: #fff;
 	text-decoration: none;
@@ -39,39 +35,31 @@
 	margin-top: 10px;
 	padding-top: 10px;
 }
-
 .card ul {
 	padding: 0 40px;
 }
-
 .item_text {
 	padding: 20px 0 10px 0px;
 	line-height: 30px;
 	font-size: 14px;
 	letter-spacing: -0.8;
 }
-
 .btn_edit {
 	float: right;
 	padding: 2px 9px 3px 10px;
-	color: #7b8994;
+	color: #7B8994;
 	border: none;
 }
 </style>
 </head>
 <body>
-
 	<%@ include file="../common/header.jsp"%>
-
 	<div class="container" style="display: flex; width: 67%;">
-
 		<!-- 마이페이지 메뉴바 -->
 		<%@ include file="memberMypagemenubar.jsp"%>
-
-
 		<section class="main-content"
 			style="width: 100%; margin: 70px 0 70px 50px; margin-left: 4%;">
-			<div class="container section_gap_top_75">
+				<h3 class="panel-title"><strong>예약내역</strong></h3>
 				<div class="cart_inner">
 					<div class="table-responsive">
 						<table class="table">
@@ -86,8 +74,9 @@
 							<c:forEach var="reservation" items="${rlist }" >
 								<tr>
 									<td class="text-center">
-										<h5>정슬기 수정요함</h5>
+										<h5>${reservation.reservationNo}</h5>
 									</td>
+									
 									<td>
 										<div class="media">
 											<div class="d-flex"></div>
@@ -115,10 +104,10 @@
 						</table>
 					</div>
 				</div>
-			</div>
+	
 		</section>
 	</div>
-	<script> 
+	<script>
 	function insertEstateReview(el){
 		var esNo = $(el).closest('tr').find('#esNo').val();
 		var beforeRTime = $(el).closest('tr').find('#rTime').val();
@@ -134,6 +123,5 @@
 	}
 	</script>
 	<%@ include file="../common/footer.jsp"%>
-
 </body>
 </html>

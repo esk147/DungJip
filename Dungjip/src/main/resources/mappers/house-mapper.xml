@@ -63,7 +63,7 @@
 	</select>
 	
 	<select id="selectHouse" parameterType="string" resultMap="houseResultSet">
-		select house_no, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+		select house_no, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>
            THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
            ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, house_rent, house_title, house_style, house_square, house_latitude, house_longitude, house_floor, house_maintaincost, house_name, house_type from house where house_type = #{type} order by house_no
 	</select>
@@ -298,7 +298,7 @@
 	</select>
 	
 	<select id="selectSubscribeHouseList" resultMap="houseResultSet">
-		SELECT H.house_no, H.house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) >= 5
+		SELECT H.house_no, H.house_name, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>
            THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
            ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, H.house_price, H.house_rent, H.house_square, H.house_floor, H.house_maintaincost, H.house_title, H.house_style
 	    FROM OWN O
@@ -415,8 +415,10 @@ GROUP BY RR.RE_REVIEW_NO, M.USER_NICKNAME, M.CHANGE_NAME, RR.HOUSE_NO
 	
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*)	
-		FROM HOUSE
-		WHERE STATUS = 'Y' 		
+		FROM HOUSE H 
+		JOIN JJIM J ON J.HOUSE_NO = H.HOUSE_NO	
+		WHERE STATUS = 'Y'
+		AND J.USER_NO = #{userNo} 		
 	</select>
 	
 	<select id="selectEsHouseListCount" resultType="_int">
@@ -448,9 +450,6 @@ GROUP BY RR.RE_REVIEW_NO, M.USER_NICKNAME, M.CHANGE_NAME, RR.HOUSE_NO
 		AND O.STATUS = 'Y'
 
 	</select>
-
-
-
 <select id="selectResidentReviewSum" resultType="_int">
 SELECT SUM(TOTAL) AS TOTAL
 	FROM RESIDENT_REVIEW
@@ -623,7 +622,7 @@ SELECT COUNT(life_score) AS life_score_COUNT
 	<select id="mypageImdaHouseListCount" resultType="_int">
 		SELECT COUNT(*)	count
 		FROM HOUSE H
-		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO		
 	</select>
 	
 	<select id="mypageImdaHouseList" resultMap="houseResultSet">
@@ -645,7 +644,7 @@ SELECT COUNT(life_score) AS life_score_COUNT
 		WHERE M.USER_NO = #{userNo}
 		AND H.STATUS='Y'
 	</select>
-	
+
 	<update id="myImdaHouseDelete">
 		UPDATE HOUSE
 		SET STATUS = 'N'
@@ -672,12 +671,22 @@ SELECT COUNT(life_score) AS life_score_COUNT
 	<delete id="deleteKeywords" parameterType="int">
     DELETE FROM MEMBER_KEYWORD
     WHERE RE_REVIEW_NO = #{rr.reReviewNo}
-</delete>
+	</delete>
+	
+	<insert id="insertKeyword" parameterType="memberKeyword">
+		    INSERT INTO MEMBER_KEYWORD(USER_NO, KEYWORD_NO, re_Review_No)
+		    		     VALUES (#{loginUser.userNo},#{keyword},#{rr.reReviewNo})
+	
+	</insert>
 
-<insert id="insertKeyword" parameterType="memberKeyword">
-	    INSERT INTO MEMBER_KEYWORD(USER_NO, KEYWORD_NO, re_Review_No)
-	    		     VALUES (#{loginUser.userNo},#{keyword},#{rr.reReviewNo})
-
-</insert>
+	<select id="mypagemypageEsReservationCount" resultType="_int">
+		 SELECT count(*)
+		FROM RESERVATION R
+		JOIN ESTATE E ON R.ES_NO = E.ES_NO
+		JOIN TIME T ON R.TIME_NO = T.TIME_NO
+		JOIN MEMBER M ON M.USER_NO = R.USER_NO
+		WHERE R.ES_NO = #{es_no}
+		ORDER BY R.RESERVATION_NO DESC
+	</select>
 
 </mapper>

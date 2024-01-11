@@ -689,6 +689,7 @@
 				</div>
 			</div>
 		</div>
+
 <div class="tab-pane fade show active" id="review" role="tabpanel"
 	aria-labelledby="review-tab">
 	<div class="row">
@@ -745,6 +746,7 @@
 </div>
 </div>
 </div>
+
 		<script>
 		console.log("사용자 번호: " + '${loginUser != null ? loginUser.userNo : "null"}');
 
