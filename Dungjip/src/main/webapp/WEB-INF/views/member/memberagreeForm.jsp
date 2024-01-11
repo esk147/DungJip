@@ -96,6 +96,16 @@
 
 	<%@ include file="../common/header.jsp" %>
 
+	<div class="page-head"> 
+         <div class="container">
+             <div class="row">
+                 <div class="page-head-content">
+                     <h1 class="page-title"></h1>               
+                 </div>
+             </div>
+         </div>
+    </div>
+
     <div class="container" style="padding: 100px;">
         <div class="header">
             <strong>이용약관</strong>
