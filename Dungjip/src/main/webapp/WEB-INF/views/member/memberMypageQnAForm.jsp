@@ -100,7 +100,18 @@
 											style="background: white; display: flex; justify-content: space-between;">
 											<h4 class="panel-title fqa-title" data-toggle="collapse"
 												data-target="#fqa11${index.count}">${qlist.enquiryTitle}</h4>
-											<a href="enquiry/delete.bo?enquiryNo=${qlist.enquiryNo}" id="deleteBtn" class="bbtn btn-light btn-sm" onclick="return confirm('문의사항을 삭제하시겠습니까?');" style="color: red;">삭제</a>																					
+												
+											<div>
+												<c:if test="${qlist.status=='Y'}">
+												    <span class="check" style="red: blue;font-size: small;">답변 완료</span>
+												</c:if>
+												<c:if test="${qlist.status=='N'}">
+												    <span class="check" style="color: blue;font-size: small;">미답변</span>
+												</c:if>
+												
+												<a href="enquiry/delete.bo?enquiryNo=${qlist.enquiryNo}" id="deleteBtn" class="bbtn btn-light btn-sm" onclick="return confirm('문의사항을 삭제하시겠습니까?');" style="color: red;">삭제</a>																																
+										
+											</div>
 										</div>
 										<div id="fqa11${index.count}"
 											class="panel-collapse collapse fqa-body">
@@ -135,12 +146,11 @@
 
 					</c:if>
 
-
 				</ul>
 	
 		</section>
 	</div>
-	
+
 	<form action="delete.bo" method="post">
     	<input type ="hidden">
     </form>	

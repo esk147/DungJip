@@ -243,6 +243,7 @@
 		    ,HOUSE_NAME
 		FROM HOUSE
 		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND HOUSE_TYPE = #{houseType}
 		AND STATUS='Y'
 		ORDER BY HOUSE_NO
 	</select>
@@ -258,6 +259,7 @@
 		FROM HOUSE_IMG I
 		JOIN HOUSE H ON (I.HOUSE_NO = H.HOUSE_NO)
 		WHERE TRIM(SUBSTR(H.HOUSE_ADDRESS, INSTR(H.HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND HOUSE_TYPE = #{houseType}
 		GROUP BY I.HOUSE_NO
 		ORDER BY I.HOUSE_NO
 	</select>
@@ -311,6 +313,7 @@
 		SELECT count(*) COUNT
 		FROM HOUSE 
 		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND HOUSE_TYPE = #{houseType}
 		AND STATUS='Y'
 	</select>
 
@@ -412,8 +415,10 @@ GROUP BY RR.RE_REVIEW_NO, M.USER_NICKNAME, M.CHANGE_NAME, RR.HOUSE_NO
 	
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*)	
-		FROM HOUSE
-		WHERE STATUS = 'Y' 			
+		FROM HOUSE H 
+		JOIN JJIM J ON J.HOUSE_NO = H.HOUSE_NO	
+		WHERE STATUS = 'Y'
+		AND J.USER_NO = #{userNo} 		
 	</select>
 	
 	<select id="selectEsHouseListCount" resultType="_int">
@@ -617,7 +622,7 @@ SELECT COUNT(life_score) AS life_score_COUNT
 	<select id="mypageImdaHouseListCount" resultType="_int">
 		SELECT COUNT(*)	count
 		FROM HOUSE H
-		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		JOIN MEMBER M ON M.USER_NO = H.USER_NO		
 	</select>
 	
 	<select id="mypageImdaHouseList" resultMap="houseResultSet">
@@ -666,13 +671,23 @@ SELECT COUNT(life_score) AS life_score_COUNT
 	<delete id="deleteKeywords" parameterType="int">
     DELETE FROM MEMBER_KEYWORD
     WHERE RE_REVIEW_NO = #{rr.reReviewNo}
-</delete>
+	</delete>
+	
+	<insert id="insertKeyword" parameterType="memberKeyword">
+		    INSERT INTO MEMBER_KEYWORD(USER_NO, KEYWORD_NO, re_Review_No)
+		    		     VALUES (#{loginUser.userNo},#{keyword},#{rr.reReviewNo})
+	
+	</insert>
 
-<insert id="insertKeyword" parameterType="memberKeyword">
-	    INSERT INTO MEMBER_KEYWORD(USER_NO, KEYWORD_NO, re_Review_No)
-	    		     VALUES (#{loginUser.userNo},#{keyword},#{rr.reReviewNo})
-
-</insert>
+	<select id="mypagemypageEsReservationCount" resultType="_int">
+		 SELECT count(*)
+		FROM RESERVATION R
+		JOIN ESTATE E ON R.ES_NO = E.ES_NO
+		JOIN TIME T ON R.TIME_NO = T.TIME_NO
+		JOIN MEMBER M ON M.USER_NO = R.USER_NO
+		WHERE R.ES_NO = #{es_no}
+		ORDER BY R.RESERVATION_NO DESC
+	</select>
 
 <select id="selectResidentEmoCount" resultType="_int">
 		SELECT COUNT(*) EMO
