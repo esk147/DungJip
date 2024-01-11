@@ -243,6 +243,7 @@
 		    ,HOUSE_NAME
 		FROM HOUSE
 		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND HOUSE_TYPE = #{houseType}
 		AND STATUS='Y'
 		ORDER BY HOUSE_NO
 	</select>
@@ -258,6 +259,7 @@
 		FROM HOUSE_IMG I
 		JOIN HOUSE H ON (I.HOUSE_NO = H.HOUSE_NO)
 		WHERE TRIM(SUBSTR(H.HOUSE_ADDRESS, INSTR(H.HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND HOUSE_TYPE = #{houseType}
 		GROUP BY I.HOUSE_NO
 		ORDER BY I.HOUSE_NO
 	</select>
@@ -311,6 +313,7 @@
 		SELECT count(*) COUNT
 		FROM HOUSE 
 		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND HOUSE_TYPE = #{houseType}
 		AND STATUS='Y'
 	</select>
 
