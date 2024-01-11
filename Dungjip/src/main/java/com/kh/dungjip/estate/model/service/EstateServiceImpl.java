@@ -285,4 +285,10 @@ public class EstateServiceImpl implements EstateService {
 		// TODO Auto-generated method stub
 		return estateDao.myEspage(sqlSession,m);
 	}
+
+	//마이페이지 - 예약 삭제
+	@Override
+	public int deleteReview(int reservationNo) {
+		return estateDao.deleteReview(sqlSession,reservationNo);
+	}
 }

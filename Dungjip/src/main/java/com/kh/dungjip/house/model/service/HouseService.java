@@ -23,7 +23,7 @@ public interface HouseService {
 	
 	ArrayList<House> selectHouseMain(String type);
 
-	ArrayList<HouseImg> selectHouseThumnail();
+	ArrayList<HouseImg> selectHouseThumnail(String type);
 
 	//부동산 집 리스트
 	ArrayList<House> selectHouseList(int esNo,PageInfo pi);
@@ -50,10 +50,10 @@ public interface HouseService {
 	 ArrayList<HouseImg> selectHouseImgDetail(int houseNo);
 
 	 //비슷한 매물 찾기 list
-	ArrayList<House> houseLikeList(String houseAddress,PageInfo pi);
+	ArrayList<House> houseLikeList(House house,PageInfo pi);
 
 	//비슷한 매물 찾기 img
-	ArrayList<HouseImg> houseImgLike(String houseAddress);
+	ArrayList<HouseImg> houseImgLike(House house);
 	HouseImg selectHouseMainThumnail(int houseNo);
 
 	//조회
@@ -65,7 +65,7 @@ public interface HouseService {
 	ArrayList<House> selectSubscribeHouseList(Map<String, Object> map);
 
 	//비슷한 매물 전체 개수
-	int selectHouseLikeCount(String houseAddress);
+	int selectHouseLikeCount(House house);
 
 	//마이페이지 찜목록에서 찜해제
 	int mypageHjjimdelete(int houseNo);
@@ -113,7 +113,7 @@ public interface HouseService {
 	int selectLifeCount(int houseNo);
 
 	//마이페이지 집 찜 페이징
-	int selectListCount();
+	int selectListCount(Member m);
 
 	//마이페이지 중개인 매물내역
 	ArrayList<House> memberMypageEstateHouseList(Integer esNo, PageInfo pi);
@@ -136,6 +136,19 @@ public interface HouseService {
 	int updateKeywords(Map<String, Object> paramMap);
 
 	int deleteKeywords(Map<String, Object> paramMap);
+
+	int selectResidentEmoCount(int reReviewNo);
+
+	int selectResidentReviewLikeCount(Map<String, Object> numMap);
+
+	int selectReviewLikeCount(Map<String, Object> map);
+
+	int decreaseCount(Map<String, Object> map);
+
+	int increaseReReLikeCount(Map<String, Object> map);
+  
+	//중개인 예약내역 페이징
+	int mypagemypageEsReservationCount(Integer esNo);
 
 
 

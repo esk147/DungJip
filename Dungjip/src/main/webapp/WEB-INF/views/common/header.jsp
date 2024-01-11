@@ -153,9 +153,8 @@
                 
             </div>
         </nav>
-
         
-        <c:if test="${not empty alertMsg }">
+        <c:if test="${not empty alertMsg  or not empty errorMsg }">
         <script>
             var alertMsg = "${alertMsg}";
             var errorMsg = "${errorMsg}";

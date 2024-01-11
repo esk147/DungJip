@@ -104,7 +104,13 @@
     justify-content: flex-end;
     padding-right: 40px;
 }
- }
+  #reviewH3{
+  	padding-top: 90px;
+    text-align: center;
+  }
+
+}
+ 
  
  /* 기본 이미지 스타일 */
 .zoomable {
@@ -205,6 +211,24 @@
     justify-content: space-between;
     margin-bottom: 25px;
   }
+  
+   .good{
+             width: 20px;
+             }
+             
+             .emo{
+             display:flex;
+             align-items: center;
+             justify-content: flex-end;
+             }
+             
+             .likecount{
+             padding-left: 3px;
+             }
+             
+        	.like-btn.liked img {
+            filter: sepia(100);
+        	}
 
 </style>
 </head>
@@ -529,7 +553,7 @@
 				aria-controls="contact" aria-selected="false">비슷한 매물 보기</a></li>
 			<li class="nav-item"><a class="nav-link active"
 				id="review-tab" data-toggle="tab" href="#review" role="tab"
-				aria-controls="review" aria-selected="false">Reviews</a></li>
+				aria-controls="review" aria-selected="false">리뷰</a></li>
 		</ul>
 		<div class="tab-content" id="myTabContent" style="background-color: #FFF;">
 			<div class="tab-pane fade" id="home" role="tabpanel"
@@ -688,64 +712,71 @@
 					</div>
 				</div>
 			</div>
+		</div>
 
-			</div>
 <div class="tab-pane fade show active" id="review" role="tabpanel"
 	aria-labelledby="review-tab">
+	<c:choose>
+		<c:when test="${empty loginUser.userType}">
+			<h3 id="reviewH3">로그인 후 리뷰 확인 가능합니다!</h3>
+		</c:when>
+		<c:otherwise>
 	<div class="row">
 		<div class="col-lg">
-			<div class="row total_rate" style="display: flex;">
-				<div class="col-6" style="flex: 1">
-					<div class="box_total">
-						<br>
-						<h3
-							style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
-
-						<h1 style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
-
-
-						<h5 style="text-align: center;"></h5>
-					</div>
-					</div>
+				<div class="row total_rate" style="display: flex;">
 					<div class="col-6" style="flex: 1">
-						<div class="rating_list" style="margin-top: 25px;" id="count">
-							<h5 style="text-align: left;"></h5>
-							<ul class="list" style="padding: 0;">
-								<li><a href="#" id="building">건물: 
-										 <span></span>
-								</a></li>
-								<li><a href="#" id="traffic">교통: 
-									<span></span>
-								</a></li>
-								<li><a href="#" id="interior">내부:  <span></span>
-								</a></li>
-								<li><a href="#" id="safety">치한: <span></span>
-								</a></li>
-								<li><a href="#" id="life">생활:  <span></span>
-								</a></li>
-							</ul>
-							
-
-					</div>
-					</div>
-				</div>
-					<div class="write">
-					<input type="hidden" id="houseNo" value="${house.houseNo }" >
-					<button onclick="insertResidentReview(this);">리뷰 작성</button>
-					<input type="hidden" id="loginUserNo" value="${loginUser != null ? loginUser.userNo : null}" />
-					</div>
-				<div class="review_list">
-					<!-- 리뷰 내용 -->
-
-				</div>
+						<div class="box_total">
+							<br>
+								<h3
+									style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
+		
+								<h1 style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
+		
+		
+								<h5 style="text-align: center;"></h5>
+							</div>
+							</div>
+							<div class="col-6" style="flex: 1">
+								<div class="rating_list" style="margin-top: 25px;" id="count">
+									<h5 style="text-align: left;"></h5>
+									<ul class="list" style="padding: 0;">
+										<li><a href="#" id="building">건물: 
+												 <span></span>
+										</a></li>
+										<li><a href="#" id="traffic">교통: 
+											<span></span>
+										</a></li>
+										<li><a href="#" id="interior">내부:  <span></span>
+										</a></li>
+										<li><a href="#" id="safety">치안: <span></span>
+										</a></li>
+										<li><a href="#" id="life">생활:  <span></span>
+										</a></li>
+									</ul>
+									
+		
+							</div>
+							</div>
+						</div>
+							<div class="write">
+							<input type="hidden" id="houseNo" value="${house.houseNo }" >
+							<button onclick="insertResidentReview(this);">리뷰 작성</button>
+							<input type="hidden" id="loginUserNo" value="${loginUser != null ? loginUser.userNo : null}" />
+							</div>
+						<div class="review_list">
+							<!-- 리뷰 내용 -->
+		
+						</div>
 			</div>
 		</div>
+					</c:otherwise>
+				</c:choose>
+	</div>
 	</div>
 </section>
 </div>
 </div>
 </div>
-
 
 		<script>
 		console.log("사용자 번호: " + '${loginUser != null ? loginUser.userNo : "null"}');
@@ -768,6 +799,45 @@
 
 
 		<script>
+		function toggleLike(element) {
+
+			var likeButton = element;
+			var userNo = "${loginUser.userNo}";
+			var reReNo = element.id;
+
+			console.log("reReNo");
+			console.log(userNo);
+			console.log(reReNo);
+			console.log(likeButton);
+			
+				  $.ajax({
+					 url: "resident.like",
+					 data: {
+						 reReNo: reReNo,
+						 userNo: userNo
+					 },
+					 success: function(result){
+						 var idName = "likeCount"+result.reReNo;
+						 var likeCount = document.getElementById(idName);
+						 console.log("click ajax");
+						 console.log(result);
+						 console.log(likeCount);
+						 likeCount.textContent = result.emoCount;
+						 console.dir(likeCount);
+						 
+						 if(result.result === 1){
+  						likeButton.classList.remove('liked');
+						 } else {
+   					likeButton.classList.add('liked');
+						 }
+					 },
+					 error: function(){
+						 console.log("통통신신에에러러");
+					 }
+				 }) 
+
+			// 클릭 토글
+				 }
 		
 		function generateStars(score) {
 		    let fullStarCount = Math.floor(score); // 전체 별의 개수
@@ -797,10 +867,11 @@
 				
 				$.ajax({
 					url:"resi.re",
-					data: {houseNo:"${house.houseNo}" },
+					data: {houseNo:"${house.houseNo}",
+						userNo: "${loginUser.userNo}"},
 					success: function(result){
 						console.log("거주자 리뷰 통신 성공");
-						
+						console.log(result);
 						var avg = (result.sum /result.count).toFixed(2);
 						
 						var building = (result.building /result.buildingCount).toFixed(2);
@@ -863,27 +934,13 @@
 						                "<img id='photo' class='zoomable' src='"+result.rlist[i].reviewImg.changeName+"' alt=''>" +
 						            "</div>" +
 						        "</div>" +
+						        '<div class="emo"><span class="' + (result.reviewBooleanArr[i] === 1 ? "like-btn liked" : "like-btn") + '" onclick="toggleLike(this)" id="'+result.rlist[i].reReviewNo+'"><img class="good" src="resources/img/good.svg"> </span> <h6 id="likeCount'+result.rlist[i].reReviewNo+'" class="likecount">'+
+		        		        result.residentArr[i]+'</h6>'+
 						        "<hr>" +
 						    "</div>";
 
 						    $(".review_list").append(reviewItem);
 						    
-						    
-						   
-						
-
-						console.log("---------리스트 확인---------");
-						console.log(result);
-						console.log("---------확인---------");
-						console.log(result.rlist[i].positiveKeywords);
-						console.log("평균");
-						console.log(avg);
-						console.log(building);
-						console.log(traffic);
-						console.log(interior);
-						console.log(safety);
-						console.log(life);
-						
 						$(".box_total h5").text("("+result.count+" Reviews)");
 				    	$("#count h5").text("Based on "+result.count+" Reviews");
 				        $(".box_total h1").text(avg);
@@ -949,9 +1006,6 @@
 	        center: new kakao.maps.LatLng(${house.houseLatitude}, ${house.houseLongitude}),
 	        level: 3
 	    };
-		console.log(${house.houseLatitude});
-		console.log(${house.houseLongitude});
-		console.log("====================");
 		
 	    map = new kakao.maps.Map(mapContainer, mapOption);
 	    var markerPosition = new kakao.maps.LatLng(${house.houseLatitude}, ${house.houseLongitude});
@@ -1007,10 +1061,12 @@
     
     function loadPage(currentPage) {
     	var houseAddress = "${house.houseAddress}"
+    	var houseType = "${house.houseType}"
         $.ajax({
             url: "houseLikeList.ho",
             data: {
             	houseAddress : houseAddress,
+            	houseType : houseType,
                 currentPage: currentPage // 수정된 currentPage 값을 전달
             },
             success: function(data) {
@@ -1058,7 +1114,7 @@
 			$('#houseImgLikeList').html(str);
 	};
 	
-	function Pagination(pi, houseAddress) {
+	function Pagination(pi, houseAddress, houseType) {
 	    var html = '';
 	    if (pi.currentPage > 1) {
 	        html += '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="loadPage(' + (pi.currentPage - 1) + ')">Prev</a></li>';

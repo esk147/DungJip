@@ -147,12 +147,19 @@
 	font-weight: bold;
 	color: red;
 }
+
+#reviewH3{
+	padding-top: 90px;
+  	text-align: center;
+}
+
 </style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
 <body>
 	<%@ include file="../common/header.jsp"%>
+	
 	<div id="preloader">
 		<div id="status">&nbsp;</div>
 	</div>
@@ -241,8 +248,9 @@
 											<input type="hidden" value="${e.esNo}" id="selectEsNo">
 											<input type="hidden" value="${loginUser.userNo}" id="selectUserNo">
 											<input onclick="reservation();" class="button btn largesearch-btn" value="예약하기" type="submit">
-											<input class="button btn largesearch-btn" value="상담하기" type="button" 
-											onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'">
+									
+											<input class="button btn largesearch-btn" id="clickChatBtn" value="상담하기" type="button" 
+											onclick="qwer();">
 										</div>																			<!-- onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'" -->
 
 									</div>
@@ -252,6 +260,19 @@
 
 					</aside>
 				</div>
+				<script type="text/javascript">
+				function qwer(){
+					console.log("${loginUser}");
+					if("${loginUser}" != ""){
+						location.href='websocket/ask?estateUserNo='+"${e.member.userNo}";
+					
+					}else{
+						showError("실패","로그인 후 이용 가능 합니다","확인");
+					}
+				}
+				</script>
+				
+				
 				<div class="col-md-8 single-property-content prp-style-1 "
 					style="width: 1100px;">
 
@@ -452,10 +473,10 @@
 																                    '<div class="col-sm-6 col-md-3 p0" style="height: 377.59px;">' +
 																                        '<div class="box-two proerty-item" id="' + house.houseNo + '" onclick="detailHouse(this)">' +
 																                            '<div class="item-thumb" style="width:265px;">' +
-																                                '<img src="' + img + '" style="max-height: 225px; width: 265px;">' +
+																                                '<img src="' + img + '" style="max-height: 225px; width: 265px; cursor: pointer;">' +
 																                            '</div>' +
 																                            '<div class="item-entry overflow">' +
-																                                '<h5><a href="property-1.html">' + houseStyleDisplay + '</a></h5>' +
+																                                '<h5><a>' + houseStyleDisplay + '</a></h5>' +
 																                                '<div class="dot-hr"></div>' +
 																                                '<span class="pull-left"><b> 평수 :</b> ' + house.houseSquare + ' </span>' +
 																                                '<span class="proerty-price pull-right">' + house.houseType + '</span>' +
@@ -508,87 +529,91 @@
 
 									</div>
 								</div>
-
 								<div class="tab-pane fade active" id="review" role="tabpanel"
 									aria-labelledby="review-tab" style="width: 850px;">
-									<div class="row">
-										<div class="col-lg">
-											<div class="row total_rate" style="display: flex;">
-												<div class="col-6" style="flex: 1">
-													<div class="box_total">
-														<br>
-
-														<h3
-															style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
-
-														<h1
-															style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
-
-														<h5 style="text-align: center;"></h5>
+								<c:choose>
+									<c:when test="${empty loginUser.userType}">
+										<h3 id="reviewH3">로그인 후 리뷰 확인 가능합니다!</h3>
+									</c:when>
+									<c:otherwise>									
+										<div class="row">
+											<div class="col-lg">
+												<div class="row total_rate" style="display: flex;">
+													<div class="col-6" style="flex: 1">
+														<div class="box_total">
+															<br>
+	
+															<h3
+																style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
+	
+															<h1
+																style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
+	
+															<h5 style="text-align: center;"></h5>
+														</div>
 													</div>
-												</div>
-												<div class="col-6" style="flex: 0.3">
-													<div class="rating_list" style="margin-top: 25px;"
-														id="count">
-														<h5 style="text-align: left;"></h5>
-														<ul class="list" style="padding: 0;">
-
-															<li id="5star"><a href="#" id="num">5 Star <i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><i
-																	class="fa fa-star"></i> <span></span>
-															</a></li>
-
-
-															<li id="4star"><a href="#" id="num">4 Star <i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><span></span>
-															</a></li>
-
-															<li id="3star"><a href="#" id="num">3 Star <i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><i
-																	class="fa fa-star"></i> <span></span></a></li>
-
-
-															<li id="2star"><a href="#" id="num">2 Star <i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><span></span></a></li>
-
-															<li id="1star"><a href="#" id="num">1 Star <i
-																	class="fa fa-star"></i><span></span>
-															</a></li>
-
-
-														</ul>
-													</div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div id="reviewContainer">
-                                                <div class="review_list" style="width: 1100px;">
-                                                    <!-- 리뷰내용 -->
-                                               
-                                               
-                                               
-                                               
-
-                                               
-                                               <div class="emo">
-                                                            <span class="like-btn" onclick="toggleLike(this)" >
-                                                            <img class="good" src="resources/img/good.svg">
-                                                           </span>
-                                                            <h6 class="likecount">25</h6>
-                                                            </div>
-
-                                               <hr>
-
-                                            </div>
-                                            
-                                            
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    
+													<div class="col-6" style="flex: 0.3">
+														<div class="rating_list" style="margin-top: 25px;" id="count">
+															<h5 style="text-align: left;"></h5>
+															<ul class="list" style="padding: 0;">
+	
+																<li id="5star"><a href="#" id="num">5 Star <i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><i
+																		class="fa fa-star"></i> <span></span>
+																</a></li>
+	
+	
+																<li id="4star"><a href="#" id="num">4 Star <i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><span></span>
+																</a></li>
+	
+																<li id="3star"><a href="#" id="num">3 Star <i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><i
+																		class="fa fa-star"></i> <span></span></a></li>
+	
+	
+																<li id="2star"><a href="#" id="num">2 Star <i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><span></span></a></li>
+	
+																<li id="1star"><a href="#" id="num">1 Star <i
+																		class="fa fa-star"></i><span></span>
+																</a></li>
+	
+	
+															</ul>
+														</div>
+	                                                    </div>
+	                                                </div>
+	                                                
+	                                                <div id="reviewContainer">
+	                                                <div class="review_list" style="width: 1100px;">
+	                                                    <!-- 리뷰내용 -->
+	                                               
+	                                               
+	                                               
+	                                               
+	
+	                                               
+	                                               <div class="emo">
+	                                                            <span class="like-btn" onclick="toggleLike(this)" >
+	                                                            <img class="good" src="resources/img/good.svg">
+	                                                           </span>
+	                                                            <h6 class="likecount">25</h6>
+	                                                            </div>
+	
+	                                               <hr>
+	
+	                                            </div>
+	                                            
+	                                            
+	                                            </div>
+	                                            
+	                                        </div>
+	                                    </div>
+                                    </c:otherwise>
+                                   </c:choose>
                                 </div>
                             </div>
                         </section>
@@ -868,6 +893,12 @@
 		                            clickedYMD: clickedYMD
 		                        },
 		                        success: function(result) {
+	                        		// 이전에 비활성화된 요소를 찾아 초기화
+	                        		var disabledElements = document.querySelectorAll('[disabled]');
+	                        		for (var i = 0; i < disabledElements.length; i++) {
+	                        		  disabledElements[i].disabled = false;
+	                        		  disabledElements[i].style.textDecoration = 'none';
+	                        		}
 		                        	if(result.length>0){
 			                        	for (var i = 0;i < result.length; i++){
 			                        		var time = "time"+result[i].selectTime;
@@ -876,7 +907,7 @@
 				                        	
 				                        	if (disDiv.disabled) {
 				                                disDiv.style.textDecoration = 'line-through';
-				                            }				                        	
+				                            }
 			                        	}
 		                        	}
 		                        },
@@ -927,23 +958,50 @@
 			
         	//달력 체크 표시
         	function cal(e){
-        		var select = document.querySelector(".selected");
-        		    // 이전에 선택된 요소가 있을 경우에만 클래스를 제거
-        		    if (select) {
-        		      select.classList.remove('selected');
-        		    }
-        		    // 현재 선택한 요소에 클래스 추가
-        		    e.srcElement.classList.add('selected');
-    		}
+      		 	  // 새로운 날짜 정보 가져오기
+	      		  var checkToday = new Date();
+	      		  var checkYear = checkToday.getFullYear();
+	      		  var checkMonth = checkToday.getMonth() + 1;
+	      		  var checkDay = checkToday.getDate();
+	      		  var userType = "${loginUser.userType}";
+	
+	      		  // 월이 한 자리일 경우 "0"을 추가
+	      		  checkMonth = checkMonth < 10 ? '0' + checkMonth : checkMonth;
+	      		  
+	      		  // 일이 한 자리일 경우 "0"을 추가
+	      		  checkDay = checkDay < 10 ? '0' + checkDay : checkDay;
+	
+	      		  // Today를 문자열로 변환
+	      		  var checkToday = checkYear.toString() + checkMonth.toString() + checkDay.toString();
+	
+	      		  //중개인의 경우 예약 불가
+	      		  if(userType == "중개인"){
+	      			showWarning("경고", "중개인은 다른 중개인에게 예약을 하실 수 없습니다.", "확인");
+	      		  }else{
+		      		  // 예약 날짜와 현재 날짜 비교
+		      		  if (clickedYMD < checkToday) {
+		      		    showWarning("경고", "예약은 오늘 날짜 또는 이후의 날짜만 선택가능합니다.", "확인");
+		      		  }else{        		
+		        		var select = document.querySelector(".selected");
+		        		    // 이전에 선택된 요소가 있을 경우에만 클래스를 제거
+		        		    if (select) {
+		        		      select.classList.remove('selected');
+		        		    }
+		        		    // 현재 선택한 요소에 클래스 추가
+		        		    e.srcElement.classList.add('selected');
+		    		}
+	      		  	      			  
+	      		  }
+        	}
 			
         	//예약 insert
         	function reservation(){
         		var selectTime = document.querySelector(".check").name; //시간
         		var selectEsNo = document.getElementById("selectEsNo").value; //부동산 번호
         		var selectUserNo = document.getElementById('selectUserNo').value; //유저 번호
-        		console.log(selectTime);
+        		
         		if(selectUserNo == 0){
-        			showSuccess("경고","로그인 후 예약 가능합니다.","확인");
+        			showWarning("경고","로그인 후 예약 가능합니다.","확인");
         		}else{
 	          		let f = document.createElement('form');
 	        		
@@ -983,6 +1041,10 @@
         		}
         	}
         	
+			function detailHouse(e){
+				location.href="detail.ho?houseNo="+e.id;
+				console.log(e.id);
+			}
         	
         	
         	</script>

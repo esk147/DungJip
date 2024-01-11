@@ -143,13 +143,14 @@
         
         <script>
         $(document).ready(function() {
+        
             $(".comment-content").keyup(function(e) {
                 var content = $(this).val();
                 $(".comment_length").text(content.length);
 
                 if (content.length > 100) {
                     $(this).val($(this).val().substring(0, 100));
-                    alert("글자수는 10자까지 입력가능합니다.");
+                    ShowWarning("경고","글자수는 100자까지 입력가능합니다.","확인");
                 }
             });
         });

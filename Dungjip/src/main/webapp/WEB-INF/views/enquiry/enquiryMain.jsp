@@ -144,7 +144,6 @@ input[type="text"], input[type="email"], select, textarea {
 					<input type="hidden" name="userNo" id="userNo" value="${loginUser.userNo}">
 					<p align="center" style="font-size: 25px;">
 						<a href="login.be">로그인</a> 후 등록이 가능합니다 </p>
-					
 					<br> 
 					<label for="">문의 유형</label> 
 		            <input type="text" value="서비스 이용 문의" disabled>
@@ -169,9 +168,9 @@ input[type="text"], input[type="email"], select, textarea {
 				<label for="">문의 유형</label> 
 	            <input type="text" value="서비스 이용 문의" disabled>
 			    <label for="name">제목</label>
-	            <input type="text" id="enquiryTitle" name="enquiryTitle" placeholder="제목을 입력해주세요."> 
+	            <input type="text" id="enquiryTitle" name="enquiryTitle" placeholder="제목을 입력해주세요." required> 
 	            <label for="content">문의 내용</label>
-				<textarea id="enquiryContent" name="enquiryContent" rows="4" style="resize: none;" placeholder="문의 하실 내용을 입력해주세요."></textarea>
+				<textarea id="enquiryContent" name="enquiryContent" rows="4" style="resize: none;" placeholder="문의 하실 내용을 입력해주세요." required></textarea>
 				<label>사진</label>
 				<input type="file" id="enfile" name="enfile" class="form-control-file border">
 				<br>

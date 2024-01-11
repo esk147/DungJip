@@ -13,9 +13,14 @@
     <collection property="members" ofType="member">
         <id column="USER_NO" property="userNo"/>
         <result column="USER_NAME" property="userName"/>
+        <result column="USER_NICKNAME" property="userNickName"/>
         <result column="CHANGE_NAME" property="changeName"/>
         <result column="LASTLOGINTIME" property="lastLoginTime"/>
         <result column="LASTLOGOUTTIME" property="lastLogoutTime"/> 
+    </collection>
+    <collection property="estates" ofType="estate">
+        <id column="ES_NO" property="esNo"/>
+        <id column="ES_Intro" property="esIntro"/>
     </collection>
 </resultMap>
     
@@ -135,10 +140,11 @@
     </select>
     
     <select id="chatRoomList" resultMap="chatRoomWithMembersMap">
-		SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,M.CHANGE_NAME
+SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,M.CHANGE_NAME ,E.es_intro, m.user_nickname 
 		FROM JOINCHAT J
 		JOIN CHATROOM C ON J.CHATROOM_NO = C.CHATROOM_NO
 		JOIN MEMBER M ON J.USER_NO = M.USER_NO
+        join estate e on e.user_no = m.user_No
 		WHERE C.CHATROOM_NO IN (
 		    SELECT CHATROOM_NO
 		    FROM JOINCHAT

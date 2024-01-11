@@ -422,4 +422,9 @@
 		WHERE E.USER_NO = #{userNo}
 	</select>
 	
+	<!-- 마이페이지 - 예약 삭제 -->
+	<delete id="deleteReview">
+		DELETE FROM RESERVATION
+		WHERE RESERVATION_NO = #{reservationNo}
+	</delete>
 </mapper>
