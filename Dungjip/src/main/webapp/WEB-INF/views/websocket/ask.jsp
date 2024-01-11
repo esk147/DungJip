@@ -456,10 +456,6 @@ h1 { 2
 
 <body>
 
-	<script type="text/javascript">
-
-console.log(${chatList});
-</script>
 	<%-- <%@ include file="../common/chatbot.jsp"%> --%>
 	<div id="main-content" style="width: 80%;">
 		<div id="container">
@@ -473,20 +469,19 @@ console.log(${chatList});
 					<c:choose>
 						<c:when test="${not empty chatList}">
 							<c:forEach items="${chatList}" var="chatRoom" varStatus="status">
-								<li onclick="whatEvent(this);"><c:forEach
-										items="${chatRoom.members}" var="member">
-										<img id="${member.changeName }" src="../${member.changeName }"
-											alt="" style="width: 50px; height: 50px;">
+								<li onclick="whatEvent(this);">
+								<c:forEach items="${chatRoom.members}" var="member">
+								<c:forEach items="${chatRoom.estates }" var="estate">
+								<input type="hidden" name="esIntro" value="${estate.esIntro }"> 
+								</c:forEach> 
+										<img id="${member.changeName }" src="../${member.changeName }"alt="" style="width: 50px; height: 50px;">
 										<div style="width: 74%;">
-											<input type="hidden" name="cno"
-												value="${chatRoom.chatRoomNo}">
+											<input type="hidden" name="cno" value="${chatRoom.chatRoomNo}">
 											<!-- 각 채팅방의 멤버에 대해 루프를 돌면서 userName을 표시 -->
-											<div id="${member.userName }"
-												style="width: 100%; display: flex; justify-content: space-between;">
-												<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userName}</h2>
-												<span class="fileUpMsg" id="fileUpMsg${status.index }"
-													style="margin-right: 10px;"></span> <input type="hidden"
-													name="eno" value="${member.userNo }">
+											<div id="${member.userName }" style="width: 100%; display: flex; justify-content: space-between;">
+												<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userNickName}</h2>
+												<span class="fileUpMsg" id="fileUpMsg${status.index }"style="margin-right: 10px;"></span> 
+												<input type="hidden" name="eno" value="${member.userNo }">
 											</div>
 											<c:choose>
 												<c:when test="${member.active}">
@@ -503,6 +498,7 @@ console.log(${chatList});
 												</c:otherwise>
 											</c:choose>
 										</div>
+										 
 									</c:forEach></li>
 							</c:forEach>
 
@@ -521,8 +517,7 @@ console.log(${chatList});
 						document.querySelectorAll('input[name="cno"]').forEach(function(input) {
 						  cnoList.push(input.value);
 						});
-						console.log("검색하고 조회");
-						console.log(cnoList);
+					
 						//쌓인 메세지 개수					
 						$.ajax({
 							url:'nowFileUpMsg.ch',
@@ -531,13 +526,13 @@ console.log(${chatList});
 								mno : '${loginUser.userNo}'
 							},
 							success : function(countList){
-								console.log(countList);
+							
 								for(var i = 0; i < countList.length; i++){
 									var divId = "fileUpMsg"+i;
 									var countDiv = document.getElementById(divId);
-									console.log(countDiv);
+								
 									if(countList[i] == 0){
-										$("#"+divId).css("display", "none");
+										$("#"+divId).css("display", "none"); 
 										continue;
 									}
 									countDiv.innerHTML = countList[i];
@@ -545,7 +540,7 @@ console.log(${chatList});
 								}
 							},
 							error : function(){
-								console.log("에러가 났네요");
+								console.log("쌓인 메세지 개수 ajax에러");
 							}
 						});
 					}
@@ -561,7 +556,7 @@ console.log(${chatList});
 						<div>
 							<h2 id="otherUser"></h2>
 
-							<h3>언제나 최선을 다하는 장재부동산입니다!</h3>
+							<h3 id="esIntro"></h3>
 						</div>
 					</div>
 					<div style="margin-right: 0px;">
@@ -582,7 +577,7 @@ console.log(${chatList});
 					<label for="inputFile"> <img
 						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png"
 						alt="">
-					</label> <input type="file" id="inputFile" style="display: none;" /> <a
+					</label> <input type="file" id="inputFile" style="display: none;" onchange="handleFileSelect(event)"/> <a
 						href="#" id="send" onclick="send();">Send</a>
 				</footer>
 			</main>
@@ -802,7 +797,7 @@ function revealText(element) {
             clearInterval(timer);//
         
         }
-    }, 30);//30ms로 설정 아마 0.03초
+    }, 30);//30ms로 설정 0.03초
 }
 
 
@@ -903,7 +898,7 @@ $("#findChat").on("input",function(){
 							
 						},
 						success: function(result){
-							console.log("읽음메세지 처리");
+					
 							readFileUpMsg();
 							
 						},
@@ -919,7 +914,6 @@ $("#findChat").on("input",function(){
 						
 						success:function(chatRoomMsg){
 							var chatHtml = "";
-							console.log(chatRoomMsg);
 							if(chatRoomMsg !=""){
 							for (var i in chatRoomMsg){
 						if("${loginUser.userNo}" == chatRoomMsg[i].userNo){
@@ -980,7 +974,9 @@ $("#findChat").on("input",function(){
  function whatEvent(e){
 	$("#otherUser").text(e.lastElementChild.children[1].id);
 	  var userProfileSrc = $(e).find('img').attr('src');
-
+	$("#esIntro").text(e.firstElementChild.defaultValue);
+	  
+	console.dir(e)
       // 메인 헤더의 프로필 이미지 소스 변경
       $('#userProfileImage').attr('src', userProfileSrc);
 	
@@ -1018,7 +1014,7 @@ window.onload = function() {
 		    var selectedChatRoomNo = $(this).find("input[name='cno']").val();
 		    connectToWebSocket(selectedChatRoomNo);
 		    
-		   console.log(currentChatRoomNo);
+		 
 		   //lastElementChild.children[1].id
 	     // 클릭된 부동산의 인덱스를 가져옵니다
 		chatRoomNo = $(this).find("input[name='cno']").val();//this는 li요소 find는 li 안에 있는 input[name='cno'] 이걸 가져온다
@@ -1032,7 +1028,6 @@ window.onload = function() {
 			
 		},
 		success: function(result){
-			console.log("읽음메세지 처리");
 			readFileUpMsg();
 			
 		},
@@ -1047,8 +1042,7 @@ window.onload = function() {
 		
 		
 	    connectToWebSocket(chatRoomNo);//추가
-		console.log(chatRoomNo);
-		console.log("클릭의 this입니다 : "+this);
+
 		$.ajax({
 			url: "../websocket/selectChatMsg.ch",
 			method:"POST",
@@ -1056,7 +1050,6 @@ window.onload = function() {
 			
 			success:function(chatRoomMsg){
 				var chatHtml = "";
-				console.log(chatRoomMsg);
 				if(chatRoomMsg !=""){
 				for (var i in chatRoomMsg){
 			if("${loginUser.userNo}" == chatRoomMsg[i].userNo){
@@ -1114,33 +1107,27 @@ window.onload = function() {
 		function connectToWebSocket(chatRoonNo){
 			//접속경로를 담아 socket을 생성한다.
 			 if (socket && socket.readyState === WebSocket.OPEN && currentChatRoomNo === chatRoomNo) {
-			        console.log("이미 채팅방 " + chatRoomNo + "에 연결되어 있습니다.");
+
 			        return;
 			    }
 			
 			    if (socket) {
 			        socket.close();
 			    }
-						 console.log("url 집어넣기전 :"+chatRoomNo);
+						
 			var url = "ws://localhost:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			//"ws://localhost:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			// "ws://192.168.150.140:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			socket = new WebSocket(url);
 			//연결이 되었을때
 			socket.onopen = function(){
-				console.log("연결 성공");
-				console.log(url);
 				  currentChatRoomNo = chatRoomNo;
 			};
 			//연결이 종료됐을때
 			socket.onclose = function(){
-				console.log("연결 종료");
-				
 			};
 			//에러가 발생했을때
 			socket.onerror = function(e){
-				console.log("에러가 발생했습니다.");
-				console.log(e);
 			}
 	
 			socket.onmessage = function(event) {
@@ -1201,7 +1188,7 @@ window.onload = function() {
 		function disconnect(){
 			socket.close();//소켓 닫기 
 		}
-		//메세지 전송
+//------------------------------------텍스트 메세지 전송--------------------------------------------------------------------------------
 	function send() {
     var text = $("#sendChat").val();
     if (socket && socket.readyState === WebSocket.OPEN) {
@@ -1212,9 +1199,47 @@ window.onload = function() {
         socket.send(JSON.stringify(data));
         $("#sendChat").val("");
     } else {
-        console.log("WebSocket is not connected.");
+        console.log("WebSocket 연결이 안되었다 1202번째 줄");
     }
 }
+//-------------------------------파일메세지 전송 시작---------------------------------------------------------------------
+// 파일이 선택되었을 때 호출되는 함수
+function handleFileSelect(event) {
+    var file = event.target.files[0];
+    if (!file) {
+        return;
+    }
+
+    // 파일 크기가 1MB를 초과하는지 확인
+    if (file.size > 1048576) {
+        alert("보내시려는 파일의 용량 크기가 너무 큽니다");
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function(fileEvent) {
+        var data = fileEvent.target.result;
+        sendFile(data); // 데이터를 WebSocket을 통해 전송
+    };
+    reader.readAsArrayBuffer(file); // ArrayBuffer로 파일 읽기
+}
+
+// 파일 데이터를 전송하는 함수
+function sendFile(fileData) {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(fileData); // 파일 데이터 전송
+    } else {
+        console.log("WebSocket 연결이 안되었습니다");
+    }
+}
+
+// onChange로 설정한 함수로 기능 바꾸기
+document.getElementById('inputFile').addEventListener('change', handleFileSelect);
+
+
+//----------------------------------------------------------------------------------------------------------------------------------
+
+	
 		
 		$(document).ready(function(){
 		    // 'aside' 내의 'li' 요소에 대해서만 컨텍스트 메뉴를 표시:
@@ -1269,7 +1294,7 @@ window.onload = function() {
 		        			location.reload();
 		        		},
 		        		error : function(){
-		        			console.log("에러띠");
+		        			console.log("우클릭 ajax 에러");
 		        			
 		        		}
 		        	}) 

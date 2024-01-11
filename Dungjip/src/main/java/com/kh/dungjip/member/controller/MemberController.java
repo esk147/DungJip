@@ -54,8 +54,8 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	//@Autowired
-	//private BCryptPasswordEncoder bcryptPasswordEncoder; 	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder; 	
 	
 	@Autowired
 	private EnquiryService enquiryService;
@@ -237,7 +237,6 @@ public class MemberController {
 	
 	
 	//회원등록 (임대인/임차인)
-	/*
 	@PostMapping("insert.me")	
 	public String insertMember(Member m, Model model, HttpSession session, MultipartFile upfile) {
 		
@@ -303,7 +302,6 @@ public class MemberController {
 		}
 		
 	}
-	*/
 		
 	//아이디 중복 체크 (임대인/임차인)
 	@ResponseBody
@@ -325,7 +323,6 @@ public class MemberController {
 	}
 	
 	//회원등록 (중개인)
-	/*
 	@PostMapping("esinsert.me")	
 	public String esInsertMember(Member m, Model model, HttpSession session, MultipartFile upfile) {
 
@@ -395,7 +392,6 @@ public class MemberController {
 		}
 		
 	}
-	*/
 	
 	//아이디 중복 체크 (중개인)
 	@ResponseBody
@@ -479,7 +475,6 @@ public class MemberController {
 
 
 	//회원탈퇴
-	/*
 	@RequestMapping("mdelete.me")
 	public String memberDelete(String userPwdChk, HttpSession session, Model model) {
 		
@@ -514,11 +509,9 @@ public class MemberController {
 		}
 
 	}
-	*/
 
 	
 	//비밀번호 수정 
-/*
 	@RequestMapping("changePwd.me")
 	public String memberPwdUpdate(Member m, Model model, HttpSession session,HttpServletRequest request) {
 		
@@ -554,7 +547,6 @@ public class MemberController {
 		}
 				
 	}
-	*/
 	
 
 	

@@ -92,6 +92,7 @@ public class WebsocketController {
 
 		ArrayList<ChatRoom> chatList = chatService.chatRoomList(loginUserNo);// 현재 유저가 채팅하고있는 방의 리스트를 가지고온다.
 
+		System.out.println(chatList);
 		m.addAttribute("chatList", chatList);
 
 		return "websocket/ask";
