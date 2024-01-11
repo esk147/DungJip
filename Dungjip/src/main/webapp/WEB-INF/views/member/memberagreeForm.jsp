@@ -95,17 +95,6 @@
 <body>
 
 	<%@ include file="../common/header.jsp" %>
-	
-	 <div class="page-head"> 
-         <div class="container">
-             <div class="row">
-                 <div class="page-head-content">
-                     <h1 class="page-title"></h1>               
-                 </div>
-             </div>
-         </div>
-     </div>
-
 
     <div class="container" style="padding: 100px;">
         <div class="header">
@@ -143,7 +132,7 @@
             <!-- Repeat the text blocks as needed to match the layout -->
         </div>
         <div class="check-box" style="margin:20px 0px;">
-            <input type="checkbox" id="default-checkbox1" style="width: 3%; margin: 0;">
+            <input type="checkbox" id="default-checkbox1" name="chk" style="width: 3%; margin: 0;">
             <label for="default-checkbox1">[필수] 회원가입 이용약관에 동의합니다.</label>
         </div>
         
@@ -178,7 +167,7 @@
 회사는 다음과 같은 서비스를 제공합니다.</textarea>
         </div>
         <div class="check-box" style="margin:20px 0px;">
-            <input type="checkbox" id="default-checkbox2" style="width: 3%; margin: 0;">
+            <input type="checkbox" id="default-checkbox2" name="chk" style="width: 3%; margin: 0;">
             <label for="default-checkbox2">[필수] 회원가입 이용약관에 동의합니다.</label>
         </div>
         
@@ -214,7 +203,15 @@
     				$("#default-checkbox1, #default-checkbox2,#default-checkbox3").prop("checked",false);
     			}  			
     			
-    		});
+    		})
+    		
+ 			$("input[name=chk]").click(function() {
+				var total = $("input[name=chk]").length;
+				var checked = $("input[name=chk]:checked").length;
+				
+				if(total != checked) $("#default-checkbox3").prop("checked", false);
+				else $("#default-checkbox3").prop("checked", true); 
+			});
     		
     		//전체동의 되지 않은 상태로 회원가입 버튼 클릭 시 페이지 이동 막기 
     		$("#memberEnrollNext").on("click",function() {

@@ -102,7 +102,7 @@
 			                 <ul class="additional-details-list clearfix">
 			                     <li>
 			                         <span class="col-xs-6 col-sm-4 col-md-4 add-d-title">신고한 중개사 번호</span>
-			                         <span class="col-xs-6 col-sm-8 col-md-8 add-d-entry">${repolist.estateNo}</span>
+			                         <span class="col-xs-6 col-sm-8 col-md-8 add-d-entry">${repolist.esNo}</span>
 			
 			                     <li>
 			                         <span class="col-xs-6 col-sm-4 col-md-4 add-d-title">신고 사유</span>
