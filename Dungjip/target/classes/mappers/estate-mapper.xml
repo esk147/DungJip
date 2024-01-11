@@ -266,6 +266,7 @@
 		JOIN HOUSE H ON ER.HOUSE_NO = H.HOUSE_NO
 		WHERE ER.USER_NO = #{userNo}
 		AND ES_RE_STATUS='Y'	
+		AND H.STATUS = 'Y'
 	</select>
 	
 	<delete id="esReviewDelete" parameterType="_int">		
@@ -312,6 +313,7 @@
 		JOIN HOUSE H ON ER.HOUSE_NO = H.HOUSE_NO
 		WHERE ES_RE_NO = #{esReNo}
 		AND ES_RE_STATUS='Y'
+		AND H.STATUS = 'Y'
 	</select>
 
 	<select id="selectEstateListCountByMember" resultType="_int">
@@ -371,7 +373,7 @@
 		<result column="REPORT_NO" property="reportNo"/>
 		<result column="USER_NO" property="userNo"/>
 		<result column="CHATROOM_NO" property="chatRoomNo"/>
-		<result column="ESTATE_NO" property="estateNo"/>
+		<result column="ES_NO" property="esNo"/>
 		<result column="REPORT_REASON" property="reportReason"/>
 	</resultMap>	
 	
@@ -379,7 +381,7 @@
 		SELECT RE.REPORT_NO 
 			,RE.USER_NO
 			,RE.CHATROOM_NO 
-			,RE.ESTATE_NO 
+			,RE.ES_NO 
 			,RE.REPORT_REASON 
 		FROM REPORT_ESTATE RE       
 		JOIN MEMBER M ON M.USER_NO = RE.USER_NO

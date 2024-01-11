@@ -59,24 +59,27 @@
 	</insert>
 	
 	<select id="selectLocations" resultMap="houseResultSet">
-		select DISTINCT house_address from house
+		select DISTINCT house_address from house where status = 'Y'
 	</select>
 	
 	<select id="selectHouse" parameterType="string" resultMap="houseResultSet">
 		select house_no, CASE WHEN LENGTHB(TO_CHAR(HOUSE_PRICE)) <![CDATA[ >= 5 ]]>
            THEN TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), 1, LENGTHB(TO_CHAR(HOUSE_PRICE)) - 4)) || '억' || TO_CHAR(SUBSTR(TO_CHAR(HOUSE_PRICE), -4))
-           ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, house_rent, house_title, house_style, house_square, house_latitude, house_longitude, house_floor, house_maintaincost, house_name, house_type from house where house_type = #{type} order by house_no
+           ELSE TO_CHAR(HOUSE_PRICE) END AS HOUSE_PRICE, house_rent, house_title, house_style, house_square, house_latitude, house_longitude, house_floor, house_maintaincost, house_name, house_type from house where house_type = #{type} and status = 'Y' order by house_no
 	</select>
 	
-	<select id="selectHouseThumnail" resultMap="houseImgResultSet">
+	<select id="selectHouseThumnail" parameterType="string" resultMap="houseImgResultSet">
 		SELECT MIN(FILE_NO) AS FILE_NO,
 	    HOUSE_NO,
 	    MIN(ORIGIN_NAME) AS ORIGIN_NAME,
 	    MIN(CHANGE_NAME) AS CHANGE_NAME,
-	    MIN(UPLOAD_DATE) AS UPLOAD_DATE,
-	    MIN(STATUS) AS STATUS
+	    MIN(UPLOAD_DATE) AS UPLOAD_DATE
 		FROM HOUSE_IMG
+        join house h using (house_no)
+        where h.house_type=#{type}
+        and h.status = 'Y'
 		GROUP BY HOUSE_NO
+        ORDER BY HOUSE_NO
 	</select>
 	
 <insert id="enrollHouse" parameterType="house">
@@ -243,6 +246,7 @@
 		    ,HOUSE_NAME
 		FROM HOUSE
 		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND HOUSE_TYPE = #{houseType}
 		AND STATUS='Y'
 		ORDER BY HOUSE_NO
 	</select>
@@ -258,6 +262,8 @@
 		FROM HOUSE_IMG I
 		JOIN HOUSE H ON (I.HOUSE_NO = H.HOUSE_NO)
 		WHERE TRIM(SUBSTR(H.HOUSE_ADDRESS, INSTR(H.HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND HOUSE_TYPE = #{houseType}
+		AND H.STATUS = 'Y'
 		GROUP BY I.HOUSE_NO
 		ORDER BY I.HOUSE_NO
 	</select>
@@ -278,6 +284,7 @@
 		           house_style 
 		    FROM house 
 		    WHERE house_type = #{type}
+		    AND status = 'Y'
 		    ORDER BY house_no
 		) 
 		WHERE ROWNUM <![CDATA[ <= 7 ]]>
@@ -292,6 +299,7 @@
 	    MIN(STATUS) AS STATUS
 		FROM HOUSE_IMG
 		WHERE HOUSE_NO = #{houseNo}
+		AND status = 'Y'
 		GROUP BY HOUSE_NO
 	</select>
 	
@@ -311,6 +319,7 @@
 		SELECT count(*) COUNT
 		FROM HOUSE 
 		WHERE TRIM(SUBSTR(HOUSE_ADDRESS, INSTR(HOUSE_ADDRESS, '동') - 2, 3)) = TRIM(SUBSTR(#{houseAddress}, INSTR(#{houseAddress}, '동') - 2, 3))
+		AND HOUSE_TYPE = #{houseType}
 		AND STATUS='Y'
 	</select>
 
@@ -320,6 +329,7 @@
 		FROM HOUSE H
 		JOIN JJIM J ON J.HOUSE_NO = H.HOUSE_NO	
 		WHERE J.USER_NO = #{userNo}
+		AND H.STATUS = 'Y'
 	</select>
 	
 
@@ -412,8 +422,10 @@ GROUP BY RR.RE_REVIEW_NO, M.USER_NICKNAME, M.CHANGE_NAME, RR.HOUSE_NO
 	
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*)	
-		FROM HOUSE
-		WHERE STATUS = 'Y' 			
+		FROM HOUSE H 
+		JOIN JJIM J ON J.HOUSE_NO = H.HOUSE_NO	
+		WHERE STATUS = 'Y'
+		AND J.USER_NO = #{userNo} 		
 	</select>
 	
 	<select id="selectEsHouseListCount" resultType="_int">
@@ -421,6 +433,7 @@ GROUP BY RR.RE_REVIEW_NO, M.USER_NICKNAME, M.CHANGE_NAME, RR.HOUSE_NO
 		FROM HOUSE H
 		JOIN MEMBER M ON M.USER_NO = H.USER_NO
 		JOIN OWN O ON O.HOUSE_NO = H.HOUSE_NO
+		WHERE H.STATUS = 'Y'
 	</select>
 	
 	<select id="memberMypageEstateHouseList" resultMap="houseResultSet">
@@ -618,6 +631,7 @@ SELECT COUNT(life_score) AS life_score_COUNT
 		SELECT COUNT(*)	count
 		FROM HOUSE H
 		JOIN MEMBER M ON M.USER_NO = H.USER_NO
+		AND H.STATUS = 'Y'		
 	</select>
 	
 	<select id="mypageImdaHouseList" resultMap="houseResultSet">
@@ -666,12 +680,63 @@ SELECT COUNT(life_score) AS life_score_COUNT
 	<delete id="deleteKeywords" parameterType="int">
     DELETE FROM MEMBER_KEYWORD
     WHERE RE_REVIEW_NO = #{rr.reReviewNo}
+	</delete>
+	
+	<insert id="insertKeyword" parameterType="memberKeyword">
+		    INSERT INTO MEMBER_KEYWORD(USER_NO, KEYWORD_NO, re_Review_No)
+		    		     VALUES (#{loginUser.userNo},#{keyword},#{rr.reReviewNo})
+	
+	</insert>
+
+	<select id="mypagemypageEsReservationCount" resultType="_int">
+		 SELECT count(*)
+		FROM RESERVATION R
+		JOIN ESTATE E ON R.ES_NO = E.ES_NO
+		JOIN TIME T ON R.TIME_NO = T.TIME_NO
+		JOIN MEMBER M ON M.USER_NO = R.USER_NO
+		WHERE R.ES_NO = #{es_no}
+		ORDER BY R.RESERVATION_NO DESC
+	</select>
+
+<select id="selectResidentEmoCount" resultType="_int">
+		SELECT COUNT(*) EMO
+		FROM RE_RE_LIKE
+		WHERE RE_REVIEW_NO=#{reReviewNo}
+</select>
+
+<select id="selectResidentReviewLikeCount" resultType="_int">
+		select * from RE_RE_LIKE where re_review_no = #{reReNo} and user_no = #{userNo}
+</select>
+
+<select id="selectReviewLikeCount" resultType="_int">
+		select * from RE_RE_LIKE where re_review_no = #{reReNo} and user_no = #{userNo}
+</select>
+
+<delete id="decreaseCount">
+		delete from RE_RE_LIKE where re_review_no = #{reReNo} and user_no = #{userNo}
 </delete>
 
-<insert id="insertKeyword" parameterType="memberKeyword">
-	    INSERT INTO MEMBER_KEYWORD(USER_NO, KEYWORD_NO, re_Review_No)
-	    		     VALUES (#{loginUser.userNo},#{keyword},#{rr.reReviewNo})
-
+<insert id="increaseReReLikeCount">
+		insert into RE_RE_LIKE values(#{reReNo}, #{userNo})
 </insert>
 
+<select id="selectHouseList1" resultMap="houseResultSet">
+	SELECT *
+	FROM HOUSE
+	WHERE STATUS = 'Y'
+	ORDER BY HOUSE_NO
+</select>
+
+<select id="selectImgList" resultMap="houseImgResultSet">
+	SELECT * 
+	FROM HOUSE_IMG
+</select>
+
+<update id="deleteHouse" parameterType="int">
+	UPDATE HOUSE
+	SET STATUS = 'N'
+	WHERE HOUSE_NO = #{houseNo}
+</update>
+
 </mapper>
+

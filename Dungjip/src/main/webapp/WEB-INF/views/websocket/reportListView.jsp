@@ -10,7 +10,7 @@
     <style>
         /* 스타일 코드는 여기에 작성 */
 
-        .card {
+        .card {			
             box-shadow: 1px 1px 7px 0;
             border: none;
             border-radius: 12px 12px 12px 12px;
@@ -147,7 +147,7 @@
         <%@ include file="/WEB-INF/views/member/adminMenubar.jsp" %>
         <section class="main-content" style="width:100%; margin: 70px 0 70px 50px; margin-left:4%;">
             <div class="card" style="width: 93%; margin-bottom:50px;">
-                <h3>부동산 관리</h3>
+                <h3>신고 관리</h3>
                 <!-- 아코디언 게시판 시작 -->
                 <ul class="card_row" style="color: #333; list-style: none; padding: 0 20px 20px 20px;">
                     <c:forEach var="reportEstate" items="${reportList}">
@@ -159,7 +159,7 @@
                                 <p>신고자 : ${reportEstate.user.userName} </p>
                                 <p>신고사유 : ${reportEstate.reportReason }</p>
                                 <!-- 채팅 내역을 불러오는 버튼 -->
-                                <button class="loadChatHistoryBtn" value="${reportEstate.chatRoomNo}">상세보기</button>
+                                <button class="loadChatHistoryBtn" id="loadChatHistoryBtn" value="${reportEstate.chatRoomNo}">상세보기</button>
                                 <!-- 채팅 내역을 출력할 공간 -->
                                 <div class="chatHistoryContent"></div>
                                 <!-- 승인, 취소 버튼 -->
@@ -174,118 +174,137 @@
             </div>
         </section>
     </div>
-    
-    <%@ include file="../common/footer.jsp" %>
 
 <script>
-    $(document).ready(function () {
-        $(".accordion-header").click(function () {
-            var detailContent = $(this).next(".accordion-body");
-            var toggleButton = $(this).find(".loadChatHistoryBtn");
-            var chatHistoryContent = $(this).find(".chatHistoryContent");
+	$(document).ready(function () {
 
-            // 클릭한 아코디언의 다른 형제 아코디언들의 내용과 버튼을 숨김
-            $(".accordion-body").not(detailContent).slideUp();
-            $(".chat-history-content").remove();
-            $(".approveBtn, .cancelBtn").hide();
-            $(".loadChatHistoryBtn").not(toggleButton).html("상세보기");
+        $(".approveBtn, .cancelBtn").hide();
+	    $(".accordion-header").click(function () {
+	        var detailContent = $(this).next(".accordion-body");
+	        var toggleButton = $(this).find(".loadChatHistoryBtn");
+	        var chatHistoryContent = $(this).find(".chatHistoryContent");
 
-            detailContent.slideToggle();
+	        $(".accordion-body").not(detailContent).slideUp(function () {
+	            // 다른 아코디언 닫힘 완료 후에 실행되는 콜백 함수
+	            toggleButton.removeClass("active").html("상세보기");
+	        });
 
-            // 클릭한 아코디언에 속한 토글 버튼 토글
-            toggleButton.toggleClass("active");
-            toggleButton.html(toggleButton.hasClass("active") ? "접기" : "상세보기");
+	        // 채팅 내역 콘텐츠의 가시성에 따라 토글
+	        detailContent.slideToggle(function () {
+	            // 채팅 내역 콘텐츠의 토글 완료 후에 실행되는 콜백 함수
+            var isContentVisible = detailContent.is(":visible");
+            toggleButton.toggleClass("active", isContentVisible).html(isContentVisible ? "접기" : "상세보기");
 
-            // 채팅 내역이 불러와져 있을 때
-            if (chatHistoryContent.children().length > 0) {
-                $(".approveBtn, .cancelBtn").toggle();
+
+	        
+            // 새로 추가된 부분
+			// 수정된 부분
+            if (isContentVisible) {
+                toggleButton.html("접기");
+            } else {
+                toggleButton.html("상세보기");
             }
-        });
 
-        $(".loadChatHistoryBtn").click(function () {
-            var chatRoomNo = $(this).val();
-            var currentButton = $(this);
-
-            // 기존 채팅 내역 및 버튼 삭제
-            $(".chat-history-content").remove();
-            $(".approveBtn, .cancelBtn").hide();
-
-            // Ajax를 이용하여 채팅 내역을 불러오기
-            $.ajax({
-                type: "GET",
-                url: "/dungjip/admin/chatHistory",
-                data: { chatRoomNo: chatRoomNo },
-                success: function (chatHistory) {
-                    var chatHistoryContent = $("<div class='chat-history-content'></div>");
-
-                    if (Array.isArray(chatHistory)) {
-                        chatHistory.forEach(function (message) {
-                            var formattedMessage = formatChatMessage(message);
-                            var messageDiv = $("<div class='chat-message'></div>");
-                            messageDiv.text(formattedMessage);
-                            chatHistoryContent.append(messageDiv);
-                        });
-                    } else {
-                        var messageDiv = $("<div class='chat-message'></div>");
-                        messageDiv.text("Invalid chat history data");
-                        chatHistoryContent.append(messageDiv);
-                    }
-
-                    // 현재 클릭한 아코디언의 바로 아래에 추가
-                    currentButton.siblings(".chatHistoryContent").append(chatHistoryContent);
-
-                    // 상세보기를 눌렀을 때 나오는 승인, 취소버튼에 클릭 이벤트 추가
-                    $(".approveBtn, .cancelBtn").show();
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error fetching chat history:", error);
-                }
-            });
-        });
-
-        function formatChatMessage(message) {
-            return message.sendMessageTime + " - " + message.userName + " : " + message.contentMessage;
-        }
-
-        $(".approveBtn, .cancelBtn").click(function () {
-            var chatRoomNo = $(this).val();
-            var currentButton = $(this);
-
-            if (currentButton.hasClass("approveBtn")) {
-                handleApproval(chatRoomNo);
-            } else if (currentButton.hasClass("cancelBtn")) {
-                handleCancellation(chatRoomNo);
+            if (isContentVisible && chatHistoryContent.children().length > 0) {
+                $(".approveBtn, .cancelBtn").show();
             }
-        });
-
-        function handleApproval(chatRoomNo) {
-            $.ajax({
-                type: "POST",
-                url: "/dungjip/admin/approveReport",
-                data: { chatRoomNo: chatRoomNo },
-                success: function () {
-                	showSuccessThen("성공","신고가 승인되었습니다.","확인");
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error approving report:", error);
-                }
-            });
-        }
-
-        function handleCancellation(chatRoomNo) {
-            $.ajax({
-                type: "POST",
-                url: "/dungjip/admin/cancelReport",
-                data: { chatRoomNo: chatRoomNo },
-                success: function () {
-                	showSuccessThen("성공","신고가 취소되었습니다.","확인");
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error canceling report:", error);
-                }
-            });
-        }
-    });
+	        });
+	    });
+	
+	    $(".loadChatHistoryBtn").click(function () {
+	        var chatRoomNo = $(this).val();
+	        var currentButton = $(this);
+	
+	        // 기존 채팅 내역 및 버튼 삭제
+	        $(".chat-history-content").remove();
+	        $(".approveBtn, .cancelBtn").hide();
+	        
+	        var toggleButton = document.getElementById("loadChatHistoryBtn");
+	        // Ajax를 이용하여 채팅 내역을 불러오기
+	        if(toggleButton.innerText !== "접기"){
+	        	
+	        $.ajax({
+	            type: "GET",
+	            url: "/dungjip/admin/chatHistory",
+	            data: { chatRoomNo: chatRoomNo },
+	            success: function (chatHistory) {
+	                var chatHistoryContent = $("<div class='chat-history-content'></div>");
+	
+	                if (Array.isArray(chatHistory)) {
+	                    chatHistory.forEach(function (message) {
+	                        var formattedMessage = formatChatMessage(message);
+	                        var messageDiv = $("<div class='chat-message'></div>");
+	                        messageDiv.text(formattedMessage);
+	                        chatHistoryContent.append(messageDiv);
+	                    });
+	                } else {
+	                    var messageDiv = $("<div class='chat-message'></div>");
+	                    messageDiv.text("Invalid chat history data");
+	                    chatHistoryContent.append(messageDiv);
+	                }
+	
+	                // 현재 클릭한 아코디언의 바로 아래에 추가
+	                currentButton.siblings(".chatHistoryContent").append(chatHistoryContent);
+	
+	                // 상세보기를 눌렀을 때 나오는 승인, 취소버튼에 클릭 이벤트 추가
+	                $(".approveBtn, .cancelBtn").show();
+	                if($(".chat-history-content").length == 1){
+		                toggleButton.innerText = "접기"
+	                }
+	                
+	            },
+	            error: function (xhr, status, error) {
+	                console.error("Error fetching chat history:", error);
+	            }
+	        });
+	        } else {
+	        	toggleButton.innerText = "상세보기"
+	        }
+	    });
+	
+	    function formatChatMessage(message) {
+	        return message.sendMessageTime + " - " + message.userName + " : " + message.contentMessage;
+	    }
+	
+	    $(".approveBtn, .cancelBtn").click(function () {
+	        var chatRoomNo = $(this).val();
+	        var currentButton = $(this);
+	
+	        if (currentButton.hasClass("approveBtn")) {
+	            handleApproval(chatRoomNo);
+	        } else if (currentButton.hasClass("cancelBtn")) {
+	            handleCancellation(chatRoomNo);
+	        }
+	    });
+	
+	    function handleApproval(chatRoomNo) {
+	        $.ajax({
+	            type: "POST",
+	            url: "/dungjip/admin/approveReport",
+	            data: { chatRoomNo: chatRoomNo },
+	            success: function () {
+	                showSuccessThen("성공", "신고가 승인되었습니다.", "확인");
+	            },
+	            error: function (xhr, status, error) {
+	                console.error("Error approving report:", error);
+	            }
+	        });
+	    }
+	
+	    function handleCancellation(chatRoomNo) {
+	        $.ajax({
+	            type: "POST",
+	            url: "/dungjip/admin/cancelReport",
+	            data: { chatRoomNo: chatRoomNo },
+	            success: function () {
+	                showSuccessThen("성공", "신고가 취소되었습니다.", "확인");
+	            },
+	            error: function (xhr, status, error) {
+	                console.error("Error canceling report:", error);
+	            }
+	        });
+	    }
+	});
 </script>
 
 
