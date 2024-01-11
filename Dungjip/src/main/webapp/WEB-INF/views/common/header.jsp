@@ -153,7 +153,6 @@
                 
             </div>
         </nav>
-
         
         <c:if test="${not empty alertMsg  or not empty errorMsg }">
         <script>

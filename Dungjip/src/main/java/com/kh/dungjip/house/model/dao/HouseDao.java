@@ -49,8 +49,8 @@ public class HouseDao {
 		return sqlSession.delete("houseMapper.deleteJjim",jj);
 	}
 	
-	public ArrayList<HouseImg> selectHouseThumnail(SqlSessionTemplate sqlSession) {
-		ArrayList<HouseImg> hImgList = (ArrayList) sqlSession.selectList("houseMapper.selectHouseThumnail");
+	public ArrayList<HouseImg> selectHouseThumnail(SqlSessionTemplate sqlSession, String type) {
+		ArrayList<HouseImg> hImgList = (ArrayList) sqlSession.selectList("houseMapper.selectHouseThumnail", type);
 		return hImgList;
 	}
 

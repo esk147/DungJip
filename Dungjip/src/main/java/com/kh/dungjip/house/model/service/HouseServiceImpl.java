@@ -46,8 +46,8 @@ public class HouseServiceImpl implements HouseService{
 	}
 
 	@Override
-	public ArrayList<HouseImg> selectHouseThumnail() {
-		return houseDao.selectHouseThumnail(sqlSession);
+	public ArrayList<HouseImg> selectHouseThumnail(String type) {
+		return houseDao.selectHouseThumnail(sqlSession, type);
 	}
 
 	//부동산 집 리스트
@@ -350,13 +350,35 @@ public class HouseServiceImpl implements HouseService{
 	@Override
 	public int decreaseCount(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return houseDao.decreaseCount(sqlSession, map);
+		int result = houseDao.decreaseCount(sqlSession, map);
+		
+		int count = 0;
+		
+		String reReNoString = map.get("reReNo").toString();
+		int reReNo = Integer.parseInt(reReNoString);
+		
+		if(result > 0) {
+			count = houseDao.selectResidentEmoCount(sqlSession, reReNo);
+		}
+		
+		return count;
 	}
 
 	@Override
 	public int increaseReReLikeCount(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return houseDao.increaseReReLikeCount(sqlSession, map);
+		int result = houseDao.increaseReReLikeCount(sqlSession, map);
+		
+		String reReNoString = map.get("reReNo").toString();
+		int reReNo = Integer.parseInt(reReNoString);
+		
+		int count = 0;
+		
+		if(result > 0) {
+			count = houseDao.selectResidentEmoCount(sqlSession, reReNo);
+		}
+		
+		return count;
 	}
     
 	//중개인 예약내역 페이징

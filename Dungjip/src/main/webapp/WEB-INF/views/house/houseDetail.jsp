@@ -822,7 +822,7 @@
 						 console.log("click ajax");
 						 console.log(result);
 						 console.log(likeCount);
-						 likeCount.textContent = result.result;
+						 likeCount.textContent = result.emoCount;
 						 console.dir(likeCount);
 						 
 						 if(result.result === 1){

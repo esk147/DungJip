@@ -43,7 +43,8 @@
 		JOIN MEMBER M ON RR.USER_NO = M.USER_NO
 		JOIN HOUSE H ON RR.HOUSE_NO = H.HOUSE_NO
 		WHERE RR.USER_NO = #{userNo}
-		AND RR.STATUS='Y'	
+		AND RR.STATUS='Y'
+		AND H.STATUS = 'Y'	
 	</select>
 	
 	<delete id="esReviewDelete">
