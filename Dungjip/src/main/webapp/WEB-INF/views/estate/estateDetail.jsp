@@ -963,6 +963,7 @@
 	      		  var checkYear = checkToday.getFullYear();
 	      		  var checkMonth = checkToday.getMonth() + 1;
 	      		  var checkDay = checkToday.getDate();
+	      		  var userType = "${loginUser.userType}";
 	
 	      		  // 월이 한 자리일 경우 "0"을 추가
 	      		  checkMonth = checkMonth < 10 ? '0' + checkMonth : checkMonth;
@@ -973,18 +974,24 @@
 	      		  // Today를 문자열로 변환
 	      		  var checkToday = checkYear.toString() + checkMonth.toString() + checkDay.toString();
 	
-	      		  // 예약 날짜와 현재 날짜 비교
-	      		  if (clickedYMD < checkToday) {
-	      		    showWarning("경고", "예약은 오늘 날짜 또는 이후의 날짜만 선택가능합니다.", "확인");
-	      		  }else{        		
-	        		var select = document.querySelector(".selected");
-	        		    // 이전에 선택된 요소가 있을 경우에만 클래스를 제거
-	        		    if (select) {
-	        		      select.classList.remove('selected');
-	        		    }
-	        		    // 현재 선택한 요소에 클래스 추가
-	        		    e.srcElement.classList.add('selected');
-	    		}
+	      		  //중개인의 경우 예약 불가
+	      		  if(userType == "중개인"){
+	      			showWarning("경고", "중개인은 다른 중개인에게 예약을 하실 수 없습니다.", "확인");
+	      		  }else{
+		      		  // 예약 날짜와 현재 날짜 비교
+		      		  if (clickedYMD < checkToday) {
+		      		    showWarning("경고", "예약은 오늘 날짜 또는 이후의 날짜만 선택가능합니다.", "확인");
+		      		  }else{        		
+		        		var select = document.querySelector(".selected");
+		        		    // 이전에 선택된 요소가 있을 경우에만 클래스를 제거
+		        		    if (select) {
+		        		      select.classList.remove('selected');
+		        		    }
+		        		    // 현재 선택한 요소에 클래스 추가
+		        		    e.srcElement.classList.add('selected');
+		    		}
+	      		  	      			  
+	      		  }
         	}
 			
         	//예약 insert
