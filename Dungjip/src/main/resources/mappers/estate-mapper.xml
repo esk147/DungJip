@@ -266,6 +266,7 @@
 		JOIN HOUSE H ON ER.HOUSE_NO = H.HOUSE_NO
 		WHERE ER.USER_NO = #{userNo}
 		AND ES_RE_STATUS='Y'	
+		AND H.STATUS = 'Y'
 	</select>
 	
 	<delete id="esReviewDelete" parameterType="_int">		
@@ -312,6 +313,7 @@
 		JOIN HOUSE H ON ER.HOUSE_NO = H.HOUSE_NO
 		WHERE ES_RE_NO = #{esReNo}
 		AND ES_RE_STATUS='Y'
+		AND H.STATUS = 'Y'
 	</select>
 
 	<select id="selectEstateListCountByMember" resultType="_int">
