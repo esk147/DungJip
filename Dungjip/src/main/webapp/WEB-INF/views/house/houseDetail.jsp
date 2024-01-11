@@ -205,6 +205,24 @@
     justify-content: space-between;
     margin-bottom: 25px;
   }
+  
+   .good{
+             width: 20px;
+             }
+             
+             .emo{
+             display:flex;
+             align-items: center;
+             justify-content: flex-end;
+             }
+             
+             .likecount{
+             padding-left: 3px;
+             }
+             
+        	.like-btn.liked img {
+            filter: sepia(100);
+        	}
 
 </style>
 </head>
@@ -529,7 +547,7 @@
 				aria-controls="contact" aria-selected="false">비슷한 매물 보기</a></li>
 			<li class="nav-item"><a class="nav-link active"
 				id="review-tab" data-toggle="tab" href="#review" role="tab"
-				aria-controls="review" aria-selected="false">Reviews</a></li>
+				aria-controls="review" aria-selected="false">리뷰</a></li>
 		</ul>
 		<div class="tab-content" id="myTabContent" style="background-color: #FFF;">
 			<div class="tab-pane fade" id="home" role="tabpanel"
@@ -688,8 +706,8 @@
 					</div>
 				</div>
 			</div>
+		</div>
 
-			</div>
 <div class="tab-pane fade show active" id="review" role="tabpanel"
 	aria-labelledby="review-tab">
 	<div class="row">
@@ -719,7 +737,7 @@
 								</a></li>
 								<li><a href="#" id="interior">내부:  <span></span>
 								</a></li>
-								<li><a href="#" id="safety">치한: <span></span>
+								<li><a href="#" id="safety">치안: <span></span>
 								</a></li>
 								<li><a href="#" id="life">생활:  <span></span>
 								</a></li>
@@ -741,11 +759,11 @@
 			</div>
 		</div>
 	</div>
+	</div>
 </section>
 </div>
 </div>
 </div>
-
 
 		<script>
 		console.log("사용자 번호: " + '${loginUser != null ? loginUser.userNo : "null"}');
@@ -768,6 +786,45 @@
 
 
 		<script>
+		function toggleLike(element) {
+
+			var likeButton = element;
+			var userNo = "${loginUser.userNo}";
+			var reReNo = element.id;
+
+			console.log("reReNo");
+			console.log(userNo);
+			console.log(reReNo);
+			console.log(likeButton);
+			
+				  $.ajax({
+					 url: "resident.like",
+					 data: {
+						 reReNo: reReNo,
+						 userNo: userNo
+					 },
+					 success: function(result){
+						 var idName = "likeCount"+result.reReNo;
+						 var likeCount = document.getElementById(idName);
+						 console.log("click ajax");
+						 console.log(result);
+						 console.log(likeCount);
+						 likeCount.textContent = result.result;
+						 console.dir(likeCount);
+						 
+						 if(result.result === 1){
+  						likeButton.classList.remove('liked');
+						 } else {
+   					likeButton.classList.add('liked');
+						 }
+					 },
+					 error: function(){
+						 console.log("통통신신에에러러");
+					 }
+				 }) 
+
+			// 클릭 토글
+				 }
 		
 		function generateStars(score) {
 		    let fullStarCount = Math.floor(score); // 전체 별의 개수
@@ -797,10 +854,11 @@
 				
 				$.ajax({
 					url:"resi.re",
-					data: {houseNo:"${house.houseNo}" },
+					data: {houseNo:"${house.houseNo}",
+						userNo: "${loginUser.userNo}"},
 					success: function(result){
 						console.log("거주자 리뷰 통신 성공");
-						
+						console.log(result);
 						var avg = (result.sum /result.count).toFixed(2);
 						
 						var building = (result.building /result.buildingCount).toFixed(2);
@@ -863,6 +921,8 @@
 						                "<img id='photo' class='zoomable' src='"+result.rlist[i].reviewImg.changeName+"' alt=''>" +
 						            "</div>" +
 						        "</div>" +
+						        '<div class="emo"><span class="' + (result.reviewBooleanArr[i] === 1 ? "like-btn liked" : "like-btn") + '" onclick="toggleLike(this)" id="'+result.rlist[i].reReviewNo+'"><img class="good" src="resources/img/good.svg"> </span> <h6 id="likeCount'+result.rlist[i].reReviewNo+'" class="likecount">'+
+		        		        result.residentArr[i]+'</h6>'+
 						        "<hr>" +
 						    "</div>";
 
@@ -1007,10 +1067,12 @@
     
     function loadPage(currentPage) {
     	var houseAddress = "${house.houseAddress}"
+    	var houseType = "${house.houseType}"
         $.ajax({
             url: "houseLikeList.ho",
             data: {
             	houseAddress : houseAddress,
+            	houseType : houseType,
                 currentPage: currentPage // 수정된 currentPage 값을 전달
             },
             success: function(data) {
@@ -1058,7 +1120,7 @@
 			$('#houseImgLikeList').html(str);
 	};
 	
-	function Pagination(pi, houseAddress) {
+	function Pagination(pi, houseAddress, houseType) {
 	    var html = '';
 	    if (pi.currentPage > 1) {
 	        html += '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="loadPage(' + (pi.currentPage - 1) + ')">Prev</a></li>';

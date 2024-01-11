@@ -323,7 +323,7 @@
 	    		<h2>이런 매물들을 추천드려요!</h2>
 	    	</c:when>
 	    	<c:otherwise>
-	    		<h2><b id="userBoldName">${loginUser.userName }</b>님의 지역 주변 매물들을 추천드려요!</h2>
+	    		<h2><b id="userBoldName">${loginUser.userNickName }</b>님의 지역 주변 매물들을 추천드려요!</h2>
 	    	</c:otherwise>
     	</c:choose>
     </div>

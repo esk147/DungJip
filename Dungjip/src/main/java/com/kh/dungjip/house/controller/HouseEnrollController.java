@@ -34,7 +34,7 @@ public class HouseEnrollController {
 	
     @GetMapping("/enrollForm")
     public String enrollForm() {
-
+    	
         return "house/enrollHouseForm";
     }
 
@@ -45,6 +45,7 @@ public class HouseEnrollController {
     	int userNo = loginUser.getUserNo();
     	house.setUserNo(userNo);
 	    int houseNo = houseEnrollService.enrollHouse(house); // 매물 정보 저장
+	    System.out.println("houseNo : " + houseNo);
 	    // 파일 저장 경로를 지정합니다.
 	    String uploadPath = "src/main/webapp/resources/houseimg/";
 	
@@ -81,8 +82,8 @@ public class HouseEnrollController {
 	        }
 	      }
 	    }
-	    
-	    return "redirect:/house/enrollForm"; 
+	  //매물 등록 후 메인 페이지 재 요청 
+	    return "redirect:/"; 
 	
     }
   }

@@ -35,6 +35,17 @@
                 button : button,
             })
         }
+        
+        function showSuccessThen(title, text, button) {
+            swal({
+                title : title,
+                text : text,
+                icon : 'success',
+                button : button,
+            }).then(function(result) {
+                location.reload();
+            })
+        }
 
         function showConfirm(text, url) {
             swal({

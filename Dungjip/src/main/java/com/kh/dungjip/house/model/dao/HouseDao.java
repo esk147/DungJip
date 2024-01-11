@@ -127,7 +127,7 @@ public class HouseDao {
 	}
 
 	//비슷한 매물 찾기 list
-	public ArrayList<House> houseLikeList(SqlSessionTemplate sqlSession, String houseAddress,PageInfo pi) {
+	public ArrayList<House> houseLikeList(SqlSessionTemplate sqlSession, House house,PageInfo pi) {
 		//몇개씩 보여줄지
 		int limit = pi.getBoardLimit();
 		
@@ -136,12 +136,12 @@ public class HouseDao {
 		
 		RowBounds rowBounds = new RowBounds(offset,limit);
 				
-		return (ArrayList)sqlSession.selectList("houseMapper.houseLikeList",houseAddress,rowBounds);
+		return (ArrayList)sqlSession.selectList("houseMapper.houseLikeList",house,rowBounds);
 	}
 
 	//비슷한 매물 찾기 img
-	public ArrayList<HouseImg> houseImgLike(SqlSessionTemplate sqlSession, String houseAddress) {
-		return (ArrayList)sqlSession.selectList("houseMapper.houseImgLike",houseAddress);
+	public ArrayList<HouseImg> houseImgLike(SqlSessionTemplate sqlSession, House house) {
+		return (ArrayList)sqlSession.selectList("houseMapper.houseImgLike",house);
 
 	}
 
@@ -244,14 +244,14 @@ public class HouseDao {
 	}
 
 	//비슷한 매물 전체 개수
-	public int selectHouseLikeCount(SqlSessionTemplate sqlSession, String houseAddress) {
-		return sqlSession.selectOne("houseMapper.selectHouseLikeCount",houseAddress);
+	public int selectHouseLikeCount(SqlSessionTemplate sqlSession, House house) {
+		return sqlSession.selectOne("houseMapper.selectHouseLikeCount",house);
 	}
 	
 	//마이페이지 집 찜 페이징
-	public int selectListCount(SqlSessionTemplate sqlSession) {
+	public int selectListCount(SqlSessionTemplate sqlSession, Member m) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("houseMapper.selectListCount");
+		return sqlSession.selectOne("houseMapper.selectListCount",m);
 	}
 
 	public ArrayList<House> memberMypageEstateHouseList(SqlSessionTemplate sqlSession, Integer esNo, PageInfo pi) {
@@ -312,6 +312,59 @@ public class HouseDao {
 	public int deleteKeywords(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("houseMapper.deleteKeywords",paramMap);
+	}
+
+	public int selectResidentEmoCount(SqlSessionTemplate sqlSession, int reReviewNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("houseMapper.selectResidentEmoCount", reReviewNo);
+	}
+
+	public int selectResidentReviewLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> numMap) {
+		// TODO Auto-generated method stub
+		int count = 0;
+		try {
+			sqlSession.selectOne("houseMapper.selectResidentReviewLikeCount", numMap);
+			if(count > 0) {
+				count = 1;
+			}
+		} catch(Exception e) {
+			count = 0;
+		}
+		
+		return count;
+	}
+
+	public int selectReviewLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int count = 0;
+		try {
+			count = sqlSession.selectOne("houseMapper.selectReviewLikeCount", map);
+
+			System.out.println("controller count");
+			System.out.println(count);
+			if(count > 0) {
+				count = 1;
+			}
+		} catch(Exception e) {
+			count = 0;
+		}
+		
+		return count;
+	}
+
+	public int decreaseCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("houseMapper.decreaseCount", map);
+	}
+
+	public int increaseReReLikeCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("houseMapper.increaseReReLikeCount", map);
+	}
+	//중개인 예약내역 페이징
+	public int mypagemypageEsReservationCount(SqlSessionTemplate sqlSession, Integer esNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("houseMapper.mypagemypageEsReservationCount",esNo);
 	}
 
 }

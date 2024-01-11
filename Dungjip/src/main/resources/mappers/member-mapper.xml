@@ -292,6 +292,9 @@
 			<association property="time" javaType="time">
 				<result column="TIME_VALUE" property="timeValue"/>
 			</association>
+			<association property="member" javaType="member">
+				<result column="USER_NAME" property="userName"/>
+			</association>
     	</resultMap>
     	
     	<select id="selectReservation" resultMap="reservationResultSet">
@@ -333,11 +336,13 @@
 					,RESERVATION_DATE
 					,R.TIME_NO
 					,T.TIME_VALUE
+					,M.USER_NAME 
 			FROM RESERVATION R
 			JOIN ESTATE E ON R.ES_NO = E.ES_NO
 			JOIN TIME T ON R.TIME_NO = T.TIME_NO
 			JOIN MEMBER M ON M.USER_NO = R.USER_NO
 			WHERE R.ES_NO = #{esNo}
+			ORDER BY R.RESERVATION_NO DESC
     	</select>
     	
     </mapper>

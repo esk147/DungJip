@@ -134,8 +134,7 @@
        	<br><br>
 		<div align="center">
 			<a href="enList.en" class="nav-item2 active" style="width:180px;">1:1문의 내역</a>
-			<a href="enquiry.en" class="nav-item2" style="width:180px;">1:1문의</a>
-			<div class="nav-item2" style="width:180px; cursor: pointer;" onclick="navigateToNotice()">공지사항</div>
+			<a class="nav-item2" style="width:180px; cursor: pointer;" onclick="navigateToNotice()">공지사항</a>
 		</div>
         <div class="content-area recent-property" style="background-color: #FCFCFC; padding-bottom: 55px;">
             <div class="container">    
