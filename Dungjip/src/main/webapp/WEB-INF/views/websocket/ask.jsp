@@ -539,9 +539,7 @@ h1 { 2
 									countDiv.displya = 'none';
 								}
 							},
-							error : function(){
-								console.log("쌓인 메세지 개수 ajax에러");
-							}
+
 						});
 					}
 					readFileUpMsg();
@@ -901,11 +899,8 @@ $("#findChat").on("input",function(){
 					
 							readFileUpMsg();
 							
-						},
-						error : function(){
-							
-							console.log("쌓인메세지 실패 ");
 						}
+	
 						});
 					$.ajax({
 						url: "../websocket/selectChatMsg.ch",
@@ -953,18 +948,11 @@ $("#findChat").on("input",function(){
 							}
 						$("#chat").scrollTop($("#chat").prop('scrollHeight'));//채팅을 최신순으로 내려주는 작업
 						
-						},
-						error: function(xhr, status, error) {
-					        console.log(xhr.responseText); // 에러 응답 데이터 확인
-					        console.log(error); // 에러 상세 정보 확인
 						}
 					});
 				   });
 			    readFileUpMsg();
-	        },
-		error : function(){
-			console.log("에러가 났네요");
-		}
+	        }
 
 	});
 
@@ -975,8 +963,7 @@ $("#findChat").on("input",function(){
 	$("#otherUser").text(e.lastElementChild.children[1].id);
 	  var userProfileSrc = $(e).find('img').attr('src');
 	$("#esIntro").text(e.firstElementChild.defaultValue);
-	  
-	console.dir(e)
+
       // 메인 헤더의 프로필 이미지 소스 변경
       $('#userProfileImage').attr('src', userProfileSrc);
 	
@@ -1030,11 +1017,7 @@ window.onload = function() {
 		success: function(result){
 			readFileUpMsg();
 			
-		},
-		error : function(){
-			console.log("쌓인메세지 실패 ");
 		}
-			
 			
 		});
 		
@@ -1090,10 +1073,6 @@ window.onload = function() {
 					$("#chat").html(chatHtml);
 				}
 			$("#chat").scrollTop($("#chat").prop('scrollHeight'));//채팅을 최신순으로 내려주는 작업
-			},
-			error: function(xhr, status, error) {
-		        console.log(xhr.responseText); // 에러 응답 데이터 확인
-		        console.log(error); // 에러 상세 정보 확인
 			}
 		});
 	   });
@@ -1198,9 +1177,7 @@ window.onload = function() {
         };
         socket.send(JSON.stringify(data));
         $("#sendChat").val("");
-    } else {
-        console.log("WebSocket 연결이 안되었다 1202번째 줄");
-    }
+    } 
 }
 //-------------------------------파일메세지 전송 시작---------------------------------------------------------------------
 // 파일이 선택되었을 때 호출되는 함수
@@ -1228,8 +1205,6 @@ function handleFileSelect(event) {
 function sendFile(fileData) {
     if (socket && socket.readyState === WebSocket.OPEN) {
         socket.send(fileData); // 파일 데이터 전송
-    } else {
-        console.log("WebSocket 연결이 안되었습니다");
     }
 }
 
@@ -1292,10 +1267,6 @@ document.getElementById('inputFile').addEventListener('change', handleFileSelect
 		        		success: function(result){
 		        	
 		        			location.reload();
-		        		},
-		        		error : function(){
-		        			console.log("우클릭 ajax 에러");
-		        			
 		        		}
 		        	}) 
 		        	 
