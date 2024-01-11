@@ -65,7 +65,7 @@
 						<table class="table">
 							<thead>
 								<tr class="text-center">
-									<th scope="col" style="width:10%;">#</th>
+									<th scope="col" style="width:10%;text-align: center;">#</th>
 									<th scope="col">예약 상세정보</th>
 									<th scope="col" style="width:15%;">리뷰</th>
 								</tr>
@@ -74,7 +74,7 @@
 							<c:forEach var="reservation" items="${rlist }" >
 								<tr>
 									<td class="text-center">
-										<h5>${reservation.reservationNo}</h5>
+										<h5>NO.${reservation.reservationNo}</h5>
 									</td>
 									
 									<td>
