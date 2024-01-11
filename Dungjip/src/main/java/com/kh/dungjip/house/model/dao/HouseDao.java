@@ -127,7 +127,7 @@ public class HouseDao {
 	}
 
 	//비슷한 매물 찾기 list
-	public ArrayList<House> houseLikeList(SqlSessionTemplate sqlSession, String houseAddress,PageInfo pi) {
+	public ArrayList<House> houseLikeList(SqlSessionTemplate sqlSession, House house,PageInfo pi) {
 		//몇개씩 보여줄지
 		int limit = pi.getBoardLimit();
 		
@@ -136,12 +136,12 @@ public class HouseDao {
 		
 		RowBounds rowBounds = new RowBounds(offset,limit);
 				
-		return (ArrayList)sqlSession.selectList("houseMapper.houseLikeList",houseAddress,rowBounds);
+		return (ArrayList)sqlSession.selectList("houseMapper.houseLikeList",house,rowBounds);
 	}
 
 	//비슷한 매물 찾기 img
-	public ArrayList<HouseImg> houseImgLike(SqlSessionTemplate sqlSession, String houseAddress) {
-		return (ArrayList)sqlSession.selectList("houseMapper.houseImgLike",houseAddress);
+	public ArrayList<HouseImg> houseImgLike(SqlSessionTemplate sqlSession, House house) {
+		return (ArrayList)sqlSession.selectList("houseMapper.houseImgLike",house);
 
 	}
 
@@ -244,8 +244,8 @@ public class HouseDao {
 	}
 
 	//비슷한 매물 전체 개수
-	public int selectHouseLikeCount(SqlSessionTemplate sqlSession, String houseAddress) {
-		return sqlSession.selectOne("houseMapper.selectHouseLikeCount",houseAddress);
+	public int selectHouseLikeCount(SqlSessionTemplate sqlSession, House house) {
+		return sqlSession.selectOne("houseMapper.selectHouseLikeCount",house);
 	}
 	
 	//마이페이지 집 찜 페이징

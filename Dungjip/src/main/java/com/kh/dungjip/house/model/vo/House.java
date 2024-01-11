@@ -52,6 +52,13 @@ public class House {
     public void setMember(Member member) {
         this.member = member;
     }
+
+    //비슷한 매물 보기
+	public House(String houseType, String houseAddress) {
+		super();
+		this.houseType = houseType;
+		this.houseAddress = houseAddress;
+	}
 	
 	
 	

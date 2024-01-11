@@ -213,24 +213,26 @@ public class HouseController {
 	//비슷한 매물 찾기
 	@ResponseBody
 	@RequestMapping(value="houseLikeList.ho",produces="application/json; charset=UTF-8")
-	public Map<String, Object> houseLikeList(String houseAddress,
+	public Map<String, Object> houseLikeList(String houseAddress, String houseType,
 			@RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
 		
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
+	    House house = new House(houseType, houseAddress);
+	    
 		//전체 집 개수
-		int listCount = houseService.selectHouseLikeCount(houseAddress);
+		int listCount = houseService.selectHouseLikeCount(house);
 		int pageLimit = 10;
 		int boardLimit = 8;
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		resultMap.put("pi", pi);
 		
 		//집 list
-		ArrayList<House> houseLike = houseService.houseLikeList(houseAddress,pi);
+		ArrayList<House> houseLike = houseService.houseLikeList(house,pi);
 		resultMap.put("houseLike", houseLike);
 
 		//집 img
-		ArrayList<HouseImg> houseImgLike = houseService.houseImgLike(houseAddress);
+		ArrayList<HouseImg> houseImgLike = houseService.houseImgLike(house);
 		resultMap.put("houseImgLike", houseImgLike);
 
 		return resultMap;

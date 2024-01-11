@@ -103,7 +103,6 @@ public class EnquiryController {
 		System.out.println(enquiryList);
 		System.out.println(page);
 		
-		
 		ArrayList<Enquiry> enList = enquiryService.moreEnquiry(en);
 		
 		return enList;

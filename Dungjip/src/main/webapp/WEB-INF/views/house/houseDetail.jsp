@@ -529,7 +529,7 @@
 				aria-controls="contact" aria-selected="false">비슷한 매물 보기</a></li>
 			<li class="nav-item"><a class="nav-link active"
 				id="review-tab" data-toggle="tab" href="#review" role="tab"
-				aria-controls="review" aria-selected="false">Reviews</a></li>
+				aria-controls="review" aria-selected="false">리뷰</a></li>
 		</ul>
 		<div class="tab-content" id="myTabContent" style="background-color: #FFF;">
 			<div class="tab-pane fade" id="home" role="tabpanel"
@@ -688,8 +688,8 @@
 					</div>
 				</div>
 			</div>
+		</div>
 
-			</div>
 <div class="tab-pane fade show active" id="review" role="tabpanel"
 	aria-labelledby="review-tab">
 	<div class="row">
@@ -719,7 +719,7 @@
 								</a></li>
 								<li><a href="#" id="interior">내부:  <span></span>
 								</a></li>
-								<li><a href="#" id="safety">치한: <span></span>
+								<li><a href="#" id="safety">치안: <span></span>
 								</a></li>
 								<li><a href="#" id="life">생활:  <span></span>
 								</a></li>
@@ -741,11 +741,11 @@
 			</div>
 		</div>
 	</div>
+	</div>
 </section>
 </div>
 </div>
 </div>
-
 
 		<script>
 		console.log("사용자 번호: " + '${loginUser != null ? loginUser.userNo : "null"}');
@@ -1007,10 +1007,12 @@
     
     function loadPage(currentPage) {
     	var houseAddress = "${house.houseAddress}"
+    	var houseType = "${house.houseType}"
         $.ajax({
             url: "houseLikeList.ho",
             data: {
             	houseAddress : houseAddress,
+            	houseType : houseType,
                 currentPage: currentPage // 수정된 currentPage 값을 전달
             },
             success: function(data) {
@@ -1058,7 +1060,7 @@
 			$('#houseImgLikeList').html(str);
 	};
 	
-	function Pagination(pi, houseAddress) {
+	function Pagination(pi, houseAddress, houseType) {
 	    var html = '';
 	    if (pi.currentPage > 1) {
 	        html += '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="loadPage(' + (pi.currentPage - 1) + ')">Prev</a></li>';
