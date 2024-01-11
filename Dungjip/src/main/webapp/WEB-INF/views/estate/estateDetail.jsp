@@ -147,12 +147,19 @@
 	font-weight: bold;
 	color: red;
 }
+
+#reviewH3{
+	padding-top: 90px;
+  	text-align: center;
+}
+
 </style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
 <body>
 	<%@ include file="../common/header.jsp"%>
+	
 	<div id="preloader">
 		<div id="status">&nbsp;</div>
 	</div>
@@ -241,8 +248,9 @@
 											<input type="hidden" value="${e.esNo}" id="selectEsNo">
 											<input type="hidden" value="${loginUser.userNo}" id="selectUserNo">
 											<input onclick="reservation();" class="button btn largesearch-btn" value="예약하기" type="submit">
-											<input class="button btn largesearch-btn" value="상담하기" type="button" 
-											onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'">
+									
+											<input class="button btn largesearch-btn" id="clickChatBtn" value="상담하기" type="button" 
+											onclick="qwer();">
 										</div>																			<!-- onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'" -->
 
 									</div>
@@ -252,6 +260,19 @@
 
 					</aside>
 				</div>
+				<script type="text/javascript">
+				function qwer(){
+					console.log("${loginUser}");
+					if("${loginUser}" != ""){
+						location.href='websocket/ask?estateUserNo='+"${e.member.userNo}";
+					
+					}else{
+						showError("실패","로그인 후 이용 가능 합니다","확인");
+					}
+				}
+				</script>
+				
+				
 				<div class="col-md-8 single-property-content prp-style-1 "
 					style="width: 1100px;">
 
@@ -510,83 +531,89 @@
 								</div>
 								<div class="tab-pane fade active" id="review" role="tabpanel"
 									aria-labelledby="review-tab" style="width: 850px;">
-									<div class="row">
-										<div class="col-lg">
-											<div class="row total_rate" style="display: flex;">
-												<div class="col-6" style="flex: 1">
-													<div class="box_total">
-														<br>
-
-														<h3
-															style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
-
-														<h1
-															style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
-
-														<h5 style="text-align: center;"></h5>
+								<c:choose>
+									<c:when test="${empty loginUser.userType}">
+										<h3 id="reviewH3">로그인 후 리뷰 확인 가능합니다!</h3>
+									</c:when>
+									<c:otherwise>									
+										<div class="row">
+											<div class="col-lg">
+												<div class="row total_rate" style="display: flex;">
+													<div class="col-6" style="flex: 1">
+														<div class="box_total">
+															<br>
+	
+															<h3
+																style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
+	
+															<h1
+																style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
+	
+															<h5 style="text-align: center;"></h5>
+														</div>
 													</div>
-												</div>
-												<div class="col-6" style="flex: 0.3">
-													<div class="rating_list" style="margin-top: 25px;" id="count">
-														<h5 style="text-align: left;"></h5>
-														<ul class="list" style="padding: 0;">
-
-															<li id="5star"><a href="#" id="num">5 Star <i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><i
-																	class="fa fa-star"></i> <span></span>
-															</a></li>
-
-
-															<li id="4star"><a href="#" id="num">4 Star <i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><span></span>
-															</a></li>
-
-															<li id="3star"><a href="#" id="num">3 Star <i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><i
-																	class="fa fa-star"></i> <span></span></a></li>
-
-
-															<li id="2star"><a href="#" id="num">2 Star <i
-																	class="fa fa-star"></i><i class="fa fa-star"></i><span></span></a></li>
-
-															<li id="1star"><a href="#" id="num">1 Star <i
-																	class="fa fa-star"></i><span></span>
-															</a></li>
-
-
-														</ul>
-													</div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div id="reviewContainer">
-                                                <div class="review_list" style="width: 1100px;">
-                                                    <!-- 리뷰내용 -->
-                                               
-                                               
-                                               
-                                               
-
-                                               
-                                               <div class="emo">
-                                                            <span class="like-btn" onclick="toggleLike(this)" >
-                                                            <img class="good" src="resources/img/good.svg">
-                                                           </span>
-                                                            <h6 class="likecount">25</h6>
-                                                            </div>
-
-                                               <hr>
-
-                                            </div>
-                                            
-                                            
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    
+													<div class="col-6" style="flex: 0.3">
+														<div class="rating_list" style="margin-top: 25px;" id="count">
+															<h5 style="text-align: left;"></h5>
+															<ul class="list" style="padding: 0;">
+	
+																<li id="5star"><a href="#" id="num">5 Star <i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><i
+																		class="fa fa-star"></i> <span></span>
+																</a></li>
+	
+	
+																<li id="4star"><a href="#" id="num">4 Star <i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><span></span>
+																</a></li>
+	
+																<li id="3star"><a href="#" id="num">3 Star <i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><i
+																		class="fa fa-star"></i> <span></span></a></li>
+	
+	
+																<li id="2star"><a href="#" id="num">2 Star <i
+																		class="fa fa-star"></i><i class="fa fa-star"></i><span></span></a></li>
+	
+																<li id="1star"><a href="#" id="num">1 Star <i
+																		class="fa fa-star"></i><span></span>
+																</a></li>
+	
+	
+															</ul>
+														</div>
+	                                                    </div>
+	                                                </div>
+	                                                
+	                                                <div id="reviewContainer">
+	                                                <div class="review_list" style="width: 1100px;">
+	                                                    <!-- 리뷰내용 -->
+	                                               
+	                                               
+	                                               
+	                                               
+	
+	                                               
+	                                               <div class="emo">
+	                                                            <span class="like-btn" onclick="toggleLike(this)" >
+	                                                            <img class="good" src="resources/img/good.svg">
+	                                                           </span>
+	                                                            <h6 class="likecount">25</h6>
+	                                                            </div>
+	
+	                                               <hr>
+	
+	                                            </div>
+	                                            
+	                                            
+	                                            </div>
+	                                            
+	                                        </div>
+	                                    </div>
+                                    </c:otherwise>
+                                   </c:choose>
                                 </div>
                             </div>
                         </section>
