@@ -126,11 +126,6 @@ public class EstateController {
 		int threeStar = estateService.selectEstateThreeStar(esNo);
 		int twoStar = estateService.selectEstateTwoStar(esNo);
 		int oneStar = estateService.selectEstateOneStar(esNo);
-		
-		//리뷰 공감수
-		//int emoCount = estateService.selectEstateEmoCount(esReNo);
-	
-		
 	
 		Map<String, Object> map = new HashMap<>();
 		map.put("erlist", erlist);
@@ -235,8 +230,6 @@ public class EstateController {
 	@PostMapping(value = "insert.esre", produces = "application/json; charset=UTF-8")
 	public Map<String, Object> insertEstateReview(int esNo, HttpSession session, EstateReview er,Model model) {
 	    Map<String, Object> response = new HashMap<>();
-
-	    
 	    ArrayList<House> hlist = houseService.selectHouseModal(esNo);
 	    ArrayList<HouseImg> himglist = houseService.selectHouseImg(esNo);
 	   model.addAttribute("hlist", hlist);
@@ -280,11 +273,12 @@ public class EstateController {
 
 
 	//부동산 리뷰 삭제
-	@RequestMapping("/estate/delete.es")
+	@RequestMapping("/estateReview/delete.es")
 	public String esReviewDelete(@RequestParam("esReNo")int esReNo,Model model, HttpSession session) {
 		
 		int result = estateService.esReviewDelete(esReNo);
-		
+		System.out.println(result);
+		System.out.println(esReNo);
 		if(result > 0) {
 			
 			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");

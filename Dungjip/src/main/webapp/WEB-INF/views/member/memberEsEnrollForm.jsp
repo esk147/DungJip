@@ -123,8 +123,8 @@
 				</div>
 				
 				<div class="form-section">
-					<label for="userNickName">중개사무소 명 </label> 
- 					<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="중개사무소 명" required>				
+					<label for="userNickName">닉네임 </label> 
+ 					<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="닉네임" required>				
 
 				</div>			
 	
@@ -150,11 +150,11 @@
                     <div class="gender" style="display: flex; margin:0px -55px 0 0;">
                         <div style="display:flex;">
 
-                            <input type="radio" id="F" value="F" name="gender" style="margin:0px -55px 0 0;" checked ><label for="F">여자</label>
+                            <input type="radio" id="F" value="여자" name="gender" style="margin:0px -55px 0 0;" checked ><label for="F">여자</label>
                         </div>
                         <div style="display:flex;">
 
-                            <input type="radio" id="M" value="M" name="gender" style="margin:0px -55px 0 0;" ><label for="M">남자</label>
+                            <input type="radio" id="M" value="남자" name="gender" style="margin:0px -55px 0 0;" ><label for="M">남자</label>
                         </div>
                             <br>
                     </div>

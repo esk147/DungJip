@@ -529,7 +529,7 @@
 				aria-controls="contact" aria-selected="false">비슷한 매물 보기</a></li>
 			<li class="nav-item"><a class="nav-link active"
 				id="review-tab" data-toggle="tab" href="#review" role="tab"
-				aria-controls="review" aria-selected="false">Reviews</a></li>
+				aria-controls="review" aria-selected="false">리뷰</a></li>
 		</ul>
 		<div class="tab-content" id="myTabContent" style="background-color: #FFF;">
 			<div class="tab-pane fade" id="home" role="tabpanel"

@@ -51,11 +51,11 @@
 		HOUSE_STYLE,HOUSE_TITLE,HOUSE_DETAILS,HOUSE_TYPE,HOUSE_LATITUDE,
 		HOUSE_LONGITUDE,HOUSE_UPLOAD_TIME,HOUSE_ADDRESS,HOUSE_FLOOR,HOUSE_BUILDING_FLOOR,
 		HOUSE_TOILET, HOUSE_ROOMS, HOUSE_PARKABLE, HOUSE_BALCONY, HOUSE_MAINTAINCOST,
-		HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS, HOUSE_NAME)
+		HOUSE_DOITNOW, HOUSE_BUILDDATE, HOUSE_ANIMALS, HOUSE_NAME, USER_NO)
 		values (seq_hno.nextval, #{housePrice}, #{houseRent}, #{houseSquare}, #{houseStyle}, #{houseTitle}
 		, #{houseDetails}, #{houseType}, #{houseLatitude}, #{houseLongitude}, #{houseUploadTime}, #{houseAddress}
 		, #{houseFloor}, #{houseBuildingFloor}, #{houseToilet}, #{houseRooms}, #{houseParkAble}, #{houseBalcony}
-		, #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals}, #{houseName})
+		, #{houseMaintainCost}, #{houseDoItNow}, #{houseBuildDate}, #{houseAnimals}, #{houseName}, #{userNo})
 	</insert>
 	
 	<select id="selectLocations" resultMap="houseResultSet">
@@ -121,7 +121,7 @@
 	
 	<select id="selectHouseModal" resultMap="houseResultSet">
 	SELECT H.HOUSE_NO
-		 ,H.HOUSE_TITLE
+		 ,H.HOUSE_NAME
           ,H.HOUSE_PRICE
           ,H.HOUSE_RENT
           ,H.HOUSE_SQUARE
@@ -341,9 +341,9 @@
 		<result column="STATUS" property="status"/>
 		<result column="TOTAL" property="total"/>
 		 <result column="POSITIVE_KEYWORDS" property="positiveKeywords"/>
-    <result column="NEGATIVE_KEYWORDS" property="negativeKeywords"/>
+    	<result column="NEGATIVE_KEYWORDS" property="negativeKeywords"/>
     	 <result column="POSITIVE" property="positive"/>
-    <result column="NEGATIVE" property="negative"/>
+    	<result column="NEGATIVE" property="negative"/>
 		<association property="member" javaType="member">
         	<result column="USER_NICKNAME" property="userNickName"/>
         	<result column="MEMBER_CHANGE_NAME" property="changeName"/>
@@ -364,8 +364,6 @@
         	<result column="KEYWORD_NO" property="keywordNo"/>
         	<result column="RE_REVIEW_NO" property="reReviewNo"/>
 		</association>
-		
-				
 	</resultMap>
 	
 	<select id="selectResidentReviewList" resultMap="residentReviewResultSet">
@@ -393,19 +391,20 @@
       ,RI.ORIGIN_NAME AS REVIEW_ORIGIN_NAME
       ,M.AGE
       ,M.GENDER
-FROM RESIDENT_REVIEW RR
-JOIN MEMBER M ON RR.USER_NO = M.USER_NO
-JOIN HOUSE H  ON RR.HOUSE_NO = H.HOUSE_NO
-LEFT JOIN MEMBER_KEYWORD MK ON MK.RE_REVIEW_NO = RR.RE_REVIEW_NO
-LEFT JOIN KEYWORD K ON K.KEYWORD_NO = MK.KEYWORD_NO
-JOIN REVIEW_IMG RI ON RI.RE_REVIEW_NO = RR.RE_REVIEW_NO
-WHERE H.HOUSE_NO = #{houseNo}
-AND RR.STATUS='Y'
-GROUP BY RR.RE_REVIEW_NO, M.USER_NICKNAME, M.CHANGE_NAME, RR.HOUSE_NO
-,RR.INTERIOR_SCORE, RR.BUILDING_SCORE, RR.TRAFFIC_SCORE, RR.SAFETY_SCORE, RR.LIFE_SCORE
-,RR.RE_AD_CONTENT, RR.RE_DIS_CONTENT, RR.RE_CREATE_DATE, RR.RE_PERIOD, RR.RE_FLOOR, RR.STATUS, RR.TOTAL, RI.CHANGE_NAME,RI.ORIGIN_NAME,M.AGE
-,M.GENDER
-</select>
+	FROM RESIDENT_REVIEW RR
+	JOIN MEMBER M ON RR.USER_NO = M.USER_NO
+	JOIN HOUSE H  ON RR.HOUSE_NO = H.HOUSE_NO
+	LEFT JOIN MEMBER_KEYWORD MK ON MK.RE_REVIEW_NO = RR.RE_REVIEW_NO
+	LEFT JOIN KEYWORD K ON K.KEYWORD_NO = MK.KEYWORD_NO
+	JOIN REVIEW_IMG RI ON RI.RE_REVIEW_NO = RR.RE_REVIEW_NO
+	WHERE H.HOUSE_NO = #{houseNo}
+	AND RR.STATUS='Y'
+	GROUP BY RR.RE_REVIEW_NO, M.USER_NICKNAME, M.CHANGE_NAME, RR.HOUSE_NO
+	,RR.INTERIOR_SCORE, RR.BUILDING_SCORE, RR.TRAFFIC_SCORE, RR.SAFETY_SCORE, RR.LIFE_SCORE
+	,RR.RE_AD_CONTENT, RR.RE_DIS_CONTENT, RR.RE_CREATE_DATE, RR.RE_PERIOD, RR.RE_FLOOR, RR.STATUS, RR.TOTAL, RI.CHANGE_NAME,RI.ORIGIN_NAME,M.AGE
+	,M.GENDER
+	ORDER BY RE_CREATE_DATE DESC
+	</select>
 
 	<delete id="mypageHjjimdelete" parameterType="_int">
 		DELETE FROM JJIM

@@ -164,6 +164,8 @@
             } else {
 	            showError("오류", errorMsg, "확인");            	
             }
+            alertMsg = "";
+            errorMsg = "";
         </script>
         <c:remove var="alertMsg" />
         <c:remove var="errorMsg" />

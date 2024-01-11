@@ -95,6 +95,7 @@
 		<association property="house" javaType="house">
         	<result column="HOUSE_NO" property="houseNo"/>
         	<result column="HOUSE_TITLE" property="houseTitle"/>
+        	<result column="HOUSE_NAME" property="houseName"/>
 		</association>
 		
 		
@@ -122,7 +123,7 @@
       ,R.ES_RE_CONTENT
       ,R.ES_RE_CREATE_DATE
       ,R.ES_RE_TYPE
-      ,H.HOUSE_TITLE
+      ,H.HOUSE_NAME
 	FROM ESTATE_REVIEW R
 	JOIN MEMBER M ON M.USER_NO = R.USER_NO 
 	JOIN OWN O ON O.HOUSE_NO = R.HOUSE_NO

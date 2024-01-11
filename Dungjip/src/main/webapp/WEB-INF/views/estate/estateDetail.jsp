@@ -261,17 +261,17 @@
 								style="width: 1100px;">
 								<li class="nav-item"><a class="nav-link" id="home-tab"
 									data-toggle="tab" href="#home" role="tab" aria-controls="home"
-									aria-selected="true">Description</a></li>
+									aria-selected="true">상세설명</a></li>
 								<li class="nav-item"><a class="nav-link" id="profile-tab"
 									data-toggle="tab" href="#profile" role="tab"
-									aria-controls="profile" aria-selected="false">Specification</a>
+									aria-controls="profile" aria-selected="false">상세정보</a>
 								</li>
 								<li class="nav-item"><a class="nav-link" id="contact-tab"
 									data-toggle="tab" href="#contact" role="tab"
-									aria-controls="contact" aria-selected="false">House List</a></li>
+									aria-controls="contact" aria-selected="false">매물 종류</a></li>
 								<li class="nav-item"><a class="nav-link active"
 									id="review-tab" data-toggle="tab" href="#review" role="tab"
-									aria-controls="review" aria-selected="false">Reviews</a></li>
+									aria-controls="review" aria-selected="false">리뷰</a></li>
 							</ul>
 							<div class="tab-content" id="myTabContent" style="width: 1100px;">
 								<div class="tab-pane fade" id="home" role="tabpanel"
@@ -357,18 +357,7 @@
 
 														<div class="col-md-12  clear">
 															<div class="col-xs-10 page-subheader sorting pl0">
-																<ul class="sort-by-list">
-																	<li class="active"><a href="javascript:void(0);"
-																		class="order_by_date" data-orderby="property_date"
-																		data-order="ASC"> Property Date <i
-																			class="fa fa-sort-amount-asc"></i>
-																	</a></li>
-																	<li class=""><a href="javascript:void(0);"
-																		class="order_by_price" data-orderby="property_price"
-																		data-order="DESC"> Property Price <i
-																			class="fa fa-sort-numeric-desc"></i>
-																	</a></li>
-																</ul>
+																
 																<!--/ .sort-by-list-->
 
 
@@ -563,6 +552,9 @@
                                                     </div>
                                                 </div>
                                                 
+                             
+                                                
+                                                
                                                 <div id="reviewContainer">
                                                 <div class="review_list" style="width: 1100px;">
                                                     <!-- 리뷰내용 -->
@@ -668,7 +660,7 @@
                             		        		        "<div class='media-body'>" +
                             		        		        "<span>" + result.erlist[i].esReCreateDate + "</span>" +
                             		        		        "<div id='type'>" +
-                            		        		        "<b>" + result.erlist[i].house.houseTitle + "</b>" +
+                            		        		        "<b>" + result.erlist[i].house.houseName + "</b>" +
                             		        		        "<h6 id='realtype'>"+result.erlist[i].esReType +"</h6>" +
                             		        		        "</div>" + 
                             		        		        stars +
@@ -769,9 +761,6 @@
 			</script>
 
 	<script>
-			
-			
-			
 			$(document).ready(function() {
 			    // myTab 링크 클릭 시 함수 실행
 			   
@@ -812,9 +801,6 @@
 			            container.style.display = 'block';
 			        });
 			});
-			
-			
-
 			</script>
 
 			<!-- 예약 -->

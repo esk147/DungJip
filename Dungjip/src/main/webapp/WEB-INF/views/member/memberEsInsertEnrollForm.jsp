@@ -107,19 +107,19 @@
 
                 <div class="form-section">
 					<label for="esPhone">사업자 전화번호*</label> 
-					<input type="text" class="form-control" id="esPhone" name="esPhone" placeholder="'-'를 제외한 숫자 11자리로 작성해 주세요">
+					<input type="text" class="form-control" id="esPhone" name="esPhone" >
 					
 				</div>
 				
 				<div class="form-section">
 					<label for="esNum">사업자 등록 번호*</label> 
-					<input type="text" class="form-control" id="esNum" name="esNum" placeholder="'-'를 제외한 숫자 11자리로 작성해 주세요">
+					<input type="text" class="form-control" id="esNum" name="esNum" >
 					<span id="confirm"></span>
 				</div>
                 
 				<div class="form-section">
 					<label for="esRegisterNum">중개 등록 번호*</label> 
-					<input type="text" class="form-control" id="esRegisterNum" name="esRegisterNum" placeholder="'-'를 제외한 숫자 14자리로 작성해 주세요">
+					<input type="text" class="form-control" id="esRegisterNum" name="esRegisterNum" >
 					<span id="confirm2"></span>
 				</div>
 	
@@ -194,50 +194,7 @@
 		
 		<script type="text/javascript">
 		
-	        var esNum = false;
-	        var regexEsNum = /^\d{11}$/;
-	    
-	        //사업자 번호 자릿수 체크
-	        $(document).ready(function() {
-	            $("#esNum").change(function() {
-	                var checkEsNum = $("#esNum").val();
-	                if (!regexEsNum.test(checkEsNum)) {
-	                    $("#confirm")
-	                        .html("'-'를 제외한 숫자 11자리를 입력해주세요'")
-	                        .css("color", "red");
-	                    esNum = false;
-	                    } else {
-	                    $("#confirm")
-	                        .html("인증이 완료되었습니다.")
-	                        .css("color", "blue");
-	                    esNum = true;
-	                    }
-	                
-	            });
-	        });
 	        
-		
-	        var esRegisterNum = false;
-	        var regesRegisterNum = /^\d{14}$/;
-	    
-	        //중개 등록 번호 자릿수 체크
-	        $(document).ready(function() {
-	            $("#esRegisterNum").change(function() {
-	                var checkRegisterNum = $("#esRegisterNum").val();
-	                if (!regesRegisterNum.test(checkRegisterNum)) {
-	                    $("#confirm2")
-	                        .html("'-'를 제외한 숫자 14자리를 입력해주세요")
-	                        .css("color", "red");
-	                    	esRegisterNum = false;
-	                    } else {
-	                    $("#confirm2")
-	                        .html("인증이 완료되었습니다.")
-	                        .css("color", "blue");
-	                    	esRegisterNum = true;
-	                    }
-	                
-	            });
-	        });
 				
 			
 	        function memberEnrollResult() {

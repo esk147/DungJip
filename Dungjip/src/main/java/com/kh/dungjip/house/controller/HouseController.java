@@ -63,7 +63,7 @@ public class HouseController {
 	public String insertHouse(HttpSession session) throws IOException, ParseException {
 
 		Reader reader = new FileReader(
-				"C:\\Users\\user1\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
+				"C:\\Users\\easyoh\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
 
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(reader);
@@ -86,8 +86,10 @@ public class HouseController {
 
 			Date sqlDate = Date.valueOf(localDateTime.toLocalDate());
 			Date sqlBuildDate = Date.valueOf(localBuildDateTime.toLocalDate());
+			System.out.println("qwer");
+			System.out.println(Integer.parseInt(String.valueOf(object.get("user_no"))));
 			
-					House house = House.builder().housePrice((String)object.get("deposit"))
+					House house = House.builder().housePrice(String.valueOf(object.get("deposit")))
 											.houseRent(Integer.parseInt(String.valueOf(object.get("rent"))))
 											.houseSquare(Double.parseDouble(String.valueOf(sqrtP.get("p"))))
 											.houseStyle((String)object.get("sales_type"))
@@ -109,6 +111,7 @@ public class HouseController {
 //											.houseBuildDate(sqlBuildDate)
 											.houseAnimals((String)object.get("animals"))
 											.houseName((String)object.get("name"))
+											.userNo(Integer.parseInt(String.valueOf(object.get("user_no"))))
 											.status("Y")
 											.build();
 			
@@ -382,14 +385,9 @@ public class HouseController {
 	
 	@PostMapping("insert.rere")
 	public String insertResidentReview(int houseNo, HttpSession session,ResidentReview rr, Model model,@RequestParam("reviewImage") MultipartFile file, @RequestParam String prosKeywords, @RequestParam String consKeywords){
-
-		System.out.println(prosKeywords);
-		System.out.println(consKeywords);
 		String keywordString = prosKeywords + "," + consKeywords;
 		String[] keywordNo = keywordString.split(",");
-		System.out.println(keywordNo);
 		Member loginUser = (Member) session.getAttribute("loginUser");
-		System.out.println(rr);
 		Map<String, Object> map = new HashMap<>();
 		map.put("rr", rr);
 		if(loginUser !=null && rr!=null) {
@@ -401,7 +399,7 @@ public class HouseController {
 				houseService.insertMemberKeyword(map);
 				map.remove("keyword");
 			}
-			
+		
 			String uploadPath ="src/main/resources/review/";
 			 
 			    if (file != null && !file.isEmpty()) {
