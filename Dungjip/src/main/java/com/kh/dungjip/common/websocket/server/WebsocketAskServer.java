@@ -77,13 +77,12 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 /*-----------------------------------------------------텍스트만 받는 메소드입니다-----------------------------------------------------------------        */
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {// 텍스트 보내는 메소드
-	System.out.println(message);
-		// Current time
-		LocalDateTime now = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddEEEE HH:mm:ss");
-		String formattedDateTime = now.format(formatter);
+
+		LocalDateTime now = LocalDateTime.now(); //현재 시간 을 가져옵니다
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddEEEE HH:mm:ss"); // 현재시간을 세팅합니다
+		String formattedDateTime = now.format(formatter);// 
 		String date = formattedDateTime.substring(5, 10) + "(" + formattedDateTime.substring(10, 11) + ")"
-				+ formattedDateTime.substring(13);
+				+ formattedDateTime.substring(13); // 필요한 부분만 짜릅니다
 
 		int userNo = ((Member) (session.getAttributes().get("loginUser"))).getUserNo();
 		String userName = ((Member) (session.getAttributes().get("loginUser"))).getUserName();
@@ -118,24 +117,15 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 
 		String jobjString = jobj.toString();
 		TextMessage jobjMessage = new TextMessage(jobjString);
-		
 
-		System.out.println("메세지를 보낸 방번호 " + chatRoomNo);
 		Set<WebSocketSession> sessionsInRoom = roomSessions.get(chatRoomNo);
-		if (sessionsInRoom != null) {
+		if (sessionsInRoom != null) { // 채팅방에 사람이 있을때 
 			for (WebSocketSession s : sessionsInRoom) {
-				s.sendMessage(jobjMessage);
+				s.sendMessage(jobjMessage);// 채팅방에 있는 사람에게 보냅니다
 			}
 		}
 	}
-	/*--------------------------------------------파일만 받는 메소드입니다----------------------------------------------------------------*/
-	
-	@Override
-	protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) {
-				System.out.println(message);
-	
-	}
-	
+
 	
 	
 	@Override
@@ -144,7 +134,7 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 		for (Map.Entry<Integer, Set<WebSocketSession>> entry : roomSessions.entrySet()) {
 	        Set<WebSocketSession> sessions = entry.getValue();
 	        if (sessions.contains(session)) {
-	            sessions.remove(session);
+	            sessions.remove(session);// 채팅방을 나갑니다
 	     
 	            if (sessions.isEmpty()) {
 	                roomSessions.remove(entry.getKey());

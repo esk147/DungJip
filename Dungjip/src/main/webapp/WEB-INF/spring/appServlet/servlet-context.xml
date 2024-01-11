@@ -48,12 +48,37 @@
 	
 </websocket:handlers> 
 	
-	
-
-		<!-- Http 통신에 있는 HttpSession 정보를 연결해보기 -->
-<!-- 		<websocket:handshake-interceptors>
-			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
-		</websocket:handshake-interceptors>
+	<interceptors>
+		<interceptor>
+			<mapping path="/websocket/*"/>
+			<mapping path="/myPage.me"/>
+			<mapping path="/admin/list"/>
+			<mapping path="/house/enrollForm"/>
+			<mapping path="/mypageupdate.me"/>
+			<mapping path="/mdelete.me"/>
+			<mapping path="/mupdate.me"/>
+			<mapping path="/mReservation.me"/>
+			<mapping path="/subscribe.pay"/>
+			<mapping path="/mReservation.me"/>
+			<mapping path="/insert.rere"/>
+			<mapping path="/insert.esre"/>
+			<mapping path="/reportList_es"/>
+			<mapping path="/myEsReview.me"/>
+			<mapping path="/myQnA.me"/>
+			<mapping path="/myReReviewLike.me"/>
+			<mapping path="/myHousejjim.me"/>
+			<mapping path="/insert.en"/>
+			<mapping path="/enquiry/delete.bo"/>
+			<beans:bean class="com.kh.dungjip.common.interceptor.LoginUserInterceptor"/>
+		</interceptor>
 		
-	</websocket:handlers> -->
+		<interceptor>
+			<mapping path="/admin/*"/>
+			<mapping path="/reply.en"/>
+			<beans:bean class="com.kh.dungjip.common.interceptor.adminInterceptor"/>
+		</interceptor>
+	
+	</interceptors>
+	
+	
 </beans:beans>

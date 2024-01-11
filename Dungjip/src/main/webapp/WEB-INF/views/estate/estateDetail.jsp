@@ -153,6 +153,7 @@
 </head>
 <body>
 	<%@ include file="../common/header.jsp"%>
+	
 	<div id="preloader">
 		<div id="status">&nbsp;</div>
 	</div>
@@ -241,8 +242,9 @@
 											<input type="hidden" value="${e.esNo}" id="selectEsNo">
 											<input type="hidden" value="${loginUser.userNo}" id="selectUserNo">
 											<input onclick="reservation();" class="button btn largesearch-btn" value="예약하기" type="submit">
-											<input class="button btn largesearch-btn" value="상담하기" type="button" 
-											onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'">
+									
+											<input class="button btn largesearch-btn" id="clickChatBtn" value="상담하기" type="button" 
+											onclick="qwer();">
 										</div>																			<!-- onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'" -->
 
 									</div>
@@ -252,6 +254,19 @@
 
 					</aside>
 				</div>
+				<script type="text/javascript">
+				function qwer(){
+					console.log("${loginUser}");
+					if("${loginUser}" != ""){
+						location.href='websocket/ask?estateUserNo='+"${e.member.userNo}";
+					
+					}else{
+						showError("실패","로그인 후 이용 가능 합니다","확인");
+					}
+				}
+				</script>
+				
+				
 				<div class="col-md-8 single-property-content prp-style-1 "
 					style="width: 1100px;">
 
