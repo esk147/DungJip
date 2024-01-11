@@ -346,7 +346,7 @@
 				}				
 			}
 			
-			if (showConfirmToTrue("비밀번호를 변경하시겠습니까?")) {
+			if (confirm("비밀번호를 변경하시겠습니까?")) {
 				return true;
 			} else {
 				return false;
@@ -362,7 +362,7 @@
 			var email = $("#email").val();
 			var address = $("#address_kakao").val();
 			
-			if(showConfirmToTrue("정보를 수정하시겠습니까?")) {
+			if(confirm("정보를 수정하시겠습니까?")) {
 				
 				if (userName == '' || userName == null) {
 					showError("오류", '이름을 입력하세요.', "확인");

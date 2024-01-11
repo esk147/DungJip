@@ -307,11 +307,31 @@ public class HouseController {
 	//거주자 리뷰리스트
 	@ResponseBody
 	@RequestMapping(value="resi.re",produces="application/json; charset=UTF-8")
-	public Map<String,Object> selectResidentReviewList(int houseNo){
-		System.out.println("houseNo");
-		System.out.println(houseNo);
+	public Map<String,Object> selectResidentReviewList(int houseNo, int userNo){
+		System.out.println("userNo");
+		System.out.println(userNo);
 		ArrayList<ResidentReview> rlist = houseService.selectResidentReviewList(houseNo);
 		
+		List<Integer> residentArr = new ArrayList<>();
+		List<Integer> reviewBooleanArr = new ArrayList<>();
+		for(ResidentReview re : rlist) {
+			int num = houseService.selectResidentEmoCount(re.getReReviewNo());
+			
+			Map<String, Object> numMap = new HashMap<>();
+			numMap.put("reReNo", re.getReReviewNo());
+			numMap.put("userNo", userNo);
+			
+			int result = houseService.selectResidentReviewLikeCount(numMap);
+			
+			residentArr.add(num);
+			reviewBooleanArr.add(result);
+		}
+		
+
+		System.out.println("residentArr");
+		System.out.println(residentArr);
+		System.out.println("reviewBooleanArr");
+		System.out.println(reviewBooleanArr);
 		
 		//리뷰 총점
 		int sum = houseService.selectResidentReviewSum(houseNo);
@@ -365,11 +385,50 @@ public class HouseController {
 		map.put("safety", safety);
 		map.put("lifeCount", lifeCount);
 		map.put("life", life);
+		map.put("residentArr", residentArr);
+		map.put("reviewBooleanArr", reviewBooleanArr);
 		
 		System.out.println(rlist);
 		return map;
 		
 	}
+	
+	//부동산 리뷰
+		@ResponseBody
+		@RequestMapping("resident.like")
+		public Map<String, Object> selectReviewLikeCount(String reReNo, String userNo){
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("reReNo", reReNo);
+			map.put("userNo", userNo);
+			
+			int count = houseService.selectReviewLikeCount(map);
+
+			int result = 0;
+			
+			int bool = 0;
+
+			System.out.println("count");
+			System.out.println(count);
+			
+			if(count > 0) {
+				result = houseService.decreaseCount(map);
+				bool = 1;
+			} else {
+				result = houseService.increaseReReLikeCount(map);
+				bool = 2;
+			}
+			
+			Map<String, Object> resultMap = new HashMap<>();
+			
+			resultMap.put("emoCount", result);
+			resultMap.put("result", bool);
+			resultMap.put("reReNo", reReNo);
+			
+			
+			return resultMap;
+		}
+	
 	
 	//매물 리뷰 작성
 	@GetMapping("insert.rere")

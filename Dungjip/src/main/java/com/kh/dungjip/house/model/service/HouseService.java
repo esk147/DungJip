@@ -137,6 +137,16 @@ public interface HouseService {
 
 	int deleteKeywords(Map<String, Object> paramMap);
 
+	int selectResidentEmoCount(int reReviewNo);
+
+	int selectResidentReviewLikeCount(Map<String, Object> numMap);
+
+	int selectReviewLikeCount(Map<String, Object> map);
+
+	int decreaseCount(Map<String, Object> map);
+
+	int increaseReReLikeCount(Map<String, Object> map);
+  
 	//중개인 예약내역 페이징
 	int mypagemypageEsReservationCount(Integer esNo);
 

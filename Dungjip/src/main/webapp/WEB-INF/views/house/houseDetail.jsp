@@ -211,6 +211,24 @@
     justify-content: space-between;
     margin-bottom: 25px;
   }
+  
+   .good{
+             width: 20px;
+             }
+             
+             .emo{
+             display:flex;
+             align-items: center;
+             justify-content: flex-end;
+             }
+             
+             .likecount{
+             padding-left: 3px;
+             }
+             
+        	.like-btn.liked img {
+            filter: sepia(100);
+        	}
 
 </style>
 </head>
@@ -781,6 +799,45 @@
 
 
 		<script>
+		function toggleLike(element) {
+
+			var likeButton = element;
+			var userNo = "${loginUser.userNo}";
+			var reReNo = element.id;
+
+			console.log("reReNo");
+			console.log(userNo);
+			console.log(reReNo);
+			console.log(likeButton);
+			
+				  $.ajax({
+					 url: "resident.like",
+					 data: {
+						 reReNo: reReNo,
+						 userNo: userNo
+					 },
+					 success: function(result){
+						 var idName = "likeCount"+result.reReNo;
+						 var likeCount = document.getElementById(idName);
+						 console.log("click ajax");
+						 console.log(result);
+						 console.log(likeCount);
+						 likeCount.textContent = result.result;
+						 console.dir(likeCount);
+						 
+						 if(result.result === 1){
+  						likeButton.classList.remove('liked');
+						 } else {
+   					likeButton.classList.add('liked');
+						 }
+					 },
+					 error: function(){
+						 console.log("통통신신에에러러");
+					 }
+				 }) 
+
+			// 클릭 토글
+				 }
 		
 		function generateStars(score) {
 		    let fullStarCount = Math.floor(score); // 전체 별의 개수
@@ -810,10 +867,11 @@
 				
 				$.ajax({
 					url:"resi.re",
-					data: {houseNo:"${house.houseNo}" },
+					data: {houseNo:"${house.houseNo}",
+						userNo: "${loginUser.userNo}"},
 					success: function(result){
 						console.log("거주자 리뷰 통신 성공");
-						
+						console.log(result);
 						var avg = (result.sum /result.count).toFixed(2);
 						
 						var building = (result.building /result.buildingCount).toFixed(2);
@@ -876,6 +934,8 @@
 						                "<img id='photo' class='zoomable' src='"+result.rlist[i].reviewImg.changeName+"' alt=''>" +
 						            "</div>" +
 						        "</div>" +
+						        '<div class="emo"><span class="' + (result.reviewBooleanArr[i] === 1 ? "like-btn liked" : "like-btn") + '" onclick="toggleLike(this)" id="'+result.rlist[i].reReviewNo+'"><img class="good" src="resources/img/good.svg"> </span> <h6 id="likeCount'+result.rlist[i].reReviewNo+'" class="likecount">'+
+		        		        result.residentArr[i]+'</h6>'+
 						        "<hr>" +
 						    "</div>";
 

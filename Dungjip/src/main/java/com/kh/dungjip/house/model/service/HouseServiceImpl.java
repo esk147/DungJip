@@ -329,6 +329,36 @@ public class HouseServiceImpl implements HouseService{
 		return houseDao.deleteKeywords(sqlSession,paramMap);
 	}
 
+	@Override
+	public int selectResidentEmoCount(int reReviewNo) {
+		// TODO Auto-generated method stub
+		return houseDao.selectResidentEmoCount(sqlSession, reReviewNo);
+	}
+
+	@Override
+	public int selectResidentReviewLikeCount(Map<String, Object> numMap) {
+		// TODO Auto-generated method stub
+		return houseDao.selectResidentReviewLikeCount(sqlSession, numMap);
+	}
+
+	@Override
+	public int selectReviewLikeCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return houseDao.selectReviewLikeCount(sqlSession, map);
+	}
+
+	@Override
+	public int decreaseCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return houseDao.decreaseCount(sqlSession, map);
+	}
+
+	@Override
+	public int increaseReReLikeCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return houseDao.increaseReReLikeCount(sqlSession, map);
+	}
+    
 	//중개인 예약내역 페이징
 	@Override
 	public int mypagemypageEsReservationCount(Integer esNo) {

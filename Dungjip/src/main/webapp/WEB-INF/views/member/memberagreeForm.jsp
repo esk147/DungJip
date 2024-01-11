@@ -95,8 +95,8 @@
 <body>
 
 	<%@ include file="../common/header.jsp" %>
-	
-	 <div class="page-head"> 
+
+	<div class="page-head"> 
          <div class="container">
              <div class="row">
                  <div class="page-head-content">
@@ -104,8 +104,7 @@
                  </div>
              </div>
          </div>
-     </div>
-
+    </div>
 
     <div class="container" style="padding: 100px;">
         <div class="header">

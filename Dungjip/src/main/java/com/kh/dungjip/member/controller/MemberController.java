@@ -508,7 +508,6 @@ public class MemberController {
 	}
 
 
-	//비밀번호 수정
 	@RequestMapping("changePwd.me")
 	public String memberPwdUpdate(Member m, Model model, HttpSession session,HttpServletRequest request) {
 		
@@ -544,6 +543,7 @@ public class MemberController {
 		}
 				
 	}
+
 	
 	//회원 정보 수정
 	@RequestMapping("mupdate.me")
@@ -1002,19 +1002,17 @@ public class MemberController {
 		//Member m = (Member)session.getAttribute("loginUser");
 		int listCount = houseService.mypagemypageEsReservationCount(esNo);		
 
-		System.out.println(listCount);
-		
 		//한 페이지에서 보여줘야하는 게시글 개수 
-		int boardLimit = 7;
+		int boardLimit = 6;
 		//페이징 바 개수 (pageLimit)
 		int pageLimit = 3;								
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-		System.out.println(pi);
 		
 		ArrayList<Reservation> relist = memberService.membermypageEsReservation(esNo,pi);
 		
 		model.addAttribute("relist",relist);
+		model.addAttribute("pi",pi);
 		
 		return "member/memberEspageReservation";
 	}
