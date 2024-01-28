@@ -111,7 +111,6 @@
 
     </div>
 
-    <%@ include file="../common/footer.jsp" %>
 
     <script>
 	    function toggleAccordion(esNo) {

@@ -105,6 +105,11 @@ public class ChatDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("chatMapper.nowFileUpMsg", map);
 	}
+
+	public int reportCount(SqlSessionTemplate sqlSession, int eno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("chatMapper.reportCount",eno);
+	}
 	  
 	 
 

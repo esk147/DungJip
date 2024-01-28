@@ -252,7 +252,7 @@ main header h3 {
 
 #chat .me .triangle {
 	border-color: transparent transparent #6fbced transparent;
-	margin-left: 972px;
+	margin-left: 955px;
 }
 
 main footer {
@@ -478,8 +478,9 @@ h1 { 2
 										<div style="width: 74%;">
 											<input type="hidden" name="cno" value="${chatRoom.chatRoomNo}">
 											<!-- 각 채팅방의 멤버에 대해 루프를 돌면서 userName을 표시 -->
-											<div id="${member.userName }" style="width: 100%; display: flex; justify-content: space-between;">
+											<div id="${member.userNo }" style="width: 100%; display: flex; justify-content: space-between;">
 												<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userNickName}</h2>
+												<input type="hidden" name="nickName" value="${member.userNickName}">
 												<span class="fileUpMsg" id="fileUpMsg${status.index }"style="margin-right: 10px;"></span> 
 												<input type="hidden" name="eno" value="${member.userNo }">
 											</div>
@@ -551,19 +552,24 @@ h1 { 2
 					<div style="display: flex;">
 						<img id="userProfileImage" src="기본 이미지 경로" alt="사용자 프로필"
 							style="width: 50px; height: 50px;" />
+						<div style="display: flex;">
 						<div>
 							<h2 id="otherUser"></h2>
-
 							<h3 id="esIntro"></h3>
 						</div>
+						</div>
 					</div>
-					<div style="margin-right: 0px;">
+					<div style="margin-right: 10px; display: flex;">
+					
+							<h4 id="reportCount"></h4>
 						<c:if test="${loginUser.userType eq '임차인'}">
 							<button class="chat-toggle-button" onclick="toggleChat();">신고</button>
 						</c:if>
 					</div>
 
 				</header>
+		
+				
 
 				<ul id="chat">
 
@@ -572,10 +578,7 @@ h1 { 2
 				<footer>
 					<span id="currentTyping"></span>
 					<textarea placeholder="Type your message" id="sendChat"></textarea>
-					<label for="inputFile"> <img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png"
-						alt="">
-					</label> <input type="file" id="inputFile" style="display: none;" onchange="handleFileSelect(event)"/> <a
+					<a
 						href="#" id="send" onclick="send();">Send</a>
 				</footer>
 			</main>
@@ -855,8 +858,8 @@ $("#findChat").on("input",function(){
 			                    findChatHtml += "<img id='" + member.changeName + "' src='../" + member.changeName + "' alt='' style='width:50px; height:50px;'>";
 			                    findChatHtml += '<div style="width:74%;">';
 			                    findChatHtml += "<input type='hidden' name='cno' value='" + chatRoom.chatRoomNo + "'>";
-			                    findChatHtml += '<div id="'+member.userName+'" style="width:100%; display:flex; justify-content: space-between;">';
-			                    findChatHtml += "<h2>&nbsp;&nbsp;&nbsp;&nbsp;" + member.userName + "</h2>";
+			                    findChatHtml += '<div id="'+member.userNickName+'" style="width:100%; display:flex; justify-content: space-between;">';
+			                    findChatHtml += "<h2>&nbsp;&nbsp;&nbsp;&nbsp;" + member.userNickName + "</h2>";
 			                    findChatHtml += '<span class="fileUpMsg" id="fileUpMsg'+a+'" style="margin-right:10px;"></span>';
 			                    findChatHtml += "</div>";
 			                    if (member.active) {
@@ -960,14 +963,43 @@ $("#findChat").on("input",function(){
 });
 
  function whatEvent(e){
-	$("#otherUser").text(e.lastElementChild.children[1].id);
+	  var nickName = $(e).find("input[name='nickName']").val();
+	$("#otherUser").text(nickName);
 	  var userProfileSrc = $(e).find('img').attr('src');
-	$("#esIntro").text(e.firstElementChild.defaultValue);
-
+	  
+	  if(e.firstElementChild.defaultValue){
+		  $("#esIntro").text(e.firstElementChild.defaultValue);
+	  }else{
+		  $("#esIntro").text("");
+	  }
       // 메인 헤더의 프로필 이미지 소스 변경
       $('#userProfileImage').attr('src', userProfileSrc);
-	
-	
+	  let eno = $(e).find("input[name='eno']").val();
+      
+	  $.ajax({
+		url : '../websocket/reportCount.ch',
+		data : {
+			eno : eno
+		},
+		success : function(result){
+			if(result>=5){
+				$("#reportCount").text("최근 5회이상 신고가 누적된 중개사");
+				$("#reportCount").css("color", "red");
+				$("#reportCount").css("margin-right", 10);
+		  
+	 		 }else{
+	 			$("#reportCount").text(""); 
+	 		 }
+			
+		},
+		error : function(){
+			console.log("신고기능 오류");
+		}
+	  });
+	  
+	  
+	  
+
 } 
 //엔터키 누르면 메세지  전송
 $(document).keyup(function(event){
@@ -1094,7 +1126,7 @@ window.onload = function() {
 			        socket.close();
 			    }
 						
-			var url = "ws://localhost:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
+			var url = "ws://192.168.150.127:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			//"ws://localhost:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			// "ws://192.168.150.140:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			socket = new WebSocket(url);

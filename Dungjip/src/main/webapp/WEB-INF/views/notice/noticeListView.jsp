@@ -60,7 +60,7 @@
             margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 50%;
+            width: 20%;
         }
         .close {
             color: #aaa;

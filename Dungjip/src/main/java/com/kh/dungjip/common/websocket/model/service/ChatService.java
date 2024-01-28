@@ -39,7 +39,9 @@ public interface ChatService {
 
 	 int pileUpMsg(ChatMessage cm);
 
-	int nowFileUpMsg(Map<String, Object> map); 
+	int nowFileUpMsg(Map<String, Object> map);
+
+	int reportCount(int eno); 
 
 	
 }

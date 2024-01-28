@@ -124,7 +124,7 @@ DUNGJIP 입니다
 		    	   
 		    	    <script>
 					function goChatService(){
-					location.href='websocket/ask?estateUserNo=' + ${loginUser.userNo};
+					window.open('websocket/ask?estateUserNo=' + ${loginUser.userNo}, "_blink");
 				 }
 		        	</script>
 		   			

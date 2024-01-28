@@ -123,8 +123,8 @@
 				</div>
 				
 				<div class="form-section">
-					<label for="userNickName">닉네임 </label> 
- 					<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="닉네임" required>				
+					<label for="userNickName">중개사무소명 </label> 
+ 					<input type="text" class="form-control" id="userNickName" name="userNickName" placeholder="중개사무소명" required>				
 
 				</div>			
 	

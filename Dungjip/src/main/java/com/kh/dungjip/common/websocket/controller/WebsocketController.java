@@ -43,7 +43,7 @@ public class WebsocketController {
 		try {
 
 			badWords = Files.lines(Paths
-					.get("C:\\Users\\82103\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt"))
+					.get("C:\\Users\\easyoh\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt"))
 					.collect(Collectors.toList());// txt파일을 읽어들여 list에 담는다.
 
 		} catch (IOException e) {
@@ -200,5 +200,17 @@ public class WebsocketController {
 
 		return 0;
 	}
+	
+	@ResponseBody
+	@GetMapping("/reportCount.ch")
+	public int reportCount(int eno) {
+	
+		
+		int count = chatService.reportCount(eno);
+		
+		return count;
+	}
+	
+	
 
 }

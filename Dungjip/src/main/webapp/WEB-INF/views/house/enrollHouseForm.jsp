@@ -344,8 +344,8 @@
             <br>
             <select id="houseBalcony" name="houseBalcony">
                 <option value="" disabled selected hidden>선택해주세요.</option>
-                <option value="Y">가능</option>
-                <option value="N">불가능</option>
+                <option value="Y">O</option>
+                <option value="N">X</option>
             </select>
         </div>
 		<br>

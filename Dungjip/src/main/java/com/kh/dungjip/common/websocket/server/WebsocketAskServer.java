@@ -45,7 +45,7 @@ public class WebsocketAskServer extends TextWebSocketHandler {
 		
 		try {
 
-			badWords = Files.lines(Paths.get("C:\\Users\\82103\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
+			badWords = Files.lines(Paths.get("C:\\Users\\easyoh\\git\\DungJip\\Dungjip\\src\\main\\resources\\badWords\\BadWordsList.txt")).collect(Collectors.toList());//txt파일을 읽어들여 list에 담는다.
 
 		
 		} catch (IOException e) {

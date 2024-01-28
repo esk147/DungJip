@@ -109,7 +109,6 @@
         </section>
      </div>
 
-     <%@ include file="../common/footer.jsp" %>
      
      
      <script>

@@ -184,8 +184,6 @@
         </div>
     </div>
 
-    <%@ include file="../common/footer.jsp" %>
-
     <script>
  // 아코디언 토글 함수
     function toggleAccordion(houseNo) {

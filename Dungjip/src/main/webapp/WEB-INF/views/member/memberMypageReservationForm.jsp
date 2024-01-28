@@ -122,7 +122,7 @@
 		}else{
 			window.location.href = "/dungjip/insert.esre?esNo="+esNo;
 		}
-	}
+	
 	
 
 	}

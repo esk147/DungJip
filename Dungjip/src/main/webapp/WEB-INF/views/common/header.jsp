@@ -179,7 +179,7 @@
         
         <script>
         var type = "${type}";
-        var menuItems = document.querySelectorAll('#nav-menu li a');
+        var menuItems = document.querySelectorAll('.navbar-right li a');
 
         menuItems.forEach(function(item) {
             if(type === item.text){

@@ -153,7 +153,7 @@
             display: block;
             font-size: 18px;
             text-align: center;
-            padding: 8px 82.68px;
+            padding: 8px 82.6px;
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;

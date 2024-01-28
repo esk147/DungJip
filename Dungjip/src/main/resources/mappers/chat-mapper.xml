@@ -125,7 +125,7 @@
     </select>
     
     <select id="findChat" resultMap="chatRoomWithMembersMap">
-    SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,M.CHANGE_NAME
+    SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,M.CHANGE_NAME, m.user_nickname
 		FROM JOINCHAT J
 		JOIN CHATROOM C ON J.CHATROOM_NO = C.CHATROOM_NO
 		JOIN MEMBER M ON J.USER_NO = M.USER_NO
@@ -134,7 +134,7 @@
 		    FROM JOINCHAT
 		    WHERE USER_NO = #{userNo})
 		AND J.USER_NO != #{userNo}
-        and M.USER_NAME LIKE '%'||#{chatRoomName}||'%'
+        and M.USER_nickname LIKE '%'||#{chatRoomName}||'%'
 		ORDER BY M.USER_NAME DESC
    
     </select>
@@ -144,7 +144,7 @@ SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,
 		FROM JOINCHAT J
 		JOIN CHATROOM C ON J.CHATROOM_NO = C.CHATROOM_NO
 		JOIN MEMBER M ON J.USER_NO = M.USER_NO
-        join estate e on e.user_no = m.user_No
+       left join estate e on e.user_no = m.user_No
 		WHERE C.CHATROOM_NO IN (
 		    SELECT CHATROOM_NO
 		    FROM JOINCHAT
@@ -206,7 +206,7 @@ SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,
 	VALUES(SEQ_REPORTNO.NEXTVAL
 		  ,#{userNo}
 		  ,#{chatRoomNo}
-		  ,#{estateNo}
+		  ,#{esNo}
 		  ,#{reportReason}
 	)
 	</insert>
@@ -282,5 +282,11 @@ AND USER_NO != #{mno}
 AND READMESSAGE ='N'
 </select>
 
+<select id="reportCount" resultType="_int">
+select report_count
+from member
+where user_no = #{eno}
+and status = 'Y'
+</select>
 
     </mapper>
