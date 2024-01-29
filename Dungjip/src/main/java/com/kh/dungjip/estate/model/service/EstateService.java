@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.kh.dungjip.estate.model.vo.Estate;
 import com.kh.dungjip.estate.model.vo.EstateReview;
+import com.kh.dungjip.estate.model.vo.Own;
 import com.kh.dungjip.house.model.vo.ReservationNew;
 import com.kh.dungjip.house.model.vo.Time;
 import com.kh.dungjip.member.model.vo.Member;
@@ -42,6 +43,7 @@ public interface EstateService {
 	int selectEstateTwoStar(int esNo);
 	int selectEstateOneStar(int esNo);
 
+	//리뷰 공감수
 	int selectEstateEmoCount(int esReNo);
 
 	int selectReviewLikeCount(Map<String, Object> map);
@@ -52,7 +54,6 @@ public interface EstateService {
 
 	//예약 시간 select
 	ArrayList<Time> selectTime();
-
 
 	//리뷰 작성
 	int insertEstateReview( Map<String, Object> paramMap);
@@ -66,7 +67,12 @@ public interface EstateService {
 
 	//수정
 	int updateReview(int esReNo, int esReScore, String esReContent);
+	
+	//부동산 리뷰 상세
+	EstateReview estateReviewDetail(int esReNo);
 
+	//부동산 리뷰 수정
+	int updateEstateReview(Map<String, Object> paramMap);
 
 	//중개사리뷰공감
 	ArrayList<EsReLike> memberMypageReviewLike(Member m, PageInfo pi);
@@ -98,9 +104,12 @@ public interface EstateService {
 	ArrayList<Estate> mypageEstateUpdate(Member m);
 
 	//중개인 매물내역 삭제 
-	int myEstateHouseDelete(int houseNo);
+	int myEstateHouseDelete(Own o);
 
 	//중개인페이지
 	ArrayList<Estate> myEspage(Member m);
+
+	//마이페이지 - 예약 삭제
+	int deleteReview(int reservationNo);
 
 }

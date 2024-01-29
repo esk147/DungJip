@@ -21,7 +21,16 @@
     <body>
 
        <%@ include file="../common/header.jsp" %>
-
+	
+		 <div class="page-head"> 
+	         <div class="container">
+	             <div class="row">
+	                 <div class="page-head-content">
+	                     <h1 class="page-title"></h1>               
+	                 </div>
+	             </div>
+	         </div>
+	     </div>
  
         <!-- End page header -->
  
@@ -75,13 +84,13 @@
         		var phone = $("#phone").val();
         		
         		if (userName == null || userName == '') {
-					alert("이름을 입력하세요.");
+        			showError("오류", "이름을 입력하세요.", "확인");
 					$("#userName").focus();
 					return false;
 				}
         		
         		if (phone == null || phone == '') {
-					alert("'-'를 제외한 숫자 11자리로 작성해 주세요");
+        			showError("오류", "'-'를 제외한 숫자 11자리로 작성해 주세요", "확인");
 					$("#phone").focus();
 					return false;
 					
@@ -90,7 +99,7 @@
 					var regExp = /^\d{11}$/;
 					
 					if (!regExp.test(phone)) { 
-						alert("올바르지 않은 번호 형식입니다.");
+	        			showError("오류", "올바르지 않은 번호 형식입니다.", "확인");
 						$("#phone").focus();
 						return false;
 					}

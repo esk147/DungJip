@@ -34,7 +34,7 @@ public class HouseEnrollController {
 	
     @GetMapping("/enrollForm")
     public String enrollForm() {
-
+    	
         return "house/enrollHouseForm";
     }
 
@@ -44,10 +44,10 @@ public class HouseEnrollController {
     	Member loginUser = (Member)session.getAttribute("loginUser");
     	int userNo = loginUser.getUserNo();
     	house.setUserNo(userNo);
-    	System.out.println("userNo : " + userNo);
 	    int houseNo = houseEnrollService.enrollHouse(house); // 매물 정보 저장
+	    System.out.println("houseNo : " + houseNo);
 	    // 파일 저장 경로를 지정합니다.
-	    String uploadPath = "src/main/webapp/resources/houseimg/";
+	    String uploadPath = "src/main/resources/houseimg/";
 	
 	    if (files != null && files.length > 0) {
 	      // 파일 처리 로직
@@ -60,7 +60,7 @@ public class HouseEnrollController {
 	          int ranNum = (int) (Math.random() * 90000 + 10000);
 	          String ext = originName.substring(originName.lastIndexOf("."));
 	          String changeName = currentTime + ranNum + ext;
-	
+	          String savePath = session.getServletContext().getRealPath("/resources/houseimg/");
 	          try {
 	            // 경로를 포함한 전체 파일 경로를 구성합니다.
 	            File dir = new File(uploadPath);
@@ -68,22 +68,25 @@ public class HouseEnrollController {
 	              dir.mkdirs(); // 디렉토리가 없다면 생성합니다.
 	            }
 	            File uploadFile = new File(dir, changeName);
-	            file.transferTo(uploadFile); 
+	            file.transferTo(new File(savePath + changeName)); 
 	            // HouseImg 객체 생성 및 정보 저장
 	            HouseImg houseImg = new HouseImg();
 	            houseImg.setHouseNo(houseNo);
 	            houseImg.setOriginName(originName);
-	            houseImg.setChangeName(changeName);
+	            houseImg.setChangeName("resources/houseimg/"+changeName);
 	            houseEnrollService.enrollHouseImg(houseImg);
+
+	            session.setAttribute("alertMsg", "매물 등록이 되었습니다");
 	          } catch (Exception e) {
 	            e.printStackTrace();
+	            session.setAttribute("alertMsg", "매물 등록에 실패하셨습니다.");
 	            // 파일 저장 실패 처리
 	          }
 	        }
 	      }
 	    }
 	    
-	    return "redirect:/house/enrollForm"; 
+	    return "redirect:http://localhost:9999/dungjip/";
 	
     }
   }

@@ -83,7 +83,7 @@
 						<thead>
 							<tr class="text-center">
 								<div>
-									<th scope="col" style="width:10%;">NO</th>
+									<th scope="col" style="width:10%;width:10%;text-align: center;">#</th>
 									<th scope="col" style="width:60%;">예약 상세정보</th>
 									<th scope="col" style="width:20%;">TIME</th>
 								</div>
@@ -93,7 +93,7 @@
 						<c:forEach var="relist" items="${relist }" >
 							<tr>
 								<td class="text-center" >
-									<h5>NO. ${relist.reservationNo }</h5>
+									<h5>NO.${relist.reservationNo }</h5>
 								</td>
 								<td>
 									<div class="media" >
@@ -104,7 +104,7 @@
 												${relist.time.timeValue }
 											</p>
 											<p>
-												<b>임대인 : </b> ${relist.userNo }
+												<b>임대인 : </b> ${relist.member.userName }
 												
 											</p>
 										</div>
@@ -122,12 +122,35 @@
 					</table>
 				</div>
 			</div>
+			<script type="text/javascript">
+				console.log(${relist});
 			
+			</script>
+			<!------------------------------ 페이징 처리 -------------------------------->
+			<footer style="width: 450px;">
+				<div class="pull-right">
+					<div class="pagination">
+						<ul>
+							<c:if test="${pi.currentPage ne 1 }">
+								<li><a
+									href="reser.es?currentPage=${pi.currentPage-1}&esNo=${esNo}">Prev</a></li>
+							</c:if>
+							<c:forEach begin="${pi.startPage}" end="${pi.endPage }" var="p">
+								<li><a href="reser.es?currentPage=${p}&esNo=${esNo}">${p}</a></li>
+							</c:forEach>
+							<c:if test="${pi.currentPage ne pi.maxPage }">
+								<li><a
+									href="reser.es?currentPage=${pi.currentPage+1}&esNo=${esNo}">Next</a></li>
+							</c:if>
+						</ul>
+					</div>
+				</div>
+			</footer>
 		</section> 
-	<script type="text/javascript">
-		console.log(${relist})
-	</script>
 	</div>
+			<script type="text/javascript">
+				console.log(${pi});
+			</script>
 
 	<%@ include file="../common/footer.jsp"%>
 

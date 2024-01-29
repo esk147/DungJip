@@ -15,6 +15,8 @@ import com.kh.dungjip.house.model.vo.Jjim;
 import com.kh.dungjip.house.model.vo.Reservation;
 import com.kh.dungjip.house.model.vo.HouseImg;
 import com.kh.dungjip.member.model.vo.Member;
+import com.kh.dungjip.residentReview.model.vo.ResidentReview;
+import com.kh.dungjip.residentReview.model.vo.ReviewImg;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,8 +46,8 @@ public class HouseServiceImpl implements HouseService{
 	}
 
 	@Override
-	public ArrayList<HouseImg> selectHouseThumnail() {
-		return houseDao.selectHouseThumnail(sqlSession);
+	public ArrayList<HouseImg> selectHouseThumnail(String type) {
+		return houseDao.selectHouseThumnail(sqlSession, type);
 	}
 
 	//부동산 집 리스트
@@ -100,14 +102,14 @@ public class HouseServiceImpl implements HouseService{
 
 	//비슷한 매물 찾기 list
 	@Override
-	public ArrayList<House> houseLikeList(String houseAddress,PageInfo pi) {
-		return houseDao.houseLikeList(sqlSession,houseAddress,pi);
+	public ArrayList<House> houseLikeList(House house,PageInfo pi) {
+		return houseDao.houseLikeList(sqlSession,house,pi);
 	}
 
 	//비슷한 매물 찾기 img
 	@Override
-	public ArrayList<HouseImg> houseImgLike(String houseAddress) {
-		return houseDao.houseImgLike(sqlSession,houseAddress);
+	public ArrayList<HouseImg> houseImgLike(House house) {
+		return houseDao.houseImgLike(sqlSession,house);
 	}
 	
 	@Override
@@ -139,8 +141,8 @@ public class HouseServiceImpl implements HouseService{
 
 	//비슷한 매물 전체 개수
 	@Override
-	public int selectHouseLikeCount(String houseAddress) {
-		return houseDao.selectHouseLikeCount(sqlSession, houseAddress);
+	public int selectHouseLikeCount(House house) {
+		return houseDao.selectHouseLikeCount(sqlSession, house);
 	}
 
 	//마이페이지 찜 목록에서 찜 해제
@@ -151,17 +153,125 @@ public class HouseServiceImpl implements HouseService{
 	}	
 
 	//부동산 집 리스트(모달창)
+	
 	@Override
 	public ArrayList<House> selectHouseModal(int esNo) {
-		// TODO Auto-generated method stub
+		
 		return houseDao.selectHouseModal(sqlSession,esNo);
+	}
+
+	//거주자 리뷰 리스트
+	@Override
+	public ArrayList<ResidentReview> selectResidentReviewList(int houseNo) {
+		
+		return houseDao.selectResidentReviewList(sqlSession,houseNo);
+	}
+
+	//거주자 리뷰 총점
+	@Override
+	public int selectResidentReviewSum(int houseNo) {
+	
+		return houseDao.selectResidentReviewSum(sqlSession,houseNo);
+	}
+
+	//거주자 리뷰 수 
+	@Override
+	public int selectResidentReviewCount(int houseNo) {
+		
+		return houseDao.selectResidentReviewCount(sqlSession,houseNo);
+	}
+
+	//매물 리뷰 작성
+	@Override
+	public int insertResidentReview(ResidentReview rr) {
+		houseDao.insertResidentReview(sqlSession,rr);
+		return rr.getReReviewNo();
+	}
+
+	@Override
+	public void enrollReviewImg(ReviewImg reviewImg) {
+		houseDao.enrollReviewImg(sqlSession,reviewImg);
+		
+	}
+
+	@Override
+	public int insertMemberKeyword(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return houseDao.insertMemberKeyword(sqlSession, map);
+	}
+
+	//매물 리뷰 수정 상세뷰 
+	@Override
+	public ResidentReview ResidentReviewDetail(int reReviewNo) {
+		
+		return houseDao.ResidentReviewDetail(sqlSession,reReviewNo);
+	}
+
+	@Override
+	public int selectBuilding(int houseNo) {
+		
+		return houseDao.selectBuilding(sqlSession,houseNo);
+	}
+
+	@Override
+	public int selectBuildingcount(int houseNo) {
+	
+		return houseDao.selectBuildingCount(sqlSession,houseNo);
+	}
+
+	@Override
+	public int selectTraffic(int houseNo) {
+		
+		return houseDao.selectTraffic(sqlSession,houseNo);
+	}
+
+	@Override
+	public int selectTrafficCount(int houseNo) {
+		
+		return houseDao.selectTrafficCount(sqlSession,houseNo);
+	}
+
+	@Override
+	public int selectInterior(int houseNo) {
+		
+		return houseDao.selectInterior(sqlSession,houseNo);
+	}
+
+	@Override
+	public int selectInteriorCount(int houseNo) {
+		
+		return houseDao.selectInteriorCount(sqlSession,houseNo);
+	}
+
+	@Override
+	public int selectSafety(int houseNo) {
+		
+		return houseDao.selectSafety(sqlSession,houseNo);
+	}
+
+	@Override
+	public int selectSafetyCount(int houseNo) {
+		
+		return houseDao.selectSafetyCount(sqlSession,houseNo);
+	}
+
+	@Override
+	public int selectLife(int houseNo) {
+		
+		return houseDao.selectLife(sqlSession,houseNo);
+	}
+
+	@Override
+	public int selectLifeCount(int houseNo) {
+		
+		return houseDao.selectLifeCount(sqlSession,houseNo);
 	}
 
 	//마이페이지 집 찜 페이징
 	@Override
-	public int selectListCount() {
+	public int selectListCount(Member m) {
 		// TODO Auto-generated method stub
-		return houseDao.selectListCount(sqlSession);
+		return houseDao.selectListCount(sqlSession,m);
 	}
 
 	//마이페이지 중개인 매물내역
@@ -198,9 +308,95 @@ public class HouseServiceImpl implements HouseService{
 		return houseDao.myImdaHouseDelete(sqlSession,houseNo);
 	}
 
+	//매물 리뷰 수정
+	@Override
+	public int updateResidentReview(Map<String, Object> paramMap) {
+		
+		return houseDao.updateResidentReview(sqlSession,paramMap);
+	}
+
+	@Override
+	public int updateKeywords(Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		
+		return houseDao.updateKeywords(sqlSession,paramMap);
+	}
+
+	@Override
+	public int deleteKeywords(Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		
+		return houseDao.deleteKeywords(sqlSession,paramMap);
+	}
 
 
+	@Override
+	public int updateReviewImg(Map<String, Object> paramMap) {
+		
+		return houseDao.updateReviewImg(sqlSession,paramMap);
+		
+	}
 
+	@Override
+	public int selectResidentEmoCount(int reReviewNo) {
+		// TODO Auto-generated method stub
+		return houseDao.selectResidentEmoCount(sqlSession, reReviewNo);
+	}
 
+	@Override
+	public int selectResidentReviewLikeCount(Map<String, Object> numMap) {
+		// TODO Auto-generated method stub
+		return houseDao.selectResidentReviewLikeCount(sqlSession, numMap);
+	}
+
+	@Override
+	public int selectReviewLikeCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return houseDao.selectReviewLikeCount(sqlSession, map);
+	}
+
+	@Override
+	public int decreaseCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int result = houseDao.decreaseCount(sqlSession, map);
+		
+		int count = 0;
+		
+		String reReNoString = map.get("reReNo").toString();
+		int reReNo = Integer.parseInt(reReNoString);
+		
+		if(result > 0) {
+			count = houseDao.selectResidentEmoCount(sqlSession, reReNo);
+		}
+		
+		return count;
+	}
+
+	@Override
+	public int increaseReReLikeCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int result = houseDao.increaseReReLikeCount(sqlSession, map);
+		
+		String reReNoString = map.get("reReNo").toString();
+		int reReNo = Integer.parseInt(reReNoString);
+		
+		int count = 0;
+		
+		if(result > 0) {
+			count = houseDao.selectResidentEmoCount(sqlSession, reReNo);
+		}
+		
+		return count;
+	}
+    
+	//중개인 예약내역 페이징
+	@Override
+	public int mypagemypageEsReservationCount(Integer esNo) {
+		// TODO Auto-generated method stub
+		return houseDao.mypagemypageEsReservationCount(sqlSession,esNo);
+
+	}
+
+	
 
 }

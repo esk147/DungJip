@@ -13,9 +13,14 @@
     <collection property="members" ofType="member">
         <id column="USER_NO" property="userNo"/>
         <result column="USER_NAME" property="userName"/>
+        <result column="USER_NICKNAME" property="userNickName"/>
         <result column="CHANGE_NAME" property="changeName"/>
         <result column="LASTLOGINTIME" property="lastLoginTime"/>
         <result column="LASTLOGOUTTIME" property="lastLogoutTime"/> 
+    </collection>
+    <collection property="estates" ofType="estate">
+        <id column="ES_NO" property="esNo"/>
+        <id column="ES_Intro" property="esIntro"/>
     </collection>
 </resultMap>
     
@@ -120,7 +125,7 @@
     </select>
     
     <select id="findChat" resultMap="chatRoomWithMembersMap">
-    SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,M.CHANGE_NAME
+    SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,M.CHANGE_NAME, m.user_nickname
 		FROM JOINCHAT J
 		JOIN CHATROOM C ON J.CHATROOM_NO = C.CHATROOM_NO
 		JOIN MEMBER M ON J.USER_NO = M.USER_NO
@@ -129,16 +134,17 @@
 		    FROM JOINCHAT
 		    WHERE USER_NO = #{userNo})
 		AND J.USER_NO != #{userNo}
-        and M.USER_NAME LIKE '%'||#{chatRoomName}||'%'
+        and M.USER_nickname LIKE '%'||#{chatRoomName}||'%'
 		ORDER BY M.USER_NAME DESC
    
     </select>
     
     <select id="chatRoomList" resultMap="chatRoomWithMembersMap">
-		SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,M.CHANGE_NAME
+SELECT C.CHATROOM_NO, M.USER_NO, M.USER_NAME ,M.LASTLOGINTIME,M.LASTLOGOUTTIME ,M.CHANGE_NAME ,E.es_intro, m.user_nickname 
 		FROM JOINCHAT J
 		JOIN CHATROOM C ON J.CHATROOM_NO = C.CHATROOM_NO
 		JOIN MEMBER M ON J.USER_NO = M.USER_NO
+       left join estate e on e.user_no = m.user_No
 		WHERE C.CHATROOM_NO IN (
 		    SELECT CHATROOM_NO
 		    FROM JOINCHAT
@@ -200,7 +206,7 @@
 	VALUES(SEQ_REPORTNO.NEXTVAL
 		  ,#{userNo}
 		  ,#{chatRoomNo}
-		  ,#{estateNo}
+		  ,#{esNo}
 		  ,#{reportReason}
 	)
 	</insert>
@@ -257,8 +263,30 @@
     	WHERE CHATROOM_NO = #{chatRoomNo}
 	</update>
 	
+	<update id="pileUpMsg">
+	
+	UPDATE CHATMESSAGE
+	SET READMESSAGE = 'Y'
+	WHERE CHATROOM_NO = #{chatRoomNo}
+	AND  <![CDATA[ SENDMESSAGE_TIME < SYSDATE ]]> 
+	AND USER_NO != #{userNo}
+	AND READMESSAGE != 'Y'
 
+	</update>
 
+<select id="nowFileUpMsg" resultType="_int">
+SELECT COUNT(*) 
+FROM CHATMESSAGE
+WHERE CHATROOM_NO = #{cno}
+AND USER_NO != #{mno}
+AND READMESSAGE ='N'
+</select>
 
+<select id="reportCount" resultType="_int">
+select report_count
+from member
+where user_no = #{eno}
+and status = 'Y'
+</select>
 
     </mapper>

@@ -32,7 +32,7 @@ public class CommonController {
 	/** 메일 ID **/
 	private static final String MAIL_ID = "esk147@naver.com";
 	/** 메일 PW **/
-	private static final String MAIL_PW = "";
+	private static final String MAIL_PW = "Cafelattee@1";
 	
 	@RequestMapping("sendEmail.do")
 	public String sendEmail(String email, String body, HttpSession session) throws AddressException, MessagingException {

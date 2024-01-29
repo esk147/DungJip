@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../common/sweetAlert.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,13 +24,10 @@
 * {
 	box-sizing: border-box;
 	font-family: 'Noto Sans KR', sans-serif;
-	
-	
 }
 
 body {
-	background-image: url('../resources/img/chatImg/backImg.png');	
-
+	background-image: url('../resources/img/chatImg/backImg.png');
 	margin: 0;
 	padding: 0;
 	display: flex;
@@ -48,7 +46,6 @@ body {
 	border-radius: 8px;
 	box-shadow: 0px 0px 40px rgba(50, 50, 93, 0.25), 0px 30px 60px
 		rgba(0, 0, 0, 0.3), 0px -2px 10px rgba(10, 37, 64, 0.35) inset;
-	
 }
 
 aside {
@@ -61,7 +58,6 @@ aside {
 main {
 	width: 70%;
 	overflow-y: auto;
-	
 }
 
 aside header {
@@ -200,7 +196,6 @@ main header h3 {
 	height: 535px;
 	border-top: 2px solid #fff;
 	border-bottom: 2px solid #fff;
-	
 }
 
 #chat li {
@@ -257,13 +252,12 @@ main header h3 {
 
 #chat .me .triangle {
 	border-color: transparent transparent #6fbced transparent;
-	margin-left: 972px;
+	margin-left: 955px;
 }
 
 main footer {
 	height: 155px;
 	padding: 20px 30px 10px 20px;
-
 }
 
 main footer textarea {
@@ -281,7 +275,6 @@ main footer textarea {
 
 main footer textarea::placeholder {
 	font-size: larger;
-	
 }
 
 main footer img {
@@ -298,7 +291,6 @@ main footer a {
 	float: right;
 	margin-top: 5px;
 	display: inline-block;
-	
 }
 
 aside ul::-webkit-scrollbar-track {
@@ -391,7 +383,7 @@ html, body {
 	font-family: 'Merriweather', serif;
 }
 
-h1 {2
+h1 { 2
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -444,14 +436,26 @@ h1 {2
 .contextmenu li:hover a {
 	color: #FFFFFF;
 }
+
+.fileUpMsg {
+	right: 25px;
+	width: 35px;
+	height: 35px;
+	color: #ffffff;
+	background-color: #FC9B8F;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 32px;
+	font-size: 15px;
+	z-index: 2000;
+	box-shadow: 0px 0px 40px rgba(50, 50, 93, 0.25), 0px 30px 60px
+		rgba(0, 0, 0, 0.3), 0px -2px 10px rgba(10, 37, 64, 0.35) inset;
+}
+}
 </style>
 
 <body>
 
-<script type="text/javascript">
-
-console.log(${chatList});
-</script>
 	<%-- <%@ include file="../common/chatbot.jsp"%> --%>
 	<div id="main-content" style="width: 80%;">
 		<div id="container">
@@ -459,22 +463,25 @@ console.log(${chatList});
 			<aside>
 				<header>
 					<input id="findChat" type="text" placeholder="search"
-						name="findChat">		
-			</header>
+						name="findChat">
+				</header>
 				<ul id="findChatList">
 					<c:choose>
 						<c:when test="${not empty chatList}">
-							<c:forEach items="${chatList}" var="chatRoom">
-								<li onclick="whatEvent(this);"><c:forEach
-										items="${chatRoom.members}" var="member">
-										<img id="${member.changeName }" src="../${member.changeName }"
-											alt="" style="width: 50px; height: 50px;">
-										<div>
-											<input type="hidden" name="cno"
-												value="${chatRoom.chatRoomNo}">
+							<c:forEach items="${chatList}" var="chatRoom" varStatus="status">
+								<li onclick="whatEvent(this);">
+								<c:forEach items="${chatRoom.members}" var="member">
+								<c:forEach items="${chatRoom.estates }" var="estate">
+								<input type="hidden" name="esIntro" value="${estate.esIntro }"> 
+								</c:forEach> 
+										<img id="${member.changeName }" src="../${member.changeName }"alt="" style="width: 50px; height: 50px;">
+										<div style="width: 74%;">
+											<input type="hidden" name="cno" value="${chatRoom.chatRoomNo}">
 											<!-- 각 채팅방의 멤버에 대해 루프를 돌면서 userName을 표시 -->
-											<div id="${member.userName }">
-												<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userName}</h2>
+											<div id="${member.userNo }" style="width: 100%; display: flex; justify-content: space-between;">
+												<h2>&nbsp;&nbsp;&nbsp;&nbsp;${member.userNickName}</h2>
+												<input type="hidden" name="nickName" value="${member.userNickName}">
+												<span class="fileUpMsg" id="fileUpMsg${status.index }"style="margin-right: 10px;"></span> 
 												<input type="hidden" name="eno" value="${member.userNo }">
 											</div>
 											<c:choose>
@@ -484,7 +491,6 @@ console.log(${chatList});
 														현재 활동중
 													</h3>
 												</c:when>
-
 												<c:otherwise>
 													<h3 id="logoutTime">
 														&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="status orange"></span>
@@ -493,14 +499,52 @@ console.log(${chatList});
 												</c:otherwise>
 											</c:choose>
 										</div>
+										 
 									</c:forEach></li>
 							</c:forEach>
-							
+
+
+
 						</c:when>
 						<c:otherwise>
 							<h2 align="center">채팅방이 존재 하지 않습니다</h2>
 						</c:otherwise>
 					</c:choose>
+					<!-- 쌓인 메세지 확인하는 용도 -->
+					<script type="text/javascript">
+					
+					function readFileUpMsg(){
+						var cnoList = [];
+						document.querySelectorAll('input[name="cno"]').forEach(function(input) {
+						  cnoList.push(input.value);
+						});
+					
+						//쌓인 메세지 개수					
+						$.ajax({
+							url:'nowFileUpMsg.ch',
+							data : {
+								cnoList : cnoList,
+								mno : '${loginUser.userNo}'
+							},
+							success : function(countList){
+							
+								for(var i = 0; i < countList.length; i++){
+									var divId = "fileUpMsg"+i;
+									var countDiv = document.getElementById(divId);
+								
+									if(countList[i] == 0){
+										$("#"+divId).css("display", "none"); 
+										continue;
+									}
+									countDiv.innerHTML = countList[i];
+									countDiv.displya = 'none';
+								}
+							},
+
+						});
+					}
+					readFileUpMsg();
+					</script>
 				</ul>
 			</aside>
 			<main>
@@ -508,19 +552,24 @@ console.log(${chatList});
 					<div style="display: flex;">
 						<img id="userProfileImage" src="기본 이미지 경로" alt="사용자 프로필"
 							style="width: 50px; height: 50px;" />
+						<div style="display: flex;">
 						<div>
 							<h2 id="otherUser"></h2>
-					
-							<h3>부동산 소개 들어갈 자리입니다</h3>
+							<h3 id="esIntro"></h3>
+						</div>
 						</div>
 					</div>
-					<div style="margin-right: 0px;">
+					<div style="margin-right: 10px; display: flex;">
+					
+							<h4 id="reportCount"></h4>
 						<c:if test="${loginUser.userType eq '임차인'}">
 							<button class="chat-toggle-button" onclick="toggleChat();">신고</button>
 						</c:if>
 					</div>
 
 				</header>
+		
+				
 
 				<ul id="chat">
 
@@ -529,10 +578,7 @@ console.log(${chatList});
 				<footer>
 					<span id="currentTyping"></span>
 					<textarea placeholder="Type your message" id="sendChat"></textarea>
-					<label for="inputFile"> <img
-						src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png"
-						alt="">
-					</label> <input type="file" id="inputFile" style="display: none;" /> <a
+					<a
 						href="#" id="send" onclick="send();">Send</a>
 				</footer>
 			</main>
@@ -622,7 +668,7 @@ function onChatRoomSelect(chatRoomNo) {
     loadChatRoomData(chatRoomNo);
 }
 
-// WebSo
+
 $("#subBtn").click(function(){
 	
 	var reportReason = $(".clickBtn2").val();
@@ -638,7 +684,7 @@ $("#subBtn").click(function(){
 			
 		},
 		success : function(result){
-			alert("신고가 정상적으로 제출되었습니다");
+			 showSuccess("성공","신고가 정상적으로 제출되었습니다","확인"); 
 			 $(".chat-container").css("display", "none");
 			 $("#main-content").removeClass("blur-effect");
 		},
@@ -664,8 +710,8 @@ $("#subBtn2").click(function(){
 			
 		},
 		success : function(result){
-			
-			alert("신고가 정상적으로 접수 되었습니다.");
+
+			 showSuccess("성공","신고가 정상적으로 제출되었습니다","확인");
 			 $(".chat-container").css("display", "none");
 			 $("#main-content").removeClass("blur-effect");
 			
@@ -752,7 +798,7 @@ function revealText(element) {
             clearInterval(timer);//
         
         }
-    }, 30);//30ms로 설정 아마 0.03초
+    }, 30);//30ms로 설정 0.03초
 }
 
 
@@ -785,7 +831,7 @@ e.target은 클릭된 요소를 나타냅니다.
 var currentChatRoomNo;//현재 사용자가 참여하고 있는 채팅방의 번호를 저장하는 변수
 
 $("#findChat").on("input",function(){
-	
+
 	if($("#findChat").val() === ""){
 		location.reload();
 	
@@ -798,21 +844,23 @@ $("#findChat").on("input",function(){
 			loginUserNo : ${loginUser.userNo}
 		},
 		success : function(chatList){
+			
 			 var findChatHtml = "";
-
 			    chatList.forEach(function(chatRoom) {
 			        // chatRoom과 chatRoom.members의 유효성 검사
 			        if (chatRoom && chatRoom.members) {
 			            findChatHtml += "<li onclick='whatEvent(this);'>"
 
+						var a = 0;
 			            chatRoom.members.forEach(function(member) {
 			                if (member) {
 							                    // member 객체의 유효성 검사
 			                    findChatHtml += "<img id='" + member.changeName + "' src='../" + member.changeName + "' alt='' style='width:50px; height:50px;'>";
-			                    findChatHtml += "<div>";
+			                    findChatHtml += '<div style="width:74%;">';
 			                    findChatHtml += "<input type='hidden' name='cno' value='" + chatRoom.chatRoomNo + "'>";
-			                    findChatHtml += "<div id='" + member.userName + "'>";
-			                    findChatHtml += "<h2>&nbsp;&nbsp;&nbsp;&nbsp;" + member.userName + "</h2>";
+			                    findChatHtml += '<div id="'+member.userNickName+'" style="width:100%; display:flex; justify-content: space-between;">';
+			                    findChatHtml += "<h2>&nbsp;&nbsp;&nbsp;&nbsp;" + member.userNickName + "</h2>";
+			                    findChatHtml += '<span class="fileUpMsg" id="fileUpMsg'+a+'" style="margin-right:10px;"></span>';
 			                    findChatHtml += "</div>";
 			                    if (member.active) {
 			                        findChatHtml += "<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='status green'></span>현재 활동중</h3>";
@@ -821,13 +869,15 @@ $("#findChat").on("input",function(){
 			                    }
 			                    findChatHtml += "</div>";
 			                }
+			                a++;
 			            });
 			            findChatHtml += "</li>";
 			        }
 			    });
 
+				readFileUpMsg();
 			    $("#findChatList").html(findChatHtml);
-			    
+
 			    $('aside ul li').click(function(){//새롭게 변했기때문에 다시 클릭하면 메세지를 받아오게 한다
 			    	
 					   $('aside ul li').removeClass('active');//원래 클릭된 배경 색깔을 지워주고
@@ -842,13 +892,26 @@ $("#findChat").on("input",function(){
 					chatRoomNo = $(this).find("input[name='cno']").val();//this는 li요소 find는 li 안에 있는 input[name='cno'] 이걸 가져온다
 			
 					$.ajax({
+						url : "../websocket/pileUpMsg.ch",
+						data : {
+							cno : chatRoomNo,
+							mno : '${loginUser.userNo}'
+							
+						},
+						success: function(result){
+					
+							readFileUpMsg();
+							
+						}
+	
+						});
+					$.ajax({
 						url: "../websocket/selectChatMsg.ch",
 						method:"POST",
 						data :{cno : chatRoomNo},
 						
 						success:function(chatRoomMsg){
 							var chatHtml = "";
-							console.log(chatRoomMsg);
 							if(chatRoomMsg !=""){
 							for (var i in chatRoomMsg){
 						if("${loginUser.userNo}" == chatRoomMsg[i].userNo){
@@ -880,9 +943,7 @@ $("#findChat").on("input",function(){
 						        "</li>";
 						
 							  $("#chat").html(chatHtml);
-							  
 						}
-							
 							}
 							}else{
 								chatHtml = "";
@@ -890,17 +951,11 @@ $("#findChat").on("input",function(){
 							}
 						$("#chat").scrollTop($("#chat").prop('scrollHeight'));//채팅을 최신순으로 내려주는 작업
 						
-						},
-						error: function(xhr, status, error) {
-					        console.log(xhr.responseText); // 에러 응답 데이터 확인
-					        console.log(error); // 에러 상세 정보 확인
 						}
 					});
 				   });
-	        },
-		error : function(){
-			console.log("에러가 났네요");
-		}
+			    readFileUpMsg();
+	        }
 
 	});
 
@@ -908,13 +963,43 @@ $("#findChat").on("input",function(){
 });
 
  function whatEvent(e){
-	$("#otherUser").text(e.lastElementChild.children[1].id);
+	  var nickName = $(e).find("input[name='nickName']").val();
+	$("#otherUser").text(nickName);
 	  var userProfileSrc = $(e).find('img').attr('src');
-
+	  
+	  if(e.firstElementChild.defaultValue){
+		  $("#esIntro").text(e.firstElementChild.defaultValue);
+	  }else{
+		  $("#esIntro").text("");
+	  }
       // 메인 헤더의 프로필 이미지 소스 변경
       $('#userProfileImage').attr('src', userProfileSrc);
-	
-	
+	  let eno = $(e).find("input[name='eno']").val();
+      
+	  $.ajax({
+		url : '../websocket/reportCount.ch',
+		data : {
+			eno : eno
+		},
+		success : function(result){
+			if(result>=5){
+				$("#reportCount").text("최근 5회이상 신고가 누적된 중개사");
+				$("#reportCount").css("color", "red");
+				$("#reportCount").css("margin-right", 10);
+		  
+	 		 }else{
+	 			$("#reportCount").text(""); 
+	 		 }
+			
+		},
+		error : function(){
+			console.log("신고기능 오류");
+		}
+	  });
+	  
+	  
+	  
+
 } 
 //엔터키 누르면 메세지  전송
 $(document).keyup(function(event){
@@ -948,15 +1033,31 @@ window.onload = function() {
 		    var selectedChatRoomNo = $(this).find("input[name='cno']").val();
 		    connectToWebSocket(selectedChatRoomNo);
 		    
-		   console.log(currentChatRoomNo);
+		 
 		   //lastElementChild.children[1].id
 	     // 클릭된 부동산의 인덱스를 가져옵니다
 		chatRoomNo = $(this).find("input[name='cno']").val();//this는 li요소 find는 li 안에 있는 input[name='cno'] 이걸 가져온다
 		
+		//메세지 읽음처리 ajax
+		$.ajax({
+		url : "../websocket/pileUpMsg.ch",
+		data : {
+			cno : chatRoomNo,
+			mno : '${loginUser.userNo}'
+			
+		},
+		success: function(result){
+			readFileUpMsg();
+			
+		}
+			
+		});
+		
+		
+		
 		
 	    connectToWebSocket(chatRoomNo);//추가
-		console.log(chatRoomNo);
-		console.log("클릭의 this입니다 : "+this);
+
 		$.ajax({
 			url: "../websocket/selectChatMsg.ch",
 			method:"POST",
@@ -964,7 +1065,6 @@ window.onload = function() {
 			
 			success:function(chatRoomMsg){
 				var chatHtml = "";
-				console.log(chatRoomMsg);
 				if(chatRoomMsg !=""){
 				for (var i in chatRoomMsg){
 			if("${loginUser.userNo}" == chatRoomMsg[i].userNo){
@@ -1005,10 +1105,6 @@ window.onload = function() {
 					$("#chat").html(chatHtml);
 				}
 			$("#chat").scrollTop($("#chat").prop('scrollHeight'));//채팅을 최신순으로 내려주는 작업
-			},
-			error: function(xhr, status, error) {
-		        console.log(xhr.responseText); // 에러 응답 데이터 확인
-		        console.log(error); // 에러 상세 정보 확인
 			}
 		});
 	   });
@@ -1022,32 +1118,27 @@ window.onload = function() {
 		function connectToWebSocket(chatRoonNo){
 			//접속경로를 담아 socket을 생성한다.
 			 if (socket && socket.readyState === WebSocket.OPEN && currentChatRoomNo === chatRoomNo) {
-			        console.log("이미 채팅방 " + chatRoomNo + "에 연결되어 있습니다.");
+
 			        return;
 			    }
 			
 			    if (socket) {
 			        socket.close();
 			    }
-						 console.log("url 집어넣기전 :"+chatRoomNo);
-			var url = "ws://localhost:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
+						
+			var url = "ws://192.168.150.127:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
+			//"ws://localhost:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			// "ws://192.168.150.140:9999/dungjip/ask?chatRoomNo="+chatRoomNo;
 			socket = new WebSocket(url);
 			//연결이 되었을때
 			socket.onopen = function(){
-				console.log("연결 성공");
-				console.log(url);
 				  currentChatRoomNo = chatRoomNo;
 			};
 			//연결이 종료됐을때
 			socket.onclose = function(){
-				console.log("연결 종료");
-				
 			};
 			//에러가 발생했을때
 			socket.onerror = function(e){
-				console.log("에러가 발생했습니다.");
-				console.log(e);
 			}
 	
 			socket.onmessage = function(event) {
@@ -1100,13 +1191,15 @@ window.onload = function() {
 			    }
 					    }
 				$("#chat").scrollTop($("#chat").prop('scrollHeight'));//채팅을 최신순으로 내려주는 작업
+
+				readFileUpMsg();
 			};
 		}
 		//접속종료 
 		function disconnect(){
 			socket.close();//소켓 닫기 
 		}
-		//메세지 전송
+//------------------------------------텍스트 메세지 전송--------------------------------------------------------------------------------
 	function send() {
     var text = $("#sendChat").val();
     if (socket && socket.readyState === WebSocket.OPEN) {
@@ -1116,10 +1209,44 @@ window.onload = function() {
         };
         socket.send(JSON.stringify(data));
         $("#sendChat").val("");
-    } else {
-        console.log("WebSocket is not connected.");
+    } 
+}
+//-------------------------------파일메세지 전송 시작---------------------------------------------------------------------
+// 파일이 선택되었을 때 호출되는 함수
+function handleFileSelect(event) {
+    var file = event.target.files[0];
+    if (!file) {
+        return;
+    }
+
+    // 파일 크기가 1MB를 초과하는지 확인
+    if (file.size > 1048576) {
+        alert("보내시려는 파일의 용량 크기가 너무 큽니다");
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function(fileEvent) {
+        var data = fileEvent.target.result;
+        sendFile(data); // 데이터를 WebSocket을 통해 전송
+    };
+    reader.readAsArrayBuffer(file); // ArrayBuffer로 파일 읽기
+}
+
+// 파일 데이터를 전송하는 함수
+function sendFile(fileData) {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(fileData); // 파일 데이터 전송
     }
 }
+
+// onChange로 설정한 함수로 기능 바꾸기
+document.getElementById('inputFile').addEventListener('change', handleFileSelect);
+
+
+//----------------------------------------------------------------------------------------------------------------------------------
+
+	
 		
 		$(document).ready(function(){
 		    // 'aside' 내의 'li' 요소에 대해서만 컨텍스트 메뉴를 표시:
@@ -1147,7 +1274,7 @@ window.onload = function() {
 		            posTop = posY - menuHeight - secMargin + "px";
 		        }
 		        else {
-		            posLeft = posX + secMargin + "px";
+		            posLeft = posX + secMargin + "px" ;
 		            posTop = posY + secMargin + "px";
 		        }
 
@@ -1159,7 +1286,9 @@ window.onload = function() {
 		        
 		        var chatNo = this.children[1].children[0].value;						        
 		         $("#deleteChatRoom").click(function(){
+		        	//	 showSuccess("성공","신고가 정상적으로 제출되었습니다","확인"); 
 		        	
+		   
 		         	$.ajax({
 		        	
 		        		url : "../websocket/deleteChatRoom.ch",
@@ -1168,13 +1297,11 @@ window.onload = function() {
 		        			chatNo : chatNo
 		        		},
 		        		success: function(result){
+		        	
 		        			location.reload();
-		        		},
-		        		error : function(){
-		        			console.log("에러띠");
-		        			
 		        		}
 		        	}) 
+		        	 
 		          });
 		        
 		        // 브라우저 기본 컨텍스트 메뉴 방지.

@@ -63,11 +63,13 @@
       }
       
       .profile{
-             
     		 height: 175px;
-    		 
              }
-      
+             
+      .modal-content{
+      	max-height: 90vh;
+    	overflow-y: auto;
+      }
     </style>
   </head>
   <body style="background-color:#f4f6f8;">
@@ -132,8 +134,27 @@
         </div>
         <div class="mb-4">
           <div class="text-label">내용</div>
-          <textarea  cols="160" rows="7" style="resize: none" name="esReContent" id="myEsReContent"></textarea>
+           <span class="length">
+                            <span class="comment_length">0</span>
+                            / 100
+                        </span>
+          <textarea  class="comment-content" cols="160" rows="7" style="resize: none; width:1150px; "  name="esReContent" id="myEsReContent" placeholder="내용을 작성해주세요."></textarea>
         </div>
+        
+        <script>
+        $(document).ready(function() {
+        
+            $(".comment-content").keyup(function(e) {
+                var content = $(this).val();
+                $(".comment_length").text(content.length);
+
+                if (content.length > 100) {
+                    $(this).val($(this).val().substring(0, 100));
+                    ShowWarning("경고","글자수는 100자까지 입력가능합니다.","확인");
+                }
+            });
+        });
+        </script>
       
       <br>
       <div class="alert" style="background-color:rgb(254 226 226 ); color:red;"  role="alert">
@@ -144,43 +165,47 @@
     </div>
     
        <input class="rebutton" value="작성하기" type="submit" onclick="insertEstateReview()">
-       <c:forEach var="house" items="${hlist }" varStatus="status">
         <div class="modal fade" id="homeModal">
         <div class="modal-dialog modal-sm" id="modal">
             <div class="modal-content">
+            
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">매물리스트</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
         
+       <c:forEach var="house" items="${hlist }" varStatus="status">
                 <form action="login.me" method="post">
                     <!-- Modal body -->
                     <div class="modal-body" >
                        <table class="modal_table"  >
                        	
            				 <tr>
-           				 	<td ><input class="rating-input" id="rating-5-copy" type="radio" name="homeName" value=""/>
-                			<br>
-	              				<td style="width:250px; padding:10px;"><img class='profile'id="modal_userImg"src="resources/houseimg/a112345.jpg"></td>
-	              				<td id="modal_houseTitle">${houseTitle }</td>             
+           				 	<td ><input id="houseSelect" type="radio" name="homeName" value="${house.houseNo }"><td/>
+		           				 	<label for="houseSelect">
+	              				<td style="width:250px; padding:10px;">
+	              						<img class='profile' id="houseSelect" src="${himglist[status.index].changeName}">
+		           				 </td>
+		           				 	</label>
+	              				<td id="modal_houseTitle">${house.houseName }</td>             
             			</tr>
-            			
-            		
-              			
+           				 		
                      </table>      
                     </div>
+       </c:forEach>
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-warning">확인</button>
+                        <button type="button" class="btn btn-warning">확인</button>
                         <button type="button" class="btn btn-warning" data-dismiss="modal">취소</button>
                     </div>
+                    
+                    
                 </form>
             </div>
         </div>
 
     </div>
-       </c:forEach>
     
         </div>
         
@@ -188,7 +213,31 @@
 
   </form>
   
+  <script>
+  console.log('확인용');
+  console.log($("#houseSelect2"));
+    // 모달이 열릴 때마다 초기화
+    $('.modal').on('show.bs.modal', function (e) {
+        $('input[name="homeName"]').prop('checked', false);
         
+    });
+
+    // 모달에서 확인 버튼 클릭 시
+    $('.modal .btn-warning').on('click', function() {
+        // 선택된 radio 값을 가져와서 변수에 저장
+        var selectedHouseNo = $('input[name="homeName"]:checked').val();
+
+        // 선택된 값에 대한 처리 (예를 들면, 콘솔에 출력)
+        console.log("선택된 집 번호: " + selectedHouseNo);
+
+        // 모달을 닫습니다.
+        $(this).closest('.modal').modal('hide');
+    });
+</script>
+  
+  
+  
+
 <script>
     function insertEstateReview() {
     	var esNo = $("input[name=esNo]").val();
@@ -196,6 +245,8 @@
         var esReContent = $("#myEsReContent").val();
         var esReScore = $("input[name=reviewScore]:checked").val();
         var esReType = $("input[name=reviewType]:checked").val();
+        var houseNo = $('input[name="homeName"]:checked').val();
+        console.log(houseNo);
         
         $(".rebutton").prop("disabled", true);
         
@@ -206,17 +257,19 @@
                 userNo: userNo,
                 esReContent: esReContent,
                 esReScore: esReScore,
-                esReType :esReType
+                esReType :esReType,
+                houseNo : houseNo
+                
             },
             method: "post",
             dataType: "json", // 추가: 서버에서 JSON 형식으로 응답하는 경우 dataType 명시
             success: function (result) {
                 console.log(result);
                 if (result.success) {
-                    alert("부동산 리뷰 작성 성공");
+                    showSuccess("성공","부동산 리뷰 작성 성공","확인");  
                     window.location.href = "detail.es?esNo="+esNo;
                 } else {
-                    alert("부동산 리뷰 작성 실패: " + result.errorMsg);
+                	showError("오류", "부동산 리뷰 작성 실패: " + result.errorMsg, "확인");
                 }
             },
             error: function () {

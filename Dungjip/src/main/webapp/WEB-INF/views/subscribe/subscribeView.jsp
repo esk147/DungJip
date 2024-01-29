@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../common/sweetAlert.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -166,7 +167,6 @@
 	$('#pay-btn').click(function(){
 		const activeImg = document.querySelector('#info-imgs img.active');
 		
-		console.log(activeImg.id);
 		IMP.request_pay({
 			pg: activeImg.id,
 			merchant_uid: 'merchant_' + new Date().getTime(),
@@ -178,10 +178,9 @@
             buyer_addr: address,
             buyer_postcode: '123-456'
 		}, function(rsp){
-			console.log(rsp);
-			
+			var msg;
 			if(rsp.success){
-				var msg = 'success to pay';
+				msg = 'success';
 				console.log("success to pay");
 				
 				$.ajax({
@@ -190,16 +189,21 @@
 						userNo: userNo
 					},
 					success: function(result){
-						location.href='/dungjip';
+						console.log("success");
 					},
 					error: function(){
 						console.log("통신 에러");
 					}
 				});
 			} else {
-				var msg = 'failed to pay';
+				msg = 'failed to pay';
 			}
-			alert(msg);
+			
+			if(msg == 'success'){
+				showConfirm("구독에 성공하셨습니다","/dungjip");
+			} else {
+				showError("오류", msg, "확인");
+			}
 		})
 	})
 </script>

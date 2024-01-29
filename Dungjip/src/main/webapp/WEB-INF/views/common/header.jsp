@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.kh.dungjip.member.model.vo.Member"%>
+<%@ include file="sweetAlert.jsp" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +62,6 @@
   <body>
         <nav class="navbar navbar-default ">
             <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
                         <span class="sr-only">Toggle navigation</span>
@@ -81,7 +81,7 @@
 	                <div class="collapse navbar-collapse yamm" id="navigation">
 	                    <div class="button navbar-right" id="right-navi">
 	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="/dungjip/login.be"' data-wow-delay="0.4s">Login</button>
-	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>
+	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>	                        	
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right" id="nav-menu">
 	                        <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="active" onclick="clickVilla(this)">원룸</a></li>
@@ -100,7 +100,14 @@
 
 	                    <div class="button navbar-right" id="right-navi">
 	                        <button class="navbar-btn nav-button wow bounceInRight" onclick='location.href="http://localhost:9999/dungjip/logout.me?userNo=${loginUser.userNo}"' data-wow-delay="0.4s">Logout</button>
-	                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>
+								<c:choose>
+		                        	<c:when test="${loginUser.userType eq '관리자'}">
+				                        <button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enList.en"' data-wow-delay="0.5s">QnA</button>
+		                        	</c:when>
+		                        	<c:otherwise>	                        
+		                        		<button class="navbar-btn nav-button wow fadeInRight" onclick='location.href="/dungjip/enquiry.en"' data-wow-delay="0.5s">QnA</button>
+		                        	</c:otherwise>
+	                        </c:choose>
 	                    </div>
 	                    <ul class="main-nav nav navbar-nav navbar-right">
                  
@@ -144,16 +151,23 @@
                 
              </c:choose>    
                 
-            </div><!-- /.container-fluid -->
+            </div>
         </nav>
-
         
-        <c:if test="${not empty alertMsg }">
+        <c:if test="${not empty alertMsg  or not empty errorMsg }">
         <script>
             var alertMsg = "${alertMsg}";
-            alert(alertMsg);
+            var errorMsg = "${errorMsg}";
+            if(alertMsg){
+	            showSuccess("성공",alertMsg,"확인");            	
+            } else {
+	            showError("오류", errorMsg, "확인");            	
+            }
+            alertMsg = "";
+            errorMsg = "";
         </script>
         <c:remove var="alertMsg" />
+        <c:remove var="errorMsg" />
    		</c:if>        
         
         <script>
@@ -165,10 +179,8 @@
         
         <script>
         var type = "${type}";
-        // Get all the menu items
-        var menuItems = document.querySelectorAll('#nav-menu li a');
+        var menuItems = document.querySelectorAll('.navbar-right li a');
 
-        // Add click event to all menu items
         menuItems.forEach(function(item) {
             if(type === item.text){
             	item.classList.add('active');

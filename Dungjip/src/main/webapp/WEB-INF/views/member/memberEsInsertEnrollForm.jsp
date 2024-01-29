@@ -79,6 +79,16 @@
 
  	<%@ include file="../common/header.jsp" %>
  	
+ 	 <div class="page-head"> 
+         <div class="container">
+             <div class="row">
+                 <div class="page-head-content">
+                     <h1 class="page-title"></h1>               
+                 </div>
+             </div>
+         </div>
+     </div>
+ 		
 		<div class="registration-container" style="padding:40px;width:40%;box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);">
 			<h2 class="form-title">중개사무소 등록</h2>
 			
@@ -97,19 +107,19 @@
 
                 <div class="form-section">
 					<label for="esPhone">사업자 전화번호*</label> 
-					<input type="text" class="form-control" id="esPhone" name="esPhone" placeholder="'-'를 제외한 숫자 11자리로 작성해 주세요">
+					<input type="text" class="form-control" id="esPhone" name="esPhone" >
 					
 				</div>
 				
 				<div class="form-section">
 					<label for="esNum">사업자 등록 번호*</label> 
-					<input type="text" class="form-control" id="esNum" name="esNum" placeholder="'-'를 제외한 숫자 11자리로 작성해 주세요">
+					<input type="text" class="form-control" id="esNum" name="esNum" >
 					<span id="confirm"></span>
 				</div>
                 
 				<div class="form-section">
 					<label for="esRegisterNum">중개 등록 번호*</label> 
-					<input type="text" class="form-control" id="esRegisterNum" name="esRegisterNum" placeholder="'-'를 제외한 숫자 14자리로 작성해 주세요">
+					<input type="text" class="form-control" id="esRegisterNum" name="esRegisterNum" >
 					<span id="confirm2"></span>
 				</div>
 	
@@ -165,7 +175,7 @@
 					        
 					        if (content.length > 500) {
 					            // 500자를 넘었을 때 알림창 띄우기
-					            alert("500자 이내로 입력해주세요.");
+					            showWarning("경고", "500자 이내로 입력해주세요.", "확인");  
 					            
 					            // 500자를 넘어가면 타이핑 되지 않도록 처리
 					            $(this).val(content.substring(0, 500));
@@ -184,50 +194,7 @@
 		
 		<script type="text/javascript">
 		
-	        var esNum = false;
-	        var regexEsNum = /^\d{11}$/;
-	    
-	        //사업자 번호 자릿수 체크
-	        $(document).ready(function() {
-	            $("#esNum").change(function() {
-	                var checkEsNum = $("#esNum").val();
-	                if (!regexEsNum.test(checkEsNum)) {
-	                    $("#confirm")
-	                        .html("'-'를 제외한 숫자 11자리를 입력해주세요'")
-	                        .css("color", "red");
-	                    esNum = false;
-	                    } else {
-	                    $("#confirm")
-	                        .html("인증이 완료되었습니다.")
-	                        .css("color", "blue");
-	                    esNum = true;
-	                    }
-	                
-	            });
-	        });
 	        
-		
-	        var esRegisterNum = false;
-	        var regesRegisterNum = /^\d{14}$/;
-	    
-	        //중개 등록 번호 자릿수 체크
-	        $(document).ready(function() {
-	            $("#esRegisterNum").change(function() {
-	                var checkRegisterNum = $("#esRegisterNum").val();
-	                if (!regesRegisterNum.test(checkRegisterNum)) {
-	                    $("#confirm2")
-	                        .html("'-'를 제외한 숫자 14자리를 입력해주세요")
-	                        .css("color", "red");
-	                    	esRegisterNum = false;
-	                    } else {
-	                    $("#confirm2")
-	                        .html("인증이 완료되었습니다.")
-	                        .css("color", "blue");
-	                    	esRegisterNum = true;
-	                    }
-	                
-	            });
-	        });
 				
 			
 	        function memberEnrollResult() {
@@ -241,37 +208,37 @@
 				var esContent = $("#esContent").val();
 	        	
 	       		if(esName == null || esName == '') {
-	       			alert("중개사를 입력하세요.");
+	       			showError("오류", "중개사를 입력하세요.", "확인");
 	       			$("#esName").focus();
 	       			return false;
 	       		}
 	        
 	       		if(esCeo == null || esCeo == '') {
-	       			alert("대표자명을 입력하세요.");
+	       			showError("오류", "대표자명을 입력하세요.", "확인");
 	       			$("#esCeo").focus();
 	       			return false;
 	       		}
 	        
 	       		if(esPhone == null || esPhone == '') {
-	       			alert("전화번호를 입력하세요.");
+	       			showError("오류", "전화번호를 입력하세요.", "확인");
 	       			$("#esPhone").focus();
 	       			return false;
 	       		}
 				
 	       		if(esNum == null || esNum == '') {
-	       			alert("사업자 번호를 입력하세요.");
+	       			showError("오류", "사업자 번호를 입력하세요.", "확인");
 	       			$("#esNum").focus();
 	       			return false;
 	       		}
 	        	
 	       		if(esRegisterNum == null || esRegisterNum == '') {
-	       			alert("중개인 번호를 입력하세요.");
+	       			showError("오류", "중개인 번호를 입력하세요.", "확인");
 	       			$("#esRegisterNum").focus();
 	       			return false;
 	       		}
 	        
 	       		if(address_kakao == null || address_kakao == '') {
-	       			alert("주소를 입력하세요.");
+	       			showError("오류", "주소를 입력하세요.", "확인");
 	       			$("#address_kakao").focus();
 	       			return false;
 	       		}

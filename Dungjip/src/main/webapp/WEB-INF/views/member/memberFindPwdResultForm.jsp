@@ -22,7 +22,15 @@
 
        <%@ include file="../common/header.jsp" %>
 
- 
+		 <div class="page-head"> 
+	         <div class="container">
+	             <div class="row">
+	                 <div class="page-head-content">
+	                     <h1 class="page-title"></h1>               
+	                 </div>
+	             </div>
+	         </div>
+	     </div> 
         <!-- End page header -->
  
 
@@ -33,7 +41,7 @@
                 <div class="col-md-6">
                     <div class="box-for overflow" style="width: 600px; height: 365px;">                         
                         <div class="col-md-12 col-xs-12 login-blocks">
-                            <h2>Find your ID : </h2> 
+                            <h2>Find your Password : </h2> 
                             <form action="login.be" method="post">
                                 <div class="form-group" style="margin:45px;">
 								                                    

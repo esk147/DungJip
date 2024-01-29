@@ -112,9 +112,9 @@
 				</c:forEach>	
 			</c:if>
 
-			<footer style="width: 500px;">
+			<!-- <footer style="width: 450px;"> -->
 				<!--------------------------------------- 페이징 처리 ------------------------------------->
-				<div class="pull-right">
+				<div class="pull-right" style="width: 450px;">
 					<div class="pagination">
 						<ul>
 							<c:if test="${pi.currentPage ne 1 }">
@@ -132,7 +132,12 @@
 					</div>
 				</div>
 			</footer>
-
+		
+		<script type="text/javascript">
+			console.log(${pi});
+			
+		
+		</script>
 		</section>    
 	</div>
 	

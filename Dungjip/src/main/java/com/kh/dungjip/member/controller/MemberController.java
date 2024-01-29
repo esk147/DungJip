@@ -33,6 +33,9 @@ import com.kh.dungjip.enquiry.model.vo.Enquiry;
 import com.kh.dungjip.estate.model.service.EstateService;
 import com.kh.dungjip.estate.model.vo.EsReLike;
 import com.kh.dungjip.estate.model.vo.Estate;
+
+import com.kh.dungjip.house.model.vo.Reservation;
+
 import com.kh.dungjip.estate.model.vo.EstateReview;
 import com.kh.dungjip.house.model.service.HouseService;
 import com.kh.dungjip.house.model.vo.House;
@@ -107,9 +110,7 @@ public class MemberController {
 		
 		//아이디를 가지고 db에서 일치하는 회원정보 조회 
 		Member beginLoginUser = memberService.loginMember(m);
-		
-		//bcryptPasswordEncoder.matches(평문, 암호문)를 이용 (일치하면 true 아니면 false) 
-			
+	
 		if(beginLoginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), beginLoginUser.getUserPwd())) { //성공시
 
 
@@ -188,6 +189,7 @@ public class MemberController {
 	}
 	
 	//비밀번호 찾기 
+	
 	@PostMapping("findPwd.bo")
 	public String memberFindPwd(@RequestParam("userId") String userId,@RequestParam("userName") String userName,@RequestParam("email") String email, Model model,Member m) {
 		
@@ -217,6 +219,7 @@ public class MemberController {
 		}
 		
 	}
+	
 	
 
 	//아이디찾기 결과
@@ -309,9 +312,6 @@ public class MemberController {
 		
 		return result;		
 	}
-	
-	
-	
 	
 	//회원가입 (중개인) 폼으로 이동 (사용자 폼)
 	@RequestMapping("enroll.es")
@@ -501,14 +501,12 @@ public class MemberController {
 			
 		}else { //비밀번호가 다를 때 
 			
-			session.setAttribute("alertMsg", "비밀번호를 잘못 입력하셨습니다.");
+			session.setAttribute("errorMsg", "비밀번호를 잘못 입력하셨습니다.");
 			return "redirect:myPage.me";
 		}
 
 	}
 
-	
-	//비밀번호 수정 
 
 	@RequestMapping("changePwd.me")
 	public String memberPwdUpdate(Member m, Model model, HttpSession session,HttpServletRequest request) {
@@ -533,14 +531,14 @@ public class MemberController {
 	            
 	        } else { // DB 업데이트 실패
 	        	
-	            session.setAttribute("alertMsg", "비밀번호 변경에 실패하셨습니다.");
+	            session.setAttribute("errorMsg", "비밀번호 변경에 실패하셨습니다.");
 	            return "redirect:myPage.me";
 	            
 	        }
 			
 		}else {
 			
-			session.setAttribute("alertMsg", "비밀번호 수정에 실패하셨습니다.");
+			session.setAttribute("errorMsg", "비밀번호 수정에 실패하셨습니다.");
 			return "redirect:myPage.me";
 		}
 				
@@ -606,7 +604,7 @@ public class MemberController {
 		
 		return "success";
 	}
-	
+
 	@PostMapping("changefile.me")
 	public void fileAjaxMethod (Model model,MultipartFile upfile, HttpSession session) {
 		
@@ -631,7 +629,9 @@ public class MemberController {
 		}
 		
 		//전달된 파일이 있다면 해당 정보 DB에 전달하기 
+
 		memberService.fileAjaxMethod(m);
+
 	
 	}
 	
@@ -678,13 +678,10 @@ public class MemberController {
 		ArrayList<Reservation> rlist = memberService.selectReservation(loginUser);
 		
 		model.addAttribute("rlist", rlist);
-				System.out.println(rlist);
+
 		return "member/memberMypageReservationForm";
 	}
 	                                     
-
-	
-
 	@ResponseBody
 	@RequestMapping("subscribe.pay")
 	public int userSubscribe(int userNo, HttpSession session) {
@@ -700,6 +697,7 @@ public class MemberController {
 		return result;
 	}
 	
+
 	@ResponseBody
 	@RequestMapping("subscribe.no")
 	public int noSubscribe(int userNo, HttpSession session) {
@@ -715,6 +713,7 @@ public class MemberController {
 		return result;
 	}
 	
+
 	//mypage에서 문의내역 페이지로 이동 
 	@RequestMapping("myQnA.me")
 	public String selectEnquiryList(HttpSession session ,Model model) {
@@ -741,33 +740,6 @@ public class MemberController {
 		model.addAttribute("rrlist", rrlist);
 				
 		model.addAttribute("qlist", qlist);
-		
-		return "member/memberMypageForm";
-	}
-	
-	@PostMapping("myHousejjim.me")
-	public String selectHousejjim(HttpSession session ,Model model,PageInfo pi) {
-		
-		Member m = (Member)session.getAttribute("loginUser");
-		
-		ArrayList<House> hlike = houseService.memberMypageHousejjimForm(m,pi);
-		
-		System.out.println("확인 1"+hlike);
-		
-		ArrayList<HouseImg> himg = new ArrayList<>();
-		
-		for( House i : hlike ) {
-		
-			System.out.println("확인 2"+hlike);
-			
-			HouseImg j = houseService.memberMypageHousejjimImg(i.getHouseNo());
-			
-			himg.add(j); //하나씩 뽑은 j를 himg에 담아주기
-			
-		}
-
-		model.addAttribute("hlike", hlike);
-		model.addAttribute("himg", himg);
 		
 		return "member/memberMypageForm";
 	}
@@ -832,7 +804,8 @@ public class MemberController {
 		Member m = (Member)session.getAttribute("loginUser");
 		
 		//전체 게시글 개수 (listCount)
-		int listCount = houseService.selectListCount();		
+		int listCount = houseService.selectListCount(m);	
+		
 		//한 페이지에서 보여줘야하는 게시글 개수 
 		int boardLimit = 6;
 		//페이징 바 개수 (pageLimit)
@@ -851,7 +824,7 @@ public class MemberController {
 			himg.add(j); //하나씩 뽑은 j를 himg에 담아주기
 			
 		}
-
+		
 		model.addAttribute("hlike", hlike);
 		model.addAttribute("himg", himg);
 		model.addAttribute("pi", pi);
@@ -865,6 +838,7 @@ public class MemberController {
 		
 		return "member/memberMypageEstatejjimForm";
 	}
+
 	
 	//중개사 리뷰 공감 조회
 	@RequestMapping("myReviewLike.me")
@@ -935,7 +909,8 @@ public class MemberController {
 	public String memberMypageEstateHouseList(@RequestParam(value = "esNo") Integer esNo,
 											@RequestParam(value="currentPage",defaultValue = "1")int currentPage,HttpSession session, Model model) {
 		
-		int listCount = houseService.selectEsHouseListCount();		
+		int listCount = houseService.selectEsHouseListCount();
+		
 		//한 페이지에서 보여줘야하는 게시글 개수 
 		int boardLimit = 3;
 		//페이징 바 개수 (pageLimit)
@@ -968,7 +943,8 @@ public class MemberController {
 		
 		Member m = (Member)session.getAttribute("loginUser");
 		
-		int listCount = estateService.selectReportEstateListCount();		
+		int listCount = estateService.selectReportEstateListCount();	
+		
 		//한 페이지에서 보여줘야하는 게시글 개수 
 		int boardLimit = 3;
 		//페이징 바 개수 (pageLimit)
@@ -998,13 +974,22 @@ public class MemberController {
 	
 	//중개인 예약내역
 	@RequestMapping("reser.es")
-	public String membermypageEsReservation(@RequestParam(value = "esNo", required = false) Integer esNo,HttpSession session, Model model) {
+	public String membermypageEsReservation(@RequestParam(value="currentPage",defaultValue="1")int currentPage,@RequestParam(value = "esNo", required = false) Integer esNo,HttpSession session, Model model) {
 		
 		//Member m = (Member)session.getAttribute("loginUser");
+		int listCount = houseService.mypagemypageEsReservationCount(esNo);		
+
+		//한 페이지에서 보여줘야하는 게시글 개수 
+		int boardLimit = 6;
+		//페이징 바 개수 (pageLimit)
+		int pageLimit = 3;								
 		
-		ArrayList<Reservation> relist = memberService.membermypageEsReservation(esNo);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Reservation> relist = memberService.membermypageEsReservation(esNo,pi);
 		
 		model.addAttribute("relist",relist);
+		model.addAttribute("pi",pi);
 		
 		return "member/memberEspageReservation";
 	}

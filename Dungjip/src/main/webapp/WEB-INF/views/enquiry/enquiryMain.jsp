@@ -119,13 +119,6 @@ input[type="text"], input[type="email"], select, textarea {
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<c:if test="${not empty alertMsg }">
-        <script>
-            var alertMsg = "${alertMsg}";
-            alert(alertMsg);
-        </script>
-        <c:remove var="alertMsg" />
-    </c:if>
     
 	<div class="page-head">
 		<div class="container">
@@ -133,11 +126,16 @@ input[type="text"], input[type="email"], select, textarea {
 	</div>
 	<br><br>
 		<div align="center">
-			<c:if test="${loginUser.userType == '관리자' }">
-				<a href="enList.en" class="nav-item2" style="width:180px;">1:1문의 내역</a>
-			</c:if>	
-				<a href="enquiry.en" class="nav-item2 active" style="width:180px;">1:1문의</a>
-				<a href="#" class="nav-item2" style="width:180px;" onclick="navigateToNotice(event)">공지사항</a>
+		<c:choose>
+			<c:when test="${loginUser.userType == '관리자'}">
+				<a href="enList.en" class="nav-item2 active" style="width:180px;">1:1문의 내역</a>
+				<a class="nav-item2" style="width:180px; cursor: pointer;" onclick="navigateToNotice()">공지사항</a>
+			</c:when>
+			<c:otherwise>
+				<a href="enquiry.en" class="nav-item2 active" style="width:180px;">1:1문의</a>	
+				<a class="nav-item2" style="width:180px; cursor: pointer;" onclick="navigateToNotice()">공지사항</a>
+			</c:otherwise>
+		</c:choose>
 		</div>
 	<c:choose>
 		<c:when test="${loginUser == null }">
@@ -146,7 +144,6 @@ input[type="text"], input[type="email"], select, textarea {
 					<input type="hidden" name="userNo" id="userNo" value="${loginUser.userNo}">
 					<p align="center" style="font-size: 25px;">
 						<a href="login.be">로그인</a> 후 등록이 가능합니다 </p>
-					
 					<br> 
 					<label for="">문의 유형</label> 
 		            <input type="text" value="서비스 이용 문의" disabled>
@@ -165,15 +162,15 @@ input[type="text"], input[type="email"], select, textarea {
 			<form id="insertForm" method="post" action="insert.en" enctype="multipart/form-data">
 				<input type="hidden" name="userNo" id="userNo" value="${loginUser.userNo}">
 				<p align="center" style="font-size: 16px;">
-					둥집에 궁금하신 점을 문의해주세요. <br> 문의내용과 답변은 <a href="mReservation.me">'마이페이지 문의내역'</a> 에서 확인 하실 수 있습니다. </p>
-				
+					둥집에 궁금하신 점을 문의해주세요. <br> 문의내용과 답변은 <a href="myQnA.me">'마이페이지 문의내역'</a> 에서 확인 하실 수 있습니다.
+				</p>
 				<br> 
 				<label for="">문의 유형</label> 
 	            <input type="text" value="서비스 이용 문의" disabled>
 			    <label for="name">제목</label>
-	            <input type="text" id="enquiryTitle" name="enquiryTitle" placeholder="제목을 입력해주세요."> 
+	            <input type="text" id="enquiryTitle" name="enquiryTitle" placeholder="제목을 입력해주세요." required> 
 	            <label for="content">문의 내용</label>
-				<textarea id="enquiryContent" name="enquiryContent" rows="4" style="resize: none;" placeholder="문의 하실 내용을 입력해주세요."></textarea>
+				<textarea id="enquiryContent" name="enquiryContent" rows="4" style="resize: none;" placeholder="문의 하실 내용을 입력해주세요." required></textarea>
 				<label>사진</label>
 				<input type="file" id="enfile" name="enfile" class="form-control-file border">
 				<br>

@@ -1,6 +1,9 @@
 package com.kh.dungjip.house.model.vo;
 import java.sql.Date;
+
 import com.kh.dungjip.estate.model.vo.Estate;
+import com.kh.dungjip.member.model.vo.Member;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +17,7 @@ public class Reservation {
 	private int userNo;
 	private Date reservationDate;
 	private int timeNo;
+	private String userName;
 	
 	public Time time;
 	
@@ -33,5 +37,15 @@ public class Reservation {
 	
 	public void setEstate(Estate estate) {
 		this.estate = estate;
+	}
+	
+	public Member member;
+	
+	public Member getMember() {
+		return member;
+	}
+	
+	public void setMember(Member member) {
+		this.member = member;
 	}
 }
